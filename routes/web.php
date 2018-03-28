@@ -11,10 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::redirect('/', '/ru', 301);
+
+Route::prefix('ru')->group(function () {
+
+    Route::get('/', function () {
+        return view('index');
+    })->name('index');
+
 });
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
