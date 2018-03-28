@@ -11,8 +11,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
+publicDir = 'public';
+
+mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
+    .sass('resources/assets/sass/app.scss', publicDir + '/assets/css')
     .options({
         processCssUrls: false
     });
@@ -23,3 +25,7 @@ if (!mix.inProduction()) {
     })
         .sourceMaps()
 }
+
+
+mix.setResourceRoot(path.normalize(publicDir));
+mix.setPublicPath(path.normalize(publicDir));
