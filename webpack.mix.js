@@ -17,7 +17,16 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
     .sass('resources/assets/sass/app.scss', publicDir + '/assets/css')
     .options({
         processCssUrls: false
-    });
+    })
+    .extract([
+        'vue',
+        'jquery',
+        'lodash',
+        'popper.js',
+        'axios',
+        'bootstrap'
+    ])
+    .version();
 
 if (!mix.inProduction()) {
     mix.webpackConfig({
