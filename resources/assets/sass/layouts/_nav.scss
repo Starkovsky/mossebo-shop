@@ -1,8 +1,44 @@
 .nav {
-    background: #fff;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top: 1px solid $color_border;
-    border-bottom: 1px solid $color_border;
-    box-shadow: 0 3px 3px $color_border;
+    background: $color-ui;
+    border-top: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
+    box-shadow: 0 3px 3px $color-border;
+    &-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        &__item {
+            display: inline-block;
+            a {
+                padding-top: 15px;
+                padding-bottom: 15px;
+                padding-left: 25px;
+                padding-right: 25px;
+                display: inline-block;
+                color: $color-text-primary;
+                &:hover {
+                    color: $color-text-primary-2;
+                    text-decoration: none;
+                }
+            }
+            &:first-child {
+                a {
+                    color: $color-primary;
+                    padding-left: 0;
+                    border-right: 1px solid $color-border;
+                    &:hover {
+                        color: $color-primary-2;
+                    }
+                }
+            }
+        }
+        &-discount {
+            a {
+                color: $color-secondary;
+                &:hover {
+                    color: $color-secondary-2;
+                }
+            }
+        }
+    }
 }

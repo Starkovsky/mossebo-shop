@@ -13,8 +13,6 @@
 <meta name="format-detection" content="telephone=no">
 
 {{-- Icon in the highest resolution we need it for --}}
-<link rel="icon" sizes="192x192" href="/path/to/icon.png">
+<link rel="icon" sizes="192x192" href="/favicon.png">
 {{-- Apple Touch Icon (reuse 192px icon.png) --}}
-<link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
-{{-- Safari Pinned Tab Icon --}}
-<link rel="mask-icon" href="/path/to/icon.svg" color="blue">
+<link rel="apple-touch-icon" href="/favicon.png">

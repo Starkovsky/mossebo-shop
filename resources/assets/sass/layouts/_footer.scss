@@ -1,0 +1,29 @@
+.footer {
+    background: $color-ui;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    &-logo {
+        max-width: 200px;
+    }
+    &-button-group {
+        padding: 15px 0;
+        .button:first-child {
+            padding-left: 0;
+            margin-right: 15px;
+        }
+    }
+}
+.footer-bottom {
+    background: $color-ui;
+    border-top: 1px solid $color-border;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+.social-links {
+    &__item {
+        margin-right: 8px;
+        &:hover {
+            opacity: .8;
+        }
+    }
+}

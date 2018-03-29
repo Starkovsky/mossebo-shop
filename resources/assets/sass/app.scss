@@ -3,10 +3,16 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700&subset=cyrillic-ext');
 
 // Variables
-@import "variables";
+@import "variables/colors";
+@import "variables/variables";
+@import "variables/buttons";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// Icons
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import "variables/icons";
 
 //Layouts
 @import "layouts/header";

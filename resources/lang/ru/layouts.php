@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'logo_description' => 'Интерьер и декор',
+    'mossebo_market_logo' => '/assets/images/mossebo_market_logo_ru.svg',
 
 ];

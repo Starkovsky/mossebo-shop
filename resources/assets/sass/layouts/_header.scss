@@ -1,17 +1,20 @@
 .header {
-    background: #fff;
+    background: $color-ui;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 .logo {
     display: block;
-    color: $color_text_primary;
+    color: $color-text-primary;
+    max-width: 150px;
     &:hover {
         text-decoration: none;
-        color: $color_text_primary;
+        color: $color-text-primary;
     }
     &__image {
-        max-width: 150px;
+        width: 100%;
+        height: auto;
+        display: block;
     }
     &__description {
         font-size: 16px;
