@@ -4,20 +4,59 @@
     padding-bottom: 45px;
     &-logo {
         max-width: 200px;
-    }
-    &-button-group {
-        padding: 15px 0;
-        .button:first-child {
-            padding-left: 0;
-            margin-right: 15px;
+        margin-bottom: 35px;
+        &-description {
+            font-size: 9pt;
+            color: $color-text-secondary;
+            padding-right: 95px;
         }
     }
-}
-.footer-bottom {
-    background: $color-ui;
-    border-top: 1px solid $color-border;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    &-button-group {
+        padding: 35px 0;
+        .button + .button {
+            margin-left: 30px;
+        }
+    }
+    &-pay {
+        &-group {
+
+        }
+        &-icon {
+            width: auto;
+            height: 26px;
+            display: inline-block;
+            margin: 0 10px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    &-nav {
+        &-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: $color-text-primary;
+            margin-bottom: 20px;
+        }
+        &-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            &__item {
+                margin-bottom: 15px;
+                display: block;
+                a {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    &-bottom {
+        background: $color-ui;
+        border-top: 1px solid $color-border;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
 }
 .social-links {
     &__item {

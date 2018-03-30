@@ -9,6 +9,7 @@
         <main class="py-4">
             <div class="body">
                 Content Text
+                <product-list></product-list>
             </div>
         </main>
     </div>

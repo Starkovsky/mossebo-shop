@@ -7,16 +7,101 @@
                          alt="{{ config('app.name', 'Laravel') }}"
                          class="logo__image">
                 </a>
+                <div class="footer-logo-description">
+                    {{ __('layouts.footer-logo-description') }}
+                </div>
                 <div class="footer-button-group">
-                    <a href="#" class="button">Позвонить</a>
-                    <a href="#" class="button button-light">Написать</a>
+                    <a href="#" class="button button-light">{{ __('layouts.footer-recall') }}</a>
+                    <a href="#" class="button button-light">{{ __('layouts.footer-write') }}</a>
                 </div>
                 <div class="footer-pay-group">
-                    <img src="/assets/images/icons/visa.svg" alt="Visa" class="visa">
+                    <img src="/assets/images/icons/visa.svg" alt="Visa" class="footer-pay-icon">
+                    <img src="/assets/images/icons/maestro.svg" alt="Maestro" class="footer-pay-icon">
+                    <img src="/assets/images/icons/mastercard.svg" alt="Mastercard" class="footer-pay-icon">
+                    <img src="/assets/images/icons/paypal.svg" alt="PayPal" class="footer-pay-icon">
                 </div>
             </div>
             <div class="col-md-6">
-
+                <div class="row justify-content-between">
+                    <div class="col-md-4">
+                        <nav>
+                            <div class="footer-nav-title">Магазин</div>
+                            <ul class="footer-nav-links">
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Каталог</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Стили</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Комплекты</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Распродажа</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Новинки</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Топ-продаж</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Наш выбор</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-4">
+                        <nav>
+                            <div class="footer-nav-title">Покупателю</div>
+                            <ul class="footer-nav-links">
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Доставка</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Оплата</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Возврат</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Поддержка</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Акции</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Отзывы</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">FAQ</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-4">
+                        <nav>
+                            <div class="footer-nav-title">Компания</div>
+                            <ul class="footer-nav-links">
+                                <li class="footer-nav-links__item">
+                                    <a href="#">О нас</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Проекты</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Блог</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Вакансии</a>
+                                </li>
+                                <li class="footer-nav-links__item">
+                                    <a href="#">Контакты</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
