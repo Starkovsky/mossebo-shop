@@ -3,6 +3,8 @@
  * Imports
  */
 
+import './core/use_https'
+
 import 'bootstrap'
 import Vue from 'vue'
 
@@ -22,3 +24,7 @@ const app = new Vue({
         'product-list': ProductList,
     }
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

@@ -7,7 +7,7 @@
 
 <title>@yield('title')</title>
 
-<meta name="description" content="@yield('description')">
+<meta name="description" content="@yield('meta-description')">
 
 {{-- Disable automatic detection and formatting of possible phone numbers --}}
 <meta name="format-detection" content="telephone=no">

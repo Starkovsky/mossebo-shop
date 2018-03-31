@@ -61,8 +61,18 @@
 .social-links {
     &__item {
         margin-right: 8px;
+        svg {
+            vertical-align: middle;
+            .svg_icon {
+                fill: $color-icons;
+            }
+        }
         &:hover {
-            opacity: .8;
+            svg {
+                .svg_icon {
+                    fill: $color-text-primary;
+                }
+            }
         }
     }
 }
