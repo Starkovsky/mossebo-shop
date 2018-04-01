@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Catalog;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Product;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,12 +19,15 @@ class HomeController extends Controller
     }
 
     /**
-     * Выводит главную страницу
+     * Show the application Homepage.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
+        $allproduct = Product::all()->where('id',5);
+        dd($allproduct);
+
         return view('index');
     }
 }

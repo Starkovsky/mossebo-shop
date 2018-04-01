@@ -74,7 +74,7 @@
         margin: 15px 0;
         border-radius: 5px;
         box-shadow: $shadows-primary;
-        height: 440px;
+        height: auto;
         box-sizing: border-box;
         transition: 0.2s;
         display: flex;
@@ -107,6 +107,8 @@
                 position: relative;
                 width: 100%;
                 max-width: 200px;
+                margin-left: auto;
+                margin-right: auto;
                 &:before {
                     content: "";
                     display: block;
@@ -118,8 +120,10 @@
             font-size: 14px;
             font-weight: 500;
             color: $color-text-primary;
+            margin-top: 10px;
             padding-bottom: 10px;
             transition: 0.2s;
+            height: 76px;
             &:hover {
                 color: $color-primary;
             }
