@@ -1,50 +1,53 @@
 <template>
-    <div class="product-card">
-        <div class="product-card__actions text-right">
-            <a href="#"
-               data-toggle="tooltip"
-               data-placement="top"
-               title="Добавить в сравнение"
-            >
-                <i class="md-icon">playlist_add</i>
-            </a>
-            <a href="#"
-               data-toggle="tooltip"
-               data-placement="top"
-               title="Добавить в избранное"
-            >
-                <i class="md-icon">favorite</i>
-            </a>
-        </div>
-        <div class="product-card__image-box">
-            <div class="product-card__image"
-                 :style="{ 'background-image': 'url(' + product.image + ')' }"
-            >
+    <div>
+        <div class="product-card">
+            <div class="product-card__actions text-right">
+                <a href="#"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Добавить в сравнение"
+                >
+                    <i class="md-icon">playlist_add</i>
+                </a>
+                <a href="#"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Добавить в избранное"
+                >
+                    <i class="md-icon">favorite</i>
+                </a>
             </div>
-        </div>
-        <div class="product-card__name">
-            {{ product.name }}
-        </div>
-        <div class="product-card__price">
-            {{ PriceWithSeparation(product.price) }} &#8381;
-        </div>
-        <div class="product-card__old-price">
-            {{ PriceWithSeparation(product.old_price) }} &#8381;
-        </div>
-        <div class="product-card__buttons btn-group">
-            <button type="button"
-                    class="btn btn-outline-warning btn-block"
-            >
-                Купить в 1 клик
-            </button>
-            <button type="button"
-                    class="btn btn-outline-warning"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Добавить в корзину"
-            >
-                <i class="md-icon">add_shopping_cart</i>
-            </button>
+            <div class="product-card__image-box">
+                <div class="product-card__image"
+                     :style="{ 'background-image': 'url(' + product.image + ')' }"
+                >
+                </div>
+            </div>
+            <div class="product-card__name">
+                {{ product.name }}
+            </div>
+            <div class="product-card__price">
+                {{ PriceWithSeparation(product.price) }} &#8381;
+            </div>
+            <div class="product-card__old-price">
+                {{ PriceWithSeparation(product.old_price) }} &#8381;
+            </div>
+            <div class="product-card__buttons">
+                <button type="button"
+                        class="button button-light btn-block"
+                >
+                    Купить в 1 клик
+                </button>
+                <!-- <button type="button"
+                        class="btn btn-outline-warning"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Добавить в корзину"
+                >
+                    <i class="md-icon">add_shopping_cart</i>
+                </button>
+                -->
+            </div>
         </div>
     </div>
 </template>
@@ -66,7 +69,10 @@
 <style lang="scss" scoped>
 
     @import "../../sass/variables/colors";
-
+    @keyframes animate-buttons {
+        from {height: 0;}
+        to {height: auto;}
+    }
     .product-card {
         width: 100%;
         background: $color-ui;
@@ -74,17 +80,24 @@
         margin: 15px 0;
         border-radius: 5px;
         box-shadow: $shadows-primary;
-        height: auto;
+        height: 430px;
         box-sizing: border-box;
         transition: 0.2s;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        //display: flex;
+        //flex-direction: column;
+        //justify-content: space-between;
         &:hover {
             box-shadow: $shadows-hover;
             cursor: pointer;
+            margin-top: 0;
+            margin-bottom: 0;
+            height: (430px + 30px);
             .product-card__buttons {
-                opacity: 1;
+                //opacity: 1;
+                //display: flex;
+                height: auto;
+                animation-name: animate-buttons;
+                animation-duration: 0.3s;
             }
         }
         &__actions {
@@ -118,7 +131,7 @@
         }
         &__name {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 400;
             color: $color-text-primary;
             margin-top: 10px;
             padding-bottom: 10px;
@@ -130,21 +143,24 @@
         }
         &__price {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 500;
             color: $color-text-primary;
         }
         &__old-price {
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 400;
             color: $color-text-secondary;
             text-decoration: line-through;
         }
         &__buttons {
             //opacity: 0;
-            transition: 0.2s;
+            //display: none;
+            height: 0;
+            overflow: hidden;
             margin-top: 15px;
-            .btn {
-                display: inherit;
+            .button {
+                width: 100%;
+                text-align: center;
             }
         }
     }

@@ -11,8 +11,14 @@
                     {{ __('layouts.footer-logo-description') }}
                 </div>
                 <div class="footer-button-group">
-                    <a href="#" class="button button-light">{{ __('layouts.footer-recall') }}</a>
-                    <a href="#" class="button button-light">{{ __('layouts.footer-write') }}</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-recall') }}</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-write') }}</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="footer-pay-group">
                     <img src="/assets/images/icons/visa.svg" alt="Visa" class="footer-pay-icon">
@@ -22,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="row justify-content-between">
+                <div class="row justify-content-between footer-nav">
                     <div class="col-md-4">
                         <nav>
                             <div class="footer-nav-title">Магазин</div>
@@ -141,9 +147,15 @@
                     &copy; 2017-@php echo date("Y") @endphp Mossebo.Market
                 </div>
             </div>
-            <div class="col-md-6 text-right">
-                <a href="#" class="footer-link mr-5">Политика конфиденциальности</a>
-                <a href="#" class="footer-link">Правила пользования</a>
+            <div class="col-md-6 footer-bottom__links">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="#" class="footer-link">Политика конфиденциальности</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" class="footer-link">Правила пользования</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

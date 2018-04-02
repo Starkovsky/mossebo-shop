@@ -2,7 +2,7 @@
     <div class="product-list">
         <div class="container">
             <div class="row">
-                <div class="col-md-3"
+                <div class="col-sm-6 col-md-4 col-lg-3"
                      v-for="Product in Products"
                      :key="Product.id"
                 >

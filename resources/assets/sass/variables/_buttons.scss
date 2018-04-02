@@ -12,6 +12,13 @@
     text-decoration: none;
     &:hover {
         text-decoration: none;
+        background: $color-primary;
+        border: 1px solid $color-primary;
+        color: #fff;
+        cursor: pointer;
+    }
+    &:focus {
+        outline: none;
     }
     &-light {
         border: 1px solid $color-border;
