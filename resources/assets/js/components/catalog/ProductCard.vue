@@ -19,7 +19,7 @@
             </div>
             <div class="product-card__image-box">
                 <div class="product-card__image"
-                     :style="{ 'background-image': 'url(' + product.image + ')' }"
+                     :style="{ 'background-image': 'url(//admin.mossebo.market' + product.image + ')' }"
                 >
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="product-card__price">
                 {{ PriceWithSeparation(product.price) }} &#8381;
             </div>
-            <div class="product-card__old-price">
+            <div class="product-card__old-price" v-if="product.old_price > 0">
                 {{ PriceWithSeparation(product.old_price) }} &#8381;
             </div>
             <div class="product-card__buttons">
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import PriceWithSeparation from '../mixins/PriceWithSeparation'
+    import PriceWithSeparation from '../../mixins/PriceWithSeparation'
 
     export default {
         name: "ProductCard",
@@ -63,16 +63,22 @@
         mixins: [
             PriceWithSeparation,
         ],
+        mounted: function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        }
     }
 </script>
 
 <style lang="scss" scoped>
 
-    @import "../../sass/variables/colors";
+    @import "../../../sass/variables/colors";
+    @import "../../../sass/variables/variables";
+
     @keyframes animate-buttons {
         from {height: 0;}
         to {height: auto;}
     }
+
     .product-card {
         width: 100%;
         background: $color-ui;
@@ -82,7 +88,7 @@
         box-shadow: $shadows-primary;
         height: 430px;
         box-sizing: border-box;
-        transition: 0.2s;
+        transition: $transition-primary;
         //display: flex;
         //flex-direction: column;
         //justify-content: space-between;

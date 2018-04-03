@@ -2,6 +2,9 @@
     background: $color-ui;
     padding-top: 10px;
     padding-bottom: 10px;
+    &__title {
+        padding-top: 35px;
+    }
 }
 .logo {
     display: block;

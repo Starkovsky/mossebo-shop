@@ -150,10 +150,10 @@
             <div class="col-md-6 footer-bottom__links">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="#" class="footer-link">Политика конфиденциальности</a>
+                        <a href="#" class="footer-link">Правила пользования</a>
                     </div>
                     <div class="col-md-6">
-                        <a href="#" class="footer-link">Правила пользования</a>
+                        <a href="#" class="footer-link">Политика конфиденциальности</a>
                     </div>
                 </div>
             </div>

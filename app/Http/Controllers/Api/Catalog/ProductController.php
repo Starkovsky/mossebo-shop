@@ -23,11 +23,22 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+//    public function index()
+//    {
+//        $allproduct = Product::all()->where('id',5);
+//        dd($allproduct);
+//
+//        return view('index');
+//    }
+    /**
+     * Show the application New Products.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function new()
     {
-        $allproduct = Product::all()->where('id',5);
-        dd($allproduct);
+        $allproduct = Product::all();
 
-        return view('index');
+        return json_encode($allproduct);;
     }
 }
