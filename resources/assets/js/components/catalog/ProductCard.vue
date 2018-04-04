@@ -121,7 +121,8 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background-size: cover;
+            background-size: 100% auto;
+            background-position: center center;
             &-box {
                 position: relative;
                 width: 100%;
