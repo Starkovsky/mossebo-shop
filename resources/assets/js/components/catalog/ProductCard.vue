@@ -19,7 +19,7 @@
             </div>
             <div class="product-card__image-box">
                 <div class="product-card__image"
-                     :style="{ 'background-image': 'url(//admin.mossebo.market' + product.image + ')' }"
+                     :style="{ 'background-image': 'url(' + product.image + ')' }"
                 >
                 </div>
             </div>
