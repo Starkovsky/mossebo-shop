@@ -123,6 +123,7 @@
             right: 0;
             background-size: 100% auto;
             background-position: center center;
+            background-repeat: no-repeat;
             &-box {
                 position: relative;
                 width: 100%;
