@@ -35,6 +35,8 @@
             <div class="product-card__buttons">
                 <button type="button"
                         class="button button-light btn-block"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
                 >
                     Купить в 1 клик
                 </button>
@@ -65,6 +67,9 @@
         ],
         mounted: function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#exampleModal').on('shown.bs.modal', function () {
+                $('#exampleModal').trigger('focus')
+            })
         }
     }
 </script>
