@@ -38,11 +38,11 @@ if (!mix.inProduction()) {
 mix.autoload({
     jquery: ['$', 'window.jQuery', 'jQuery']
 });
-// mix.browserSync({
-//     proxy: {
-//         target: "https://mossebo-shop.test"
-//     }
-// });
+mix.browserSync({
+    proxy: {
+        target: "http://mossebo-shop.test"
+    }
+});
 
 
 mix.setResourceRoot(path.normalize(publicDir));

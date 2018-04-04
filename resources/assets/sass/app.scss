@@ -29,7 +29,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-
+// TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
 .information-block {
     border-radius: 5px;
     box-shadow: $shadows-primary;
@@ -39,6 +39,11 @@
     color: $color-text-secondary;
     padding: 25px;
     height: 100%;
+    @include media-breakpoint-down(md) {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: auto;
+    }
     &__title {
         font-size: 24px;
         color: $color-text-primary;

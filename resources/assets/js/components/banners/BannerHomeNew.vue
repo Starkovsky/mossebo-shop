@@ -1,14 +1,21 @@
 <template>
     <div>
         <div class="banner">
-            <div class="button">Смотреть</div>
+            <div class="image">
+                <div class="img"
+                     style="background-image: url(/assets/images/tmp/banner_new.png);"
+                >
+                </div>
+            </div>
+            <div class="title">Дизайн интерьера  от Mossebo</div>
+            <a class="button" href="https://mossebo.studio/" target="_blank">Заказать</a>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "BannerHomeNew"
+        name: "BannerHomeNew",
     }
 </script>
 
@@ -29,6 +36,34 @@
         margin: 15px 0;
         border-radius: 5px;
         box-shadow: $shadows-primary;
+        .image {
+            position: relative;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            margin-right: -20px;
+            &:before {
+                content: "";
+                display: block;
+                padding-top: 100%;
+                transition: $transition-primary;
+                position: relative;
+            }
+            .img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background-repeat: no-repeat;
+                background-position: center left;
+            }
+        }
+        .title {
+            font-size: 18px;
+            color: $color-ui;
+            text-align: center;
+            margin-bottom: 25px;
+        }
         .button {
             width: 100%;
             text-align: center;
