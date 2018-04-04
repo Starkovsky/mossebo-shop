@@ -26,15 +26,21 @@
             <div class="product-card__name">
                 {{ product.name }}
             </div>
+            <div class="product-card__reviews">
+                <img src="/assets/images/icons/stars.png" alt="">
+                32 отзыва
+            </div>
             <div class="product-card__price">
                 {{ PriceWithSeparation(product.price) }} &#8381;
             </div>
-            <div class="product-card__old-price" v-if="product.old_price > 0">
-                {{ PriceWithSeparation(product.old_price) }} &#8381;
+            <div class="product-card__old-price">
+                <span v-if="product.old_price > 0">
+                    {{ PriceWithSeparation(product.old_price) }} &#8381;
+                </span>
             </div>
             <div class="product-card__buttons">
                 <button type="button"
-                        class="button button-light btn-block"
+                        class="button button-light"
                         data-toggle="modal"
                         data-target="#exampleModal"
                 >
@@ -91,7 +97,7 @@
         margin: 15px 0;
         border-radius: 5px;
         box-shadow: $shadows-primary;
-        height: 430px;
+        height: 420px;
         box-sizing: border-box;
         transition: $transition-primary;
         //display: flex;
@@ -102,7 +108,7 @@
             cursor: pointer;
             margin-top: 0;
             margin-bottom: 0;
-            height: (430px + 30px);
+            height: (420px + 30px);
             .product-card__buttons {
                 //opacity: 1;
                 //display: flex;
@@ -112,6 +118,7 @@
             }
         }
         &__actions {
+            margin-bottom: 20px;
             a {
                 color: $color-icons;
                 display: inline-block;
@@ -126,7 +133,7 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background-size: 100% auto;
+            background-size: contain;
             background-position: center center;
             background-repeat: no-repeat;
             &-box {
@@ -135,23 +142,34 @@
                 max-width: 200px;
                 margin-left: auto;
                 margin-right: auto;
+                margin-bottom: 25px;
                 &:before {
                     content: "";
                     display: block;
-                    padding-top: 100%;
+                    padding-top: 80%;
                 }
             }
         }
         &__name {
             font-size: 14px;
+            line-height: 18px;
             font-weight: 400;
             color: $color-text-primary;
-            margin-top: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
             transition: 0.2s;
-            height: 76px;
+            height: 36px;
+            overflow: auto;
             &:hover {
                 color: $color-primary;
+            }
+        }
+        &__reviews {
+            font-size: 12px;
+            vertical-align: middle;
+            color: $color-text-secondary;
+            img {
+                float: left;
+                margin-right: 10px;
             }
         }
         &__price {
@@ -162,6 +180,7 @@
         &__old-price {
             font-size: 14px;
             font-weight: 400;
+            height: 22px;
             color: $color-text-secondary;
             text-decoration: line-through;
         }
@@ -171,9 +190,13 @@
             height: 0;
             overflow: hidden;
             margin-top: 15px;
+            text-align: center;
             .button {
                 width: 100%;
                 text-align: center;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
     }
