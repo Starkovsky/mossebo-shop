@@ -7,14 +7,24 @@
     user-select: none;
     border: 1px solid transparent;
     border-radius: 30px;
-    transition: .3s;
+    transition: $transition-primary;
     padding: 10px 30px;
     text-decoration: none;
     &:hover {
         text-decoration: none;
+        cursor: pointer;
+    }
+    &:focus {
+        outline: none;
     }
     &-light {
         border: 1px solid $color-border;
         color: $color-text-primary;
+        background: $color-ui;
+        &:hover {
+            border: 1px solid $color-primary;
+            background: $color-primary;
+            color: $color-ui;
+        }
     }
 }

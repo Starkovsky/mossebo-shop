@@ -1,10 +1,8 @@
 //Colors
 $color-ui: #fff;
 
-$color-background: #f4f5f8;
-$color-background-1: #f5f6f9;
-$color-background-2: #f6f7fa;
-$color-background-3: #f5f7fa;
+$color-background: #fafbfc;
+$body-bg: #fafbfc; // Body-Bootstrap
 
 $color-primary: #fcc600;
 $color-primary-1: #fed231;
@@ -40,3 +38,8 @@ $color-danger: #de141c;
 $color-danger-1: #e2373d;
 $color-danger-2: #e65a5f;
 $color-danger-3: #e97b81;
+
+$color-icons: #dfdfdf;
+
+$shadows-primary: 0 1px 2px rgba(0,0,0,0.14);
+$shadows-hover: 0 1px 20px rgba(0,0,0,0.14);

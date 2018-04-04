@@ -1,6 +1,6 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700&subset=cyrillic-ext');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500&subset=cyrillic-ext');
 
 // Variables
 @import "variables/colors";
@@ -19,11 +19,34 @@
 @import "layouts/nav";
 @import "layouts/footer";
 
-
+// U-Blocks
+@import "u-blocks/interior_styles";
 
 
 //Global Styles
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+// TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
+.information-block {
+    border-radius: 5px;
+    box-shadow: $shadows-primary;
+    background: $color-ui;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-text-secondary;
+    padding: 25px;
+    height: 100%;
+    @include media-breakpoint-down(md) {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: auto;
+    }
+    &__title {
+        font-size: 24px;
+        color: $color-text-primary;
+        margin-bottom: 15px;
+    }
 }

@@ -35,6 +35,15 @@ if (!mix.inProduction()) {
         .sourceMaps()
 }
 
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery']
+});
+mix.browserSync({
+    proxy: {
+        target: "http://mossebo-shop.test"
+    }
+});
+
 
 mix.setResourceRoot(path.normalize(publicDir));
 mix.setPublicPath(path.normalize(publicDir));
