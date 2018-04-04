@@ -3,7 +3,7 @@
  * Imports
  */
 
-//import './core/use_https'
+import './core/use_https'
 
 import 'bootstrap'
 import Vue from 'vue'
@@ -32,7 +32,7 @@ const app = new Vue({
     data: {
         ActionProduct: {
             'name': 'Столик-оттоманка, иск.кожа (2561BL), цвет черный',
-            'image': '/uploads/276/responsive-images/5ac38c6e80a89951043818___medium_300_300.jpeg',
+            'image': 'https://admin.mossebo.market/uploads/1548/responsive-images/5ac38d730158e661077194___small_400_400.jpeg',
             'price': '1631000',
             'old_price': '1831000'
         }
