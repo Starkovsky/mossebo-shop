@@ -24,5 +24,7 @@
 <script src="{{ mix('assets/js/vendor.js') }}" defer></script>
 <script src="{{ mix('assets/js/app.js') }}" defer></script>
 
+@include('layouts.metrika')
+
 </body>
 </html>
