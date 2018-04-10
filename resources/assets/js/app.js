@@ -40,3 +40,8 @@ const app = new Vue({
 });
 
 $('[data-toggle="tooltip"]').tooltip();
+
+// TODO: Временная функция показа активной корзины
+$('.mobile-cart').click(function () {
+    $('.mobile-cart').toggleClass('mobile-cart-active');
+})

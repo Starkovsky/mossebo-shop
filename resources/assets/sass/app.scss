@@ -39,7 +39,7 @@
     color: $color-text-secondary;
     padding: 25px;
     height: 100%;
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         margin-top: 15px;
         margin-bottom: 15px;
         height: auto;

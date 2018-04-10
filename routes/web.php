@@ -15,7 +15,8 @@ Route::redirect('/', '/ru', 301);
 
 Route::prefix('ru')->group(function () {
 
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'Shop\HomeController@index');
+    Route::get('/goods/{id}', 'Shop\ProductController@index');
 
 });
 

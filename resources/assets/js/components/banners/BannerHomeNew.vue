@@ -7,7 +7,7 @@
                 >
                 </div>
             </div>
-            <div class="title">Дизайн интерьера  от Mossebo</div>
+            <div class="title">Дизайн интерьера  <br>от Mossebo</div>
             <a class="button" href="https://mossebo.studio/" target="_blank">Заказать</a>
         </div>
     </div>
@@ -39,6 +39,7 @@
         .image {
             position: relative;
             width: calc(100% + 40px);
+            max-height: 250px;
             margin-left: -20px;
             margin-right: -20px;
             &:before {

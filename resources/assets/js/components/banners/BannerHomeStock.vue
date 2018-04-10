@@ -39,6 +39,7 @@
         .image {
             position: relative;
             width: calc(100% + 40px);
+            max-height: 250px;
             margin-left: -20px;
             margin-right: -20px;
             &:before {

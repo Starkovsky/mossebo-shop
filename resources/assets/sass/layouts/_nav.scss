@@ -2,34 +2,48 @@
     background: $color-ui;
     border-top: 1px solid $color-border;
     box-shadow: $shadows-primary;
+    height: 55px;
+    overflow: visible;
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
     &-list {
         margin: 0;
         padding: 0;
         list-style: none;
+        float: left;
         &__item {
             display: inline-block;
             a {
-                padding-top: 12px;
+                padding-top: 15px;
                 padding-bottom: 15px;
-                padding-left: 20px;
-                padding-right: 20px;
+                padding-left: 32px;
                 display: inline-block;
                 color: $color-text-primary;
                 font-size: 14px;
                 font-weight: 400;
+                @include media-breakpoint-down(lg) {
+                    padding-left: 25px;
+                }
                 &:hover {
                     color: $color-text-primary-2;
                     text-decoration: none;
                 }
             }
-            &:first-child {
-                a {
-                    color: $color-primary;
-                    padding-left: 0;
-                    border-right: 1px solid $color-border;
-                    &:hover {
-                        color: $color-primary-2;
-                    }
+        }
+        .nav-catalog {
+            a {
+                color: $color-primary;
+                font-weight: 400;
+                border-right: 1px solid $color-border;
+                padding-right: 32px;
+                padding-left: 0;
+                .md-icon {
+                    vertical-align: middle;
+                    margin-right: 8px;
+                }
+                &:hover {
+                    color: $color-primary-2;
                 }
             }
         }

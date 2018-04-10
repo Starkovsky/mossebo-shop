@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="product-card">
+        <div class="product-card" :click.self="OpenProduct(product.id)">
             <div class="product-card__actions text-right">
                 <a href="#"
                    data-toggle="tooltip"
@@ -76,6 +76,13 @@
             $('#exampleModal').on('shown.bs.modal', function () {
                 $('#exampleModal').trigger('focus')
             })
+        },
+        methods: {
+            OpenProduct: function (id, event) {
+                if(event) {
+                    location.href = '/ru/goods/' + id;
+                }
+            }
         }
     }
 </script>
