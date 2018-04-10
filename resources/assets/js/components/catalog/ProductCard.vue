@@ -80,7 +80,7 @@
         methods: {
             OpenProduct: function (id, event) {
                 if(event) {
-                    location.href = '/ru/goods/' + id;
+                    //location.href = '/ru/goods/' + id;
                 }
             }
         }
