@@ -4,7 +4,7 @@
 
     @include('layouts.meta')
 
-    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" media="none" onload="if(media!='all')media='all'">
 
 </head>
 <body>
