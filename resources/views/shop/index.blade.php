@@ -19,13 +19,16 @@
         <main class="py-4">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <banner-home-stock :product="ActionProduct"></banner-home-stock>
+                    <banner-home-stock></banner-home-stock>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <banner-home-new :product="ActionProduct"></banner-home-new>
+                    <banner-home-new></banner-home-new>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
-                    <product-card :product="ActionProduct"></product-card>
+                    <product-card
+                        :product="ActionProduct"
+                    >
+                    </product-card>
                 </div>
             </div>
         </main>
@@ -56,7 +59,9 @@
 
         <main class="py-4">
             <h2 class="title_h2">{{ __('pages/home.product_list_new') }}</h2>
-            <product-list></product-list>
+            <product-list
+            >
+            </product-list>
         </main>
 
 

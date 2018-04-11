@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="product-card" :click.self="OpenProduct(product.id)">
+        <div class="product-card">
             <div class="product-card__actions text-right">
                 <a href="#"
                    data-toggle="tooltip"
@@ -17,15 +17,19 @@
                     <i class="md-icon">favorite</i>
                 </a>
             </div>
-            <div class="product-card__image-box">
+            <a class="product-card__image-box"
+               :href="'/' + this.$root.language + '/goods/' + product.id"
+            >
                 <div class="product-card__image"
                      :style="{ 'background-image': 'url(' + product.image + ')' }"
                 >
                 </div>
-            </div>
-            <div class="product-card__name">
+            </a>
+            <a class="product-card__name"
+               :href="'/' + this.$root.language + '/goods/' + product.id"
+            >
                 {{ product.name }}
-            </div>
+            </a>
             <div class="product-card__reviews">
                 <img src="/assets/images/icons/stars.png" alt="">
                 32 отзыва
@@ -76,13 +80,6 @@
             $('#exampleModal').on('shown.bs.modal', function () {
                 $('#exampleModal').trigger('focus')
             })
-        },
-        methods: {
-            OpenProduct: function (id, event) {
-                if(event) {
-                    //location.href = '/ru/goods/' + id;
-                }
-            }
         }
     }
 </script>
@@ -144,6 +141,7 @@
             background-position: center center;
             background-repeat: no-repeat;
             &-box {
+                display: block;
                 position: relative;
                 width: 100%;
                 max-width: 200px;
@@ -158,6 +156,7 @@
             }
         }
         &__name {
+            display: block;
             font-size: 14px;
             line-height: 18px;
             font-weight: 400;
@@ -168,6 +167,7 @@
             overflow: auto;
             &:hover {
                 color: $color-primary;
+                text-decoration: none;
             }
         }
         &__reviews {

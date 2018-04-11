@@ -26,7 +26,7 @@
         },
         data () {
             return {
-                Products: []
+                Products: [],
             }
         },
         mounted() {

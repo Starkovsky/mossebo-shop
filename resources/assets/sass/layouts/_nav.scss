@@ -34,6 +34,7 @@
         .nav-catalog {
             a {
                 color: $color-primary;
+                background: $color-ui;
                 font-weight: 400;
                 border-right: 1px solid $color-border;
                 padding-right: 32px;
@@ -43,7 +44,7 @@
                     margin-right: 8px;
                 }
                 &:hover {
-                    color: $color-primary-2;
+
                 }
             }
         }

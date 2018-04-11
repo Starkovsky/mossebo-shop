@@ -3,7 +3,7 @@
         <div class="header-float">
             <div class="header-float-item">
                 <a href="#" class="mobile-catalog">
-                    <i class="md-icon align-middle">menu</i>
+                    <i class="md-icon align-middle">dehaze</i>
                 </a>
             </div>
 

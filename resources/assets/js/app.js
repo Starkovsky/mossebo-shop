@@ -31,11 +31,27 @@ const app = new Vue({
     },
     data: {
         ActionProduct: {
+            'id': '60',
             'name': 'Столик-оттоманка, иск.кожа (2561BL), цвет черный',
             'image': 'https://admin.mossebo.market/uploads/1548/responsive-images/5ac38d730158e661077194___small_400_400.jpeg',
-            'price': '1631000',
+            'price': '1054321',
             'old_price': '1831000'
+        },
+    },
+    props: [
+        'language'
+    ],
+    mixins: [
+
+    ],
+    methods: {
+        GetCurrentLanguage() {
+            var self = this;
+            self.language = $("html").attr("lang");
         }
+    },
+    mounted() {
+        this.GetCurrentLanguage();
     },
 });
 
