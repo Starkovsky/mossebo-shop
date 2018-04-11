@@ -46,8 +46,7 @@ const app = new Vue({
     ],
     methods: {
         GetCurrentLanguage() {
-            var self = this;
-            self.language = $("html").attr("lang");
+            this.language = $("html").attr("lang");
         }
     },
     mounted() {

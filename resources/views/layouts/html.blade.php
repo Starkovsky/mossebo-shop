@@ -4,10 +4,16 @@
 
     @include('layouts.meta')
 
-    <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
+    <!--[if IE]>
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}">
+    <![endif]-->
 
 </head>
 <body>
+
+    <!--[if !IE]> -->
+    <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" lazyload>
+    <!-- <![endif]-->
 
 <div id="app">
 
