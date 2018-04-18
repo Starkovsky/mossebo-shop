@@ -17,7 +17,8 @@
             a {
                 padding-top: 15px;
                 padding-bottom: 15px;
-                padding-left: 32px;
+                padding-left: 16px;
+                padding-right: 16px;
                 display: inline-block;
                 color: $color-text-primary;
                 font-size: 14px;
@@ -39,8 +40,8 @@
                 border-right: 1px solid $color-border;
                 padding-right: 32px;
                 padding-left: 0;
+                margin-right: 16px;
                 .md-icon {
-                    vertical-align: middle;
                     margin-right: 8px;
                 }
                 &:hover {

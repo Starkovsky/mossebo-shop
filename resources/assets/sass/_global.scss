@@ -1,0 +1,46 @@
+.navbar-laravel {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+
+.title_h1 {
+    color: $color-text-primary;
+}
+.title_h2 {
+    font-size: 34px;
+    color: $color-text-primary;
+    margin-bottom: 20px;
+}
+
+
+.block-ui {
+    border-radius: 5px;
+    box-shadow: $shadows-primary;
+    background: $color-ui;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-text-secondary;
+}
+
+// TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
+.information-block {
+    border-radius: 5px;
+    box-shadow: $shadows-primary;
+    background: $color-ui;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-text-secondary;
+    padding: 25px;
+    height: 100%;
+    @include media-breakpoint-down(sm) {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: auto;
+    }
+    &__title {
+        font-size: 24px;
+        color: $color-text-primary;
+        margin-bottom: 15px;
+    }
+}

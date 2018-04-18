@@ -1,0 +1,46 @@
+// Стили для страницы продукта (карточки товара)
+.product-page {
+
+
+    &__actions {
+        float: right;
+        a {
+            color: $color-icons;
+            &:hover {
+                color: $color-text-primary;
+            }
+        }
+    }
+    &__price {
+        display: inline-block;
+        font-size: 24px;
+        color: $color-text-primary;
+    }
+    &__oldprice {
+        display: inline-block;
+        margin-left: 8px;
+        font-size: 20px;
+        color: $color-text-secondary;
+        text-decoration: line-through;
+    }
+    &__economy {
+        font-size: 14px;
+        color: $color-text-primary;
+    }
+    &__stars {
+        color: $color-primary;
+        padding: 20px 0;
+        span {
+            font-size: 12px;
+            color: $color-text-secondary;
+            margin-left: 8px;
+        }
+    }
+
+
+
+    &__border-left {
+        border-left: 1px solid $color-border;
+    }
+}
+

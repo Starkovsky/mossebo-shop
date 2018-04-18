@@ -24,7 +24,9 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         'lodash',
         'popper.js',
         'axios',
-        'bootstrap'
+        'bootstrap',
+        'slick-carousel',
+        'magnific-popup'
     ])
     .version();
 
@@ -39,11 +41,11 @@ mix.autoload({
     jquery: ['$', 'window.jQuery', 'jQuery']
 });
 
-// mix.browserSync({
-//     proxy: {
-//         target: "https://mossebo-shop.test"
-//     }
-// });
+mix.browserSync({
+    proxy: {
+        target: "https://mossebo-shop.test"
+    }
+});
 
 
 mix.setResourceRoot(path.normalize(publicDir));

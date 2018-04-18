@@ -11,6 +11,8 @@
 
 <div id="app">
 
+    <scroll-bar></scroll-bar>
+
     @include('layouts.header')
     @include('layouts.nav')
 
@@ -25,6 +27,7 @@
 <script src="{{ mix('assets/js/app.js') }}" defer></script>
 
 @include('layouts.metrika')
+
 
 </body>
 </html>

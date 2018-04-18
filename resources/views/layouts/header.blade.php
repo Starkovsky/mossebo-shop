@@ -8,7 +8,8 @@
             </div>
 
             <div class="header-float-item">
-                <a href="#" class="mobile-cart">
+                <a href="#" class="mobile-cart"
+                >
                     <div class="badge">3</div>
                     <i class="md-icon">
                         shopping_cart
@@ -16,12 +17,14 @@
                 </a>
             </div>
             <div class="header-float-item">
-                <a href="#" class="mobile-profile">
+                <a href="#" class="mobile-profile"
+                >
                     <i class="md-icon">person</i>
                 </a>
             </div>
             <div class="header-float-item">
-                <a href="#" class="mobile-search">
+                <a href="#" class="mobile-search"
+                >
                     <i class="md-icon">search</i>
                 </a>
             </div>

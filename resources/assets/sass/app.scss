@@ -9,6 +9,11 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+// Slick-slider
+@import '~slick-carousel/slick/slick';
+@import '~slick-carousel/slick/slick-theme';
+// magnific-popup
+@import "~magnific-popup/src/css/main";
 
 // Icons
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
@@ -22,33 +27,13 @@
 // U-Blocks
 @import "u-blocks/interior_styles";
 
+//Plugins
+@import "variables/plugins/magnific-popup";
+@import "variables/plugins/slick-slider";
+
 //Pages
 @import "pages/error-404";
+@import "pages/product-page";
 
 //Global Styles
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-// TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
-.information-block {
-    border-radius: 5px;
-    box-shadow: $shadows-primary;
-    background: $color-ui;
-    font-size: 14px;
-    font-weight: 400;
-    color: $color-text-secondary;
-    padding: 25px;
-    height: 100%;
-    @include media-breakpoint-down(sm) {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        height: auto;
-    }
-    &__title {
-        font-size: 24px;
-        color: $color-text-primary;
-        margin-bottom: 15px;
-    }
-}
+@import "global";

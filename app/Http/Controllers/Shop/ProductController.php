@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Shop;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+
+use App\Models\Shop\Product;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
@@ -26,8 +26,10 @@ class ProductController extends Controller
      */
     public function index($id)
     {
-        $product = Product::findOrFail($id);
-        //dd($product);
+        $product = Product::with('supplier','i18n')
+            ->where('id','=', $id)
+            ->first();
+
         return view('shop.product', [
             'product' => $product,
         ]);

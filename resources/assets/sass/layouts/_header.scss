@@ -4,7 +4,7 @@
     @include media-breakpoint-down(md) {
         position: fixed;
         width: 100%;
-        top: 0;
+        top: 0.2em;
         z-index: 99999;
     }
     &__title {

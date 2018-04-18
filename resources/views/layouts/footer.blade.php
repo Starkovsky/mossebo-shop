@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="row justify-content-between footer-nav">
+                <div class="row footer-nav">
                     <div class="col-md-4">
                         <nav>
                             <div class="footer-nav-title">Магазин</div>
@@ -149,10 +149,10 @@
             </div>
             <div class="col-md-6 footer-bottom__links">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <a href="#" class="footer-link">Правила пользования</a>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <a href="#" class="footer-link">Политика конфиденциальности</a>
                     </div>
                 </div>
