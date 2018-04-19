@@ -27,8 +27,7 @@ class ProductController extends Controller
     public function index($id)
     {
         $product = Product::with('supplier','i18n')
-            ->where('id','=', $id)
-            ->first();
+            ->findOrFail($id);
 
         return view('shop.product', [
             'product' => $product,
