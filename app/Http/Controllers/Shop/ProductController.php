@@ -26,11 +26,19 @@ class ProductController extends Controller
      */
     public function index($id)
     {
-        $product = Product::with('supplier','i18n')
-            ->findOrFail($id);
+        try {
 
-        return view('shop.product', [
-            'product' => $product,
-        ]);
+            $product = Product::with('supplier','i18n')
+                ->findOrFail($id);
+
+            return view('shop.product', [
+                'product' => $product,
+            ]);
+        }
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+
     }
 }
