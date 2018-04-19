@@ -11,7 +11,7 @@ class ProductI18n extends Model
      *
      * @var string
      */
-    protected $table = 'shop_products_i18';
+    protected $table = 'shop_products_i18n';
 
     public function products()
     {
