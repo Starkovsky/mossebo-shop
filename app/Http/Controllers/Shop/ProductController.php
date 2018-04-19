@@ -36,7 +36,7 @@ class ProductController extends Controller
             ]);
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            return abort(404);
         }
 
 
