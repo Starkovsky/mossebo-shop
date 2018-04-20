@@ -28,7 +28,8 @@ class ProductController extends Controller
     {
         try {
 
-            $product = Product::with('supplier','i18n')
+            $product = Product::with('i18n','supplier','images')
+                ->where('enabled','=','true')
                 ->findOrFail($id);
 
             return view('shop.product', [
@@ -36,7 +37,7 @@ class ProductController extends Controller
             ]);
         }
         catch (\Exception $e) {
-            return abort(404);
+            return $e->getMessage();
         }
 
 

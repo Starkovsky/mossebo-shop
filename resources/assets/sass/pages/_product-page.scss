@@ -26,21 +26,85 @@
     &__economy {
         font-size: 14px;
         color: $color-text-primary;
+        margin-bottom: 25px;
     }
     &__stars {
         color: $color-primary;
-        padding: 20px 0;
+        padding: 20px 0 45px;
         span {
             font-size: 12px;
             color: $color-text-secondary;
             margin-left: 8px;
         }
     }
+    &__label {
+        color: $color-text-primary;
+    }
+    &__value {
+        color: $color-text-secondary;
+        margin-bottom: 15px;
+        svg {
+            max-width: 16px;
+            max-height: 16px;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .col-sm-3 {
+            border-left: 1px solid $color-border;
+            color: $color-text-primary;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            &:first-child {
+                border-left: none;
+            }
+        }
+    }
+    &__buttons {
+        padding-top: 25px;
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    .nav-tabs {
+        border-bottom: 1px solid $color-border;
+        .nav-item {
 
-
+        }
+        .nav-link {
+            color: $color-text-secondary;
+            background: none;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 2px solid transparent;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 25px;
+            padding-right: 25px;
+            &:hover {
+                color: $color-primary;
+                background: none;
+            }
+            &.active {
+                border-bottom: 2px solid $color-primary;
+                color: $color-primary;
+            }
+        }
+    }
+    .tab-content {
+        padding-top: 25px;
+        padding-bottom: 25px;
+        min-height: 450px;
+        color: $color-text-primary;
+    }
 
     &__border-left {
         border-left: 1px solid $color-border;
+    }
+    &__under_constraction {
+        text-align: center;
     }
 }
 

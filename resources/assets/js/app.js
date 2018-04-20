@@ -18,6 +18,9 @@ import ProductCard from './components/catalog/ProductCard'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 
+import './vendor/es5-shims.min'
+import './vendor/share'
+
 /**
  * App
  */
@@ -53,19 +56,24 @@ const app = new Vue({
     },
     mounted() {
         this.GetCurrentLanguage();
+
+        // Tooltip
+        $('[data-toggle="tooltip"]').tooltip();
     },
 });
 
 
 
-$('[data-toggle="tooltip"]').tooltip();
 
 // TODO: Временная функция показа активной корзины
 $('.mobile-cart').click(function () {
     $('.mobile-cart').toggleClass('mobile-cart-active');
 })
 
-$('#myTab').tab('show')
+
+// Product Tabs
+//$('#ProductTabs').tab('show');
+$('#ProductTabs li:first-child a').tab('show');
 
 // Product Slider
 $('.slider-for').slick({
@@ -82,13 +90,14 @@ $('.slider-nav').slick({
     asNavFor: '.slider-for',
     dots: false,
     //arrows: true,
-    prevArrow: '<button type="button" class="slick-prev"><i class="md-icon">keyboard_arrow_left</i></button>',
-    nextArrow: '<button type="button" class="slick-next"><i class="md-icon">keyboard_arrow_right</i></button>',
+    prevArrow: '<button type="button" class="slick-prev"><i class="md-icon">arrow_back</i></button>',
+    nextArrow: '<button type="button" class="slick-next"><i class="md-icon">arrow_forward</i></button>',
     centerMode: false,
     focusOnSelect: true,
     lazyLoad: 'ondemand'
 });
 
+// Product gallery
 $('.zoom-gallery').magnificPopup({
     delegate: 'a',
     type: 'image',

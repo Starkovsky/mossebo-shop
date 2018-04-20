@@ -8,7 +8,7 @@
     border: 1px solid transparent;
     border-radius: 30px;
     transition: $transition-primary;
-    padding: 10px 30px;
+    padding: 10px 20px;
     text-decoration: none;
     &:hover {
         text-decoration: none;
@@ -26,5 +26,34 @@
             background: $color-primary;
             color: $color-ui;
         }
+    }
+    &-primary {
+        border: 1px solid $color-primary;
+        color: $color-ui;
+        background: $color-primary;
+        &:hover {
+            box-shadow: $shadows-primary;
+        }
+    }
+}
+.input-group {
+    display: inline-flex;
+    &-append {
+        .button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left: none;
+        }
+    }
+    &-prepend {
+        .button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
+        }
+    }
+    input {
+        border: 1px solid $color-border;
+        text-align: center;
     }
 }

@@ -8,15 +8,16 @@
     border-radius: 50%;
     transition: $transition-primary;
     .md-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 48px;
+        width: 28px;
+        height: 28px;
+        font-size: 28px;
     }
     &:before {
         display: none;
     }
     &:hover, &:focus {
         color: $color-text-primary;
+        border: 1px solid $color-text-primary;
     }
 }
 
@@ -24,15 +25,20 @@
 
 .slider-for {
     margin-bottom: 15px;
-    a {
-        display: block;
-        &:focus {
-            outline: none;
-        }
-        img {
-            display: block;
-            width: 100%;
-            height: auto;
+    .slick-slide {
+        a {
+            height: 522px;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            &:focus {
+                outline: none;
+            }
+            img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
         }
     }
 }
@@ -48,12 +54,18 @@
     }
     .slick-slide {
         padding: 0 5px;
+        .slider-nav__box {
+            height: 78px;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid $color-border;
+            border-radius: $border-radius;
+        }
         img {
             display: inline-block;
             width: 100%;
             height: auto;
-            border: 1px solid $color-border;
-            border-radius: $border-radius;
         }
     }
 }

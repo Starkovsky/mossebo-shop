@@ -4,6 +4,7 @@ namespace App\Models\Shop;
 
 use Illuminate\Database\Eloquent\Model;
 use App;
+use App\Models\Media;
 
 class Product extends Model
 {
@@ -38,6 +39,14 @@ class Product extends Model
     {
         return $this
             ->hasOne(Supplier::class, 'id','supplier_id');
+    }
+
+    public function images()
+    {
+        return $this
+            ->hasMany(Media::class, 'model_id')
+            ->where('model_type','=', 'product')
+            ->orderBy('order_column', 'asc');
     }
 
     public function prices()

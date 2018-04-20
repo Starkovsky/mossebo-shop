@@ -1,30 +1,30 @@
-<nav class="nav d-none d-lg-block d-xl-block">
+<nav class="header-navigation d-none d-lg-block d-xl-block">
     <div class="container">
-        <ul class="nav-list">
-            <li class="nav-list__item nav-catalog">
+        <ul class="header-navigation-list">
+            <li class="header-navigation-list__item header-navigation-catalog">
                 <a href="#" class="">
                     <i class="md-icon">menu</i>
                     Каталог товаров</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Стили</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Комплекты</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Новинки</a>
             </li>
-            <li class="nav-list__item nav-list-discount">
+            <li class="header-navigation-list__item header-navigation-list-discount">
                 <a href="#" class="">Скидки</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Оплата</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Получение</a>
             </li>
-            <li class="nav-list__item">
+            <li class="header-navigation-list__item">
                 <a href="#" class="">Гарантия и возврат</a>
             </li>
         </ul>

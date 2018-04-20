@@ -1,4 +1,4 @@
-.nav {
+.header-navigation {
     background: $color-ui;
     border-top: 1px solid $color-border;
     box-shadow: $shadows-primary;
@@ -32,7 +32,7 @@
                 }
             }
         }
-        .nav-catalog {
+        .header-navigation-catalog {
             a {
                 color: $color-primary;
                 background: $color-ui;

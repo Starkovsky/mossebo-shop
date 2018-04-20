@@ -21,7 +21,7 @@
                :href="'/' + this.$root.language + '/goods/' + product.id"
             >
                 <div class="product-card__image"
-                     :style="{ 'background-image': 'url(' + product.image + ')' }"
+                     :style="{ 'background-image': 'url(' + 'https://admin.mossebo.market' + product.image + ')' }"
                 >
                 </div>
             </a>
