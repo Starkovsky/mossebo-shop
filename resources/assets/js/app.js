@@ -12,14 +12,13 @@ import Vue from 'vue'
  * Components
  */
 
-import ProductList from './components/catalog/ProductList'
 import ScrollBar from './core/ScrollBar'
+import ProductList from './components/catalog/ProductList'
 import ProductCard from './components/catalog/ProductCard'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 
 
-import './vendor/share'
 
 /**
  * App

@@ -27,3 +27,6 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/48404660" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+
+<script src="//yastatic.net/share2/share.js" async></script>
