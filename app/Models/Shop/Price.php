@@ -13,8 +13,4 @@ class Price extends Model
      */
     protected $table = 'shop_prices';
 
-    public function products()
-    {
-        return $this->morphedByMany(Product::class, 'item');
-    }
 }

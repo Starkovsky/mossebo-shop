@@ -28,9 +28,10 @@ class ProductController extends Controller
     {
         try {
 
-            $product = Product::with('i18n','supplier','images')
+            $product = Product::with('i18n','prices','supplier','images')
                 ->where('enabled','=','true')
                 ->findOrFail($id);
+            //echo $product;
 
             return view('shop.product', [
                 'product' => $product,

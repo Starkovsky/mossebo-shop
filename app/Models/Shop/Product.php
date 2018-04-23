@@ -52,7 +52,8 @@ class Product extends Model
     public function prices()
     {
         return $this
-            ->morphMany(Price::class, 'item');
+            ->hasMany(Price::class, 'item_id')
+            ->where('item_type','=', 'product');
     }
 
 }

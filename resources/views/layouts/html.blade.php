@@ -28,6 +28,5 @@
 
 @include('layouts.metrika')
 
-
 </body>
 </html>

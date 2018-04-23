@@ -17,3 +17,86 @@
     }
 }
 
+.symbol-icon {
+
+}
+
+.symbol-logo {
+    width: 200px;
+    height: 45px;
+}
+
+.symbol-logo-ru {
+    width: 133px;
+    height: 54px;
+    @include media-breakpoint-down(md) {
+        width: 90px;
+        height: 37px;
+    }
+}
+.symbol-logo-en {
+    width: 133px;
+    height: 54px;
+    @include media-breakpoint-down(md) {
+        width: 90px;
+        height: 37px;
+    }
+}
+
+.pay-visa {
+    width: 80px;
+    height: 26px;
+}
+
+.pay-maestro {
+    width: 34px;
+    height: 26px;
+}
+
+.pay-mastercard {
+    width: 34px;
+    height: 26px;
+}
+
+.pay-paypal {
+    width: 98px;
+    height: 26px;
+}
+
+.social-vk {
+    width: 33px;
+    height: 33px;
+}
+.social-in {
+    width: 33px;
+    height: 33px;
+}
+.social-fb {
+    width: 33px;
+    height: 33px;
+}
+.social-pi {
+    width: 33px;
+    height: 33px;
+}
+.social-you {
+    width: 33px;
+    height: 33px;
+}
+
+.symbol-width {
+    width: 8px;
+    height: 16px;
+}
+.symbol-height {
+    width: 16px;
+    height: 8px;
+}
+.symbol-length {
+    width: 16px;
+    height: 16px;
+}
+.symbol-weight {
+    width: 11px;
+    height: 15px;
+}

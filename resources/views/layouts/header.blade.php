@@ -31,9 +31,9 @@
 
             <div class="header-float-item">
                 <a href="{{ url('/' . App::getLocale()) }}" class="logo">
-                    <img src="{{ __('layouts.mossebo-market-logo') }}"
-                         alt="{{ config('app.name', 'Laravel') }}"
-                         class="logo__image">
+                    <svg class="symbol-logo-ru">
+                        <use xlink:href="/assets/images/icons.svg#{{ __('layouts.mossebo-market-logo') }}"></use>
+                    </svg>
                 </a>
             </div>
             <div class="header-float-item">

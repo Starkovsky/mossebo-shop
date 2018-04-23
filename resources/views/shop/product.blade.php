@@ -7,7 +7,7 @@
 
 @section('content')
 
-    <div class="container my-3">
+    <div class="container my-4">
         <h1 class="title_h1">
             {{ $product->i18n->title }}
         </h1>
@@ -56,8 +56,8 @@
                         </a>
                     </div>
 
-                    <div class="product-page__price">144 144,14 &#8381;</div>
-                    <div class="product-page__oldprice">155 155,15 &#8381;</div>
+                    <div class="product-page__price">{{ $product->prices[0]->value/100 }} &#8381;</div>
+                    <div class="product-page__oldprice"></div>
                     <div class="product-page__economy">Вы сэкономите: 8 000 &#8381;</div>
 
                     <div class="product-page__stars">
@@ -75,29 +75,29 @@
                     <div class="product-page__label">Срок поставки:</div>
                     <div class="product-page__value">Под заказ</div>
 
-                    <div class="py-5">
+                    <div class="py-0">
                         <div class="row product-page__value">
                             <div class="col-sm-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 16">
-                                    <path fill="#DFDFDF" fill-rule="evenodd" d="M7 0H1C.4 0 0 .4 0 1v2h3v2H0v2h3v2H0v2h3v2H0v2c0 .6.4 1 1 1h6c.6 0 1-.4 1-1V1c0-.6-.4-1-1-1z"/>
+                                <svg class="symbol-icon symbol-width">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-width"></use>
                                 </svg>
                                 {{ $product->width/10 }} см
                             </div>
                             <div class="col-sm-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8">
-                                    <path fill="#DFDFDF" fill-rule="evenodd" d="M11 0v3h2V0h2c.5522847 0 1 .4477152 1 1v6c0 .5522847-.4477153 1-1 1H1c-.5522847 0-1-.4477153-1-1V1c0-.5522848.4477153-1 1-1h2v3h2V0h2v3h2V0h2z"/>
+                                <svg class="symbol-icon symbol-height">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-height"></use>
                                 </svg>
                                 {{ $product->height/10 }} см
                             </div>
                             <div class="col-sm-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                    <path fill="#DFDFDF" fill-rule="evenodd" d="M15.7 4.3l-4-4c-.4-.4-1-.4-1.4 0L9 1.6l1.7 1.7-1.4 1.4L7.6 3 6 4.6l1.7 1.7-1.4 1.4L4.6 6 3 7.6l1.7 1.7-1.4 1.4L1.6 9 .3 10.3c-.4.4-.4 1 0 1.4l4 4c.4.4 1 .4 1.4 0l10-10c.4-.4.4-1 0-1.4z"/>
+                                <svg class="symbol-icon symbol-length">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-length"></use>
                                 </svg>
                                 {{ $product->length/10 }} см
                             </div>
                             <div class="col-sm-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 15">
-                                    <path fill="#D8D8D8" d="M11 11.3V6c0-.8-.5-1.5-1.4-1.6H8.1V3c.6-.4 1-1 .9-1.6C8.9.5 8.2 0 7.2 0H3.3C2.6.2 2.1.7 2 1.5c0 .6.3 1.2.9 1.6v1.3H1.6C.6 4.4 0 5 0 5.9v7.6c0 .5.2 1 .6 1.2l.8.3h8.2c.8-.1 1.4-.8 1.4-1.7v-2z"/>
+                                <svg class="symbol-icon symbol-weight">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-weight"></use>
                                 </svg>
                                 {{ $product->weight/1000 }} кг
                             </div>
@@ -105,9 +105,9 @@
                     </div>
 
 
-                    <div class="product-page__buttons">
+                    <div class="product-page__buttons py-3">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="input-group mb-3"
                                      data-toggle="tooltip"
                                      data-placement="top"
@@ -131,6 +131,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-1"></div>
                             <div class="col-sm-6">
                                 <button type="button"
                                         class="button button-light"

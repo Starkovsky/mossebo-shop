@@ -18,7 +18,7 @@ import ProductCard from './components/catalog/ProductCard'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 
-import './vendor/es5-shims.min'
+
 import './vendor/share'
 
 /**
