@@ -1,12 +1,16 @@
+/**
+ * GLOBAL
+ */
+import './core/use_https'
+import svg4everybody from './core/svg4everybody.legacy.min'
 
 /**
  * Imports
  */
 
-import './core/use_https'
-
 import 'bootstrap'
 import Vue from 'vue'
+
 
 /**
  * Components
@@ -17,7 +21,6 @@ import ProductList from './components/catalog/ProductList'
 import ProductCard from './components/catalog/ProductCard'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
-
 
 
 /**
@@ -61,6 +64,11 @@ const app = new Vue({
     },
 });
 
+// All Browser support SVG
+// https://github.com/jonathantneal/svg4everybody
+
+    svg4everybody();
+
 
 
 
@@ -89,8 +97,8 @@ $('.slider-nav').slick({
     asNavFor: '.slider-for',
     dots: false,
     //arrows: true,
-    prevArrow: '<button type="button" class="slick-prev"><i class="md-icon">arrow_back</i></button>',
-    nextArrow: '<button type="button" class="slick-next"><i class="md-icon">arrow_forward</i></button>',
+    prevArrow: '<button type="button" class="slick-prev"><svg class="symbol-icon symbol-arrow-back"><use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use></svg></button>',
+    nextArrow: '<button type="button" class="slick-next"><svg class="symbol-icon symbol-arrow-forward"><use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use></svg></button>',
     centerMode: false,
     focusOnSelect: true,
     lazyLoad: 'ondemand'
@@ -121,3 +129,5 @@ $('.zoom-gallery').magnificPopup({
     }
 
 });
+
+

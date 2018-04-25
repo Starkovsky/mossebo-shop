@@ -94,6 +94,9 @@
             color: $color-primary;
             padding: 15px 15px;
             border-right: 1px solid $color-border;
+            .symbol-menu {
+                fill: $color-primary;
+            }
             @include media-breakpoint-down(md) {
                 display: block;
             }
@@ -102,12 +105,17 @@
             display: block;
             color: $color-icons;
             padding: 15px 15px;
-            transition: $transition-primary;
+            .symbol-person {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
             @include media-breakpoint-down(md) {
                 border-left: 1px solid $color-border;
             }
             &:hover {
-                color: $color-text-primary;
+                .symbol-person {
+                    fill: $color-text-primary;
+                }
             }
         }
         &-search {
@@ -115,25 +123,36 @@
             color: $color-icons;
             padding: 15px 15px;
             transition: $transition-primary;
+            .symbol-search {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
             @include media-breakpoint-down(md) {
                 border-left: 1px solid $color-border;
             }
             &:hover {
-                color: $color-text-primary;
+                .symbol-search {
+                    fill: $color-text-primary;
+                }
             }
         }
         &-cart {
             display: block;
             position: relative;
-            color: $color-icons;
             padding: 15px 0 15px 15px;
             transition: $transition-primary;
+            .symbol-cart {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
             @include media-breakpoint-down(md) {
                 border-left: 1px solid $color-border;
                 width: 55px;
             }
             &:hover {
-                color: $color-text-primary;
+                .symbol-cart {
+                    fill: $color-text-primary;
+                }
             }
             &-active {
                 color: $color-text-primary;

@@ -39,6 +39,7 @@
         &-group {
             .symbol-icon {
                 margin-right: 15px;
+                display: inline-block;
             }
             @include media-breakpoint-down(md) {
                 display: none;
@@ -98,6 +99,9 @@
 }
 
 .social-links {
+    @include media-breakpoint-down(sm) {
+
+    }
     &__item {
         margin-right: 8px;
         display: inline-block;

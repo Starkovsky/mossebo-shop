@@ -7,29 +7,34 @@
                    data-placement="top"
                    title="Добавить в сравнение"
                 >
-                    <i class="md-icon">playlist_add</i>
+                    <svg class="symbol-icon symbol-wishlist">
+                        <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
+                    </svg>
                 </a>
                 <a href="#"
                    data-toggle="tooltip"
                    data-placement="top"
                    title="Добавить в избранное"
                 >
-                    <i class="md-icon">favorite</i>
+                    <svg class="symbol-icon symbol-heart">
+                        <use xlink:href="/assets/images/icons.svg#symbol-heart"></use>
+                    </svg>
                 </a>
             </div>
-            <a class="product-card__image-box"
+            <a class="product-card__link"
                :href="'/' + this.$root.language + '/goods/' + product.id"
             >
-                <div class="product-card__image"
-                     :style="{ 'background-image': 'url(' + 'https://admin.mossebo.market' + product.image + ')' }"
-                >
+                <div class="product-card__image-box">
+                    <div class="product-card__image"
+                         :style="{ 'background-image': 'url(' + 'https://admin.mossebo.market' + product.image + ')' }"
+                    >
+                    </div>
+                </div>
+                <div class="product-card__name">
+                    {{ product.name }}
                 </div>
             </a>
-            <a class="product-card__name"
-               :href="'/' + this.$root.language + '/goods/' + product.id"
-            >
-                {{ product.name }}
-            </a>
+
             <div class="product-card__reviews">
                 <img src="/assets/images/icons/stars.png" alt="">
                 32 отзыва
@@ -109,7 +114,6 @@
         //justify-content: space-between;
         &:hover {
             box-shadow: $shadows-hover;
-            cursor: pointer;
             margin-top: 0;
             margin-bottom: 0;
             height: (420px + 30px);
@@ -124,11 +128,23 @@
         &__actions {
             margin-bottom: 20px;
             a {
-                color: $color-icons;
                 display: inline-block;
-                &:hover {
-                    color: $color-text-primary;
+                .symbol-icon {
+                    fill: $color-icons;
+                    transition: $transition-primary;
                 }
+                &:hover {
+                    .symbol-icon {
+                        fill: $color-text-primary;
+                    }
+                }
+            }
+        }
+        &__link {
+            color: $color-text-primary;
+            &:hover {
+                color: $color-primary;
+                text-decoration: none;
             }
         }
         &__image {
@@ -160,15 +176,10 @@
             font-size: 14px;
             line-height: 18px;
             font-weight: 400;
-            color: $color-text-primary;
             margin-bottom: 10px;
             transition: 0.2s;
             height: 36px;
             overflow: auto;
-            &:hover {
-                color: $color-primary;
-                text-decoration: none;
-            }
         }
         &__reviews {
             font-size: 12px;

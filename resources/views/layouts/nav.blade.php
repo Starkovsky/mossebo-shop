@@ -3,7 +3,9 @@
         <ul class="header-navigation-list">
             <li class="header-navigation-list__item header-navigation-catalog">
                 <a href="#" class="">
-                    <i class="md-icon">menu</i>
+                    <svg class="symbol-icon symbol-menu">
+                        <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
+                    </svg>
                     Каталог товаров</a>
             </li>
             <li class="header-navigation-list__item">

@@ -1,24 +1,11 @@
-.md-icon {
-    font-family: "Material Icons";
-    text-rendering: optimizeLegibility;
-    font-feature-settings: 'liga' 1;
-    font-style: normal;
-    text-transform: none;
-    line-height: 1;
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-    vertical-align: -7px;
-    &__vam {
-        vertical-align: middle;
-    }
-}
 
 .symbol-icon {
-
+    display: block;
+    fill: $color-icons;
+    transition: $transition-primary;
+    &:hover {
+        fill: $color-text-primary;
+    }
 }
 
 .symbol-logo {
@@ -43,6 +30,55 @@
     }
 }
 
+.product-rating {
+    width: 120px;
+    height: 29px;
+}
+
+.symbol-remove {
+    width: 24px;
+    height: 24px;
+}
+.symbol-add {
+    width: 24px;
+    height: 24px;
+}
+.symbol-close {
+    width: 24px;
+    height: 24px;
+}
+.symbol-arrow-forward {
+    width: 24px;
+    height: 24px;
+}
+.symbol-arrow-back {
+    width: 24px;
+    height: 24px;
+}
+.symbol-wishlist {
+    width: 24px;
+    height: 24px;
+}
+.symbol-heart {
+    width: 24px;
+    height: 24px;
+}
+.symbol-menu {
+    width: 24px;
+    height: 24px;
+}
+.symbol-search {
+    width: 24px;
+    height: 24px;
+}
+.symbol-person {
+    width: 24px;
+    height: 24px;
+}
+.symbol-cart {
+    width: 24px;
+    height: 24px;
+}
 .pay-visa {
     width: 80px;
     height: 26px;
@@ -80,6 +116,14 @@
     height: 33px;
 }
 .social-you {
+    width: 33px;
+    height: 33px;
+}
+.social-zen {
+    width: 33px;
+    height: 33px;
+}
+.social-ok {
     width: 33px;
     height: 33px;
 }

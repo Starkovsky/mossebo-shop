@@ -41,8 +41,11 @@
                 padding-right: 32px;
                 padding-left: 0;
                 margin-right: 16px;
-                .md-icon {
+                .symbol-icon {
                     margin-right: 8px;
+                    display: inline-block;
+                    vertical-align: -7px;
+                    fill: $color-primary;
                 }
                 &:hover {
 

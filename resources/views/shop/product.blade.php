@@ -45,14 +45,18 @@
                            data-placement="top"
                            title="Добавить в сравнение"
                         >
-                            <i class="md-icon">playlist_add</i>
+                            <svg class="symbol-icon symbol-wishlist">
+                                <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
+                            </svg>
                         </a>
                         <a href="#"
                            data-toggle="tooltip"
                            data-placement="top"
                            title="Добавить в избранное"
                         >
-                            <i class="md-icon">favorite</i>
+                            <svg class="symbol-icon symbol-heart">
+                                <use xlink:href="/assets/images/icons.svg#symbol-heart"></use>
+                            </svg>
                         </a>
                     </div>
 
@@ -61,8 +65,12 @@
                     <div class="product-page__economy">Вы сэкономите: 8 000 &#8381;</div>
 
                     <div class="product-page__stars">
-                        <i class="md-icon">star</i><i class="md-icon">star</i><i class="md-icon">star</i><i
-                            class="md-icon">star_border</i><i class="md-icon">star_border</i>
+                        <div class="product-page__stars-box">
+                            <svg class="symbol-icon product-rating">
+                                <use xlink:href="/assets/images/icons.svg#product-rating"></use>
+                            </svg>
+                            <div class="product-page__stars-inner"></div>
+                        </div>
                         <span>324 оценки об этом продукте</span>
                     </div>
 
@@ -114,7 +122,9 @@
                                      title="Количество">
                                     <div class="input-group-prepend">
                                         <button class="button button-light" type="button">
-                                            <i class="md-icon">add</i>
+                                            <svg class="symbol-icon symbol-remove">
+                                                <use xlink:href="/assets/images/icons.svg#symbol-remove"></use>
+                                            </svg>
                                         </button>
                                     </div>
                                     <input type="text"
@@ -126,7 +136,9 @@
                                     >
                                     <div class="input-group-append">
                                         <button class="button button-light" type="button">
-                                            <i class="md-icon">remove</i>
+                                            <svg class="symbol-icon symbol-add">
+                                                <use xlink:href="/assets/images/icons.svg#symbol-add"></use>
+                                            </svg>
                                         </button>
                                     </div>
                                 </div>

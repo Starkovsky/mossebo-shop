@@ -7,11 +7,16 @@
         transition: $transition-primary;
         border-radius: 5px;
         display: block;
+        color: $color-text-primary;
         &:hover {
             box-shadow: $shadows-hover;
             text-decoration: none;
             .interior_styles__item-image-box:before {
                 background: none;
+            }
+            .interior_styles__item-name {
+                color: $color-primary;
+                text-decoration: none;
             }
         }
         &-image {
@@ -45,11 +50,7 @@
         }
         &-name {
             font-size: 24px;
-            color: $color-text-primary;
             transition: $transition-primary;
-            &:hover {
-                color: $color-primary;
-            }
         }
         &-amount {
             font-size: 14px;

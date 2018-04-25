@@ -1,23 +1,24 @@
 
 // Slick Slider Theme
 .slick-prev, .slick-next {
-    color: $color-border;
     width: 48px;
     height: 48px;
     border: 1px solid $color-border;
     border-radius: 50%;
     transition: $transition-primary;
-    .md-icon {
+    .symbol-icon {
+        display: inline-block;
         width: 28px;
         height: 28px;
-        font-size: 28px;
     }
     &:before {
         display: none;
     }
     &:hover, &:focus {
-        color: $color-text-primary;
         border: 1px solid $color-text-primary;
+        .symbol-icon {
+            fill: $color-text-primary;
+        }
     }
 }
 
