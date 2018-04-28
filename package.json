@@ -21,6 +21,10 @@
         "magnific-popup": "^1.1.0",
         "popper.js": "^1.14.3",
         "slick-carousel": "^1.8.1",
-        "vue": "^2.5.7"
+        "vue": "^2.5.7",
+        "vue-slider-component": "^2.6.2"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.26.0"
     }
 }

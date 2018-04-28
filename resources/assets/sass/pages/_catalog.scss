@@ -1,0 +1,13 @@
+
+.catalog {
+    &-list-property {
+        background: $color-ui;
+        border-radius: $border-radius;
+        padding: 20px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 400;
+        color: $color-text-secondary;
+        box-shadow: $shadows-primary;
+    }
+}

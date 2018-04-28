@@ -17,6 +17,8 @@ import Vue from 'vue'
  */
 
 import ScrollBar from './core/ScrollBar'
+import CatalogFilterList from './components/catalog/CatalogFilterList'
+import CatalogProductList from './components/catalog/CatalogProductList'
 import ProductList from './components/catalog/ProductList'
 import ProductCard from './components/catalog/ProductCard'
 import BannerHomeStock from './components/banners/BannerHomeStock'
@@ -31,6 +33,8 @@ const app = new Vue({
     el: '#app',
     components: {
         'scroll-bar': ScrollBar,
+        'catalog-filter-list': CatalogFilterList,
+        'catalog-product-list': CatalogProductList,
         'product-list': ProductList,
         'product-card': ProductCard,
         'banner-home-stock': BannerHomeStock,

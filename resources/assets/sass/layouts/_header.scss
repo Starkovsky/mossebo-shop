@@ -155,9 +155,11 @@
                 }
             }
             &-active {
-                color: $color-text-primary;
                 .badge {
                     display: block !important;
+                }
+                .symbol-cart {
+                    fill: $color-text-primary;
                 }
             }
             .badge {

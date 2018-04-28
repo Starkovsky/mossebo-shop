@@ -19,6 +19,7 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         processCssUrls: false
     })
     .extract([
+        'babel-polyfill',
         'vue',
         'jquery',
         'lodash',
@@ -44,7 +45,9 @@ mix.autoload({
 mix.browserSync({
     proxy: {
         target: "https://mossebo-shop.test"
-    }
+    },
+    https: true,
+    open: false
 });
 
 

@@ -29,17 +29,24 @@ class ProductController extends Controller
     {
         try {
 
-            $product = Product::with('i18n','prices','supplier','images')
+            $product = Product::with('i18n', 'prices', 'images', 'supplier')
                 ->where('enabled','=','true')
                 ->findOrFail($id);
-            //echo $product;
 
-            return view('shop.product', [
-                'product' => $product,
-            ]);
+            // Проверка доступности товаров поставщика
+            if($product->supplier->enabled) {
+                return view('shop.product', [
+                    'product' => $product,
+                ]);
+            }
+            else {
+                abort(404);
+            }
         }
         catch (\Exception $e) {
-            return $e->getMessage();
+            // TODO: Временно закоментировано, надо куда то складывать ошибки
+            //return $e->getMessage();
+            abort(404);
         }
     }
 
