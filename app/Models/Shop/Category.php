@@ -25,4 +25,17 @@ class Category extends Model
             ->hasOne(CategoryI18n::class, 'category_id')
             ->where('language_code','=', $locale);
     }
+    public function products()
+    {
+        return $this
+            ->belongsToMany(
+                Product::class,
+                'shop_category_products',
+                'category_id',
+                'product_id'
+            )
+            ->with('i18n', 'images', 'current_price', 'old_price')
+            ->where('enabled','=','true');
+    }
+
 }

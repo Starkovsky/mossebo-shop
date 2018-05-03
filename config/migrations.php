@@ -23,7 +23,7 @@ return [
 
     'Categories' => 'shop_categories',
     'CategoriesI18n' => 'shop_categories_i18n',
-    'CategoryProducts' => 'shop_category_products',
+    'ProductResource' => 'shop_category_products',
 
     'Products' => 'shop_products',
     'ProductsI18n' => 'shop_products_i18n',

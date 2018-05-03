@@ -9,7 +9,7 @@ class CreateCategoryProductsTable extends Migration
     protected $tableName;
 
     public function __construct() {
-        $this->tableName = Config::get('migrations.CategoryProducts');
+        $this->tableName = Config::get('migrations.ProductResource');
     }
 
     /**
@@ -21,7 +21,7 @@ class CreateCategoryProductsTable extends Migration
     {
         $this->down();
 
-        echo "Create CategoryProducts\r\n";
+        echo "Create ProductResource\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";

@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 Route::prefix('ru')->group(function () {
 
-    Route::get('/catalog/{current_category}', 'Api\Catalog\ProductController@new');
+    Route::get('/catalog/{current_category}', 'Api\Shop\CatalogController@index');
 
 });
 

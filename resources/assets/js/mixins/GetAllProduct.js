@@ -3,9 +3,9 @@ import axios from 'axios'
 
 export default  {
     methods: {
-        GetAllProduct() {
+        GetAllProduct($url) {
             var self = this;
-            axios.get('//admin.mossebo.market/api/products/all')
+            axios.get($url)
                 .then(function (response) {
                     self.Products = response.data;
                 })
