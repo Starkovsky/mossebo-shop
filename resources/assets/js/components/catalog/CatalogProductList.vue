@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import GetAllProduct from '../../mixins/GetAllProduct'
+    import GetAllProduct from '../../mixins/GetProducts'
 
     import ProductCard from "./ProductCard";
 
@@ -30,7 +30,7 @@
             }
         },
         created() {
-            this.GetAllProduct('/api' + window.location.pathname);
+            this.GetProducts('/api' + window.location.pathname);
         },
         mixins: [
             GetAllProduct

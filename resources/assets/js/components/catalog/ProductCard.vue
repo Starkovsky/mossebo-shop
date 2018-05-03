@@ -22,7 +22,7 @@
                 </a>
             </div>
             <a class="product-card__link"
-               :href="'/' + this.$root.language + '/goods/' + product.id"
+               :href="'/' + this.$root.mossebo.language + '/goods/' + product.id"
             >
                 <div class="product-card__image-box">
                     <div class="product-card__image"
@@ -40,12 +40,10 @@
                 32 отзыва
             </div>
             <div class="product-card__price">
-                {{ PriceWithSeparation(product.price) }} &#8381;
+                <formatted-price :price="product.price"></formatted-price>
             </div>
             <div class="product-card__old-price">
-                <span v-if="product.old_price > 0">
-                    {{ PriceWithSeparation(product.old_price) }} &#8381;
-                </span>
+                    <formatted-price :price="product.old_price"></formatted-price>
             </div>
             <div class="product-card__buttons">
                 <button type="button"
@@ -70,21 +68,22 @@
 </template>
 
 <script>
-    import PriceWithSeparation from '../../mixins/PriceWithSeparation'
+
+    import FormattedPrice from '../../core/FormattedPrice'
 
     export default {
         name: "ProductCard",
         props: [
             'product',
         ],
-        mixins: [
-            PriceWithSeparation,
-        ],
         mounted: function () {
             $('[data-toggle="tooltip"]').tooltip();
             $('#exampleModal').on('shown.bs.modal', function () {
                 $('#exampleModal').trigger('focus')
             })
+        },
+        components: {
+            'formatted-price': FormattedPrice,
         }
     }
 </script>

@@ -21,8 +21,10 @@ import CatalogFilterList from './components/catalog/CatalogFilterList'
 import CatalogProductList from './components/catalog/CatalogProductList'
 import ProductList from './components/catalog/ProductList'
 import ProductCard from './components/catalog/ProductCard'
+import FormattedPrice from './core/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
+
 
 
 /**
@@ -37,6 +39,7 @@ const app = new Vue({
         'catalog-product-list': CatalogProductList,
         'product-list': ProductList,
         'product-card': ProductCard,
+        'formatted-price': FormattedPrice,
         'banner-home-stock': BannerHomeStock,
         'banner-home-new': BannerHomeNew,
     },
@@ -48,30 +51,28 @@ const app = new Vue({
             'price': '1054321',
             'old_price': '1831000'
         },
+        mossebo: {}
     },
-    props: [
-        'language'
-    ],
     mixins: [
 
     ],
     methods: {
-        GetCurrentLanguage() {
-            this.language = $("html").attr("lang");
+        GetConfig() {
+            this.mossebo = window.mossebo;
         }
     },
     mounted() {
-        this.GetCurrentLanguage();
-
+        this.GetConfig();
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
+
     },
 });
+
 
 // All Browser support SVG
 // https://github.com/jonathantneal/svg4everybody
 svg4everybody();
-
 
 
 
@@ -142,5 +143,11 @@ $('.zoom-gallery').magnificPopup({
     }
 
 });
+
+
+
+
+
+
 
 

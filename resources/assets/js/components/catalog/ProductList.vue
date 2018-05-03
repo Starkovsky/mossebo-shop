@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import GetAllProduct from '../../mixins/GetAllProduct'
+    import GetAllProduct from '../../mixins/GetProducts'
 
     import ProductCard from "./ProductCard";
 
@@ -29,8 +29,8 @@
                 Products: [],
             }
         },
-        mounted() {
-            this.GetAllProduct('/ru/catalog/osveschenie');
+        created() {
+            this.GetProducts('/api/ru/catalog/osveschenie');
         },
         mixins: [
             GetAllProduct

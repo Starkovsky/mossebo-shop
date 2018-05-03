@@ -6,7 +6,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Category;
 
-class CatalogController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,7 +23,7 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($category_slug)
+    public function products($category_slug)
     {
         try {
 

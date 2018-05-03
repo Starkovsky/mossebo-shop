@@ -34,7 +34,7 @@ class CatalogController extends Controller
 
             // Проверка доступности категории
             if ($category->enabled) {
-                return view('shop.catalog', [
+                return view('shop.pages.catalog', [
                     'category' => $category,
                 ]);
             } else {

@@ -1,0 +1,23 @@
+<template>
+    <span v-if="price != undefined">
+        {{ PriceWithSeparation( price/100 ) }} {{ this.$root.mossebo.currency_symbol }}
+    </span>
+</template>
+
+<script>
+    export default {
+        name: "FormattedPrice",
+        props: [
+            'price',
+        ],
+        methods: {
+            PriceWithSeparation: function (value) {
+                return value.toLocaleString();
+            },
+        },
+    }
+</script>
+
+<style lang="scss" scoped>
+
+</style>

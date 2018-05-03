@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
 
-    @include('layouts.meta')
+    @include('shop.layouts.meta')
 
     <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" media="all">
     <link rel="stylesheet" href="{{ url('assets/css/montserrat.css') }}" media="all">
@@ -14,20 +14,23 @@
 
     <scroll-bar></scroll-bar>
 
-    @include('layouts.header')
-    @include('layouts.nav')
+    @include('shop.layouts.header')
+    @include('shop.layouts.nav')
 
     @yield('content')
 
-    @include('layouts.footer')
+    @include('shop.layouts.footer')
 
 </div>
+
+@include('shop.layouts.shop_config')
 
 <script src="{{ mix('assets/js/manifest.js') }}" defer></script>
 <script src="{{ mix('assets/js/vendor.js') }}" defer></script>
 <script src="{{ mix('assets/js/app.js') }}" defer></script>
 
-@include('layouts.metrika')
+
+@include('shop.layouts.metrika')
 
 </body>
 </html>

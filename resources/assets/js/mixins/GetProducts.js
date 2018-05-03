@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default  {
     methods: {
-        GetAllProduct($url) {
+        GetProducts($url) {
             var self = this;
             axios.get($url)
                 .then(function (response) {

@@ -35,7 +35,8 @@ class Category extends Model
                 'product_id'
             )
             ->with('i18n', 'images', 'current_price', 'old_price')
-            ->where('enabled','=','true');
+            ->where('enabled','=','true')
+            ->orderBy('id', 'desc');
     }
 
 }

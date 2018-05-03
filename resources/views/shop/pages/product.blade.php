@@ -1,4 +1,4 @@
-@extends('layouts.html')
+@extends('shop.layouts.html')
 
 @section('title', config('app.name', 'Laravel'))
 
@@ -60,10 +60,20 @@
                         </a>
                     </div>
 
-                    <div class="product-page__price">{{ $product->current_price->value/100 }} &#8381;</div>
+                    <div class="product-page__price">
+                        <formatted-price :price="{{ $product->current_price->value }}"></formatted-price>
+                    </div>
                     @if(isset($product->old_price))
-                    <div class="product-page__oldprice">{{ $product->old_price->value/100 }} &#8381;</div>
-                    <div class="product-page__economy">Вы сэкономите: 8 000 &#8381;</div>
+                    <div class="product-page__oldprice">
+                        <formatted-price :price="{{ $product->old_price->value }}"></formatted-price>
+                    </div>
+                        <div class="product-page__economy">
+                            Вы сэкономите:
+                            <formatted-price
+                                :price="{{ $product->old_price->value - $product->current_price->value }}"
+                            >
+                            </formatted-price>
+                        </div>
                     @else
                         <div class="product-page__economy">&nbsp;</div>
                     @endif

@@ -39,7 +39,7 @@ class ProductController extends Controller
 
             // Проверка доступности товаров поставщика
             if($product->supplier->enabled) {
-                return view('shop.product', [
+                return view('shop.pages.product', [
                     'product' => $product,
                 ]);
             }
