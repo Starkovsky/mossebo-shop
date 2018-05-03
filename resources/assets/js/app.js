@@ -70,16 +70,25 @@ const app = new Vue({
 
 // All Browser support SVG
 // https://github.com/jonathantneal/svg4everybody
+svg4everybody();
 
-    svg4everybody();
 
 
+
+// TODO: Временная функция показа меню
+$('.header-navigation-catalog').click(function (event) {
+    $('.catalog-nav').toggleClass('catalog-nav-active');
+    event.preventDefault();
+});
+$('.catalog-nav').click(function () {
+    $('.catalog-nav').removeClass('catalog-nav-active');
+});
 
 
 // TODO: Временная функция показа активной корзины
 $('.mobile-cart').click(function () {
     $('.mobile-cart').toggleClass('mobile-cart-active');
-})
+});
 
 
 // Product Tabs

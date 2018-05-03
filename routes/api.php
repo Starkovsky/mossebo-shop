@@ -13,7 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', 'Api\Catalog\ProductController@new');
+Route::prefix('ru')->group(function () {
+
+    Route::get('/catalog/{current_category}', 'Api\Catalog\ProductController@new');
+
+});
+
 
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {

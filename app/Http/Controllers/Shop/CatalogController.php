@@ -23,10 +23,27 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function all()
+    public function index($category_slug)
     {
-        return view('shop.catalog', [
-            //'product' => $product,
-        ]);
+        try {
+
+            $category = Category::with('i18n')
+                ->where('slug', '=', $category_slug)
+                ->where('enabled', '=', 'true')
+                ->firstOrFail();
+
+            // Проверка доступности категории
+            if ($category->enabled) {
+                return view('shop.catalog', [
+                    'category' => $category,
+                ]);
+            } else {
+                return abort(404);
+            }
+        } catch (\Exception $e) {
+            // TODO: Временно закоментировано, надо куда то складывать ошибки
+            //return $e->getMessage();
+            return abort(404);
+        }
     }
 }

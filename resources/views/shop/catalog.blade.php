@@ -8,12 +8,12 @@
 
     <div class="container my-4">
         <h1 class="title_h1">
-            Каталог
+            {{ $category->i18n->title }}
         </h1>
     </div>
 
     <div class="container">
-        <div class="row align-content-stretch py-4">
+        <div class="row align-content-stretch">
             <div class="col-md-3">
                 <catalog-filter-list></catalog-filter-list>
             </div>
@@ -25,4 +25,5 @@
             </div>
         </div>
     </div>
+    <div class="py-2"></div>
 @endsection

@@ -10722,6 +10722,7 @@ img.mfp-img {
   color: #fcc600;
   background: #fff;
   font-weight: 400;
+  font-size: 14px;
   border-right: 1px solid #ecedf3;
   padding-right: 32px;
   padding-left: 0;
@@ -10741,6 +10742,69 @@ img.mfp-img {
 
 .header-navigation-list-discount a:hover {
   color: #fd5e84;
+}
+
+.catalog-nav {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: calc(100vh - 125px);
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.4);
+  left: 0;
+  top: 125px;
+  padding: 20px 0;
+  z-index: 9;
+}
+
+.catalog-nav-active {
+  display: block;
+}
+
+.catalog-nav-box {
+  overflow: visible;
+  display: inline-block;
+}
+
+.catalog-nav ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: #fff;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: visible;
+}
+
+.catalog-nav ul > li a {
+  display: block;
+  width: 250px;
+  padding: 15px;
+  color: #323f4c;
+  border-right: 1px solid #ecedf3;
+}
+
+.catalog-nav ul > li a:hover {
+  text-decoration: none;
+  background: #ecedf3;
+}
+
+.catalog-nav ul > li:hover ul {
+  display: block;
+}
+
+.catalog-nav ul ul {
+  display: none;
+  position: absolute;
+  left: 250px;
+  top: 0;
+  float: right;
+}
+
+.catalog-nav ul ul li a {
+  border-right: none;
 }
 
 .footer {

@@ -60,10 +60,13 @@
                         </a>
                     </div>
 
-                    <div class="product-page__price">{{ $product->prices[0]->value/100 }} &#8381;</div>
-                    <div class="product-page__oldprice"></div>
+                    <div class="product-page__price">{{ $product->current_price->value/100 }} &#8381;</div>
+                    @if(isset($product->old_price))
+                    <div class="product-page__oldprice">{{ $product->old_price->value/100 }} &#8381;</div>
                     <div class="product-page__economy">Вы сэкономите: 8 000 &#8381;</div>
-
+                    @else
+                        <div class="product-page__economy">&nbsp;</div>
+                    @endif
                     <div class="product-page__stars">
                         <div class="product-page__stars-box">
                             <svg class="symbol-icon product-rating">
@@ -76,9 +79,6 @@
 
                     <div class="product-page__label">Артикул:</div>
                     <div class="product-page__value">{{ $product->id }}</div>
-
-                    <div class="product-page__label">Поставщик:</div>
-                    <div class="product-page__value">{{ $product->supplier->name }}</div>
 
                     <div class="product-page__label">Срок поставки:</div>
                     <div class="product-page__value">Под заказ</div>

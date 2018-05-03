@@ -7,26 +7,6 @@
                         <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
                     </svg>
                     Каталог товаров</a>
-                @php
-                    $categorys = App\Models\Shop\Category::with('i18n')->get()->toTree();
-                    echo "<ul style='display:none'>";
-                    foreach ($categorys as $category) {
-                        echo "<li>";
-                        echo '<a href="/catalog/' . $category->slug . '">';
-                        echo $category->i18n->title;
-                        echo "</a></li>";
-                        echo "<ul>";
-                        foreach ($category->children as $children) {
-                            //echo $children;
-                            echo "<li>";
-                            echo '<a href="/catalog/' . $children->slug . '">';
-                            echo $children->i18n->title;
-                            echo "</a></li>";
-                        }
-                        echo "</ul>";
-                    }
-                    echo "</ul>";
-                @endphp
             </li>
             <li class="header-navigation-list__item">
                 <a href="#" class="">Стили</a>
@@ -52,3 +32,30 @@
         </ul>
     </div>
 </nav>
+@php
+    $categorys = App\Models\Shop\Category::with('i18n')->get()->toTree();
+@endphp
+<div class="catalog-nav">
+    <div class="container">
+        <div class="catalog-nav-box">
+            <ul>
+                @foreach($categorys as $category)
+                    <li>
+                        <a href="/{{ app()->getLocale() }}/catalog/{{ $category->slug }}">
+                            {{ $category->i18n->title }}
+                        </a>
+                        <ul>
+                            @foreach($category->children as $children)
+                                <li>
+                                    <a href="/{{ app()->getLocale() }}/catalog/{{ $children->slug }}">
+                                        {{ $children->i18n->title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>

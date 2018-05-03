@@ -49,11 +49,20 @@ class Product extends Model
             ->orderBy('order_column', 'asc');
     }
 
-    public function prices()
+    public function current_price()
     {
         return $this
-            ->hasMany(Price::class, 'item_id')
-            ->where('item_type','=', 'product');
+            ->hasOne(Price::class, 'item_id')
+            ->where('item_type','=', 'product')
+            ->where('price_type_id','=', '2');
+    }
+
+    public function old_price()
+    {
+        return $this
+            ->hasOne(Price::class, 'item_id')
+            ->where('item_type','=', 'product')
+            ->where('price_type_id','=', '1');
     }
 
 }
