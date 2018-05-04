@@ -2,7 +2,7 @@
     <div class="product-list">
         <div class="row">
             <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4"
-                 v-for="(Product, index) in Products.data"
+                 v-for="(Product, index) in products"
                  :key="index"
             >
                 <product-card
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import GetAllProduct from '../../mixins/GetProducts'
 
     import ProductCard from "./ProductCard";
 
@@ -24,16 +23,8 @@
         components: {
             ProductCard
         },
-        data () {
-            return {
-                Products: [],
-            }
-        },
-        created() {
-            this.GetProducts('/api' + window.location.pathname);
-        },
-        mixins: [
-            GetAllProduct
+        props: [
+            'products'
         ]
     }
 </script>

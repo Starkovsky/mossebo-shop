@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import GetAllProduct from '../../mixins/GetProducts'
+    import GetAllProduct from '../../mixins/GetCatalog'
 
     import ProductCard from "./ProductCard";
 

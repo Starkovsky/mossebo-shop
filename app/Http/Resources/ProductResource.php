@@ -9,7 +9,7 @@ class ProductResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -23,8 +23,8 @@ class ProductResource extends JsonResource
             'image' => json_decode($this->images[0]->pathes)->small->src,
         ];
 
-        if(!is_null($this->old_price)) {
-            $data['old_price'] = $this->old_price->value;
+        if (!is_null($this->old_price)) {
+            $data['Products']['old_price'] = $this->old_price->value;
         }
 
         return $data;

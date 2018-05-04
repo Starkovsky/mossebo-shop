@@ -3,11 +3,11 @@ import axios from 'axios'
 
 export default  {
     methods: {
-        GetProducts($url) {
+        GetCatalogJSON($url) {
             var self = this;
             axios.get($url)
                 .then(function (response) {
-                    self.Products = response.data;
+                    self.$data.Catalog.Products = response.data.data;
                 })
                 .catch(function (error) {
                     console.log(error);

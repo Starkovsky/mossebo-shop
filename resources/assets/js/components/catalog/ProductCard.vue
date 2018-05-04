@@ -22,7 +22,7 @@
                 </a>
             </div>
             <a class="product-card__link"
-               :href="'/' + this.$root.mossebo.language + '/goods/' + product.id"
+               :href="'/' + this.$root.mossebo.language.code + '/goods/' + product.id"
             >
                 <div class="product-card__image-box">
                     <div class="product-card__image"

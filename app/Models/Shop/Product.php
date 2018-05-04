@@ -65,4 +65,27 @@ class Product extends Model
             ->where('price_type_id','=', '1');
     }
 
+    public function attributes()
+    {
+        return $this
+            ->belongsToMany(
+                Attribute::class,
+                'shop_product_attributes',
+                'product_id',
+                'attribute_id'
+            )
+            ->with('i18n');
+    }
+
+    public function attribute_options()
+    {
+        return $this
+            ->belongsToMany(
+                AttributeOptions::class,
+                'shop_product_attribute_options',
+                'product_id',
+                'option_id'
+            )
+            ->with('i18n');
+    }
 }

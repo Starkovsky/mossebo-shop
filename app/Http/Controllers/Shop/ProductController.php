@@ -32,7 +32,9 @@ class ProductController extends Controller
                 'i18n',
                 'images',
                 'current_price',
-                'old_price'
+                'old_price',
+                'attributes',
+                'attribute_options'
             )
                 ->where('enabled','=','true')
                 ->findOrFail($id);
@@ -49,8 +51,8 @@ class ProductController extends Controller
         }
         catch (\Exception $e) {
             // TODO: Временно закоментировано, надо куда то складывать ошибки
-            //return $e->getMessage();
-            return abort(404);
+            return $e->getMessage();
+            //return abort(404);
         }
     }
 }

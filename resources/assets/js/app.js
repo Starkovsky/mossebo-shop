@@ -17,8 +17,7 @@ import Vue from 'vue'
  */
 
 import ScrollBar from './core/ScrollBar'
-import CatalogFilterList from './components/catalog/CatalogFilterList'
-import CatalogProductList from './components/catalog/CatalogProductList'
+import Catalog from './components/catalog/Catalog'
 import ProductList from './components/catalog/ProductList'
 import ProductCard from './components/catalog/ProductCard'
 import FormattedPrice from './core/FormattedPrice'
@@ -35,8 +34,7 @@ const app = new Vue({
     el: '#app',
     components: {
         'scroll-bar': ScrollBar,
-        'catalog-filter-list': CatalogFilterList,
-        'catalog-product-list': CatalogProductList,
+        'catalog': Catalog,
         'product-list': ProductList,
         'product-card': ProductCard,
         'formatted-price': FormattedPrice,
@@ -51,18 +49,13 @@ const app = new Vue({
             'price': '1054321',
             'old_price': '1831000'
         },
-        mossebo: {}
+        mossebo: window.mossebo,
     },
     mixins: [
-
     ],
     methods: {
-        GetConfig() {
-            this.mossebo = window.mossebo;
-        }
     },
     mounted() {
-        this.GetConfig();
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
 

@@ -13,17 +13,7 @@
     </div>
 
     <div class="container">
-        <div class="row align-content-stretch">
-            <div class="col-md-3">
-                <catalog-filter-list></catalog-filter-list>
-            </div>
-            <div class="col-md-9">
-                <div class="catalog-list-property">
-                    Сортировка
-                </div>
-                <catalog-product-list></catalog-product-list>
-            </div>
-        </div>
+        <catalog></catalog>
     </div>
     <div class="py-2"></div>
 @endsection

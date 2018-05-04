@@ -229,7 +229,22 @@
                      aria-labelledby="characteristic-tab"
                 >
                     <div class="row">
-                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+
+                            @foreach($product->attributes as $attribute)
+                                <div class="product-page-attribute">
+                                    {{ $attribute->i18n->title }}:
+                                    <span class="product-page-option">
+                                        @foreach($product->attribute_options as $option)
+                                            @if($option->attribute_id == $attribute->id)
+                                                {{ $option->i18n->value }}
+                                            @endif
+                                        @endforeach
+                                    </span>
+                                </div>
+                            @endforeach
+
+                        </div>
                         <div class="col-md-6">
                             {{ $product->i18n->description }}
                         </div>
