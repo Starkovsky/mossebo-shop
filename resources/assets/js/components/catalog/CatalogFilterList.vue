@@ -4,7 +4,7 @@
             <catalog-filter-price></catalog-filter-price>
         </div>
         <div class="catalog-filter-item"
-             v-for="(Filter, index) in Filters"
+             v-for="(Filter, index) in filters"
              :key="index"
         >
             <catalog-filter
@@ -27,24 +27,9 @@
             CatalogFilter,
             CatalogFilterPrice
         },
-        data () {
-            return {
-                Filters: [
-                    {
-                        name: 'Стили',
-                        values: ['Лофт','Современный','Класический','Фьюжн','Скандинавский','Неоклассика']
-                    },
-                    {
-                        name: 'Бренд',
-                        values: ['Бренд 1','Бренд 2','Бренд 3','Бренд 4','Бренд 5','Бренд 6']
-                    },
-                    {
-                        name: 'Страна производства',
-                        values: ['Россия','Украина','США','Франция','Испания','Канада']
-                    }
-                ],
-            }
-        },
+        props: [
+            'filters'
+        ]
     }
 </script>
 

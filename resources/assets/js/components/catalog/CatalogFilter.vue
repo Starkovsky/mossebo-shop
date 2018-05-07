@@ -5,21 +5,24 @@
             data-toggle="collapse"
             :href="'#filerCollapse'+filterID"
             role="button"
-            aria-expanded="true"
+            :aria-expanded="(filterID < 2) ? ''+true : ''+false"
             :aria-controls="'filerCollapse'+filterID"
         >
-            {{ filter.name }}
+            {{ filter.i18n.title }}
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
         </a>
-        <div class="filter-desc collapse multi-collapse show" :id="'filerCollapse'+filterID">
+        <div class="filter-desc collapse multi-collapse"
+             :id="'filerCollapse'+filterID"
+             :class="(filterID < 2) ? 'show' : ''"
+        >
             <div
-                v-for="value in filter.values"
+                v-for="option in orderedOptions"
             >
                 <label class="filter-label">
-                    {{ value }}
-                    <input type="checkbox" :value="value">
+                    {{ option.i18n.value }}
+                    <input type="checkbox" value="value">
                     <span class="checkmark"></span>
                 </label>
             </div>
@@ -34,6 +37,11 @@
             'filter',
             'filterID',
         ],
+        computed: {
+            orderedOptions: function () {
+                return _.orderBy(this.filter.options, 'position')
+            }
+        }
     }
 </script>
 

@@ -14,6 +14,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $data = [
             'id' => $this->id,
             'is_new' => $this->is_new,
@@ -21,10 +22,12 @@ class ProductResource extends JsonResource
             'name' => $this->i18n->title,
             'price' => $this->current_price->value,
             'image' => json_decode($this->images[0]->pathes)->small->src,
+            'attributes' => $this->attributes,
+            'attributes_options' => $this->attribute_options
         ];
 
         if (!is_null($this->old_price)) {
-            $data['Products']['old_price'] = $this->old_price->value;
+            $data['old_price'] = $this->old_price->value;
         }
 
         return $data;

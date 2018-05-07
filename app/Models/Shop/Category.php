@@ -25,6 +25,7 @@ class Category extends Model
             ->hasOne(CategoryI18n::class, 'category_id')
             ->where('language_code','=', $locale);
     }
+
     public function products()
     {
         return $this

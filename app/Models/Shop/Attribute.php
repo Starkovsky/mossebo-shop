@@ -21,4 +21,11 @@ class Attribute extends Model
             ->hasOne(AttributeI18n::class, 'attribute_id')
             ->where('language_code','=', $locale);
     }
+
+    public function options()
+    {
+        return $this
+            ->hasMany(AttributeOptions::class, 'attribute_id')
+            ->with('i18n');
+    }
 }

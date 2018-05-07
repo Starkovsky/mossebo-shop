@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Attribute;
 use App\Models\Shop\Category;
 
 class CategoryController extends Controller
@@ -26,15 +27,20 @@ class CategoryController extends Controller
     public function products($category_slug)
     {
         try {
-
             $category = Category::with('products')
                 ->where('slug', '=', $category_slug)
                 ->where('enabled', '=', 'true')
                 ->firstOrFail();
             //dd($category->products);
             // Проверка доступности категории
+            $attributes = Attribute::with('i18n', 'options')
+                ->has('options')
+                ->get();
 
-            return ProductResource::collection($category->products);
+            return [
+                'Products' => ProductResource::collection($category->products),
+                'Filters' => $attributes
+            ];
 
         } catch (\Exception $e) {
             // TODO: Временно закоментировано, надо куда то складывать ошибки

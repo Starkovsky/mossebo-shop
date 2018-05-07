@@ -2,7 +2,8 @@
     <div class="product-list">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3"
-                 v-for="(Product, index) in Products.data"
+                 v-for="(Product, index) in Products"
+                 v-if="index < 8"
                  :key="index"
             >
                 <product-card
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-    import GetAllProduct from '../../mixins/GetCatalog'
+    import GetProducts from '../../mixins/GetProducts'
 
     import ProductCard from "./ProductCard";
 
@@ -29,11 +30,14 @@
                 Products: [],
             }
         },
-        created() {
-            this.GetProducts('/api/ru/catalog/osveschenie');
+        props: [
+            'url'
+        ],
+        mounted() {
+            this.GetProductsJSON(this.url);
         },
         mixins: [
-            GetAllProduct
+            GetProducts
         ]
     }
 </script>

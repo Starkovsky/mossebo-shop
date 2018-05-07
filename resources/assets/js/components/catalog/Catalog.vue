@@ -1,7 +1,7 @@
 <template>
     <div class="row align-content-stretch">
         <div class="col-md-3">
-            <catalog-filter-list></catalog-filter-list>
+            <catalog-filter-list :filters="Catalog.Filters"></catalog-filter-list>
         </div>
         <div class="col-md-9">
             <div class="catalog-list-property">
@@ -13,7 +13,8 @@
 </template>
 
 <script>
-    import GetCatalog from '../../mixins/GetCatalog'
+
+    import axios from 'axios'
 
     import CatalogFilterList from './CatalogFilterList'
     import CatalogProductList from './CatalogProductList'
@@ -28,18 +29,28 @@
             return {
                 Catalog: {
                     Products: [],
-                    Filters: {
-                        '1': '1'
-                    }
+                    Filters: []
                 }
             }
         },
         created() {
             this.GetCatalogJSON('/api' + window.location.pathname);
         },
-        mixins: [
-            GetCatalog
-        ]
+        methods: {
+            GetCatalogJSON($url) {
+                var self = this;
+                axios.get($url)
+                    .then(function (response) {
+                        self.$data.Catalog = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
+        computed: {
+
+        }
     }
 </script>
 

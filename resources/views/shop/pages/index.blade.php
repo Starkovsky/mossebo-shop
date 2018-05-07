@@ -60,6 +60,15 @@
         <main class="py-4">
             <h2 class="title_h2">{{ __('pages/home.product_list_new') }}</h2>
             <product-list
+                :url="'/api/ru/catalog/osveschenie'"
+            >
+            </product-list>
+        </main>
+
+        <main class="py-4">
+            <h2 class="title_h2">{{ __('pages/home.product_list_popular') }}</h2>
+            <product-list
+                :url="'/api/ru/catalog/osveschenie'"
             >
             </product-list>
         </main>
