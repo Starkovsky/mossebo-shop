@@ -5,8 +5,7 @@
 @section('meta-description', 'description main page')
 
 @section('content')
-
-    <div class="container my-4">
+    <div class="container mb-4">
         <h1 class="title_h1">
             {{ $category->i18n->title }}
         </h1>

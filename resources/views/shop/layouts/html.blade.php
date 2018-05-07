@@ -17,6 +17,8 @@
     @include('shop.layouts.header')
     @include('shop.layouts.nav')
 
+    @include('shop.layouts.breadcrumbs')
+
     @yield('content')
 
     @include('shop.layouts.footer')

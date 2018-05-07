@@ -27,13 +27,16 @@ class CatalogController extends Controller
     {
         try {
 
-            $category = Category::with('i18n')
+            $category = Category::with(['i18n','ancestors' => function($query) {
+                $query->with('i18n')->defaultOrder()->get();
+            }])
                 ->where('slug', '=', $category_slug)
                 ->where('enabled', '=', 'true')
                 ->firstOrFail();
 
             // Проверка доступности категории
             if ($category->enabled) {
+
                 return view('shop.pages.catalog', [
                     'category' => $category,
                 ]);
@@ -42,8 +45,8 @@ class CatalogController extends Controller
             }
         } catch (\Exception $e) {
             // TODO: Временно закоментировано, надо куда то складывать ошибки
-            //return $e->getMessage();
-            return abort(404);
+            return $e->getMessage();
+            //return abort(404);
         }
     }
 }

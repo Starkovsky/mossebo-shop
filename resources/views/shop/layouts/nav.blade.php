@@ -21,13 +21,13 @@
                 <a href="#" class="">Скидки</a>
             </li>
             <li class="header-navigation-list__item">
-                <a href="#" class="">Оплата</a>
+                <a href="/delivery" class="">Доставка</a>
             </li>
             <li class="header-navigation-list__item">
-                <a href="#" class="">Получение</a>
+                <a href="/pay" class="">Оплата</a>
             </li>
             <li class="header-navigation-list__item">
-                <a href="#" class="">Гарантия и возврат</a>
+                <a href="/garant" class="">Гарантия и возврат</a>
             </li>
         </ul>
     </div>

@@ -15,9 +15,16 @@ Route::redirect('/', '/ru', 301);
 
 Route::prefix('ru')->group(function () {
 
-    Route::get('/', 'Shop\HomeController@index');
-    Route::get('/goods/{id}', 'Shop\ProductController@index');
-    Route::get('/catalog/{category_slug}', 'Shop\CatalogController@index');
+    Route::get('/', 'Shop\HomeController@index')
+        ->name('home');
+    Route::get('/goods/{id}', 'Shop\ProductController@index')
+        ->name('good');
+    Route::get('/catalog/{category_slug}', 'Shop\CatalogController@index')
+        ->name('catalog');
+
+    Route::get('/delivery', 'Shop\PageController@delivery');
+    Route::get('/pay', 'Shop\PageController@pay');
+    Route::get('/garant', 'Shop\PageController@garant');
 
 });
 
