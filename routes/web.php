@@ -22,9 +22,9 @@ Route::prefix('ru')->group(function () {
     Route::get('/catalog/{category_slug}', 'Shop\CatalogController@index')
         ->name('catalog');
 
-    Route::get('/delivery', 'Shop\PageController@delivery');
-    Route::get('/pay', 'Shop\PageController@pay');
-    Route::get('/garant', 'Shop\PageController@garant');
+    Route::get('/delivery', 'Shop\PageController@delivery')->name('delivery');
+    Route::get('/pay', 'Shop\PageController@pay')->name('pay');
+    Route::get('/garant', 'Shop\PageController@garant')->name('garant');
 
 });
 

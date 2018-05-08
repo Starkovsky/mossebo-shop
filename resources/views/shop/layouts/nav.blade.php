@@ -8,26 +8,26 @@
                     </svg>
                     Каталог товаров</a>
             </li>
-            <li class="header-navigation-list__item">
-                <a href="#" class="">Стили</a>
-            </li>
+            {{--<li class="header-navigation-list__item">--}}
+                {{--<a href="#" class="">Стили</a>--}}
+            {{--</li>--}}
             <li class="header-navigation-list__item">
                 <a href="#" class="">Комплекты</a>
             </li>
+            {{--<li class="header-navigation-list__item">--}}
+                {{--<a href="#" class="">Новинки</a>--}}
+            {{--</li>--}}
+            {{--<li class="header-navigation-list__item header-navigation-list-discount">--}}
+                {{--<a href="#" class="">Скидки</a>--}}
+            {{--</li>--}}
             <li class="header-navigation-list__item">
-                <a href="#" class="">Новинки</a>
-            </li>
-            <li class="header-navigation-list__item header-navigation-list-discount">
-                <a href="#" class="">Скидки</a>
-            </li>
-            <li class="header-navigation-list__item">
-                <a href="/delivery" class="">Доставка</a>
-            </li>
-            <li class="header-navigation-list__item">
-                <a href="/pay" class="">Оплата</a>
+                <a href="/ru/delivery" class="">Доставка</a>
             </li>
             <li class="header-navigation-list__item">
-                <a href="/garant" class="">Гарантия и возврат</a>
+                <a href="/ru/pay" class="">Оплата</a>
+            </li>
+            <li class="header-navigation-list__item">
+                <a href="/ru/garant" class="">Гарантия и возврат</a>
             </li>
         </ul>
     </div>

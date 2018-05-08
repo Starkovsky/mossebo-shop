@@ -43,11 +43,11 @@ const app = new Vue({
     },
     data: {
         ActionProduct: {
-            'id': '60',
+            'id': '100028',
             'name': 'Настольная лампа CHESTER 49385',
             'image': '/uploads/media/product/252/responsive-images/5ae43f6d74377858182382___small_200_200.jpg',
             'price': '349000',
-            'old_price': '420000'
+            'old_price': '412000'
         },
         mossebo: window.mossebo,
     },
