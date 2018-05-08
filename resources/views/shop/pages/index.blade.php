@@ -24,7 +24,13 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <banner-home-new></banner-home-new>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <product-card
+                        :product="ActionProduct"
+                    >
+                    </product-card>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <product-card
                         :product="ActionProduct"
                     >

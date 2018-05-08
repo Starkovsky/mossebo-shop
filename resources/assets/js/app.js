@@ -44,10 +44,10 @@ const app = new Vue({
     data: {
         ActionProduct: {
             'id': '60',
-            'name': 'Столик-оттоманка, иск.кожа (2561BL), цвет черный',
-            'image': '//admin.mossebo.market/uploads/1548/responsive-images/5ac38d730158e661077194___small_400_400.jpeg',
-            'price': '1054321',
-            'old_price': '1831000'
+            'name': 'Настольная лампа CHESTER 49385',
+            'image': '/uploads/media/product/252/responsive-images/5ae43f6d74377858182382___small_200_200.jpg',
+            'price': '349000',
+            'old_price': '420000'
         },
         mossebo: window.mossebo,
     },
