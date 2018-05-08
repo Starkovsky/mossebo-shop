@@ -37,7 +37,7 @@
 
             <div class="product-card__reviews">
                 <img src="/assets/images/icons/stars.png" alt="">
-                32 отзыва
+                {{ getRandomInt(1,100) }}
             </div>
             <div class="product-card__price">
                 <formatted-price :price="product.price"></formatted-price>
@@ -84,6 +84,16 @@
         },
         components: {
             'formatted-price': FormattedPrice,
+        },
+        methods: {
+            getRandomInt: function(min, max) {
+                var value = Math.floor(Math.random() * (max - min + 1)) + min;
+                function declOfNum(value, titles) {
+                    var cases = [2, 0, 1, 1, 1, 2];
+                    return titles[ (value%100>4 && value%100<20)? 2 : cases[(value%10<5)?value%10:5] ];
+                }
+                return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
+            }
         }
     }
 </script>

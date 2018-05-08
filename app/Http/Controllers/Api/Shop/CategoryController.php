@@ -6,6 +6,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Attribute;
 use App\Models\Shop\Category;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -32,6 +33,8 @@ class CategoryController extends Controller
                 ->where('enabled', '=', 'true')
                 ->firstOrFail();
             //dd($category->products);
+
+
             // Проверка доступности категории
             $attributes = Attribute::with('i18n', 'options')
                 ->has('options')

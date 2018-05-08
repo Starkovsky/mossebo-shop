@@ -39,5 +39,4 @@ class Category extends Model
             ->where('enabled','=','true')
             ->orderBy('id', 'desc');
     }
-
 }

@@ -1,4 +1,13 @@
-@if(\Request::route()->getName() != 'home')
+@php
+    if(\Request::route() != null) {
+        $page_route_name = \Request::route()->getName();
+    } else {
+     $page_route_name = '';
+    }
+@endphp
+
+@if($page_route_name != 'home')
+
 <div class="container">
     <ul class="shop-breadcrumb">
         <li class="shop-breadcrumb-item">
