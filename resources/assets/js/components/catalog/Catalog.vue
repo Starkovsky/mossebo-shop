@@ -91,6 +91,7 @@
                         options_tmp[i] = {
                                 id: options.id,
                                 attribute_id: options.attribute_id,
+                                position: options.position,
                                 value: options.i18n.value
                             };
 

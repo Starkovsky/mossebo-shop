@@ -5,7 +5,7 @@
             data-toggle="collapse"
             :href="'#filerCollapse'+filterID"
             role="button"
-            :aria-expanded="(filterID < 2) ? ''+true : ''+false"
+            :aria-expanded="(filterID < 4) ? ''+true : ''+false"
             :aria-controls="'filerCollapse'+filterID"
         >
             {{ filter.title }}
@@ -15,7 +15,7 @@
         </a>
         <div class="filter-desc collapse multi-collapse"
              :id="'filerCollapse'+filterID"
-             :class="(filterID < 2) ? 'show' : ''"
+             :class="(filterID < 4) ? 'show' : ''"
         >
             <div
                 v-for="option in orderedOptions"

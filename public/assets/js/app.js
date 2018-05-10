@@ -157,6 +157,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     options_tmp[i] = {
                         id: options.id,
                         attribute_id: options.attribute_id,
+                        position: options.position,
                         value: options.i18n.value
                     };
 
@@ -255,6 +256,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -271,11 +273,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var self = this;
             var attributes = [];
-            var options = [];
             var i = 0;
 
             self.attributes.map(function (attribute) {
 
+                var options = [];
                 var j = 0;
 
                 self.options.map(function (option) {
@@ -758,7 +760,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Catalog.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"Catalog.vue","sourceRoot":""}]);
 
 // exports
 
@@ -1049,7 +1051,7 @@ var render = function() {
           "data-toggle": "collapse",
           href: "#filerCollapse" + _vm.filterID,
           role: "button",
-          "aria-expanded": _vm.filterID < 2 ? "" + true : "" + false,
+          "aria-expanded": _vm.filterID < 4 ? "" + true : "" + false,
           "aria-controls": "filerCollapse" + _vm.filterID
         }
       },
@@ -1069,7 +1071,7 @@ var render = function() {
       "div",
       {
         staticClass: "filter-desc collapse multi-collapse",
-        class: _vm.filterID < 2 ? "show" : "",
+        class: _vm.filterID < 4 ? "show" : "",
         attrs: { id: "filerCollapse" + _vm.filterID }
       },
       _vm._l(_vm.orderedOptions, function(option) {
@@ -1346,14 +1348,18 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm._l(_vm.Filters, function(Filter, index) {
-        return _c(
-          "div",
-          { key: index, staticClass: "catalog-filter-item" },
-          [
-            _c("catalog-filter", { attrs: { filterID: index, filter: Filter } })
-          ],
-          1
-        )
+        return Filter.options[1] != null
+          ? _c(
+              "div",
+              { key: index, staticClass: "catalog-filter-item" },
+              [
+                _c("catalog-filter", {
+                  attrs: { filterID: index, filter: Filter }
+                })
+              ],
+              1
+            )
+          : _vm._e()
       })
     ],
     2

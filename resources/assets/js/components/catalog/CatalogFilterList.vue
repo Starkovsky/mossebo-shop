@@ -5,6 +5,7 @@
         </div>
         <div class="catalog-filter-item"
              v-for="(Filter, index) in Filters"
+             v-if="Filter.options[1] != null"
              :key="index"
         >
             <catalog-filter
@@ -32,12 +33,12 @@
 
                 var self = this;
                 var attributes = [];
-                var options = [];
                 var i = 0;
 
                 self.attributes.map(function(attribute) {
 
-                    var j = 0;
+                    let options = [];
+                    let j = 0;
 
                     self.options.map(function(option) {
 
