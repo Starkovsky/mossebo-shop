@@ -6,7 +6,6 @@ use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Attribute;
 use App\Models\Shop\Category;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -35,15 +34,7 @@ class CategoryController extends Controller
             //dd($category->products);
 
 
-            // Проверка доступности категории
-            $attributes = Attribute::with('i18n', 'options')
-                ->has('options')
-                ->get();
-
-            return [
-                'Products' => ProductResource::collection($category->products),
-                'Filters' => $attributes
-            ];
+            return ProductResource::collection($category->products);
 
         } catch (\Exception $e) {
             // TODO: Временно закоментировано, надо куда то складывать ошибки

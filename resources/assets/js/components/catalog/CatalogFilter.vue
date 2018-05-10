@@ -8,7 +8,7 @@
             :aria-expanded="(filterID < 2) ? ''+true : ''+false"
             :aria-controls="'filerCollapse'+filterID"
         >
-            {{ filter.i18n.title }}
+            {{ filter.title }}
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
@@ -21,7 +21,7 @@
                 v-for="option in orderedOptions"
             >
                 <label class="filter-label">
-                    {{ option.i18n.value }}
+                    {{ option.value }}
                     <input type="checkbox" value="value">
                     <span class="checkmark"></span>
                 </label>

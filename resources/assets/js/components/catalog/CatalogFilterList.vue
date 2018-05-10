@@ -4,7 +4,7 @@
             <catalog-filter-price></catalog-filter-price>
         </div>
         <div class="catalog-filter-item"
-             v-for="(Filter, index) in filters"
+             v-for="(Filter, index) in Filters"
              :key="index"
         >
             <catalog-filter
@@ -27,9 +27,48 @@
             CatalogFilter,
             CatalogFilterPrice
         },
+        methods: {
+            FiltersWithOptions: function () {
+
+                var self = this;
+                var attributes = [];
+                var options = [];
+                var i = 0;
+
+                self.attributes.map(function(attribute) {
+
+                    var j = 0;
+
+                    self.options.map(function(option) {
+
+                        if(option.attribute_id == attribute.id) {
+
+                            options[j] = option;
+
+                            j++;
+                        }
+
+                    });
+
+                    attributes[i] = {
+                        title: attribute.title,
+                        options: options
+                    };
+
+                    i++;
+                });
+                return attributes;
+            }
+        },
         props: [
-            'filters'
-        ]
+            'attributes',
+            'options'
+        ],
+        computed: {
+            Filters: function () {
+                return this.FiltersWithOptions()
+            }
+        }
     }
 </script>
 
