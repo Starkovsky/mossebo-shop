@@ -1,23 +1,204 @@
 .header {
     background: $color-ui;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    box-shadow: $shadows-primary;
+    @include media-breakpoint-down(md) {
+        position: fixed;
+        width: 100%;
+        top: 0.2em;
+        z-index: 99999;
+    }
     &__title {
         padding-top: 35px;
+    }
+    .logo {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        @include media-breakpoint-down(md) {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+    .phone {
+        font-size: 16px;
+        color: $color-text-primary;
+        display: inline-block;
+        small {
+            color: $color-text-secondary;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+    }
+    .load-sities {
+        color: $color-text-primary;
+        font-size: 14px;
+        display: inline-block;
+        margin-right: 32px;
+        .md-icon {
+            color: $color-icons;
+        }
+    }
+    &-float {
+        overflow: visible;
+        @include media-breakpoint-down(md) {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        &-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            height: 70px;
+            box-sizing: border-box;
+            @include media-breakpoint-down(md) {
+                height: 55px;
+            }
+            a {
+                text-decoration: none;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+            &:nth-child(1) {
+                float: left;
+            }
+            &:nth-child(2) {
+                float: right;
+            }
+            &:nth-child(3) {
+                float: right;
+            }
+            &:nth-child(4) {
+                float: right;
+                @include media-breakpoint-down(xs) {
+                    display: none;
+                }
+            }
+            &:nth-child(5) {
+                float: left;
+                @include media-breakpoint-down(md) {
+                    padding-left: 15px;
+                }
+            }
+            &:nth-child(6) {
+                margin-left: calc(55px + 133px + 35px);
+                @include media-breakpoint-down(md) {
+                    display: none;
+                }
+            }
+        }
+    }
+    .mobile {
+        &-catalog {
+            display: none;
+            color: $color-primary;
+            padding: 15px 15px;
+            border-right: 1px solid $color-border;
+            .symbol-menu {
+                fill: $color-primary;
+            }
+            @include media-breakpoint-down(md) {
+                display: block;
+            }
+        }
+        &-profile {
+            display: block;
+            color: $color-icons;
+            padding: 15px 15px;
+            .symbol-person {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
+            @include media-breakpoint-down(md) {
+                border-left: 1px solid $color-border;
+            }
+            &:hover {
+                .symbol-person {
+                    fill: $color-text-primary;
+                }
+            }
+        }
+        &-search {
+            display: block;
+            color: $color-icons;
+            padding: 15px 15px;
+            transition: $transition-primary;
+            .symbol-search {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
+            @include media-breakpoint-down(md) {
+                border-left: 1px solid $color-border;
+            }
+            &:hover {
+                .symbol-search {
+                    fill: $color-text-primary;
+                }
+            }
+        }
+        &-cart {
+            display: block;
+            position: relative;
+            padding: 15px 0 15px 15px;
+            transition: $transition-primary;
+            .symbol-cart {
+                transition: $transition-primary;
+                fill: $color-icons;
+            }
+            @include media-breakpoint-down(md) {
+                border-left: 1px solid $color-border;
+                width: 55px;
+            }
+            &:hover {
+                .symbol-cart {
+                    fill: $color-text-primary;
+                }
+            }
+            &-active {
+                .badge {
+                    display: block !important;
+                }
+                .symbol-cart {
+                    fill: $color-text-primary;
+                }
+            }
+            .badge {
+                display: none;
+                position: absolute;
+                left: 28px;
+                top: 11px;
+                background: #FF9001;
+                color: $color-ui;
+                font-size: 10px;
+                font-weight: 400;
+                padding: 3px 5px 2px 5px;
+                border-radius: 50%;
+                @include media-breakpoint-down(md) {
+
+                }
+            }
+        }
+    }
+    &-mobile-fix {
+        display: none;
+        height: 55px;
+        @include media-breakpoint-down(md) {
+            display: block;
+        }
     }
 }
 .logo {
     display: block;
     color: $color-text-primary;
-    max-width: 150px;
+    max-width: 133px;
+    @include media-breakpoint-down(md) {
+        max-width: 90px;
+        margin-left: auto;
+        margin-right: auto;
+    }
     &:hover {
         text-decoration: none;
         color: $color-text-primary;
-    }
-    &__image {
-        width: 100%;
-        height: auto;
-        display: block;
     }
     &__description {
         font-size: 16px;

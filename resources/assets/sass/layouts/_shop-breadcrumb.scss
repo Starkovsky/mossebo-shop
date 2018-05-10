@@ -1,0 +1,20 @@
+.shop-breadcrumb {
+    padding: 40px 0;
+    margin: 0;
+    list-style: none;
+    &-item {
+        display: inline-block;
+        color: $color-text-primary-2;
+        a {
+            display: inline-block;
+            color: $color-text-secondary-1;
+        }
+        .symbol-icon {
+            transform: rotate(-90deg);
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    }
+}

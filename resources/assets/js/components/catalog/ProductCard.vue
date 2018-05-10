@@ -7,34 +7,49 @@
                    data-placement="top"
                    title="Добавить в сравнение"
                 >
-                    <i class="md-icon">playlist_add</i>
+                    <svg class="symbol-icon symbol-wishlist">
+                        <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
+                    </svg>
                 </a>
                 <a href="#"
                    data-toggle="tooltip"
                    data-placement="top"
                    title="Добавить в избранное"
                 >
-                    <i class="md-icon">favorite</i>
+                    <svg class="symbol-icon symbol-heart">
+                        <use xlink:href="/assets/images/icons.svg#symbol-heart"></use>
+                    </svg>
                 </a>
             </div>
-            <div class="product-card__image-box">
-                <div class="product-card__image"
-                     :style="{ 'background-image': 'url(//admin.mossebo.market' + product.image + ')' }"
-                >
+            <a class="product-card__link"
+               :href="'/' + this.$root.mossebo.language.code + '/goods/' + product.id"
+            >
+                <div class="product-card__image-box">
+                    <div class="product-card__image"
+                         :style="{ 'background-image': 'url(' + 'https://admin.mossebo.market' + product.image + ')' }"
+                    >
+                    </div>
                 </div>
-            </div>
-            <div class="product-card__name">
-                {{ product.name }}
+                <div class="product-card__name">
+                    {{ product.name }}
+                </div>
+            </a>
+
+            <div class="product-card__reviews">
+                <img src="/assets/images/icons/stars.png" alt="">
+                {{ getRandomInt(1,100) }}
             </div>
             <div class="product-card__price">
-                {{ PriceWithSeparation(product.price) }} &#8381;
+                <formatted-price :price="product.price"></formatted-price>
             </div>
-            <div class="product-card__old-price" v-if="product.old_price > 0">
-                {{ PriceWithSeparation(product.old_price) }} &#8381;
+            <div class="product-card__old-price">
+                    <formatted-price :price="product.old_price"></formatted-price>
             </div>
             <div class="product-card__buttons">
                 <button type="button"
-                        class="button button-light btn-block"
+                        class="button button-light"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
                 >
                     Купить в 1 клик
                 </button>
@@ -53,18 +68,32 @@
 </template>
 
 <script>
-    import PriceWithSeparation from '../../mixins/PriceWithSeparation'
+
+    import FormattedPrice from '../../core/FormattedPrice'
 
     export default {
         name: "ProductCard",
         props: [
             'product',
         ],
-        mixins: [
-            PriceWithSeparation,
-        ],
         mounted: function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#exampleModal').on('shown.bs.modal', function () {
+                $('#exampleModal').trigger('focus')
+            })
+        },
+        components: {
+            'formatted-price': FormattedPrice,
+        },
+        methods: {
+            getRandomInt: function(min, max) {
+                var value = Math.floor(Math.random() * (max - min + 1)) + min;
+                function declOfNum(value, titles) {
+                    var cases = [2, 0, 1, 1, 1, 2];
+                    return titles[ (value%100>4 && value%100<20)? 2 : cases[(value%10<5)?value%10:5] ];
+                }
+                return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
+            }
         }
     }
 </script>
@@ -86,7 +115,7 @@
         margin: 15px 0;
         border-radius: 5px;
         box-shadow: $shadows-primary;
-        height: 430px;
+        height: 420px;
         box-sizing: border-box;
         transition: $transition-primary;
         //display: flex;
@@ -94,10 +123,9 @@
         //justify-content: space-between;
         &:hover {
             box-shadow: $shadows-hover;
-            cursor: pointer;
             margin-top: 0;
             margin-bottom: 0;
-            height: (430px + 30px);
+            height: (420px + 30px);
             .product-card__buttons {
                 //opacity: 1;
                 //display: flex;
@@ -107,12 +135,25 @@
             }
         }
         &__actions {
+            margin-bottom: 20px;
             a {
-                color: $color-icons;
                 display: inline-block;
-                &:hover {
-                    color: $color-text-primary;
+                .symbol-icon {
+                    fill: $color-icons;
+                    transition: $transition-primary;
                 }
+                &:hover {
+                    .symbol-icon {
+                        fill: $color-text-primary;
+                    }
+                }
+            }
+        }
+        &__link {
+            color: $color-text-primary;
+            &:hover {
+                color: $color-primary;
+                text-decoration: none;
             }
         }
         &__image {
@@ -121,30 +162,41 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background-size: cover;
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
             &-box {
+                display: block;
                 position: relative;
                 width: 100%;
                 max-width: 200px;
                 margin-left: auto;
                 margin-right: auto;
+                margin-bottom: 25px;
                 &:before {
                     content: "";
                     display: block;
-                    padding-top: 100%;
+                    padding-top: 80%;
                 }
             }
         }
         &__name {
+            display: block;
             font-size: 14px;
+            line-height: 18px;
             font-weight: 400;
-            color: $color-text-primary;
-            margin-top: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
             transition: 0.2s;
-            height: 76px;
-            &:hover {
-                color: $color-primary;
+            height: 36px;
+            overflow: auto;
+        }
+        &__reviews {
+            font-size: 12px;
+            vertical-align: middle;
+            color: $color-text-secondary;
+            img {
+                float: left;
+                margin-right: 10px;
             }
         }
         &__price {
@@ -155,6 +207,7 @@
         &__old-price {
             font-size: 14px;
             font-weight: 400;
+            height: 22px;
             color: $color-text-secondary;
             text-decoration: line-through;
         }
@@ -164,9 +217,13 @@
             height: 0;
             overflow: hidden;
             margin-top: 15px;
+            text-align: center;
             .button {
                 width: 100%;
                 text-align: center;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
     }

@@ -1,21 +1,154 @@
-.md-icon {
-    font-family: "Material Icons";
-    text-rendering: optimizeLegibility;
-    font-feature-settings: 'liga' 1;
-    font-style: normal;
-    text-transform: none;
-    line-height: 1;
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-    display: inline-block;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-    &__vab {
-        vertical-align: bottom;
-    }
-    &__vam {
-        vertical-align: middle;
+
+.symbol-icon {
+    display: block;
+    fill: $color-icons;
+    transition: $transition-primary;
+    &:hover {
+        fill: $color-text-primary;
     }
 }
 
+.symbol-logo {
+    width: 200px;
+    height: 45px;
+}
+
+.symbol-logo-ru {
+    width: 133px;
+    height: 54px;
+    @include media-breakpoint-down(md) {
+        width: 90px;
+        height: 37px;
+    }
+}
+.symbol-logo-en {
+    width: 133px;
+    height: 54px;
+    @include media-breakpoint-down(md) {
+        width: 90px;
+        height: 37px;
+    }
+}
+
+.product-rating {
+    width: 120px;
+    height: 29px;
+}
+
+
+
+
+.symbol-keyboard-down {
+    width: 24px;
+    height: 24px;
+}
+
+.symbol-remove {
+    width: 24px;
+    height: 24px;
+}
+.symbol-add {
+    width: 24px;
+    height: 24px;
+}
+.symbol-close {
+    width: 24px;
+    height: 24px;
+}
+.symbol-arrow-forward {
+    width: 24px;
+    height: 24px;
+}
+.symbol-arrow-back {
+    width: 24px;
+    height: 24px;
+}
+.symbol-wishlist {
+    width: 24px;
+    height: 24px;
+}
+.symbol-heart {
+    width: 24px;
+    height: 24px;
+}
+.symbol-menu {
+    width: 24px;
+    height: 24px;
+}
+.symbol-search {
+    width: 24px;
+    height: 24px;
+}
+.symbol-person {
+    width: 24px;
+    height: 24px;
+}
+.symbol-cart {
+    width: 24px;
+    height: 24px;
+}
+.pay-visa {
+    width: 80px;
+    height: 26px;
+}
+
+.pay-maestro {
+    width: 34px;
+    height: 26px;
+}
+
+.pay-mastercard {
+    width: 34px;
+    height: 26px;
+}
+
+.pay-paypal {
+    width: 98px;
+    height: 26px;
+}
+
+.social-vk {
+    width: 33px;
+    height: 33px;
+}
+.social-in {
+    width: 33px;
+    height: 33px;
+}
+.social-fb {
+    width: 33px;
+    height: 33px;
+}
+.social-pi {
+    width: 33px;
+    height: 33px;
+}
+.social-you {
+    width: 33px;
+    height: 33px;
+}
+.social-zen {
+    width: 33px;
+    height: 33px;
+}
+.social-ok {
+    width: 33px;
+    height: 33px;
+}
+
+.symbol-width {
+    width: 8px;
+    height: 16px;
+}
+.symbol-height {
+    width: 16px;
+    height: 8px;
+}
+.symbol-length {
+    width: 16px;
+    height: 16px;
+}
+.symbol-weight {
+    width: 11px;
+    height: 15px;
+}

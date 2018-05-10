@@ -1,16 +1,13 @@
 
+// Plugins
+
+// Slick-Slider
+$slick-font-path: "/assets/slick-carousel/";
+$slick-loader-path: "/assets/slick-carousel/";
+
 // Typography
-$font-family-sans-serif: "Montserrat", sans-serif;
+$font-family-sans-serif: "Montserrat", Arial, sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 $transition-primary: .2s;
-
-.title_h1 {
-    color: $color-text-primary;
-}
-.title_h2 {
-    font-size: 34px;
-    color: $color-text-primary;
-    margin-bottom: 20px;
-}

@@ -1,6 +1,9 @@
+require("babel-polyfill");
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
+window.slick = require('slick-carousel');
+window.MagnificPopup = require('magnific-popup');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

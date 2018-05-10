@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'mossebo-market-logo' => '/assets/images/mossebo_market_logo_ru.svg',
+    'mossebo-market-logo' => 'symbol-logo-ru',
     'mossebo-header-name' => 'Интернет-магазин дизайнерской мебели ',
     'footer-logo-description' => 'Услуги, условия оказания которых описываются на страницах данного сайта, предоставляются компанией ООО "Моссэбо КМ". Компания зарегистрирована в качестве бренда, под регистрационным номером 138,716 в г. Санкт-Петербург',
     'footer-recall' => 'Позвонить',

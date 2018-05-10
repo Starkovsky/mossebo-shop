@@ -7,7 +7,7 @@
                 >
                 </div>
             </div>
-            <div class="title">Дизайн интерьера  от Mossebo</div>
+            <div class="title">Дизайн интерьера  <br>от Mossebo</div>
             <a class="button" href="https://mossebo.studio/" target="_blank">Заказать</a>
         </div>
     </div>
@@ -31,7 +31,7 @@
         background: linear-gradient(45deg, #aabed6 0%,#bce3f0 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aabed6', endColorstr='#bce3f0',GradientType=1 );
         width: 100%;
-        height: 430px;
+        height: 420px;
         padding: 20px;
         margin: 15px 0;
         border-radius: 5px;
@@ -39,6 +39,7 @@
         .image {
             position: relative;
             width: calc(100% + 40px);
+            max-height: 250px;
             margin-left: -20px;
             margin-right: -20px;
             &:before {

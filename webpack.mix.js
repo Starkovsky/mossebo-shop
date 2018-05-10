@@ -19,12 +19,15 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         processCssUrls: false
     })
     .extract([
+        'babel-polyfill',
         'vue',
         'jquery',
         'lodash',
         'popper.js',
         'axios',
-        'bootstrap'
+        'bootstrap',
+        'slick-carousel',
+        'magnific-popup'
     ])
     .version();
 
@@ -38,10 +41,13 @@ if (!mix.inProduction()) {
 mix.autoload({
     jquery: ['$', 'window.jQuery', 'jQuery']
 });
+
 mix.browserSync({
     proxy: {
-        target: "http://mossebo-shop.test"
-    }
+        target: "https://mossebo-shop.test"
+    },
+    https: true,
+    open: false
 });
 
 

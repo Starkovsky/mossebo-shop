@@ -1,0 +1,72 @@
+
+// Slick Slider Theme
+.slick-prev, .slick-next {
+    width: 48px;
+    height: 48px;
+    border: 1px solid $color-border;
+    border-radius: 50%;
+    transition: $transition-primary;
+    .symbol-icon {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+    }
+    &:before {
+        display: none;
+    }
+    &:hover, &:focus {
+        border: 1px solid $color-text-primary;
+        .symbol-icon {
+            fill: $color-text-primary;
+        }
+    }
+}
+
+
+
+.slider-for {
+    margin-bottom: 15px;
+    .slick-slide {
+        a {
+            height: 522px;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            &:focus {
+                outline: none;
+            }
+            img {
+                display: block;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    }
+}
+.slider-nav {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    .slick-next {
+        right: -60px;
+    }
+    .slick-prev {
+        left: -60px;
+    }
+    .slick-slide {
+        padding: 0 5px;
+        .slider-nav__box {
+            height: 78px;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid $color-border;
+            border-radius: $border-radius;
+        }
+        img {
+            display: inline-block;
+            width: 100%;
+            height: auto;
+        }
+    }
+}

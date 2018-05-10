@@ -1,0 +1,124 @@
+// Стили для страницы продукта (карточки товара)
+.product-page {
+
+    &__actions {
+        float: right;
+        a {
+            display: inline-block;
+        }
+    }
+    &__price {
+        display: inline-block;
+        font-size: 24px;
+        color: $color-text-primary;
+    }
+    &__oldprice {
+        display: inline-block;
+        margin-left: 8px;
+        font-size: 20px;
+        color: $color-text-secondary;
+        text-decoration: line-through;
+    }
+    &__economy {
+        font-size: 14px;
+        color: $color-text-primary;
+        margin-bottom: 25px;
+    }
+    &__stars {
+        color: $color-primary;
+        padding: 10px 0 35px;
+        span {
+            font-size: 12px;
+            color: $color-text-secondary;
+            margin-left: 8px;
+        }
+        &-box {
+            background: $color-icons;
+            display: inline-block;
+            vertical-align: middle;
+            height: 27px;
+            position: relative;
+            .symbol-icon {
+                margin-top: -1px;
+                position: relative;
+                z-index: 1;
+            }
+        }
+        &-inner {
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 27px;
+            background: $color-primary;
+        }
+    }
+    &__label {
+        color: $color-text-primary;
+    }
+    &__value {
+        color: $color-text-secondary;
+        margin-bottom: 15px;
+        .symbol-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        .col-sm-3 {
+            border-left: 1px solid $color-border;
+            color: $color-text-primary;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            &:first-child {
+                border-left: none;
+            }
+        }
+    }
+    &__buttons {
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    .nav-tabs {
+        border-bottom: 1px solid $color-border;
+        .nav-item {
+
+        }
+        .nav-link {
+            color: $color-text-secondary;
+            background: none;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 2px solid transparent;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            padding-left: 25px;
+            padding-right: 25px;
+            transition: $transition-primary;
+            &:hover {
+                color: $color-primary;
+                background: none;
+            }
+            &.active {
+                border-bottom: 2px solid $color-primary;
+                color: $color-primary;
+            }
+        }
+    }
+    .tab-content {
+        padding-top: 25px;
+        padding-bottom: 25px;
+        min-height: 450px;
+        color: $color-text-primary;
+    }
+
+    &__border-left {
+        border-left: 1px solid $color-border;
+    }
+    &__under_constraction {
+        text-align: center;
+    }
+}
+
