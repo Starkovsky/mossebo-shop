@@ -48,24 +48,24 @@
                         console.log(error);
                     });
             },
-            uniq_fast(a) {
-                var seen = {};
-                var out = [];
-                var len = a.length;
-                var j = 0;
-                for(var i = 0; i < len; i++) {
-                    var item = a[i];
-                    if(seen[item.id] !== 1) {
-                        seen[item.id] = 1;
-                        out[j++] = item;
+            uniq_fast(arr) {
+                let existingIds = {}
+
+                return arr.filter(item => {
+                    if (item.id in existingIds) {
+                        return false
                     }
-                }
-                return out;
+
+                    existingIds[item.id] = 1
+
+                    return true
+                })
             },
             attributesScope() {
                 var self = this;
                 var attributes_tmp = [];
                 var i = 0;
+
                 self.Products.map(function(product) {
 
                     product.attributes.map(function(attribute) {

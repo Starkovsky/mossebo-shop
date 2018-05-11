@@ -80,6 +80,14 @@
             text-align: center;
         }
     }
+    &-attribute {
+        padding: 5px 0 5px;
+        color: $color-text-secondary;
+    }
+    &-option {
+        color: $color-text-primary;
+        padding-left: 8px;
+    }
     .nav-tabs {
         border-bottom: 1px solid $color-border;
         .nav-item {
@@ -108,9 +116,11 @@
         }
     }
     .tab-content {
-        padding-top: 25px;
-        padding-bottom: 25px;
-        min-height: 450px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 25px;
+        padding-right: 25px;
+        min-height: 400px;
         color: $color-text-primary;
     }
 

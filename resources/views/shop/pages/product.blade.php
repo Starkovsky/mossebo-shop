@@ -87,11 +87,15 @@
                         <span>324 оценки об этом продукте</span>
                     </div>
 
-                    <div class="product-page__label">Артикул:</div>
-                    <div class="product-page__value">{{ $product->id }}</div>
+                    <div class="product-page-attribute">
+                        Артикул:
+                        <span class="product-page-option">{{ $product->id }}</span>
+                    </div>
 
-                    <div class="product-page__label">Срок поставки:</div>
-                    <div class="product-page__value">Под заказ</div>
+                    <div class="product-page-attribute">
+                        Срок поставки:
+                        <span class="product-page-option">Под заказ</span>
+                    </div>
 
                     <div class="py-0">
                         <div class="row product-page__value">
@@ -172,9 +176,10 @@
                         </button>--}}
                     </div>
 
-                    <div class="product-page__label">Поделиться:</div>
-                    <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,viber,whatsapp,telegram" data-counter=""></div>
-
+                    <div class="product-page__label">Расскажите об этом продукте друзьям:</div>
+                    <!-- uSocial -->
+                    <div class="uSocial-Share" data-pid="7dcb3e6a17ce539277db2193d1b2a7da" data-type="share" data-options="round,style4,default,absolute,horizontal,size32,counter0" data-social="vk,ok,fb,pinterest,twi,telegram" data-mobile="vi,wa,sms"></div>
+                    <!-- /uSocial -->
                 </div>
             </div>
         </div>
@@ -246,7 +251,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            {{ $product->i18n->description }}
+                            {!! $product->i18n->description !!}
                         </div>
                     </div>
                 </div>
