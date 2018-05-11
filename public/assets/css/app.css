@@ -11340,6 +11340,16 @@ img.mfp-img {
   text-align: center;
 }
 
+.product-page-attribute {
+  padding: 5px 0 5px;
+  color: rgba(50, 63, 76, 0.4);
+}
+
+.product-page-option {
+  color: #323f4c;
+  padding-left: 8px;
+}
+
 .product-page .nav-tabs {
   border-bottom: 1px solid #ecedf3;
 }
@@ -11370,9 +11380,11 @@ img.mfp-img {
 }
 
 .product-page .tab-content {
-  padding-top: 25px;
-  padding-bottom: 25px;
-  min-height: 450px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  padding-left: 25px;
+  padding-right: 25px;
+  min-height: 400px;
   color: #323f4c;
 }
 

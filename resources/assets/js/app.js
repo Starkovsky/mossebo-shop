@@ -68,7 +68,6 @@ const app = new Vue({
 svg4everybody();
 
 
-
 // TODO: Временная функция показа меню
 $('.header-navigation-catalog').click(function (event) {
     $('.catalog-nav').toggleClass('catalog-nav-active');

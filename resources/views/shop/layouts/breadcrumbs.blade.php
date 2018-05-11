@@ -35,6 +35,16 @@
                     </a>
                 </li>
         @endif
+
+        @if($page_route_name == 'good')
+
+            <li class="shop-breadcrumb-item">
+                <a>
+                    {{ $product->i18n->title }}
+                </a>
+            </li>
+
+        @endif
     </ul>
 </div>
 

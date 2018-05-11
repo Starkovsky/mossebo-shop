@@ -16,3 +16,4 @@
 <link rel="icon" sizes="192x192" href="/favicon.png">
 {{-- Apple Touch Icon (reuse 192px icon.png) --}}
 <link rel="apple-touch-icon" href="/favicon.png">
+

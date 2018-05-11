@@ -29,4 +29,4 @@
 <!-- /Yandex.Metrika counter -->
 
 
-<script src="//yastatic.net/share2/share.js" async></script>
+<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>
