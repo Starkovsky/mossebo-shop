@@ -5,7 +5,7 @@ namespace App\Models\Shop;
 use Illuminate\Database\Eloquent\Model;
 use App;
 
-class AttributeOptions extends Model
+class AttributeOption extends Model
 {
     /**
      * Связанная с моделью таблица.
@@ -17,8 +17,9 @@ class AttributeOptions extends Model
     public function i18n()
     {
         $locale = App::getLocale();
+
         return $this
-            ->hasOne(AttributeOptionsI18n::class, 'option_id')
+            ->hasOne(AttributeOptionI18n::class, 'option_id')
             ->where('language_code','=', $locale);
     }
 }

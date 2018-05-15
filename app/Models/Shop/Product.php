@@ -65,6 +65,11 @@ class Product extends Model
             ->where('price_type_id','=', '1');
     }
 
+    public function prices()
+    {
+        return $this->morphMany(Price::class, 'item');
+    }
+
     public function attributes()
     {
         return $this
@@ -81,11 +86,16 @@ class Product extends Model
     {
         return $this
             ->belongsToMany(
-                AttributeOptions::class,
+                AttributeOption::class,
                 'shop_product_attribute_options',
                 'product_id',
                 'option_id'
             )
             ->with('i18n');
+    }
+
+    public function productAttributeOptions()
+    {
+        return $this->hasMany(ProductAttributeOption::class, 'product_id');
     }
 }

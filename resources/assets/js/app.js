@@ -97,6 +97,7 @@ $('.slider-for').slick({
     asNavFor: '.slider-nav',
     lazyLoad: 'ondemand'
 });
+
 $('.slider-nav').slick({
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -133,7 +134,6 @@ $('.zoom-gallery').magnificPopup({
             return element.find('img');
         }
     }
-
 });
 
 

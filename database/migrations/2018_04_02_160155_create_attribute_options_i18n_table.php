@@ -9,7 +9,7 @@ class CreateAttributeOptionsI18nTable extends Migration
     protected $tableName;
 
     public function __construct() {
-        $this->tableName = Config::get('migrations.AttributeOptionsI18n');
+        $this->tableName = Config::get('migrations.AttributeOptionI18N');
     }
 
     /**
@@ -26,7 +26,7 @@ class CreateAttributeOptionsI18nTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->integer('option_id')->unsigned();
-            $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOptions'))->onDelete('cascade');
+            $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOption'))->onDelete('cascade');
 
             $table->char('language_code', 2);
             $table->foreign('language_code')->references('code')->on(Config::get('migrations.Languages'));

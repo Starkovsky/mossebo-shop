@@ -17,6 +17,7 @@ class Attribute extends Model
     public function i18n()
     {
         $locale = App::getLocale();
+
         return $this
             ->hasOne(AttributeI18n::class, 'attribute_id')
             ->where('language_code','=', $locale);
@@ -25,7 +26,7 @@ class Attribute extends Model
     public function options()
     {
         return $this
-            ->hasMany(AttributeOptions::class, 'attribute_id')
+            ->hasMany(AttributeOption::class, 'attribute_id')
             ->with('i18n');
     }
 }
