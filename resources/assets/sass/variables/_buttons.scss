@@ -41,6 +41,14 @@
             box-shadow: $shadows-primary;
         }
     }
+    &-dark {
+        border: 1px solid $color-text-primary;
+        color: $color-ui;
+        background: $color-text-primary;
+        &:hover {
+            box-shadow: $shadows-primary;
+        }
+    }
 }
 .input-group {
     display: inline-flex;

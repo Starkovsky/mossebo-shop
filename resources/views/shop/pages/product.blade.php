@@ -64,9 +64,9 @@
                         <formatted-price :price="{{ $product->current_price->value }}"></formatted-price>
                     </div>
                     @if(isset($product->old_price))
-                    <div class="product-page__oldprice">
-                        <formatted-price :price="{{ $product->old_price->value }}"></formatted-price>
-                    </div>
+                        <div class="product-page__oldprice">
+                            <formatted-price :price="{{ $product->old_price->value }}"></formatted-price>
+                        </div>
                         <div class="product-page__economy">
                             Вы сэкономите:
                             <formatted-price
@@ -75,7 +75,7 @@
                             </formatted-price>
                         </div>
                     @else
-                        <div class="product-page__economy">&nbsp;</div>
+                        <div class="product-page__economy"></div>
                     @endif
                     <div class="product-page__stars">
                         <div class="product-page__stars-box">
@@ -87,17 +87,12 @@
                         <span>324 оценки об этом продукте</span>
                     </div>
 
-                    <div class="product-page-attribute">
+                    <div class="product-page-attribute mb-2">
                         Артикул:
                         <span class="product-page-option">{{ $product->id }}</span>
                     </div>
 
-                    <div class="product-page-attribute">
-                        Срок поставки:
-                        <span class="product-page-option">Под заказ</span>
-                    </div>
-
-                    <div class="py-0">
+                    <div class="mb-2">
                         <div class="row product-page__value">
                             <div class="col-sm-3">
                                 <svg class="symbol-icon symbol-width">
@@ -126,11 +121,22 @@
                         </div>
                     </div>
 
+                    <div class="product-page-attribute">
+                        Наличие:
+                        <span class="product-page-option">Под заказ</span>
+                    </div>
+                    <div class="product-page-attribute mb-5">
+                        Срок поставки:
+                        <span class="product-page-option">14 дней</span>
+                    </div>
 
-                    <div class="product-page__buttons py-3">
+                    <div class="mb-5">
                         <div class="row">
-                            <div class="col-sm-5">
-                                <div class="input-group mb-3"
+                            <div class="col-md-3 d-flex align-items-center">
+                                <span>Количество:</span>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group"
                                      data-toggle="tooltip"
                                      data-placement="top"
                                      title="Количество">
@@ -157,14 +163,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-1"></div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="product-page__buttons py-3">
+                        <div class="row">
                             <div class="col-sm-6">
                                 <button type="button"
-                                        class="button button-light"
+                                        class="button button-dark"
                                         data-toggle="modal"
                                         data-target="#exampleModal"
                                 >
                                     Купить в 1 клик
+                                </button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="button"
+                                        class="button button-primary"
+                                >
+                                    Добавить в корзину
                                 </button>
                             </div>
                         </div>
@@ -176,10 +195,14 @@
                         </button>--}}
                     </div>
 
-                    <div class="product-page__label">Расскажите об этом продукте друзьям:</div>
-                    <!-- uSocial -->
-                    <div class="uSocial-Share" data-pid="7dcb3e6a17ce539277db2193d1b2a7da" data-type="share" data-options="round,style4,default,absolute,horizontal,size32,counter0" data-social="vk,ok,fb,pinterest,twi,telegram" data-mobile="vi,wa,sms"></div>
-                    <!-- /uSocial -->
+                    <div class="product-page__label">
+                        Расскажите друзьям:
+                        <!-- uSocial -->
+                        <div class="uSocial-Share" data-pid="7dcb3e6a17ce539277db2193d1b2a7da" data-type="share"
+                             data-options="round,style4,default,absolute,horizontal,size32,counter0"
+                             data-social="vk,ok,fb,pinterest,twi,telegram" data-mobile="vi,wa,sms"></div>
+                        <!-- /uSocial -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -239,13 +262,11 @@
                             @foreach($product->attributes as $attribute)
                                 <div class="product-page-attribute">
                                     {{ $attribute->i18n->title }}:
-                                    <span class="product-page-option">
-                                        @foreach($product->attribute_options as $option)
-                                            @if($option->attribute_id == $attribute->id)
-                                                {{ $option->i18n->value }}
-                                            @endif
-                                        @endforeach
-                                    </span>
+                                    @foreach($product->attribute_options as $option)
+                                        @if($option->attribute_id == $attribute->id)
+                                            <span class="product-page-option">{{ $option->i18n->value }}</span>
+                                        @endif
+                                    @endforeach
                                 </div>
                             @endforeach
 
