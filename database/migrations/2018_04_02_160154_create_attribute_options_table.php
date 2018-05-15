@@ -9,7 +9,7 @@ class CreateAttributeOptionsTable extends Migration
     protected $tableName;
 
     public function __construct() {
-        $this->tableName = Config::get('migrations.AttributeOptions');
+        $this->tableName = Config::get('migrations.AttributeOption');
     }
 
     /**
@@ -21,7 +21,7 @@ class CreateAttributeOptionsTable extends Migration
     {
         $this->down();
 
-        echo "Create AttributeOptions\r\n";
+        echo "Create AttributeOption\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";

@@ -4,7 +4,7 @@ namespace App\Models\Shop;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AttributeOptionsI18n extends Model
+class AttributeOptionI18n extends Model
 {
     /**
      * Связанная с моделью таблица.

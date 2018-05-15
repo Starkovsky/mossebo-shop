@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\Shop;
 
-use App\Http\Resources\ProductResource;
-use App\Http\Controllers\Controller;
-use App\Models\Shop\Attribute;
-use App\Models\Shop\Category;
+use App\Http\Controllers\Api\ApiController;
 
-class CategoryController extends Controller
+use App\Http\Resources\ProductResource;
+use App\Models\Shop\Category;
+use App\Models\Shop\Product;
+
+class CategoryController extends ApiController
 {
     /**
      * Create a new controller instance.
@@ -24,22 +25,16 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function products($category_slug)
+    public function products($categorySlug)
     {
-        try {
-            $category = Category::with('products')
-                ->where('slug', '=', $category_slug)
-                ->where('enabled', '=', 'true')
-                ->firstOrFail();
-            //dd($category->products);
+        $category = Category::where('slug', $categorySlug)->firstOrFail();
+        // firstOrFail - бросает ошибку.
+        // Ошибка перхватывается в App\Exceptions\Handler - возвращает клиенту 404.
 
+        $products = $category->products()->with(['images', 'prices', 'i18n', 'prices', 'productAttributeOptions'])->get();
 
-            return ProductResource::collection($category->products);
-
-        } catch (\Exception $e) {
-            // TODO: Временно закоментировано, надо куда то складывать ошибки
-            return $e->getMessage();
-            //return abort(404);
-        }
+        return response()->json([
+            'products' => ProductResource::collection($products)
+        ]);
     }
 }

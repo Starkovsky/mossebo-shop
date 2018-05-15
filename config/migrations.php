@@ -61,8 +61,8 @@ return [
 
     'Attributes' => 'shop_attributes',
     'AttributesI18n' => 'shop_attributes_i18n',
-    'AttributeOptions' => 'shop_attribute_options',
-    'AttributeOptionsI18n' => 'shop_attribute_options_i18n',
+    'AttributeOption' => 'shop_attribute_options',
+    'AttributeOptionI18N' => 'shop_attribute_options_i18n',
     'ProductAttributes' => 'shop_product_attributes',
-    'ProductAttributeOptions' => 'shop_product_attribute_options',
+    'ProductAttributeOption' => 'shop_product_attribute_options',
 ];

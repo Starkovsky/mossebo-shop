@@ -9,7 +9,7 @@ class CreateProductAttributeOptionsTable extends Migration
     protected $tableName;
 
     public function __construct() {
-        $this->tableName = Config::get('migrations.ProductAttributeOptions');
+        $this->tableName = Config::get('migrations.ProductAttributeOption');
     }
 
     /**
@@ -21,7 +21,7 @@ class CreateProductAttributeOptionsTable extends Migration
     {
         $this->down();
 
-        echo "Create ProductAttributeOptions\r\n";
+        echo "Create ProductAttributeOption\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
@@ -33,7 +33,7 @@ class CreateProductAttributeOptionsTable extends Migration
             $table->foreign('attribute_id')->references('id')->on(Config::get('migrations.Attributes'))->onDelete('cascade');
 
             $table->integer('option_id')->unsigned()->index();
-            $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOptions'))->onDelete('cascade');
+            $table->foreign('option_id')->references('id')->on(Config::get('migrations.AttributeOption'))->onDelete('cascade');
 
             $table->unique(['product_id', 'option_id']);
             $table->index(['product_id', 'option_id']);

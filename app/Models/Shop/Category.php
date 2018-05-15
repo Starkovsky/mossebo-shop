@@ -35,8 +35,7 @@ class Category extends Model
                 'category_id',
                 'product_id'
             )
-            ->with('i18n', 'images', 'current_price', 'old_price', 'attributes', 'attribute_options')
-            ->where('enabled','=','true')
+            ->where('enabled','=',true)
             ->orderBy('id', 'desc');
     }
 }

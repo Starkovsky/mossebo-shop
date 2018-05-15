@@ -14,20 +14,44 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-
         $data = [
             'id' => $this->id,
             'is_new' => $this->is_new,
             'is_popular' => $this->is_popular,
             'name' => $this->i18n->title,
-            'price' => $this->current_price->value,
-            'image' => json_decode($this->images[0]->pathes)->small->src,
-            'attributes' => $this->attributes,
-            'attributes_options' => $this->attribute_options
         ];
 
-        if (!is_null($this->old_price)) {
-            $data['old_price'] = $this->old_price->value;
+        if (! empty($this->productAttributeOptions)) {
+            $data['options'] = array_column($this->productAttributeOptions->toArray(), 'option_id');
+        }
+
+        if (! empty($this->images)) {
+            foreach ($this->images as $image) {
+                if (! empty($image->pathes)) {
+                    $imagePathes = json_decode($image->pathes);
+
+                    $data['image'] = [
+                        'src' => $imagePathes->small->src,
+                        'srcset' => $imagePathes->small->srcset
+                    ];
+
+                    break;
+                }
+            }
+        }
+
+        if (! empty($this->prices)) {
+            foreach ($this->prices as $price) {
+                switch ($price->price_type_id) {
+                    case 1:
+                        $data['old_price'] = $price->value;
+                        break;
+
+                    case 2:
+                        $data['price'] = $price->value;
+                        break;
+                }
+            }
         }
 
         return $data;

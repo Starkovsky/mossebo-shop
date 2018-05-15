@@ -1,73 +1,78 @@
 <template>
     <div class="catalog-filter">
         <div class="catalog-filter-item">
-            <catalog-filter-price></catalog-filter-price>
+            <catalog-filter-price />
         </div>
-        <div class="catalog-filter-item"
-             v-for="(Filter, index) in Filters"
-             v-if="Filter.options[1] != null"
-             :key="index"
-        >
+
+        <div v-for="(filter, index) in filters" :key="filter.id" class="catalog-filter-item">
             <catalog-filter
-                :filterID="index"
-                :filter="Filter"
-            >
-            </catalog-filter>
+                :ref="'filter-' + filter.id"
+                :id="filter.id"
+                :title="filter.title"
+                :options="filter.options"
+                :expanded="index < 4" />
+        </div>
+
+        <div v-if="filters.length > 0" class="catalog-filters-controls">
+            <button @click="clear" type="button" class="button button-primary">
+                Сбросить фильтры
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-
     import CatalogFilter from "./CatalogFilter";
     import CatalogFilterPrice from "./CatalogFilterPrice";
 
     export default {
         name: "CatalogFilterList",
+
         components: {
             CatalogFilter,
             CatalogFilterPrice
         },
-        methods: {
-            FiltersWithOptions: function () {
 
-                var self = this;
-                var attributes = [];
-                var i = 0;
-
-                self.attributes.map(function(attribute) {
-
-                    let options = [];
-                    let j = 0;
-
-                    self.options.map(function(option) {
-
-                        if(option.attribute_id == attribute.id) {
-
-                            options[j] = option;
-
-                            j++;
-                        }
-
-                    });
-
-                    attributes[i] = {
-                        title: attribute.title,
-                        options: options
-                    };
-
-                    i++;
-                });
-                return attributes;
-            }
-        },
         props: [
-            'attributes',
-            'options'
+            'filters'
         ],
+
+        methods: {
+            clear() {
+                this.filtersArray.forEach(filterComponent => filterComponent.clear())
+            },
+
+            check(product) {
+                for (let key in this.$refs) {
+                    let filterComponent = this.$refs[key][0]
+
+                    let result = filterComponent.checkProduct(product)
+
+                    if (!result) {
+                        return false
+                    }
+                }
+
+                return true
+            },
+        },
+
         computed: {
-            Filters: function () {
-                return this.FiltersWithOptions()
+            filtersArray() {
+                let filters = []
+
+                for (let key in this.$refs) {
+                    if (this.$refs[key] instanceof Array) {
+                        this.$refs[key].forEach(component => {
+                            filters.push(component)
+                        })
+                    }
+                    else {
+                        filters.push(this.$refs[key])
+                    }
+                }
+
+                return filters
             }
         }
     }
@@ -79,9 +84,7 @@
     @import "../../../sass/variables/variables";
 
     .catalog {
-
         &-filter {
-
             &-item {
                 background: $color-ui;
                 font-size: 14px;
@@ -91,17 +94,22 @@
                 & + & {
                     border-top: 1px solid $color-border;
                 }
+
                 &:first-child {
                     border-top-left-radius: 5px;
                     border-top-right-radius: 5px;
                 }
+
                 &:last-child {
                     border-bottom-left-radius: 5px;
                     border-bottom-right-radius: 5px;
                 }
             }
         }
+
+        &-filters-controls {
+            text-align: center;
+            margin-top: 30px;
+        }
     }
-
-
 </style>

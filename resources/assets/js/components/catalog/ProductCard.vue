@@ -25,10 +25,10 @@
                :href="'/' + this.$root.mossebo.language.code + '/goods/' + product.id"
             >
                 <div class="product-card__image-box">
-                    <div class="product-card__image"
-                         :style="{ 'background-image': 'url(' + 'https://admin.mossebo.market' + product.image + ')' }"
-                    >
-                    </div>
+                    <background-image-loader
+                        class="product-card__image"
+                        :screen="true"
+                        :image="backgroundImage" />
                 </div>
                 <div class="product-card__name">
                     {{ product.name }}
@@ -68,31 +68,58 @@
 </template>
 
 <script>
-
     import FormattedPrice from '../../core/FormattedPrice'
+    import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
 
     export default {
         name: "ProductCard",
+
         props: [
             'product',
         ],
+
         mounted: function () {
             $('[data-toggle="tooltip"]').tooltip();
             $('#exampleModal').on('shown.bs.modal', function () {
                 $('#exampleModal').trigger('focus')
             })
         },
+
         components: {
-            'formatted-price': FormattedPrice,
+            FormattedPrice,
+            BackgroundImageLoader
         },
+
         methods: {
             getRandomInt: function(min, max) {
-                var value = Math.floor(Math.random() * (max - min + 1)) + min;
+                let value = Math.floor(Math.random() * (max - min + 1)) + min;
+
                 function declOfNum(value, titles) {
-                    var cases = [2, 0, 1, 1, 1, 2];
+                    let cases = [2, 0, 1, 1, 1, 2];
                     return titles[ (value%100>4 && value%100<20)? 2 : cases[(value%10<5)?value%10:5] ];
                 }
+
                 return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
+            }
+        },
+
+        computed: {
+            backgroundImage() {
+                if (!this.product.image) {
+                    return ''
+                }
+
+                let image = this.product.image.src || ''
+
+                if (this.isHighDensity && this.product.image.srcset) {
+                    image = this.product.image.srcset
+                }
+
+                if (image.indexOf('http') === 0) {
+                    return image
+                }
+
+                return 'https://admin.mossebo.market' + image
             }
         }
     }
@@ -135,7 +162,7 @@
             }
         }
         &__actions {
-            margin-bottom: 20px;
+            margin-bottom: 0px;
             a {
                 display: inline-block;
                 .symbol-icon {
@@ -172,11 +199,11 @@
                 max-width: 200px;
                 margin-left: auto;
                 margin-right: auto;
-                margin-bottom: 25px;
+                margin-bottom: 5px;
                 &:before {
                     content: "";
                     display: block;
-                    padding-top: 80%;
+                    padding-top: 100%;
                 }
             }
         }
