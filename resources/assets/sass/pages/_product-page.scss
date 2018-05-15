@@ -31,11 +31,13 @@
             font-size: 12px;
             color: $color-text-secondary;
             margin-left: 8px;
+            vertical-align: sub;
         }
         &-box {
             background: $color-icons;
             display: inline-block;
             vertical-align: middle;
+            width: 120px;
             height: 27px;
             position: relative;
             .symbol-icon {
@@ -53,7 +55,13 @@
         }
     }
     &__label {
+        display: block;
+        text-align: right;
         color: $color-text-primary;
+        .uSocial-Share {
+            display: inline-block !important;
+            vertical-align: middle;
+        }
     }
     &__value {
         color: $color-text-secondary;
@@ -86,7 +94,16 @@
     }
     &-option {
         color: $color-text-primary;
-        padding-left: 8px;
+        &:before {
+            content: ', \a0';
+            display: inline-block;
+            color: $color-text-primary;
+        }
+        &:first-child {
+            &:before {
+                content: '\a0';
+            }
+        }
     }
     .nav-tabs {
         border-bottom: 1px solid $color-border;
