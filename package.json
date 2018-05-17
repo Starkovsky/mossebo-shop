@@ -26,6 +26,10 @@
         "vue-slider-component": "^2.6.2"
     },
     "dependencies": {
-        "babel-polyfill": "^6.26.0"
+        "babel-polyfill": "^6.26.0",
+        "postcss-cssnext": "^3.1.0",
+        "postcss-custom-media": "^6.0.0",
+        "postcss-short-font-size": "^4.0.0",
+        "postcss-short-position": "^3.0.0"
     }
 }

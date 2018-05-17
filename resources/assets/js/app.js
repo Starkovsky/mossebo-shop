@@ -3,6 +3,7 @@
  */
 import './core/use_https'
 import svg4everybody from './core/svg4everybody.legacy.min'
+import './common'
 
 /**
  * Imports
@@ -135,11 +136,4 @@ $('.zoom-gallery').magnificPopup({
         }
     }
 });
-
-
-
-
-
-
-
 

@@ -1,53 +1,106 @@
 <template>
-    <div class="row align-content-stretch">
-        <div class="col-md-3">
-            <catalog-filter-list
-                ref="filters"
-                :filters="filters" />
-        </div>
+    <loading class="without-overlay" :loading="loading">
+        <template v-if="error">
+            <div style="text-align: center;" v-show="!loading">
+                <h4 style="margin-bottom: 30px">
+                    Произошла ошибка соединения с сервером
+                </h4>
 
-        <div class="col-md-9">
-            <div class="catalog-list-property">
-                Сортировка
+                <div>
+                    <button @click="refreshCatalog" type="button" class="button button-primary">
+                        Попробовать еще раз
+                    </button>
+                </div>
             </div>
+        </template>
 
-            <catalog-product-list :products="filteredProducts" />
-        </div>
-    </div>
+        <template v-else>
+            <div class="row align-content-stretch">
+                <div class="col-md-3">
+                    <catalog-filter-list
+                        ref="filters"
+                        :filters="filters"
+                        :prices="prices" />
+                </div>
+
+                <div class="col-md-9">
+                    <template v-if="productsToShow.length > 0">
+                        <catalog-sort :types="sortTypes" :active="activeSortType" @change="setActiveSortType" />
+
+                        <loading class="without-overlay" :loading="productsLoading.inProcess" style="min-height: 450px">
+                            <catalog-product-list :products="productsToShow" :loading="productsLoading.inProcess"/>
+                        </loading>
+
+                        <div @click="more" class="catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
+                            Показать еще
+                        </div>
+                    </template>
+
+                    <template v-else-if="productsToShow.length === 0 && this.products$.length > 0">
+                        <div style="text-align: center;">
+                            <h4 style="margin-bottom: 30px">
+                                В выбранной категории ничего не найдено
+                            </h4>
+
+                            <div style="margin-bottom: 30px">
+                                Попробуйте сбросить один или несколько фильтров.
+                            </div>
+
+                            <div>
+                                <button type="button" class="button button-primary" @click="clearFilters">
+                                    Сбросить все фильтры
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </loading>
 </template>
 
 <script>
     import axios from 'axios'
 
-    import CatalogFilterList from './CatalogFilterList'
-    import CatalogProductList from './CatalogProductList'
+    import catalogSort from './sort/mixin'
+    import catalogFilter from './filter/mixin'
+    import catalogProductList from './productList/mixin'
+
+    import Loading from '../Loading'
 
     export default {
         name: "Catalog",
 
         components: {
-            CatalogFilterList,
-            CatalogProductList,
+            Loading
         },
+
+        mixins: [
+            catalogSort,
+            catalogFilter,
+            catalogProductList
+        ],
 
         data() {
             return {
+                errorRefreshIterations: 0,
+                error: false,
+                loading: true,
                 products$: [],
-                filters$: [],
-                filteredProducts: []
+                productsThatCanBeShown: []
             }
-        },
-
-        watch:{
-            'filters': 'filterProducts'
         },
 
         created() {
             this.fetchCatalog()
         },
 
-        mounted() {
-            this.$root.$on('filterChange', () => this.filterProducts())
+        watch: {
+            productsThatCanBeShown: 'loadingProductsEnd',
+            activeSortType: [
+                'loadingProductsStart',
+                'changeSortType'
+            ],
         },
 
         methods: {
@@ -60,122 +113,102 @@
             },
 
             fetchCatalog() {
+                this.loading = true
+
                 axios.all([this.fetchFilters(), this.fetchProducts()])
                     .then((response) => {
-                        this.filters$ = response[0].data.filters
                         this.products$ = response[1].data.products
+                        this.filters$ = response[0].data.filters
+
+                        this.init()
+
+                        this.error = false
+                        this.loading = false
                     })
                     .catch((error) => {
-                        // todo: поставить заглушку в случае ошибки
-                        // кнопка повторной попытки загрузки
+                        this.loading = false
+
+                        this.$nextTick(() => {
+                            this.error = true
+                        })
+
                         console.log(error)
                     })
             },
 
-            getUniqueItems(arr) {
-                let existingIds = {}
+            // todo: разобраться с этим ужасом
+            init() {
+                this.$nextTick(() => {
+                    this.changeSortType()
 
-                return arr.filter(item => {
-                    if (item.id in existingIds) {
-                        return false
-                    }
+                    this.productsThatCanBeShown = this.products$
+                    this.applyActiveOptions(this.productsThatCanBeShown)
 
-                    existingIds[item.id] = 1
-
-                    return true
+                    this.bindScrollMoreEvent()
                 })
-            },
 
-            attributesScope() {
-                let attributes = this.products.reduce((acc, product) => {
-                    product.attributes.forEach(attribute => {
-                        acc.push({
-                            id: attribute.id,
-                            title: attribute.i18n.title
-                        })
+                this.filterChangeHandler = filterName => {
+                    this.unbindScrollMoreEvent()
+                    this.loadingProductsStart()
+
+                    this.$nextTick(() => {
+                        this.resetPage()
+                        this.productsThatCanBeShown = this.filterProducts(this.products$)
+
+                        this.applyActiveOptions(this.productsThatCanBeShown, filterName)
+
+                        this.bindScrollMoreEvent()
                     })
+                }
 
-                    return acc
-                }, [])
-
-                return this.getUniqueItems(attributes)
+                this.$root.$on('filterChanged', this.filterChangeHandler)
             },
 
-            optionsScope() {
-                let options = this.products.reduce((acc, product) => {
-                    product.attributes_options.forEach(option => {
-                        acc.push({
-                            id: option.id,
-                            attribute_id: option.attribute_id,
-                            position: option.position,
-                            value: option.i18n.value
-                        })
-                    })
-
-                    return acc
-                }, [])
-
-                return this.getUniqueItems(options)
-            },
-
-            filterProducts() {
-                this.filteredProducts = []
+            changeSortType() {
+                this.loadingProductsStart()
 
                 this.$nextTick(() => {
-                    if (this.filters.length === 0) {
-                        this.filteredProducts = this.products$
-                    }
-                    else {
-                        this.filteredProducts = this.products$.filter(product => this.$refs.filters.check(product))
-                    }
+                    this.products$ = this.sortProducts(this.products$)
+                    this.productsThatCanBeShown = this.filterProducts(this.products$)
                 })
             },
 
+            /**
+             * Попытка загрузки каталога в случае возникновения ошибки.
+             */
+            refreshCatalog() {
+                if (++this.errorRefreshIterations > 1) {
+                    window.location.reload()
+                }
+                else {
+                    this.fetchCatalog()
+                }
+            },
         },
 
-        computed: {
-            attributes() {
-                return this.attributesScope()
-            },
+        beforeDestroy() {
+            if (this.filterChangeHandler) {
+                this.$root.$off('filterChanged', this.filterChangeHandler)
+            }
 
-            options() {
-                return this.optionsScope()
-            },
-
-            allPresentedOptions() {
-                return this.products$.reduce((acc, product) => {
-                    (product.options || []).forEach(optionId => {
-                        if (acc.indexOf(optionId) === -1) {
-                            acc.push(optionId)
-                        }
-                    })
-
-                    return acc
-                }, [])
-            },
-
-            filters() {
-                let filters = this.filters$.reduce((acc, filter) => {
-                    let options = (filter.options || []).reduce((acc, option) => {
-                        if (this.allPresentedOptions.indexOf(option.id) !== -1) {
-                            acc.push(option)
-                        }
-
-                        return acc
-                    }, [])
-
-                    if (options.length > 1) {
-                        acc.push({
-                            ... filter,
-                            options: _.orderBy(options, 'position')
-                        })
-                    }
-
-                    return acc
-                }, [])
-
-                return _.orderBy(filters, 'position')
-            },
         }
     }
 </script>
+
+<style lang="scss" scoped>
+    @import "../../../sass/variables/colors";
+
+    .catalog-more-btn {
+        margin-top: 17px;
+        text-align: center;
+        position: relative;
+        background: #fff;
+        border-radius: 0.25rem;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
+        padding: 24px 32px 23px;
+        font-size: 14px / 17px;
+        font-weight: 400;
+        color: $color-text-primary;
+        cursor: pointer;
+    }
+</style>

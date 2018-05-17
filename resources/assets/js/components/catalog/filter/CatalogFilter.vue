@@ -23,6 +23,7 @@
                     <catalog-filter-option
                         :title="option.title"
                         :checked="optionIsChecked(option.id)"
+                        :disabled="optionIsDisabled(option.id)"
                         @click="optionClick(option.id)"/>
                 </div>
             </div>
@@ -52,26 +53,49 @@
 
         data() {
             return {
-                checkedOptions: []
+                checkedOptions: [],
+                activeOptions: [],
+                activeOptions$: {}
             }
         },
 
         methods: {
             optionClick(optionId) {
-                let index = this.checkedOptions.indexOf(optionId)
+                if (this.checkedOptions.indexOf(optionId) === -1) {
+                    this.checkedOptions = [
+                        ... this.checkedOptions,
+                        optionId
+                    ]
 
-                if (index === -1) {
-                    this.checkedOptions.push(optionId)
                 }
                 else {
-                    this.checkedOptions.splice(index, 1)
+                    this.checkedOptions = this.checkedOptions.filter(id => id != optionId)
                 }
 
-                this.$root.$emit('filterChange')
+                this.$root.$emit('filterChanged')
             },
 
             optionIsChecked(optionId) {
                 return this.checkedOptions.indexOf(optionId) !== -1
+            },
+
+            optionIsDisabled(optionId) {
+                if (this.optionIsChecked(optionId)) {
+                    return false
+                }
+
+                return this.activeOptions.indexOf(optionId) === -1
+            },
+
+            prepareActiveOptions({options = []}) {
+                options.forEach(optionId => {
+                    this.activeOptions$[optionId] = 1
+                })
+            },
+
+            applyActiveOptions() {
+                this.activeOptions = Object.keys(this.activeOptions$).map(optionId => parseInt(optionId))
+                this.activeOptions$ = {}
             },
 
             checkProduct(product = {}) {
@@ -111,7 +135,7 @@
 
 <style lang="scss" scoped>
 
-    @import "../../../sass/variables/colors";
+    @import "../../../../sass/variables/colors";
 
     .filter-name {
         display: block;

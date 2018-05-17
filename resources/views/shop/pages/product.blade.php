@@ -79,11 +79,13 @@
                     @endif
                     <div class="product-page__stars">
                         <div class="product-page__stars-box">
-                            <svg class="symbol-icon product-rating">
+                            <svg class="product-rating">
                                 <use xlink:href="/assets/images/icons.svg#product-rating"></use>
                             </svg>
+
                             <div class="product-page__stars-inner"></div>
                         </div>
+
                         <span>324 оценки об этом продукте</span>
                     </div>
 

@@ -7,7 +7,7 @@ export default  {
         },
         offset: {
             type: Number,
-            default: 500
+            default: 1000
         },
         index: Number
     },
@@ -15,6 +15,7 @@ export default  {
     data() {
         return {
             loaded: false,
+            animate: false,
             // todo: протестировать в ie
             image$: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
         }
@@ -37,9 +38,13 @@ export default  {
             if (typeof cb !== 'function') return
 
             if (this.isLoaded(elImg)) {
+                this.animate = false
+
                 cb()
             }
             else {
+                this.animate = true
+
                 let onLoad = () => {
                     elImg.removeEventListener('load', onLoad)
                     cb()

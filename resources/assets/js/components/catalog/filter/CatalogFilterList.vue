@@ -1,7 +1,10 @@
 <template>
     <div class="catalog-filter">
-        <div class="catalog-filter-item">
-            <catalog-filter-price />
+        <div class="catalog-filter-item" v-if="prices">
+            <catalog-filter-price
+                ref="filter-price"
+                name="price"
+                :prices="prices" />
         </div>
 
         <div v-for="(filter, index) in filters" :key="filter.id" class="catalog-filter-item">
@@ -34,26 +37,14 @@
         },
 
         props: [
+            'prices',
             'filters'
         ],
 
         methods: {
             clear() {
                 this.filtersArray.forEach(filterComponent => filterComponent.clear())
-            },
-
-            check(product) {
-                for (let key in this.$refs) {
-                    let filterComponent = this.$refs[key][0]
-
-                    let result = filterComponent.checkProduct(product)
-
-                    if (!result) {
-                        return false
-                    }
-                }
-
-                return true
+                this.$root.$emit('filterChanged')
             },
         },
 
@@ -73,15 +64,15 @@
                 }
 
                 return filters
-            }
+            },
         }
     }
 </script>
 
 <style lang="scss" scoped>
 
-    @import "../../../sass/variables/colors";
-    @import "../../../sass/variables/variables";
+    @import "../../../../sass/variables/colors";
+    @import "../../../../sass/variables/variables";
 
     .catalog {
         &-filter {

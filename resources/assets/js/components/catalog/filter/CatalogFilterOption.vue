@@ -9,35 +9,54 @@
                 type: Boolean,
                 default: false,
             },
+
+            disabled: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         render: function (createElement) {
             return createElement(
                 'label',
                 {
-                    class: 'filter-label',
+                    class: {
+                        'filter-label': true,
+                        'disabled': this.disabled
+                    },
+
                     on: {
                         click: (e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            this.$emit('click')
+
+                            if (!this.disabled) {
+                                this.$emit('click')
+                            }
                         }
                     }
                 },
                 [
-                    this.title,
-
                     createElement(
                         'input',
                         {
                             attrs: {
                                 type: 'checkbox',
-                                checked: this.checked
+                                checked: this.checked,
+                                disabled: this.disabled
                             },
                         }
                     ),
 
-                    createElement('span', {class: 'checkmark'})
+                    createElement('span', {class: 'checkmark'}),
+
+                    createElement(
+                        'span',
+                        {
+                            class: 'value'
+                        },
+                        [this.title]
+                    )
                 ]
             )
         },
@@ -45,7 +64,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../sass/variables/colors";
+    @import "../../../../sass/variables/colors";
 
     .filter-label {
         display: block;
@@ -83,6 +102,21 @@
             border-width: 0 3px 3px 0;
             transform: rotate(45deg);
         }
+
+        &.disabled {
+            cursor: not-allowed;
+
+            & input ~ .checkmark {
+                background-color: $color-border;
+            }
+
+            & .checkmark,
+            & .value {
+                opacity: .5;
+            }
+        }
+
+
     }
 
     .checkmark {
