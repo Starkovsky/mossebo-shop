@@ -33,8 +33,7 @@ Route::prefix('ru')->group(function () {
         Route::get('/', 'Shop\HomeController@index')
             ->name('lk');
 
-    })
-        ->middleware(['auth']);
+    });
 });
 
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
