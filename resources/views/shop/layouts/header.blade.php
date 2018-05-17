@@ -20,11 +20,36 @@
             </div>
             <div class="header-float-item">
                 <a href="#" class="mobile-profile"
+                   data-toggle="dropdown"
+                   aria-haspopup="true"
+                   aria-expanded="false"
                 >
                     <svg class="symbol-icon symbol-person">
                         <use xlink:href="/assets/images/icons.svg#symbol-person"></use>
                     </svg>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    @guest
+                        <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
+                        <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                    @else
+                        <!-- <a class="dropdown-item">{{ __('auth.welcome') }}, {{ Auth::user()->name }}</a> -->
+                        <a href="#" class="dropdown-item">Мои заказы</a>
+                        <a href="#" class="dropdown-item">Профиль</a>
+                        <a href="#" class="dropdown-item">Отзывы</a>
+                        <a href="#" class="dropdown-item">Вопросы</a>
+                        <a href="#" class="dropdown-item gray">Помощь</a>
+                        <a class="dropdown-item logout"
+                           href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        >
+                            {{ __('auth.logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    @endguest
+                </div>
             </div>
             <div class="header-float-item">
                 <a href="#" class="mobile-search"

@@ -58,7 +58,7 @@ const app = new Vue({
     mounted() {
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
-
+        $('.dropdown-toggle').dropdown();
     },
 });
 

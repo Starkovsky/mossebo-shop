@@ -5,17 +5,23 @@
 
 
 .title_h1 {
+    font-size: 40px;
     color: $color-text-primary;
 }
 .title_h2 {
-    font-size: 34px;
+    font-size: 32px;
+    color: $color-text-primary;
+    margin-bottom: 20px;
+}
+.title_h3 {
+    font-size: 24px;
     color: $color-text-primary;
     margin-bottom: 20px;
 }
 
 
 .block-ui {
-    border-radius: 5px;
+    border-radius: $radius;
     box-shadow: $shadows-primary;
     background: $color-ui;
     font-size: 14px;
@@ -25,7 +31,7 @@
 
 // TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
 .information-block {
-    border-radius: 5px;
+    border-radius: $radius;
     box-shadow: $shadows-primary;
     background: $color-ui;
     font-size: 14px;

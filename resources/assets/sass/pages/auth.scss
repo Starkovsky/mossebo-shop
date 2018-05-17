@@ -1,0 +1,27 @@
+.auth {
+    border-radius: $radius;
+    box-shadow: $shadows-primary;
+    background: $color-ui;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-text-secondary;
+    margin-bottom: 80px;
+    padding-top: 60px;
+    padding-bottom: 80px;
+    padding-left: 15px;
+    padding-right: 15px;
+    .title_h1 {
+        margin-bottom: 40px;
+    }
+    &-social {
+        border-right: 1px solid $color-border;
+        border-bottom: 1px solid $color-border;
+    }
+    &-form {
+        border-bottom: 1px solid $color-border;
+        .button.login {
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+    }
+}

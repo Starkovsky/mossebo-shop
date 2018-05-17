@@ -1,0 +1,72 @@
+.form {
+    &-input[type="text"], &-input[type="email"], &-input[type="password"] {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid $color-border;
+        border-radius: $radius;
+        padding: 10px 20px;
+        color: $color-text-primary;
+        &:focus {
+            outline: none;
+        }
+        &.is-invalid {
+            border: 1px solid $color-danger;
+        }
+    }
+    &-checkbox {
+        display: block;
+        position: relative;
+        color: $color-text-primary;
+        font-size: 13px;
+        margin-bottom: 12px;
+        padding-left: 35px;
+        cursor: pointer;
+        user-select: none;
+
+        input {
+            display: none;
+
+            &:checked ~ .checkmark {
+                background-color: $color-primary !important;
+                border: 2px solid $color-primary !important;
+
+                &:after {
+                    display: block;
+                }
+            }
+        }
+
+        &:hover input ~ .checkmark {
+            background-color: $color-border;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: $color-ui;
+            border: 2px solid $color-border;
+            border-radius: 2px;
+            box-sizing: border-box;
+
+            &:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+        }
+        .checkmark:after {
+            left: 5px;
+            top: 2px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+    }
+
+
+}

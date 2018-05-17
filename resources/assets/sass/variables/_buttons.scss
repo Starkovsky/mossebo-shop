@@ -1,6 +1,6 @@
 .button {
     display: inline-block;
-    font-weight: 500;
+    font-weight: 400;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -8,7 +8,7 @@
     border: 1px solid transparent;
     border-radius: 30px;
     transition: $transition-primary;
-    padding: 10px 20px;
+    padding: 10px 35px;
     text-decoration: none;
     &:hover {
         text-decoration: none;
@@ -39,6 +39,7 @@
         background: $color-primary;
         &:hover {
             box-shadow: $shadows-primary;
+            color: $color-ui;
         }
     }
     &-dark {

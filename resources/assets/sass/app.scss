@@ -5,6 +5,7 @@
 @import "variables/colors";
 @import "variables/variables";
 @import "variables/buttons";
+@import "variables/form-el";
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -35,6 +36,9 @@
 @import "pages/catalog";
 @import "pages/error-404";
 @import "pages/product-page";
+
+//Auth
+@import "pages/auth";
 
 //Global Styles
 @import "global";

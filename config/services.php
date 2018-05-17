@@ -35,4 +35,16 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'vkontakte' => [
+        'client_id' => env('VK_ID'),
+        'client_secret' => env('VK_SECRET'),
+        'redirect' => env('VK_REDIRECT'),
+    ],
+
+    'odnoklassniki' => [
+        'client_id' => env('ODNOKLASSNIKI_ID'),
+        'client_secret' => env('ODNOKLASSNIKI_SECRET'),
+        'client_public' => env('ODNOKLASSNIKI_PUBLIC'),
+        'redirect' => env('ODNOKLASSNIKI_REDIRECT'),
+    ],
 ];

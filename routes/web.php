@@ -26,9 +26,18 @@ Route::prefix('ru')->group(function () {
     Route::get('/pay', 'Shop\PageController@pay')->name('pay');
     Route::get('/garant', 'Shop\PageController@garant')->name('garant');
 
+    Auth::routes();
+
+    Route::prefix('lk')->group(function () {
+
+        Route::get('/', 'Shop\HomeController@index')
+            ->name('lk');
+
+    })
+        ->middleware(['auth']);
 });
 
-
-Auth::routes();
+Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
+Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
 // Route::get('/home', 'HomeController@index')->name('home');
