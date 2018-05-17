@@ -18,7 +18,7 @@
 <script>
     import GetProducts from '../../mixins/GetProducts'
 
-    import ProductCard from "./ProductCard";
+    import ProductCard from "./ProductCard"
 
     export default {
         name: "ProductList",
@@ -33,9 +33,11 @@
         props: [
             'url'
         ],
+
         mounted() {
-            this.GetProductsJSON(this.url);
+            this.GetProductsJSON(this.url)
         },
+
         mixins: [
             GetProducts
         ]

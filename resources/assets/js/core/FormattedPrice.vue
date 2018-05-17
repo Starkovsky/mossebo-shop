@@ -1,6 +1,6 @@
 <template>
     <span v-if="price != undefined">
-        {{ PriceWithSeparation( price/100 ) }} {{ this.$root.mossebo.currency.symbol }}
+        {{ PriceWithSeparation( price ) }} {{ this.$root.mossebo.currency.symbol }}
     </span>
 </template>
 
