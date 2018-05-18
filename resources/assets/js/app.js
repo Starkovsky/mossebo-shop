@@ -18,13 +18,13 @@ import Vue from 'vue'
  */
 
 import ScrollBar from './core/ScrollBar'
-import Catalog from './components/catalog/Catalog'
-import ProductList from './components/catalog/ProductList'
-import ProductCard from './components/catalog/ProductCard'
+import Catalog from './components/shop/catalog/Catalog'
+import ProductList from './components/shop/catalog/ProductList'
+import ProductCard from './components/shop/catalog/ProductCard'
 import FormattedPrice from './core/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
-import Cart from './components/cart/Cart'
+import Cart from './components/shop/cart/Cart'
 
 
 

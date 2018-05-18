@@ -55,9 +55,9 @@
 </template>
 
 <script>
-    import FormattedPrice from '../../core/FormattedPrice'
-    import ImgImageLoader from '../imageLoaders/ImgImageLoader'
-    import ProductImagesHat from '../../mixins/ProductImagesHat'
+    import FormattedPrice from '../../../core/FormattedPrice'
+    import ImgImageLoader from '../../imageLoaders/ImgImageLoader'
+    import ProductImagesHat from '../../../mixins/ProductImagesHat'
 
     export default {
         name: "CartProduct",

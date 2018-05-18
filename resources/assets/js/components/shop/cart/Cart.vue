@@ -1,15 +1,20 @@
 <template>
-    <div class="cart">
-        <div v-if="isEmpty">
-            Корзина пуста.
+    <div v-if="isEmpty">
+        Корзина пуста.
+    </div>
+
+    <div v-else>
+        <checkout-steps
+            active="cart"
+        ></checkout-steps>
+
+        <div class="py-3"></div>
+
+        <div class="cart bulge">
+            <cart-table
+                :products.sync="products"
+            ></cart-table>
         </div>
-
-        <cart-table
-            v-else
-            :products.sync="products"
-        ></cart-table>
-
-
     </div>
 </template>
 
@@ -17,12 +22,14 @@
     import 'axios'
 
     import CartTable from './CartTable'
+    import CheckoutSteps from '../CheckoutSteps'
 
     export default {
         name: "Cart",
 
         components: {
-            CartTable
+            CartTable,
+            CheckoutSteps
         },
 
         data() {

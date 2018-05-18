@@ -50,3 +50,10 @@
         margin-bottom: 15px;
     }
 }
+
+.bulge {
+    background: $color-ui;
+    border-radius: 5px;
+    box-shadow: $shadows-primary;
+    overflow: hidden;
+}

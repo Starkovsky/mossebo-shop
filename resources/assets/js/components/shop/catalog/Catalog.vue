@@ -20,7 +20,8 @@
                     <catalog-filter-list
                         ref="filters"
                         :filters="filters"
-                        :prices="prices" />
+                        :prices="prices"
+                    ></catalog-filter-list>
 
                     <div v-if="filters.length > 0" class="catalog-filters-controls">
                         <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
@@ -31,13 +32,20 @@
 
                 <div class="col-md-9">
                     <template v-if="productsToShow.length > 0">
-                        <catalog-sort :types="sortTypes" :active="activeSortType" @change="setActiveSortType" />
+                        <catalog-sort
+                            :types="sortTypes"
+                            :active="activeSortType"
+                            @change="setActiveSortType"
+                        ></catalog-sort>
 
                         <loading class="without-overlay" :loading="productsLoading.inProcess" style="min-height: 450px">
-                            <catalog-product-list :products="productsToShow" :loading="productsLoading.inProcess"/>
+                            <catalog-product-list
+                                :products="productsToShow"
+                                :loading="productsLoading.inProcess"
+                            ></catalog-product-list>
                         </loading>
 
-                        <div @click="more" class="catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
+                        <div @click="more" class="bulge catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
                             Показать еще
                         </div>
                     </template>
@@ -72,7 +80,7 @@
     import catalogFilter from './filter/mixin'
     import catalogProductList from './productList/mixin'
 
-    import Loading from '../Loading'
+    import Loading from '../../Loading'
 
     export default {
         name: "Catalog",
@@ -202,15 +210,12 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../sass/variables/colors";
+    @import "../../../../sass/variables/colors";
 
     .catalog-more-btn {
         margin-top: 17px;
         text-align: center;
         position: relative;
-        background: #fff;
-        border-radius: 0.25rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, .14);
         padding: 24px 32px 23px;
         font-size: 14px / 17px;
         font-weight: 400;

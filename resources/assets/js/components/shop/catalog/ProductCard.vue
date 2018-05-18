@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="product-card">
+        <div class="product-card bulge">
             <div class="product-card__actions text-right">
                 <a href="#"
                    data-toggle="tooltip"
@@ -69,9 +69,9 @@
 </template>
 
 <script>
-    import FormattedPrice from '../../core/FormattedPrice'
-    import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
-    import ProductImagesHat from '../../mixins/ProductImagesHat'
+    import FormattedPrice from '../../../core/FormattedPrice'
+    import BackgroundImageLoader from '../../imageLoaders/BackgroundImageLoader'
+    import ProductImagesHat from '../../../mixins/ProductImagesHat'
 
     export default {
         name: "ProductCard",
@@ -113,8 +113,8 @@
 
 <style lang="scss" scoped>
 
-    @import "../../../sass/variables/colors";
-    @import "../../../sass/variables/variables";
+    @import "../../../../sass/variables/colors";
+    @import "../../../../sass/variables/variables";
 
     @keyframes animate-buttons {
         from {height: 0;}
@@ -123,11 +123,8 @@
 
     .product-card {
         width: 100%;
-        background: $color-ui;
         padding: 20px;
         margin: 15px 0;
-        border-radius: 5px;
-        box-shadow: $shadows-primary;
         height: 420px;
         box-sizing: border-box;
         transition: $transition-primary;

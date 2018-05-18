@@ -11,6 +11,10 @@
                 </th>
 
                 <th>
+                    Цена за штуку
+                </th>
+
+                <th>
                     Цена
                 </th>
 
@@ -64,6 +68,20 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "../../../../sass/variables/colors";
+
+    .cart-table {
+        & th {
+            font-size: 16px / 19px;
+            text-align: left;
+
+            &:not(:first-child) {
+                text-align: center;
+            }
+
+            color: $color-text-secondary-2;
+        }
+    }
 
 </style>
