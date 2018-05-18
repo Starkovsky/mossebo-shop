@@ -1,6 +1,7 @@
 export default  {
     props: {
-        image: String,
+        image: null,
+        retinaImage: null,
         screen: {
             type: Boolean,
             default: false,
@@ -54,9 +55,17 @@ export default  {
             }
         },
 
+        getResponsiveImage() {
+            if (isHighDensity() && !_.isEmpty(this.retinaImage)) {
+                return this.retinaImage
+            }
+
+            return _.isString(this.image) ? this.image : ''
+        },
+
         load() {
             let elImg = document.createElement('img')
-            elImg.src = this.image
+            elImg.src = this.getResponsiveImage()
 
             this.onLoad(elImg, () => {
                 this.loaded = true

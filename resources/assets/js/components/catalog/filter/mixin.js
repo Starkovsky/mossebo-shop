@@ -8,6 +8,7 @@ export default {
     data() {
         return {
             filters$: [],
+            filtersIsDirty: false
         }
     },
 
@@ -58,6 +59,10 @@ export default {
                     filterComponent.prepareActiveOptions(product)
                 })
 
+                if (filterComponent.isDirty()) {
+                    this.filtersIsDirty = true
+                }
+
                 filterComponent.applyActiveOptions(type)
             })
         },
@@ -67,7 +72,16 @@ export default {
         },
 
         clearFilters() {
-            this.$refs.filters.clear()
+            console.log(this.filtersIsDirty)
+            if (! this.filtersIsDirty) return
+
+            this.getFilterComponents().forEach(component => {
+                component.clear()
+            })
+
+            this.filtersIsDirty = false
+
+            this.$root.$emit('filterChanged')
         }
     },
 

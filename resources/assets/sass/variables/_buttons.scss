@@ -20,17 +20,22 @@
     &-light {
         border: 1px solid $color-border;
         color: $color-text-primary;
-        background: $color-ui;
+        background-color: $color-ui;
         .symbol-icon {
             fill: $color-text-primary;
         }
-        &:hover {
+        &:not(:disabled):hover {
             border: 1px solid $color-primary;
             background: $color-primary;
             color: $color-ui;
             .symbol-icon {
                 fill: $color-ui;
             }
+        }
+        &:disabled {
+            color: $color-text-primary-3;
+            border-color: $color-border-3;
+            background-color: $color-background;
         }
     }
     &-primary {
@@ -50,7 +55,11 @@
             box-shadow: $shadows-primary;
         }
     }
+    &:disabled {
+        cursor: not-allowed;
+    }
 }
+
 .input-group {
     display: inline-flex;
     &-append {

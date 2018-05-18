@@ -21,6 +21,12 @@
                         ref="filters"
                         :filters="filters"
                         :prices="prices" />
+
+                    <div v-if="filters.length > 0" class="catalog-filters-controls">
+                        <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                            Сбросить фильтры
+                        </button>
+                    </div>
                 </div>
 
                 <div class="col-md-9">
@@ -210,5 +216,10 @@
         font-weight: 400;
         color: $color-text-primary;
         cursor: pointer;
+    }
+
+    .catalog-filters-controls {
+        text-align: center;
+        margin-top: 30px;
     }
 </style>

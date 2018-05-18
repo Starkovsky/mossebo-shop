@@ -15,12 +15,6 @@
                 :options="filter.options"
                 :expanded="index < 4" />
         </div>
-
-        <div v-if="filters.length > 0" class="catalog-filters-controls">
-            <button @click="clear" type="button" class="button button-primary">
-                Сбросить фильтры
-            </button>
-        </div>
     </div>
 </template>
 
@@ -40,13 +34,6 @@
             'prices',
             'filters'
         ],
-
-        methods: {
-            clear() {
-                this.filtersArray.forEach(filterComponent => filterComponent.clear())
-                this.$root.$emit('filterChanged')
-            },
-        },
 
         computed: {
             filtersArray() {
@@ -96,11 +83,6 @@
                     border-bottom-right-radius: 5px;
                 }
             }
-        }
-
-        &-filters-controls {
-            text-align: center;
-            margin-top: 30px;
         }
     }
 </style>

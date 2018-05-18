@@ -120,6 +120,10 @@
                 return false;
             },
 
+            isDirty() {
+                return !!this.checkedOptions.length
+            },
+
             clear() {
                 this.checkedOptions = []
             }

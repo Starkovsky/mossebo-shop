@@ -28,7 +28,8 @@
                     <background-image-loader
                         class="product-card__image"
                         :screen="true"
-                        :image="backgroundImage" />
+                        :image="prepareImage(product.image.src)"
+                        :retina-image="prepareImage(product.image.srcset)" />
                 </div>
                 <div class="product-card__name">
                     {{ product.name }}
@@ -70,9 +71,14 @@
 <script>
     import FormattedPrice from '../../core/FormattedPrice'
     import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
+    import ProductImagesHat from '../../mixins/ProductImagesHat'
 
     export default {
         name: "ProductCard",
+
+        mixins: [
+            ProductImagesHat
+        ],
 
         props: [
             'product',
@@ -102,26 +108,6 @@
                 return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
             }
         },
-
-        computed: {
-            backgroundImage() {
-                if (!this.product.image) {
-                    return ''
-                }
-
-                let image = this.product.image.src || ''
-
-                if (this.isHighDensity && this.product.image.srcset) {
-                    image = this.product.image.srcset
-                }
-
-                if (image.indexOf('http') === 0) {
-                    return image
-                }
-
-                return 'https://admin.mossebo.market' + image
-            }
-        }
     }
 </script>
 
