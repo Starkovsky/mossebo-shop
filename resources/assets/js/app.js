@@ -18,12 +18,13 @@ import Vue from 'vue'
  */
 
 import ScrollBar from './core/ScrollBar'
-import Catalog from './components/catalog/Catalog'
-import ProductList from './components/catalog/ProductList'
-import ProductCard from './components/catalog/ProductCard'
+import Catalog from './components/shop/catalog/Catalog'
+import ProductList from './components/shop/catalog/ProductList'
+import ProductCard from './components/shop/catalog/ProductCard'
 import FormattedPrice from './core/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
+import Cart from './components/shop/cart/Cart'
 
 
 
@@ -34,21 +35,25 @@ import BannerHomeNew from './components/banners/BannerHomeNew'
 const app = new Vue({
     el: '#app',
     components: {
-        'scroll-bar': ScrollBar,
-        'catalog': Catalog,
-        'product-list': ProductList,
-        'product-card': ProductCard,
-        'formatted-price': FormattedPrice,
-        'banner-home-stock': BannerHomeStock,
-        'banner-home-new': BannerHomeNew,
+        ScrollBar,
+        Catalog,
+        ProductList,
+        ProductCard,
+        FormattedPrice,
+        BannerHomeStock,
+        BannerHomeNew,
+        Cart
     },
     data: {
         ActionProduct: {
             'id': '100028',
             'name': 'Настольная лампа CHESTER 49385',
-            'image': '/uploads/media/product/252/responsive-images/5ae43f6d74377858182382___small_200_200.jpg',
-            'price': '349000',
-            'old_price': '412000'
+            'image': {
+                src: '/uploads/media/product/467/responsive-images/5af5556b838f3777579684___small_200_200.jpg',
+                srcset: '/uploads/media/product/467/responsive-images/5af5556b838f3777579684___small_400_400.jpg',
+            },
+            'price': '3490',
+            'old_price': '4120'
         },
         mossebo: window.mossebo,
     },

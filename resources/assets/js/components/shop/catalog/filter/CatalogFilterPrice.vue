@@ -30,7 +30,7 @@
         data () {
             return {
                 priceFilter: {
-                    value: this.prices,
+                    value: [... this.prices],
                     width: 'calc(100% - 30px)',
                     height: 5,
                     dotSize: 15,
@@ -103,10 +103,10 @@
                     // ]
                 },
 
-                filterRange: this.prices,
-                availableRange: this.prices,
-                cachedRange: this.prices,
-                manualRange: this.prices,
+                filterRange: [... this.prices],
+                availableRange: [... this.prices],
+                cachedRange: [... this.prices],
+                manualRange: [... this.prices],
                 activePrices$: false
             }
         },
@@ -147,9 +147,7 @@
             applyActiveOptions(filterName) {
                 let prices = this.activePrices$ ? this.activePrices$ : this.prices
 
-                this.availableRange = [
-                    ... prices
-                ]
+                this.availableRange = [... prices]
 
                 if (filterName !== this.name) {
                     this.priceFilter.value = [
@@ -162,14 +160,11 @@
             },
 
             clear() {
-                this.priceFilter = {
-                    ... this.priceFilter,
-                    value: this.prices
-                }
-
-                this.cachedRange = this.prices
-                this.manualRange = this.prices
-                this.availableRange = this.prices
+                this.priceFilter.value = [... this.prices]
+                this.filterRange = [... this.prices]
+                this.cachedRange = [... this.prices]
+                this.manualRange = [... this.prices]
+                this.availableRange = [... this.prices]
             },
 
             inputChange() {
@@ -191,17 +186,11 @@
 
             setPriceRange(prices) {
                 if (this.cachedRange[0] !== prices[0] || this.cachedRange[1] !== prices[1]) {
-                    this.cachedRange = [
-                        ... prices
-                    ]
+                    this.cachedRange = [... prices]
 
-                    this.manualRange = [
-                        ... prices
-                    ]
+                    this.manualRange = [... prices]
 
-                    this.priceFilter.value = [
-                        ... prices
-                    ]
+                    this.priceFilter.value = [... prices]
 
                     this.filterRange = [
                         Math.min(prices[0], this.manualRange[0]),
@@ -214,6 +203,10 @@
 
             getPercent(value) {
                 return (value / this.diff * 100).toFixed(4)
+            },
+
+            isDirty() {
+                return ! _.isEqual(this.priceFilter.value, this.prices)
             },
         },
 
@@ -257,8 +250,8 @@
             href="#filerCollapsePrice"
             role="button"
             aria-expanded="true"
-            aria-controls="filerCollapsePrice"
-        >
+            aria-controls="filerCollapsePrice" >
+
             Цена
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
@@ -292,7 +285,7 @@
 
 <style lang="scss" scoped>
 
-    @import "../../../../sass/variables/colors";
+    @import "../../../../../sass/variables/colors";
 
     .filter-name {
         display: block;

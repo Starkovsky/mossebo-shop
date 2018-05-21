@@ -64,7 +64,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../../sass/variables/colors";
+    @import "../../../../../sass/variables/colors";
 
     .filter-label {
         display: block;

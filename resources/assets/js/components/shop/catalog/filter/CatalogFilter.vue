@@ -120,6 +120,10 @@
                 return false;
             },
 
+            isDirty() {
+                return !!this.checkedOptions.length
+            },
+
             clear() {
                 this.checkedOptions = []
             }
@@ -135,7 +139,7 @@
 
 <style lang="scss" scoped>
 
-    @import "../../../../sass/variables/colors";
+    @import "../../../../../sass/variables/colors";
 
     .filter-name {
         display: block;

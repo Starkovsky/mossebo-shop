@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="product-card">
+        <div class="product-card bulge">
             <div class="product-card__actions text-right">
                 <a href="#"
                    data-toggle="tooltip"
@@ -28,7 +28,8 @@
                     <background-image-loader
                         class="product-card__image"
                         :screen="true"
-                        :image="backgroundImage" />
+                        :image="prepareImage(product.image.src)"
+                        :retina-image="prepareImage(product.image.srcset)" />
                 </div>
                 <div class="product-card__name">
                     {{ product.name }}
@@ -68,11 +69,16 @@
 </template>
 
 <script>
-    import FormattedPrice from '../../core/FormattedPrice'
-    import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
+    import FormattedPrice from '../../../core/FormattedPrice'
+    import BackgroundImageLoader from '../../imageLoaders/BackgroundImageLoader'
+    import ProductImagesHat from '../../../mixins/ProductImagesHat'
 
     export default {
         name: "ProductCard",
+
+        mixins: [
+            ProductImagesHat
+        ],
 
         props: [
             'product',
@@ -102,33 +108,13 @@
                 return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
             }
         },
-
-        computed: {
-            backgroundImage() {
-                if (!this.product.image) {
-                    return ''
-                }
-
-                let image = this.product.image.src || ''
-
-                if (this.isHighDensity && this.product.image.srcset) {
-                    image = this.product.image.srcset
-                }
-
-                if (image.indexOf('http') === 0) {
-                    return image
-                }
-
-                return 'https://admin.mossebo.market' + image
-            }
-        }
     }
 </script>
 
 <style lang="scss" scoped>
 
-    @import "../../../sass/variables/colors";
-    @import "../../../sass/variables/variables";
+    @import "../../../../sass/variables/colors";
+    @import "../../../../sass/variables/variables";
 
     @keyframes animate-buttons {
         from {height: 0;}
@@ -137,11 +123,8 @@
 
     .product-card {
         width: 100%;
-        background: $color-ui;
         padding: 20px;
         margin: 15px 0;
-        border-radius: 5px;
-        box-shadow: $shadows-primary;
         height: 420px;
         box-sizing: border-box;
         transition: $transition-primary;

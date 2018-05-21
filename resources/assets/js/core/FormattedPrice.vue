@@ -12,12 +12,9 @@
         ],
         methods: {
             PriceWithSeparation: function (value) {
-                return value.toLocaleString();
+                value = value.toString().replace(',', '.').replace(/[^0-9]+/g, '')
+                return parseFloat(value).toLocaleString()
             },
         },
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -34,9 +34,16 @@ Route::prefix('ru')->group(function () {
             ->name('lk');
 
     });
+
+    Route::get('/cart', function () {
+        return view('shop.pages.cart');
+    });
 });
 
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
 Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
 // Route::get('/home', 'HomeController@index')->name('home');
+
+
+
