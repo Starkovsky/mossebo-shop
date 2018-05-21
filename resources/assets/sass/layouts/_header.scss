@@ -28,15 +28,6 @@
             margin-left: 8px;
         }
     }
-    .load-sities {
-        color: $color-text-primary;
-        font-size: 14px;
-        display: inline-block;
-        margin-right: 32px;
-        .md-icon {
-            color: $color-icons;
-        }
-    }
     &-float {
         overflow: visible;
         @include media-breakpoint-down(md) {
@@ -81,7 +72,7 @@
                 }
             }
             &:nth-child(6) {
-                margin-left: calc(55px + 133px + 35px);
+                margin-left: calc(110px + 68px);
                 @include media-breakpoint-down(md) {
                     display: none;
                 }
@@ -135,89 +126,192 @@
                 display: block;
             }
         }
-        &-profile {
-            display: block;
-            color: $color-icons;
-            padding: 15px 15px;
-            .symbol-person {
-                transition: $transition-primary;
-                fill: $color-icons;
-            }
-            @include media-breakpoint-down(md) {
-                border-left: 1px solid $color-border;
-            }
-            &:hover {
-                .symbol-person {
-                    fill: $color-text-primary;
-                }
-            }
-        }
-        &-search {
-            display: block;
-            color: $color-icons;
-            padding: 15px 15px;
-            transition: $transition-primary;
-            .symbol-search {
-                transition: $transition-primary;
-                fill: $color-icons;
-            }
-            @include media-breakpoint-down(md) {
-                border-left: 1px solid $color-border;
-            }
-            &:hover {
-                .symbol-search {
-                    fill: $color-text-primary;
-                }
-            }
-        }
-        &-cart {
-            display: block;
-            position: relative;
-            padding: 15px 0 15px 15px;
-            transition: $transition-primary;
-            .symbol-cart {
-                transition: $transition-primary;
-                fill: $color-icons;
-            }
-            @include media-breakpoint-down(md) {
-                border-left: 1px solid $color-border;
-                width: 55px;
-            }
-            &:hover {
-                .symbol-cart {
-                    fill: $color-text-primary;
-                }
-            }
-            &-active {
-                .badge {
-                    display: block !important;
-                }
-                .symbol-cart {
-                    fill: $color-text-primary;
-                }
-            }
-            .badge {
-                display: none;
-                position: absolute;
-                left: 28px;
-                top: 11px;
-                background: #FF9001;
-                color: $color-ui;
-                font-size: 10px;
-                font-weight: 400;
-                padding: 3px 5px 2px 5px;
-                border-radius: 50%;
-                @include media-breakpoint-down(md) {
-
-                }
-            }
-        }
     }
     &-mobile-fix {
         display: none;
         height: 55px;
         @include media-breakpoint-down(md) {
             display: block;
+        }
+    }
+
+    .location {
+        display: block;
+        position: relative;
+        padding: 15px 0 15px 15px;
+        transition: $transition-primary;
+        color: $color-text-primary;
+        line-height: 1.4;
+        width: 215px;
+        .symbol-location {
+            transition: $transition-primary;
+            fill: $color-icons;
+        }
+        @include media-breakpoint-down(md) {
+            border-left: 1px solid $color-border;
+            width: 55px;
+        }
+        &-icon {
+            margin-right: 8px;
+        }
+        &-name {
+            font-size: 14px;
+        }
+        &-phone {
+            font-size: 12px;
+            color: $color-text-secondary;
+        }
+        &:hover {
+            color: $color-text-primary-2;
+            .symbol-location, .symbol-keyboard-down {
+                fill: $color-text-primary;
+            }
+        }
+        .symbol-keyboard-down {
+            margin-left: 8px;
+        }
+    }
+
+    .search {
+        display: block;
+        padding: 15px 15px;
+        color: $color-text-primary;
+        line-height: 1.4;
+        .symbol-person {
+            transition: $transition-primary;
+            fill: $color-icons;
+        }
+        @include media-breakpoint-down(md) {
+            border-left: 1px solid $color-border;
+        }
+        &-icon {
+            margin-right: 8px;
+            @include media-breakpoint-down(md) {
+                margin-right: 0;
+            }
+        }
+        &-name {
+            font-size: 14px;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+        &:hover {
+            color: $color-text-primary-2;
+            .symbol-search, .symbol-keyboard-down {
+                fill: $color-text-primary;
+            }
+        }
+        .symbol-keyboard-down {
+            margin-left: 8px;
+        }
+    }
+
+    .profile {
+        display: block;
+        padding: 15px 15px;
+        color: $color-text-primary;
+        line-height: 1.4;
+        .symbol-person {
+            transition: $transition-primary;
+            fill: $color-icons;
+        }
+        @include media-breakpoint-down(md) {
+            border-left: 1px solid $color-border;
+        }
+        &-icon {
+            margin-right: 8px;
+            @include media-breakpoint-down(md) {
+                margin-right: 0;
+            }
+        }
+        &-name {
+            font-size: 14px;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+        &:hover {
+            color: $color-text-primary-2;
+            .symbol-person, .symbol-keyboard-down {
+                fill: $color-text-primary;
+            }
+        }
+        .symbol-keyboard-down {
+            margin-left: 8px;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+    }
+    .cart {
+        display: block;
+        position: relative;
+        padding: 15px 0 15px 15px;
+        transition: $transition-primary;
+        color: $color-text-primary;
+        line-height: 1.4;
+        .symbol-cart {
+            transition: $transition-primary;
+            fill: $color-icons;
+        }
+        @include media-breakpoint-down(md) {
+            border-left: 1px solid $color-border;
+            width: 55px;
+        }
+        &-icon {
+            margin-right: 8px;
+            @include media-breakpoint-down(md) {
+                margin-right: 0;
+            }
+        }
+        &-name {
+            font-size: 14px;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+        &-result {
+            font-size: 12px;
+            color: $color-text-secondary;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+        &:hover {
+            color: $color-text-primary-2;
+            .symbol-cart, .symbol-keyboard-down {
+                fill: $color-text-primary;
+            }
+        }
+        .symbol-keyboard-down {
+            margin-left: 8px;
+            @include media-breakpoint-down(md) {
+                display: none;
+            }
+        }
+        &-active {
+            .badge {
+                display: block !important;
+            }
+            .symbol-cart {
+                fill: $color-text-primary;
+            }
+        }
+        .badge {
+            display: none;
+            position: absolute;
+            left: 28px;
+            top: 15px;
+            background: #FF9001;
+            color: $color-ui;
+            font-size: 10px;
+            font-weight: 400;
+            padding: 3px 5px 2px 5px;
+            border-radius: 50%;
+            @include media-breakpoint-down(md) {
+                top: 11px;
+            }
         }
     }
 }

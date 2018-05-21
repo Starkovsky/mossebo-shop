@@ -18,7 +18,7 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
     .options({
         processCssUrls: false,
         postCss: [
-            require('postcss-cssnext'),
+            //require('postcss-cssnext'),
             require('postcss-custom-media'),
             require('postcss-short-position'),
             require('postcss-short-font-size'),

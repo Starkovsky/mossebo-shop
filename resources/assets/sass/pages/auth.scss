@@ -16,6 +16,41 @@
     &-social {
         border-right: 1px solid $color-border;
         border-bottom: 1px solid $color-border;
+        &-vk, &-ok, &-facebook, &-google{
+            display: block;
+            padding: 5px 25px;
+            font-size: 14px;
+            color: #fff;
+            border-radius: $radius;
+            &:hover {
+                color: #fff;
+                text-decoration: none;
+                opacity: 0.9;
+            }
+            span {
+                display: block;
+                padding-right: 10px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                margin-right: 10px;
+                border-right: 1px solid #fff;
+            }
+            .symbol-icon {
+                fill: #fff;
+            }
+        }
+        &-vk {
+            background: #45668E;
+        }
+        &-ok {
+            background: #F69445;
+        }
+        &-facebook {
+            background: #4267b2;
+        }
+        &-google {
+            background: #EA4335;
+        }
     }
     &-form {
         border-bottom: 1px solid $color-border;

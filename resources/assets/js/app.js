@@ -80,8 +80,8 @@ $('.catalog-nav').click(function () {
 
 
 // TODO: Временная функция показа активной корзины
-$('.mobile-cart').click(function () {
-    $('.mobile-cart').toggleClass('mobile-cart-active');
+$('.cart').click(function () {
+    $('.cart').toggleClass('cart-active');
 });
 
 
