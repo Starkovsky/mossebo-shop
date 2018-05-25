@@ -47,9 +47,15 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="profile-name">
-                                Личный кабинет
-                            </div>
+                            @guest
+                                <div class="profile-name">
+                                    Личный кабинет
+                                </div>
+                            @else
+                                <div class="profile-name">
+                                    {{ Auth::user()->name }}
+                                </div>
+                            @endguest
                         </div>
                         <svg class="symbol-icon symbol-keyboard-down">
                             <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
@@ -61,7 +67,6 @@
                         <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                         <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
                     @else
-                        <!-- <a class="dropdown-item">{{ __('auth.welcome') }}, {{ Auth::user()->name }}</a> -->
                         <a href="#" class="dropdown-item">Мои заказы</a>
                         <a href="#" class="dropdown-item">Профиль</a>
                         <a href="#" class="dropdown-item">Отзывы</a>

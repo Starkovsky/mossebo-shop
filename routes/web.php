@@ -26,6 +26,8 @@ Route::prefix('ru')->group(function () {
     Route::get('/pay', 'Shop\PageController@pay')->name('pay');
     Route::get('/garant', 'Shop\PageController@garant')->name('garant');
 
+    Route::get('/privacy', 'Shop\PageController@privacy')->name('privacy');
+
     Auth::routes();
 
     Route::prefix('lk')->group(function () {
@@ -45,5 +47,12 @@ Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/test', function () {
 
+    $provider = 'vkontakte';
+
+    $provider = Config::get("services.{$provider}");
+
+    return $provider;
+});
 

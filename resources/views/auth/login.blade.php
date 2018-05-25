@@ -10,11 +10,13 @@
     <div class="auth">
         <h1 class="title_h1 text-center">Здравствуйте, войдите</h1>
         <div class="row align-middle">
-            <div class="col-sm-6 auth-social">
+            <div class="col-sm-6 auth-social auth-border-bottom">
                 <div class="row justify-content-center">
                     <div class="col-xl-7 py-5">
 
-                        <a href="{{ url('login/vkontakte') }}" target="_blank" class="auth-social-vk mb-3">
+                        <a href="{{ url('login/vkontakte') }}"
+                           class="auth-social-vk mb-3"
+                        >
                             <div class="row justify-content-end align-items-center">
                                 <span>Войти через Вконтакте</span>
                                 <svg class="symbol-icon social-embed-vk">
@@ -22,7 +24,9 @@
                                 </svg>
                             </div>
                         </a>
-                        <a href="{{ url('login/odnoklassniki') }}" target="_blank" class="auth-social-ok mb-3">
+                        <a href="{{ url('login/odnoklassniki') }}"
+                           class="auth-social-ok mb-3"
+                        >
                             <div class="row justify-content-end align-items-center">
                                 <span>Войти через Одноклассники</span>
                                 <svg class="symbol-icon social-embed-ok">
@@ -30,7 +34,9 @@
                                 </svg>
                             </div>
                         </a>
-                        <a href="{{ url('login/facebook') }}" target="_blank" class="auth-social-facebook mb-3">
+                        <a href="{{ url('login/facebook') }}"
+                           class="auth-social-facebook mb-3"
+                        >
                             <div class="row justify-content-end align-items-center">
                                 <span>Войти через Facebook</span>
                                 <svg class="symbol-icon social-embed-fb">
@@ -38,7 +44,9 @@
                                 </svg>
                             </div>
                         </a>
-                        <a href="{{ url('login/google') }}" target="_blank" class="auth-social-google">
+                        <a href="{{ url('login/google') }}"
+                           class="auth-social-google"
+                        >
                             <div class="row justify-content-end align-items-center">
                                 <span>Войти через Google</span>
                                 <svg class="symbol-icon social-embed-google">
@@ -52,7 +60,7 @@
 
 
             </div>
-            <div class="col-sm-6 auth-form">
+            <div class="col-sm-6 auth-form auth-border-bottom">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 py-5">
                         <form method="POST" action="{{ route('login') }}">

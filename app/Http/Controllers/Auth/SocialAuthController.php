@@ -2,35 +2,62 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\SocialAccount;
+use App\Http\Controllers\Controller;
 
 class SocialAuthController extends Controller
 {
-    //
-    public function redirect($provider)
+    /**
+     * Редирект на социальную сеть за подтверждением
+     * @param $provider
+     * @return Response
+     */
+    public function redirect($provider = false)
     {
-        return Socialite::driver($provider)->redirect();
+        try {
+            return Socialite::driver($provider)->redirect();
+        }
+        catch (\Exception $e) {
+            // TODO: Сохранить логи ошибок куда то
+            //return $e->getMessage();
+            return redirect()->route('login');
+        }
+        //dd(Socialite::driver($provider)->redirect());
     }
 
-    public function callback($provider)
+    public function callback($provider = false)
     {
-        // when facebook call us a with token
         try {
-            $socialUserInfo = Socialite::driver($provider)->user();
 
-            $user = User::firstOrCreate(['email' => $socialUserInfo->getEmail()]);
+            $socialUser = Socialite::driver($provider)->stateless()->user();
 
-            $socialProfile = $user->socialProfile ?: new SocialLoginProfile;
-            $providerField = "{$provider}_id";
-            $socialProfile->{$providerField} = $socialUserInfo->getId();
-            $user->socialProfile()->save($socialProfile);
+        } catch (\InvalidArgumentException $e) {
+            // TODO: Сохранить логи ошибок куда то
+            return $e->getMessage();
+            //return redirect()->route('login');
+
+        } catch (\Exception $e) {
+            // TODO: Сохранить логи ошибок куда то
+            return $e->getMessage();
+            //return redirect()->route('login');
+        }
+
+        $socialProvider = SocialAccount::where('provider_user_id', $socialUser->getId())->first();
+
+        if ($socialProvider) {
+
+            $user = $socialProvider->user;
 
             auth()->login($user);
 
-        } catch (Exception $e) {
-            throw new SocialAuthException("failed to authenticate with $provider");
+            return redirect()->to('/');
+        }
+        else {
+            return view('auth.register', [
+                'socialUser' => $socialUser,
+                'provider' => $provider,
+            ]);
         }
     }
 }

@@ -46,4 +46,14 @@ class PageController extends Controller
     {
         return view('shop.pages.garant');
     }
+
+    /**
+     * Выводит страницу Политика конфедициальности
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privacy()
+    {
+        return view('shop.pages.privacy');
+    }
 }

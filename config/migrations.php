@@ -5,7 +5,7 @@ return [
     'AdminLog' => 'admin_logs',
     'Users' => 'users',
     'PasswordResets' => 'password_resets',
-    'SocialProviders' => 'social_providers',
+    'SocialProviders' => 'social_accounts',
 
     'Settings' => 'settings',
 

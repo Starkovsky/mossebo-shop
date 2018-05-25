@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSocialProvidersTable extends Migration
+class CreateSocialAccountsTable extends Migration
 {
     protected $tableName;
 
@@ -21,7 +21,7 @@ class CreateSocialProvidersTable extends Migration
     {
         $this->down();
 
-        echo "Create SocialProviders\r\n";
+        echo "Create SocialAccounts\r\n";
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = "InnoDB";
@@ -30,7 +30,7 @@ class CreateSocialProvidersTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on(Config::get('migrations.Users'))->onDelete('cascade');
 
-            $table->string('provider_id');
+            $table->string('provider_user_id')->index();
             $table->string('provider')->index();
             $table->timestamps();
         });

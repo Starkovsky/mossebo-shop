@@ -47,4 +47,9 @@ return [
         'client_public' => env('ODNOKLASSNIKI_PUBLIC'),
         'redirect' => env('ODNOKLASSNIKI_REDIRECT'),
     ],
+    'facebook' => [
+        'client_id' => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT'),
+    ],
 ];

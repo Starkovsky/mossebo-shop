@@ -175,7 +175,7 @@
                         <a href="#" class="footer-link">Правила пользования</a>
                     </div>
                     <div class="col-lg-6">
-                        <a href="#" class="footer-link">Политика конфиденциальности</a>
+                        <a href="{{ route('privacy') }}" class="footer-link">Политика конфиденциальности</a>
                     </div>
                 </div>
             </div>
