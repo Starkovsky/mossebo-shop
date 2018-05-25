@@ -27,6 +27,7 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
     .extract([
         'babel-polyfill',
         'vue',
+        'vuex',
         'jquery',
         'lodash',
         'popper.js',
