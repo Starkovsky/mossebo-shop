@@ -18,7 +18,6 @@ Route::prefix('ru')->group(function () {
     Route::get('/catalog/{current_category}', 'Api\Shop\CategoryController@products');
 
     Route::get('/filters', 'Api\Shop\FilterController@index');
-
 });
 
 

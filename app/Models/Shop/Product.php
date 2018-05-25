@@ -41,6 +41,14 @@ class Product extends Model
             ->hasOne(Supplier::class, 'id','supplier_id');
     }
 
+    public function image()
+    {
+        return $this
+            ->hasOne(Media::class, 'model_id')
+            ->where('model_type','=', 'product')
+            ->orderBy('order_column', 'asc');
+    }
+
     public function images()
     {
         return $this
@@ -97,5 +105,27 @@ class Product extends Model
     public function productAttributeOptions()
     {
         return $this->hasMany(ProductAttributeOption::class, 'product_id');
+    }
+
+    public static function getCartItem($id, $options = [])
+    {
+        $productTable = (new static)->getTable();
+        $optionsTable = (new AttributeOption())->getTable();
+        $productOptionsTable = (new ProductAttributeOption)->getTable();
+
+        $query = self::with(['image', 'prices', 'i18n'])
+            ->select("{$productTable}.*")
+            ->where("{$productTable}.enabled", true)
+            ->where("{$productTable}.id", $id);
+
+        if (! empty($options)) {
+            $query->join("{$productOptionsTable}", "{$productOptionsTable}.product_id", '=', "{$productTable}.id")
+                ->join("{$optionsTable}", "{$optionsTable}.id", '=', "{$productOptionsTable}.option_id")
+                ->where("{$optionsTable}.enabled", true)
+                ->whereIn("{$optionsTable}.id", $options)
+                ->groupBy("{$productTable}.id");
+        }
+
+        return $query->first();
     }
 }

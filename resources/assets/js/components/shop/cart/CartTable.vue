@@ -1,17 +1,17 @@
 <template>
-    <table v-if="products.length" class="cart-table">
+    <table v-if="isTable" :class="{'cart-table': true, 'cart-table--small': small}">
         <thead v-if="!noHeader">
             <tr>
-                <th colspan="2">
+                <th>
                     Товары
                 </th>
 
                 <th>
-                    Количество
+                    Цена за штуку
                 </th>
 
                 <th>
-                    Цена за штуку
+                    Количество
                 </th>
 
                 <th>
@@ -24,29 +24,47 @@
 
         <tbody>
             <template v-for="product in products">
-                <cart-product
+                <cart-product-row
+                    :key="product.id"
+                    :small="small"
                     :product="product"
                     :quantity.sync="product.quantity"
                     @remove="remove(product.id)"
-                ></cart-product>
+                ></cart-product-row>
             </template>
         </tbody>
     </table>
 
-    <div v-else class="">
-        Товар
+    <div v-else>
+        <template v-for="product in products">
+            <cart-product-item
+                :key="product.id"
+                :small="small"
+                :product="product"
+                :quantity.sync="product.quantity"
+                @remove="remove(product.id)"
+            ></cart-product-item>
+        </template>
     </div>
 </template>
 
 <script>
-    import CartProduct from './CartProduct'
+    import CartProductRow from './product/CartProductRow'
+    import CartProductItem from './product/CartProductItem'
+
+    import ClassNameWithModificators from '../../../mixins/ClassNameWithModificators'
 
     export default {
         name: "CartTable",
 
         components: {
-            CartProduct
+            CartProductRow,
+            CartProductItem,
         },
+
+        mixins: [
+            ClassNameWithModificators
+        ],
 
         props: {
             'no-header': {
@@ -54,34 +72,39 @@
                 default: false,
             },
 
+            small: Boolean,
+
             products: {
                 type: Array,
                 default: () => []
+            },
+        },
+
+        data() {
+            return {
+                breakpoint: 768
             }
         },
 
-        methods: {
-            remove(productId) {
-                this.$emit('update:products', this.products.filter(product => product.id !== productId))
-            }
+        computed: {
+            isTable() {
+                return this.$root.windowMoreThan('md')
+            },
+
+            className() {
+                let baseClass = 'cart-table'
+                let addModif = (acc, modif) => acc + ' ' + baseClass + '--' + modif
+
+                if (_.isArray(this.modif)) {
+                    return this.modif.reduce(addModif, baseClass)
+                }
+
+                if (_.isString(this.modif)) {
+                    return addModif(baseClass, this.modif)
+                }
+
+                return baseClass
+            },
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import "../../../../sass/variables/colors";
-
-    .cart-table {
-        & th {
-            font-size: 16px / 19px;
-            text-align: left;
-
-            &:not(:first-child) {
-                text-align: center;
-            }
-
-            color: $color-text-secondary-2;
-        }
-    }
-
-</style>

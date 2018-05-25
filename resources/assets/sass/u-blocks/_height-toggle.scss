@@ -1,0 +1,14 @@
+.ht-container {
+    z-index: 99;
+    -webkit-transition: .3s;
+    transition: .3s;
+    max-height: 0;
+    display: block !important;
+    overflow: hidden;
+    margin: -8px;
+}
+
+.ht-inner {
+    z-index: 5;
+    margin: 8px
+}

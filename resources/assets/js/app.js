@@ -3,7 +3,15 @@
  */
 import './core/use_https'
 import svg4everybody from './core/svg4everybody.legacy.min'
+import './scripts/HeightToggle'
 import './common'
+
+window.axios = require('axios');
+
+window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+};
 
 /**
  * Imports
@@ -12,19 +20,28 @@ import './common'
 import 'bootstrap'
 import Vue from 'vue'
 
+import Vuex from 'vuex'
+import storeSkeleton from './store'
+
+Vue.use(Vuex)
+const store = new Vuex.Store(storeSkeleton)
+
+
+
 
 /**
  * Components
  */
 
-import ScrollBar from './core/ScrollBar'
+import ScrollBar from './components/ScrollBar'
 import Catalog from './components/shop/catalog/Catalog'
 import ProductList from './components/shop/catalog/ProductList'
 import ProductCard from './components/shop/catalog/ProductCard'
-import FormattedPrice from './core/FormattedPrice'
+import FormattedPrice from './components/shop/price/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
-import Cart from './components/shop/cart/Cart'
+import Checkout from './components/shop/checkout/Checkout'
+import CartBtn from './components/shop/cart/CartBtn'
 
 
 
@@ -32,8 +49,17 @@ import Cart from './components/shop/cart/Cart'
  * App
  */
 
+const breakpoints = {
+    xs: 1,
+    sm: 544,
+    md: 768,
+    lg: 992,
+    xl: 1200
+}
+
 const app = new Vue({
     el: '#app',
+    store,
     components: {
         ScrollBar,
         Catalog,
@@ -42,9 +68,12 @@ const app = new Vue({
         FormattedPrice,
         BannerHomeStock,
         BannerHomeNew,
-        Cart
+        Checkout,
+        CartBtn
     },
     data: {
+        windowWidth: window.innerWidth,
+
         ActionProduct: {
             'id': '100028',
             'name': 'Настольная лампа CHESTER 49385',
@@ -55,16 +84,40 @@ const app = new Vue({
             'price': '3490',
             'old_price': '4120'
         },
+
         mossebo: window.mossebo,
     },
     mixins: [
     ],
     methods: {
+        windowLessThan(size) {
+            return this.windowWidth < breakpoints[size]
+        },
+
+        windowMoreThan(size) {
+            return this.windowWidth >= breakpoints[size]
+        },
     },
+
+    created() {
+        this.resizeHandler = _.debounce(() => {
+            this.windowWidth = window.innerWidth
+        }, 50)
+
+        window.addEventListener('resize', this.resizeHandler, { passive: true })
+    },
+
     mounted() {
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
         $('.dropdown-toggle').dropdown();
+        heightToggle('.js-ht', {
+            bindCloseEvents: true
+        })
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.resizeHandler)
     },
 });
 
@@ -142,3 +195,11 @@ $('.zoom-gallery').magnificPopup({
     }
 });
 
+
+document.addEventListener('click', (e) => {
+    let btn = e.target.closest('.js-product-add')
+
+    if (btn) {
+        app.$store.dispatch('cart/addProduct', [{id: btn.getAttribute('data-id')}, 1])
+    }
+}, { passive: true })

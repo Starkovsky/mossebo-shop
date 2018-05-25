@@ -1,0 +1,66 @@
+.num-control {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 96px;
+    height: 32px;
+
+    &__input {
+        width: 32px;
+        height: 100%;
+        border-width: 1px;
+        border-radius: 6px;
+        border-color: $color-border;
+        border-style: solid;
+        text-align: center;
+        box-shadow: none;
+        transition: border-color .2s;
+
+        &:hover,
+        &:focus,
+        &.is-focused {
+            border-color: $color-text-primary;
+        }
+    }
+
+    &__minus,
+    &__plus {
+        width: 32px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+
+        & svg {
+            position: relative;
+        }
+
+        &:hover svg {
+            fill: $color-text-primary;
+        }
+    }
+
+    &__minus,
+    &__plus,
+    &__input {
+        outline: none !important;
+    }
+
+    @include media-breakpoint-up(md) {
+        &:not(&--small) {
+            height: 48px;
+            width: 160px;
+        }
+
+        &:not(&--small) &__input {
+            width: 64px;
+        }
+
+        &:not(&--small) &__minus,
+        &:not(&--small) &__plus {
+            width: 48px;
+        }
+    }
+}

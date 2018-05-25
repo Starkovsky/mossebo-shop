@@ -11,6 +11,7 @@
                         <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
                     </svg>
                 </a>
+
                 <a href="#"
                    data-toggle="tooltip"
                    data-placement="top"
@@ -21,8 +22,9 @@
                     </svg>
                 </a>
             </div>
+
             <a class="product-card__link"
-               :href="'/' + this.$root.mossebo.language.code + '/goods/' + product.id"
+               :href="link"
             >
                 <div class="product-card__image-box">
                     <background-image-loader
@@ -31,6 +33,7 @@
                         :image="prepareImage(product.image.src)"
                         :retina-image="prepareImage(product.image.srcset)" />
                 </div>
+
                 <div class="product-card__name">
                     {{ product.name }}
                 </div>
@@ -40,20 +43,32 @@
                 <img src="/assets/images/icons/stars.png" alt="">
                 {{ getRandomInt(1,100) }}
             </div>
+
             <div class="product-card__price">
-                <formatted-price :price="product.price"></formatted-price>
+                <formatted-price
+                    :value="product.price"
+                ></formatted-price>
             </div>
+
             <div class="product-card__old-price">
-                    <formatted-price :price="product.old_price"></formatted-price>
+                <formatted-price
+                    :value="product.old_price"
+                ></formatted-price>
             </div>
+
             <div class="product-card__buttons">
-                <button type="button"
-                        class="button button-light"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
-                >
-                    Купить в 1 клик
-                </button>
+                <!--<button-->
+                    <!--type="button"-->
+                    <!--class="button button-light"-->
+                    <!--data-toggle="modal"-->
+                    <!--data-target="#exampleModal"-->
+                <!--&gt;-->
+                    <!--Купить в один клик-->
+                <!--</button>-->
+
+                <a :href="link" class="button button-light">
+                    Купить
+                </a>
                 <!-- <button type="button"
                         class="btn btn-outline-warning"
                         data-toggle="tooltip"
@@ -69,7 +84,8 @@
 </template>
 
 <script>
-    import FormattedPrice from '../../../core/FormattedPrice'
+    import Core from '../../../scripts/core'
+    import FormattedPrice from '../price/FormattedPrice'
     import BackgroundImageLoader from '../../imageLoaders/BackgroundImageLoader'
     import ProductImagesHat from '../../../mixins/ProductImagesHat'
 
@@ -108,6 +124,12 @@
                 return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
             }
         },
+
+        computed: {
+            link() {
+                return Core.siteUrl('goods/' + this.product.id)
+            }
+        }
     }
 </script>
 

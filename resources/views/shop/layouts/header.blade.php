@@ -10,28 +10,7 @@
             </div>
 
             <div class="header-float-item">
-                <a href="#" class="cart"
-                >
-                    <div class="d-flex flex-nowrap align-items-center">
-                        <div class="cart-icon">
-                            <div class="badge">3</div>
-                            <svg class="symbol-icon symbol-cart">
-                                <use xlink:href="/assets/images/icons.svg#symbol-cart"></use>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="cart-name">
-                                Корзина
-                            </div>
-                            <div class="cart-result">
-                                <span class="items">3</span> шт. - <span class="prices">100 000 ₽</span>
-                            </div>
-                        </div>
-                        <svg class="symbol-icon symbol-keyboard-down">
-                            <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
-                        </svg>
-                    </div>
-                </a>
+                <cart-btn></cart-btn>
             </div>
 
             <div class="header-float-item">

@@ -38,7 +38,12 @@
                             @change="setActiveSortType"
                         ></catalog-sort>
 
-                        <loading class="without-overlay" :loading="productsLoading.inProcess" style="min-height: 450px">
+                        <loading
+                            :loading="productsLoading.inProcess"
+                            :no-overlay="true"
+                            style="
+                            min-height: 450px"
+                        >
                             <catalog-product-list
                                 :products="productsToShow"
                                 :loading="productsLoading.inProcess"

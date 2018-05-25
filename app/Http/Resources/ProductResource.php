@@ -25,21 +25,16 @@ class ProductResource extends JsonResource
             $data['options'] = array_column($this->productAttributeOptions->toArray(), 'option_id');
         }
 
-        if (! empty($this->images)) {
-            foreach ($this->images as $image) {
-                if (! empty($image->pathes)) {
-                    $imagePathes = json_decode($image->pathes);
+        if (! empty($this->image)) {
+            if (! empty($this->image->pathes)) {
+                $imagePathes = json_decode($this->image->pathes);
 
-                    $data['image'] = [
-                        'src' => $imagePathes->small->src,
-                        'srcset' => $imagePathes->small->srcset
-                    ];
-
-                    break;
-                }
+                $data['image'] = [
+                    'src' => $imagePathes->small->src,
+                    'srcset' => $imagePathes->small->srcset
+                ];
             }
         }
-
 
         // todo: убрать деление на 100 - привести к формированию с использованием валюты
         if (! empty($this->prices)) {

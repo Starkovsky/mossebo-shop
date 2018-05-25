@@ -11,16 +11,6 @@ use App\Models\Shop\Product;
 class CategoryController extends ApiController
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Выводит весь каталог
      *
      * @return \Illuminate\Http\Response
@@ -31,7 +21,7 @@ class CategoryController extends ApiController
         // firstOrFail - бросает ошибку.
         // Ошибка перхватывается в App\Exceptions\Handler - возвращает клиенту 404.
 
-        $products = $category->products()->with(['images', 'prices', 'i18n', 'prices', 'productAttributeOptions'])->get();
+        $products = $category->products()->with(['i18n', 'image', 'prices', 'productAttributeOptions'])->get();
 
         return response()->json([
             'products' => ProductResource::collection($products)
