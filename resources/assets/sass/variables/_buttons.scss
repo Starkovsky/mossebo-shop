@@ -58,10 +58,26 @@
     &:disabled {
         cursor: not-allowed;
     }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+        vertical-align: middle;
+
+        &--right {
+            margin-left: 16px;
+        }
+
+        &--left {
+            margin-right: 16px;
+        }
+    }
 }
 
 .input-group {
     display: inline-flex;
+
     &-append {
         .button {
             border-top-left-radius: 0;

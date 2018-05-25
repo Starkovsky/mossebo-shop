@@ -26,7 +26,11 @@
 @import "layouts/shop-breadcrumb";
 
 // U-Blocks
-@import "u-blocks/interior_styles";
+@import "u-blocks/height-toggle";
+@import "u-blocks/images";
+@import "u-blocks/interior-styles";
+@import "u-blocks/num-control";
+
 
 //Plugins
 @import "variables/plugins/magnific-popup";
@@ -36,9 +40,11 @@
 @import "pages/catalog";
 @import "pages/error-404";
 @import "pages/product-page";
+@import "pages/cart";
 
 //Auth
 @import "pages/auth";
 
 //Global Styles
+@import "animations";
 @import "global";

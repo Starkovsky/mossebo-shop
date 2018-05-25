@@ -1,39 +1,6 @@
+import PendingLoader from '../../../../scripts/PendingLoader'
+
 import CatalogProductList from './CatalogProductList'
-
-class LoadingHandler {
-    constructor(time) {
-        this.timeIsElapsed = false
-
-        this.timeout = setTimeout(() => {
-            if (_.isFunction(this.callback)) {
-                this.callback()
-            }
-            else {
-                this.canFinish = true
-            }
-        }, time)
-    }
-
-    inProcess() {
-        return true
-    }
-
-    finish(cb) {
-        if (!_.isFunction(cb)) return
-
-        if (this.canFinish) {
-            cb()
-        }
-        else {
-            this.callback = cb
-        }
-    }
-
-    cancel() {
-        clearTimeout(this.timeout)
-    }
-}
-
 
 export default {
     components: {
@@ -46,7 +13,6 @@ export default {
         return {
             page: 1,
             perPage: 12,
-            moreBtnDetectQuery: '.js-more-btn',
             productsLoading: {
                 inProcess: false,
                 minTime: 700,
@@ -81,7 +47,7 @@ export default {
             this.productsLoading = {
                 inProcess: true,
                 minTime: this.productsLoading.minTime,
-                handler: new LoadingHandler(this.productsLoading.minTime)
+                handler: new PendingLoader(this.productsLoading.minTime)
             }
         },
 
@@ -126,7 +92,7 @@ export default {
                 }, 60)
             }
 
-            window.addEventListener('scroll', this.moreBtn.scrollHandler)
+            window.addEventListener('scroll', this.moreBtn.scrollHandler, { passive: true })
         },
 
         unbindScrollMoreEvent() {
@@ -143,7 +109,7 @@ export default {
         },
 
         canAutoclickMoreBtn() {
-            let moreBtn = this.$el.querySelector(this.moreBtnDetectQuery)
+            let moreBtn = this.$el.querySelector(this.moreBtn.query)
 
             if (moreBtn) {
                 let screenHeight = document.documentElement.clientHeight

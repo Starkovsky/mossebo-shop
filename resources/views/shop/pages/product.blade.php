@@ -38,6 +38,7 @@
                         @endforeach
                     </div>
                 </div>
+
                 <div class="col-md-6 py-4 px-4 product-page__border-left">
                     <div class="product-page__actions text-right">
                         <a href="#"
@@ -49,6 +50,7 @@
                                 <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
                             </svg>
                         </a>
+
                         <a href="#"
                            data-toggle="tooltip"
                            data-placement="top"
@@ -63,6 +65,7 @@
                     <div class="product-page__price">
                         <formatted-price :price="{{ $product->current_price->value }}"></formatted-price>
                     </div>
+
                     @if(isset($product->old_price))
                         <div class="product-page__oldprice">
                             <formatted-price :price="{{ $product->old_price->value }}"></formatted-price>
@@ -77,6 +80,7 @@
                     @else
                         <div class="product-page__economy"></div>
                     @endif
+
                     <div class="product-page__stars">
                         <div class="product-page__stars-box">
                             <svg class="product-rating">
@@ -183,7 +187,8 @@
                             </div>
                             <div class="col-sm-6">
                                 <button type="button"
-                                        class="button button-primary"
+                                        class="button button-primary js-product-add"
+                                        data-id="{{ $product->id }}"
                                 >
                                     Добавить в корзину
                                 </button>

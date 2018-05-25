@@ -72,7 +72,6 @@ export default {
         },
 
         clearFilters() {
-            console.log(this.filtersIsDirty)
             if (! this.filtersIsDirty) return
 
             this.getFilterComponents().forEach(component => {

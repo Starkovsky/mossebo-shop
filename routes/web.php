@@ -37,9 +37,10 @@ Route::prefix('ru')->group(function () {
 
     });
 
-    Route::get('/cart', function () {
-        return view('shop.pages.cart');
-    });
+    Route::get('/cart', 'Shop\CartController@index');
+    Route::post('/cart', 'Shop\CartController@get');
+    Route::put('/cart', 'Shop\CartController@sync');
+    Route::get('/cart/test', 'Shop\CartController@test');
 });
 
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');

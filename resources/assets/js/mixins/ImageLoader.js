@@ -100,7 +100,7 @@ export default  {
                 }, 60)
             }
 
-            window.addEventListener('scroll', this.handler)
+            window.addEventListener('scroll', this.handler, { passive: true })
             document.addEventListener('DOMSubtreeModified', this.handler)
         },
 

@@ -8,19 +8,15 @@
     export default {
         name: "ScrollBar",
         mounted: function () {
-
-
-                    $(window).scroll(function() {
-                        var wintop = $(window).scrollTop(),
-                            docheight = $('#app').height(),
-                            winheight = $(window).height();
-                        //console.log(wintop);
-                        var totalScroll = (wintop/(docheight-winheight))*100;
-                        //console.log("total scroll" + totalScroll);
-                        $(".scrollbar-progress__bar").css("width",totalScroll+"%");
-                    });
-
-
+            window.addEventListener('scroll', function () {
+                var wintop = $(window).scrollTop(),
+                    docheight = $('#app').height(),
+                    winheight = $(window).height();
+                //console.log(wintop);
+                var totalScroll = (wintop/(docheight-winheight))*100;
+                //console.log("total scroll" + totalScroll);
+                $(".scrollbar-progress__bar").css("width",totalScroll+"%");
+            }, { passive: true })
         }
     }
 </script>
