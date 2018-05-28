@@ -34,13 +34,13 @@ class SocialAuthController extends Controller
 
         } catch (\InvalidArgumentException $e) {
             // TODO: Сохранить логи ошибок куда то
-            return $e->getMessage();
-            //return redirect()->route('login');
+            //return $e->getMessage();
+            return redirect()->route('login');
 
         } catch (\Exception $e) {
             // TODO: Сохранить логи ошибок куда то
-            return $e->getMessage();
-            //return redirect()->route('login');
+            //return $e->getMessage();
+            return redirect()->route('login');
         }
 
         $socialProvider = SocialAccount::where('provider_user_id', $socialUser->getId())->first();
