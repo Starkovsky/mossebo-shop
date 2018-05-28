@@ -17,8 +17,8 @@
             top: -8px;
         }
 
-        &-ht {
-            margin: -8px;
+        &-ht.ht-container {
+            margin: 0 -8px -8px;
             background: transparent;
 
             &:after {

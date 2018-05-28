@@ -1,7 +1,6 @@
 /**
  * GLOBAL
  */
-import './core/use_https'
 import svg4everybody from './core/svg4everybody.legacy.min'
 import './scripts/HeightToggle'
 import './common'
@@ -137,7 +136,7 @@ $('.cart').click(function () {
 });
 
 // TODO: Временная функция отключения авторизации конкретных соцсетей
-$('.auth-social-google').addClass('disabled').click(function (event) {
+$('.auth-social-google, .auth-social-facebook').addClass('disabled').click(function (event) {
     event.preventDefault();
 })
 

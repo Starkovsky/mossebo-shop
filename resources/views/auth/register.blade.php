@@ -71,9 +71,9 @@
                     </div>
                 </div>
 
-                <div class="pt-5 auth-form">
+                <div class="py-5 auth-form">
                     <div class="row justify-content-center">
-                        <div class="col-md-6">
+                        <div class="col-10 col-sm-10 col-md-9 col-lg-6">
                             <div class="row">
 
                                 <div class="col-sm-6 mb-3">

@@ -2,14 +2,18 @@
     border-radius: $radius;
     box-shadow: $shadows-primary;
     background: $color-ui;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     color: $color-text-secondary;
     margin-bottom: 80px;
     padding-top: 60px;
-    padding-bottom: 80px;
     padding-left: 15px;
     padding-right: 15px;
+    @include media-breakpoint-down(sm) {
+        margin-bottom: 24px;
+        padding-top: 32px;
+        font-size: 14px;
+    }
     .title_h1 {
         margin-bottom: 24px;
     }
@@ -19,10 +23,14 @@
     &-social {
         &-vk, &-ok, &-facebook, &-google {
             display: block;
-            padding: 5px 25px;
-            font-size: 14px;
+            padding: 5px 24px;
+            font-size: 12px;
+            font-weight: 400;
             color: #fff;
             border-radius: $radius;
+            @include media-breakpoint-down(md) {
+                padding: 5px 16px;
+            }
             &:hover {
                 color: #fff;
                 text-decoration: none;
@@ -30,11 +38,10 @@
             }
             span {
                 display: block;
-                padding-right: 10px;
-                padding-top: 5px;
-                padding-bottom: 5px;
-                margin-right: 10px;
+                padding-top: 8px;
+                padding-bottom: 8px;
                 border-right: 1px solid #fff;
+                text-align: center;
             }
             .symbol-icon {
                 fill: #fff;
@@ -89,6 +96,13 @@
         border-bottom: 1px solid $color-border;
         &+& {
             border-left: 1px solid $color-border;
+            @include media-breakpoint-down(sm) {
+                border-left: none;
+            }
         }
+    }
+    &-reset {
+        display: block;
+        width: 100%;
     }
 }

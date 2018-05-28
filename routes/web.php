@@ -48,12 +48,12 @@ Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/test', function () {
-
-    $provider = 'vkontakte';
-
-    $provider = Config::get("services.{$provider}");
-
-    return $provider;
-});
+//Route::get('/test', function () {
+//
+//    $provider = 'vkontakte';
+//
+//    $provider = Config::get("services.{$provider}");
+//
+//    return $provider;
+//});
 

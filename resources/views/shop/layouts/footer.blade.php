@@ -11,11 +11,11 @@
                     {{ __('layouts.footer-logo-description') }}
                 </div>
                 <div class="footer-button-group">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row justify-content-center">
+                        <div class="col-9 col-md-6">
                             <a href="#" class="button button-light btn-block">{{ __('layouts.footer-recall') }}</a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-9 col-md-6">
                             <a href="#" class="button button-light btn-block">{{ __('layouts.footer-write') }}</a>
                         </div>
                     </div>

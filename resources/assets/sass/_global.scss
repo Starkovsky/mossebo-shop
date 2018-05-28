@@ -5,18 +5,45 @@
 
 
 .title_h1 {
-    font-size: 36px;
+    font-size: 40px;
     color: $color-text-primary;
+    @include media-breakpoint-down(lg) {
+        font-size: 32px;
+    }
+    @include media-breakpoint-down(md) {
+        font-size: 28px;
+    }
+    @include media-breakpoint-down(sm) {
+        font-size: 24px;
+    }
 }
 .title_h2 {
     font-size: 32px;
     color: $color-text-primary;
     margin-bottom: 20px;
+    @include media-breakpoint-down(lg) {
+        font-size: 28px;
+    }
+    @include media-breakpoint-down(md) {
+        font-size: 24px;
+    }
+    @include media-breakpoint-down(sm) {
+        font-size: 20px;
+    }
 }
 .title_h3 {
     font-size: 24px;
     color: $color-text-primary;
     margin-bottom: 20px;
+    @include media-breakpoint-down(lg) {
+        font-size: 22px;
+    }
+    @include media-breakpoint-down(md) {
+        font-size: 20px;
+    }
+    @include media-breakpoint-down(sm) {
+        font-size: 18px;
+    }
 }
 
 

@@ -5,6 +5,40 @@
 @section('meta-description', 'description main page')
 
 @section('content')
+    <div class="container">
+        <div class="auth">
+            <form method="POST" action="{{ route('password.request') }}">
+            @csrf
+
+                <input type="hidden" name="token" value="{{ $token }}">
+
+                <div class="row align-middle">
+                    <div class="col-sm-6">
+                        <h1 class="title_h1 text-center">Здравствуйте, войдите</h1>
+
+                        <label for="email" class="form-label">Введите E-Mail</label>
+
+                        <input id="email"
+                               type="email"
+                               class="form-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                               name="email"
+                               value="{{ $email or old('email') }}"
+                               required
+                               autofocus
+                        >
+
+                        @if ($errors->has('email'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -72,4 +106,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection
