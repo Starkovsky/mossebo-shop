@@ -6,13 +6,6 @@ import svg4everybody from './core/svg4everybody.legacy.min'
 import './scripts/HeightToggle'
 import './common'
 
-window.axios = require('axios');
-
-window.axios.defaults.headers.common = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-};
-
 /**
  * Imports
  */
@@ -111,6 +104,7 @@ const app = new Vue({
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
         $('.dropdown-toggle').dropdown();
+
         heightToggle('.js-ht', {
             bindCloseEvents: true
         })

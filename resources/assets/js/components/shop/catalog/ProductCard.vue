@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="product-card bulge">
+        <div class="product-card block-ui">
             <div class="product-card__actions text-right">
                 <a href="#"
                    data-toggle="tooltip"

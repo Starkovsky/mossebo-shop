@@ -40,7 +40,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/cart', 'Shop\CartController@index');
     Route::post('/cart', 'Shop\CartController@get');
     Route::put('/cart', 'Shop\CartController@sync');
-    Route::get('/cart/test', 'Shop\CartController@test');
+    Route::put('/cart/{key}', 'Shop\CartController@add');
 });
 
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');

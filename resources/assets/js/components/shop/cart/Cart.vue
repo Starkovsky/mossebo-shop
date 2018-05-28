@@ -9,7 +9,7 @@
         tag="div"
     >
         <div v-if="hasError" key="error" class="cart-animation-wrap__item">
-            <div class="cart-error bulge">
+            <div class="cart-error block-ui">
                 <h4>Ошибка соединения с сервером</h4>
 
                 <div class="cart-error__buttons">
@@ -22,21 +22,21 @@
 
         <div v-else-if="!isReady" key="ready" class="cart-animation-wrap__item">
             <loading
-                class="bulge"
+                class="block-ui"
                 :loading="true"
                 :no-overlay="true"
             ></loading>
         </div>
 
         <div v-else-if="isEmpty" key="empty" class="cart-animation-wrap__item">
-            <div class="cart-empty">
+            <div class="cart-empty block-ui">
                 Корзина пуста.
             </div>
         </div>
 
         <div v-else key="list" class="cart-animation-wrap__item">
-            <loading :loading="loading" key="list">
-                <div :class="{'cart-page': true, 'bulge': isDesktop}">
+            <loading :loading="loading$" key="list">
+                <div :class="{'cart-page': true, 'block-ui': isDesktop}">
                     <cart-table
                         :products.sync="products"
                     ></cart-table>
@@ -68,7 +68,7 @@
                             </div>
 
                             <div class="cart-page__submit">
-                                <button @click="submit" class="button button-primary">
+                                <button @click="next" class="button button-primary">
                                     Оформить заказ
 
                                     <svg class="button__icon button__icon--right">
@@ -84,7 +84,7 @@
                             Итого
                         </h4>
 
-                        <div class="cart-page__mobile-total cart-total-mobile bulge">
+                        <div class="cart-page__mobile-total cart-total-mobile block-ui">
                             <table>
                                 <tbody>
                                 <tr>
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="cart-page__mobile-submit">
-                            <button @click="submit" class="button button-primary">
+                            <button @click="next" class="button button-primary">
                                 Оформить заказ
 
                                 <svg class="button__icon button__icon--right">
@@ -185,14 +185,6 @@
         },
 
         methods: {
-            submit() {
-                console.log('azaa')
-            },
-
-            test() {
-                axios.get(Core.siteUrl('cart/test'))
-            },
-
             getWrapEl() {
                 return document.querySelector('.js-cart-wrap')
             },
@@ -214,7 +206,11 @@
                     wrapEl.style.height = 'auto'
                     wrapEl.classList.remove('animation-in-process')
                 })
-            }
+            },
+
+            next() {
+                this.$store.dispatch('checkout/next')
+            },
         },
     }
 </script>

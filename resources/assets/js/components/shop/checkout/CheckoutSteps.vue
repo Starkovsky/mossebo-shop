@@ -1,5 +1,5 @@
 <template>
-    <div class="checkout-steps bulge">
+    <div class="checkout-steps block-ui">
         <div class="row">
             <template v-for="step in steps">
                 <div :key="step.identif" class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+    import { mapGetters, mapState } from 'vuex'
+
     export default {
         name: "CheckoutSteps",
 
@@ -33,46 +35,21 @@
             active: String
         },
 
-        data() {
-            return {
-                steps: [
-                    {
-                        identif: 'cart',
-                        icon: 'symbol-cart',
-                        stepName: 'Шаг первый',
-                        title: 'Корзина',
-                    },
-
-                    {
-                        identif: 'shipping',
-                        icon: 'symbol-truck',
-                        stepName: 'Шаг второй',
-                        title: 'Доставка',
-                    },
-
-                    {
-                        identif: 'payment',
-                        icon: 'symbol-credit-card',
-                        stepName: 'Шаг третий',
-                        title: 'Оплата',
-                    },
-
-                    {
-                        identif: 'confirmation',
-                        icon: 'symbol-confirmation',
-                        stepName: 'Шаг четвёртый',
-                        title: 'Подтверждение',
-                    },
-                ]
-            }
-        },
-
         methods: {
             isActive(step) {
-                return step.identif === this.active
-            }
-        }
+                return step.identif === this.activeTab
+            },
+        },
 
+        computed: {
+            ... mapState({
+                steps: state => state.checkout.steps,
+            }),
+
+            ... mapGetters({
+                activeTab: 'checkout/activeTab'
+            })
+        }
     }
 </script>
 

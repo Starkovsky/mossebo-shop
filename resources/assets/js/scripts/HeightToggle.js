@@ -83,8 +83,7 @@
         _.bindEvent(window, 'resize', _.update, { passive: true })
 
         if (_.opt.bindClickEvents) {
-            _.bindEvent(_.els.trigger, 'click', function(e) {
-                e.stopPropagation();
+            _.bindEvent(_.els.trigger, 'click', function() {
                 _.toggle();
             })
         }

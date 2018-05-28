@@ -58,3 +58,22 @@
     transform-origin: center bottom;
     animation-duration: 1s;
 }
+
+
+.slide-forward-enter-active,
+.slide-forward-leave-active {
+    transition: transform .6s;
+}
+
+.slide-forward-leave {
+    transform: translate3d(calc(-100% - 15px), 0, 0);
+}
+
+.slide-forward-enter-active {
+
+    transform: translate3d(calc(100% + 15px), 0, 0);
+}
+
+.fade-up-leave-enter-active {
+    transform: translate3d(0, 0, 0);
+}

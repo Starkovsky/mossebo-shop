@@ -1,6 +1,5 @@
 .ht-container {
     z-index: 99;
-    -webkit-transition: .3s;
     transition: .3s;
     max-height: 0;
     display: block !important;
@@ -10,5 +9,6 @@
 
 .ht-inner {
     z-index: 5;
-    margin: 8px
+    margin: 8px;
+    background-color: $color-ui;
 }

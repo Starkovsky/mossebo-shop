@@ -44,7 +44,9 @@
 
         props: {
             number: Number,
-            small: Boolean
+            small: Boolean,
+            min: Number,
+            max: Number,
         },
 
         data() {
@@ -117,7 +119,13 @@
             },
 
             updateNumber(num) {
-                num = Math.min(Math.max(0, num), 99)
+                if (typeof this.min !== 'undefined') {
+                    num = Math.max(this.min, num)
+                }
+
+                if (typeof this.max !== 'undefined') {
+                    num = Math.min(this.max, num)
+                }
 
                 if (this.number !== num) {
                     this.$emit('update:number', num)
@@ -138,6 +146,7 @@
 
                 this.focusPendingHandler.finish(() => {
                     this.getInputEl().classList.remove('is-focused')
+                    this.focusPendingHandler = false
                 })
             },
 

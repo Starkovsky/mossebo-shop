@@ -1,9 +1,9 @@
 <template>
     <div>
-        <a class="cart-btn js-cart-btn" href="javascript:void(0)">
+        <a class="cart-btn js-cart-btn" :href="btnLink">
             <div class="d-flex flex-nowrap align-items-center">
                 <div class="cart-btn-icon">
-                    <div class="badge js-badge">
+                    <div class="badge js-badge" v-show="productsQuantity > 0">
                         {{ productsShortQuantity }}
                     </div>
 
@@ -12,7 +12,7 @@
                     </svg>
                 </div>
 
-                <div>
+                <div v-if="isDesktop">
                     <div class="cart-btn-name">
                         Корзина
                     </div>
@@ -38,11 +38,11 @@
             </div>
         </a>
 
-        <div class="dropdown-menu dropdown-menu--ht dropdown-menu-right ht-container" v-show="productsQuantity > 0">
+        <div class="dropdown-menu dropdown-menu-ht dropdown-menu-right ht-container" v-if="isDesktop">
             <div class="ht-inner">
                 <div :class="{'cart-popup-wrap': !(isReady && isEmpty)}">
                     <transition name="fade" mode="out-in">
-                        <div v-if="hasError" class="cart-error bulge">
+                        <div v-if="hasError" class="cart-error block-ui">
                             <h4>Ошибка соединения с сервером</h4>
 
                             <div class="cart-error__buttons">
@@ -54,25 +54,25 @@
 
                         <loading
                             v-else-if="!isReady"
-                            class="bulge"
+                            class="block-ui"
                             :loading="true"
                             :no-overlay="true"
                         ></loading>
 
-                        <div v-else-if="isEmpty" class="cart-empty">
+                        <div v-else-if="isEmpty" class="cart-empty block-ui">
                             Корзина пуста.
                         </div>
 
-                        <loading v-else :loading="loading" key="list" :no-min-height="true">
-                            <div class="cart-popup bulge">
-                                <div class="cart-popup__products">
+                        <loading v-else :loading="loading$" key="list" :no-min-height="true">
+                            <div class="cart-popup block-ui">
+                                <scroll-container class="cart-popup__products" :max-height="260">
                                     <cart-table
                                         :products.sync="products"
                                         :no-header="true"
                                         :small="true"
                                         class-name-modificators="small"
                                     ></cart-table>
-                                </div>
+                                </scroll-container>
 
                                 <div class="cart-popup__panel">
                                     <div class="cart-popup__total">
@@ -113,6 +113,8 @@
     import Core from '../../../scripts/core'
     import PendingLoader from '../../../scripts/PendingLoader'
 
+    import ScrollContainer from '../../ScrollContainer'
+
     import Mixin from './mixin'
 
     export default {
@@ -122,16 +124,23 @@
             Mixin
         ],
 
+        components: {
+            ScrollContainer
+        },
+
+        data() {
+            return {
+                loaded: false
+            }
+        },
+
         watch: {
-            productsQuantity: 'animateBadge'
+            isDesktop: 'checkHT'
         },
 
         mounted() {
             this.btn = this.$el.querySelector('.js-cart-btn')
-
-            heightToggle(this.btn, {
-                bindCloseEvents: true
-            })
+            this.checkHT()
 
             let badgeEl = this.$el.querySelector('.js-badge')
             let debouncer = _.debounce(() => {
@@ -143,34 +152,76 @@
                 badgeEl.classList.add('bounce')
                 debouncer()
             }, 1000, {leading: true});
+
+
+            this.anumateUnsubscriber = this.$store.subscribe(mutation => {
+                if (mutation.type === 'cart/CART_ADD_ITEM') {
+                    if (this.loaded) {
+                        this.$nextTick(() => {
+                            this.badgeAnimator()
+                        })
+                    }
+                    else if (this.$store.state.cart.ready) {
+                        this.loaded = true
+                    }
+                }
+            })
         },
 
         beforeDestroy() {
-            this.btn.heightToggle.destroy()
+            if (this.btn.heightToggle) {
+                this.btn.heightToggle.destroy()
+            }
+
+            if (typeof this.anumateUnsubscriber === 'function') {
+                this.anumateUnsubscriber()
+            }
+
+            this.badgeAnimator = undefined
         },
 
         computed: {
-            linkToCart() {
-                return Core.siteUrl('/cart')
-            },
-
             productsShortQuantity() {
                 if (this.productsQuantity > 9) {
                     return '9+'
                 }
 
                 return this.productsQuantity
-            }
+            },
+
+            isDesktop() {
+                return this.$root.windowMoreThan('lg')
+            },
+
+            btnLink() {
+                if (this.isDesktop) {
+                    return 'javascript:void(0)'
+                }
+
+                return this.linkToCart
+            },
+
+            linkToCart() {
+                return Core.siteUrl('/cart')
+            },
         },
 
         methods: {
-            animateBadge() {
-                this.badgeAnimator()
-            }
+            checkHT() {
+                this.$nextTick(() => {
+                    let htLoaded = !!this.btn.heightToggle
+
+                    if (this.isDesktop && !htLoaded) {
+                        heightToggle(this.btn, {
+                            bindCloseEvents: true
+                        })
+                    }
+
+                    if (!this.isDesktop && htLoaded) {
+                        this.btn.heightToggle.destroy()
+                    }
+                })
+            },
         }
     }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

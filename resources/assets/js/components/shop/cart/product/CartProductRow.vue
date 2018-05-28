@@ -26,6 +26,8 @@
                     :number="product.quantity"
                     @update:number="changeQty"
                     :small="small"
+                    :min="1"
+                    :max="99"
                 ></num-control>
             </td>
 
@@ -99,7 +101,7 @@
             leave(el, done) {
                 let tdEl = this.tdEl
 
-                el.classList.add('bulge')
+                el.classList.add('block-ui')
 
                 setTimeout(() => {
                     let handler = (e) => {

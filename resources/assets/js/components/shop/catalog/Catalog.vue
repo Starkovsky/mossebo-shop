@@ -50,7 +50,7 @@
                             ></catalog-product-list>
                         </loading>
 
-                        <div @click="more" class="bulge catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
+                        <div @click="more" class="block-ui catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
                             Показать еще
                         </div>
                     </template>

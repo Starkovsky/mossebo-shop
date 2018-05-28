@@ -1,5 +1,5 @@
 <template>
-    <div class="catalog-sort bulge">
+    <div class="catalog-sort block-ui">
         <div
             v-for="(title, type) in types"
             :key="type"

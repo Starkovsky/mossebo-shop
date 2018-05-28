@@ -7,7 +7,7 @@
                 >
                 </div>
             </div>
-            <div class="title">Дизайн интерьера  <br>от Mossebo</div>
+            <div class="title">Дизайн интерьера <br>от Mossebo</div>
             <a class="button" href="https://mossebo.studio/" target="_blank">Заказать</a>
         </div>
     </div>

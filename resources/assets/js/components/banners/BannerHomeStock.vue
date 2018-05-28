@@ -7,7 +7,7 @@
                 >
                 </div>
             </div>
-            <div class="title">Стань поставщиком  для Mossebo.Market</div>
+            <div class="title">Стань поставщиком для Mossebo.Market</div>
             <a class="button" href="https://mossebo.studio/dlya-postavshhikov/" target="_blank">Смотреть</a>
         </div>
     </div>

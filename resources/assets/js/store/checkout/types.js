@@ -1,0 +1,1 @@
+export const CHECKOUT_SET_STEP = 'CHECKOUT_SET_STEP'

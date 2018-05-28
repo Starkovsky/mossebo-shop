@@ -18,41 +18,35 @@ class CartController extends Controller
 
     public function get()
     {
-        return response()->json([
-            'status' => 'success',
-            'items' => CartResource::collection(CartProxy::get()),
-            'time' => CartProxy::getSyncTime()
-        ]);
+        return $this->_makeResponse();
     }
-
-    /*
-     * 1. Приходит запрос.
-     * 2. Проверяем дату синхронизации. Если она больше текущей - ищем предметы. Иначе - возвращаем стандартные с пометкой.
-     * 3. Проверка товаров на существование - оставляем только существующие с правильными опциями.
-     * 4. Если есть расхождения - помечаем в ответе.
-     */
 
     public function sync(CartRequest $request)
     {
         try {
             CartProxy::set($request->input('items'), $request->input('time'));
         }
-        catch(\Exception $e) {
+        catch(\Exception $e) {}
 
-        }
-
-        return response()->json([
-           'status' => 'success',
-           'items' => CartResource::collection(CartProxy::get()),
-            'time' => CartProxy::getSyncTime()
-        ]);
+        return $this->_makeResponse();
     }
 
-    public function test()
+    public function add(CartRequest $request, $key)
     {
         CartProxy::add([
-            'key' => random_int(100003, 100200),
-            'qty' => 1
+            'key' => $key,
+            'qty' => $request->input('qty') ?: 1
+        ]);
+
+        return $this->_makeResponse();
+    }
+
+    protected function _makeResponse()
+    {
+        return response()->json([
+            'status' => 'success',
+            'items' => CartResource::collection(CartProxy::get()),
+            'time' => CartProxy::getSyncTime()
         ]);
     }
 }

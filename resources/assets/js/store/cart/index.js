@@ -11,15 +11,19 @@ function makeKey (id, options = []) {
 
 class CartItem {
     constructor(key, qty = 0) {
-        this.key = key
+        this.key = key.toString()
         this.setQty(qty)
         this.loaded = false
     }
 
+    hasKey(key) {
+        return this.key === key.toString()
+    }
+
     getMaxQty() {
-        if (this.loaded && _.isNumber(this.info.remnant)) {
-            return this.info.remnant
-        }
+        // if (this.loaded && _.isNumber(this.info.remnant)) {
+        //     return this.info.remnant
+        // }
 
         return 99
     }
@@ -65,17 +69,6 @@ class CartItem {
     }
 }
 
-function handleSuccessResponse(response = {}, state = {}) {
-    let data = response.data || {}
-    state.items = itemsToCartItems(data.items)
-    state.lastSyncTime = data.time
-    state.ready = true
-    state.synchronized = true
-    state.loading = false
-
-    return itemsToCartItems (response.data.items)
-}
-
 function itemsToCartItems(items = []) {
     return items.map(item => {
         let ci = new CartItem(item.key, item.qty)
@@ -92,7 +85,7 @@ function operateItem(items, method, key, qty) {
     let changed = false
 
     let result = items.map(item => {
-        if (item.key === key) {
+        if (item.hasKey(key)) {
             item[method](qty)
             changed = true
         }
@@ -136,31 +129,33 @@ export default {
             commit(actionTypes.CART_ADD_ITEM, keyQtyArr)
 
             dispatch('dirty')
+            dispatch('add', keyQtyArr)
         },
 
         updateItem({ commit, dispatch }, keyQtyArr) {
             commit(actionTypes.CART_UPDATE_ITEM, keyQtyArr)
 
             dispatch('dirty')
+            this.syncDebouncer()
         },
 
         removeItem({ commit, dispatch }, key) {
             commit(actionTypes.CART_REMOVE_ITEM, key)
 
             dispatch('dirty')
+            this.syncDebouncer()
         },
 
         clear({ commit, dispatch }) {
             commit(actionTypes.CART_CLEAR)
 
             dispatch('dirty')
+            this.syncDebouncer()
         },
 
-        dirty({ state, commit, dispatch }) {
+        dirty({ state, commit, dispatch }, sync = true) {
             commit(actionTypes.CART_DIRTY)
             dispatch('updateLocalCart')
-
-            this.dirtyDebouncer()
 
             if (state.loading) {
                 this.abortRequest()
@@ -176,7 +171,7 @@ export default {
                 return
             }
 
-            this.dirtyDebouncer = _.debounce(() => dispatch('sync'), 400)
+            this.syncDebouncer = _.debounce(() => dispatch('sync'), 400)
 
             if (!LocalCart.exists()) {
                 dispatch('load')
@@ -195,53 +190,51 @@ export default {
             }
         },
 
-        load({ state, commit, dispatch }) {
-            commit(actionTypes.CART_LOAD_REQUEST)
-
-            this.cancelToken = new axios.CancelToken(c => this.abortRequest = c)
-
-            axios.request({
-                url: Core.siteUrl('cart'),
-                method: 'post',
-                cancelToken: this.cancelToken
+        add({dispatch}, item) {
+            dispatch('request', {
+                method: 'put',
+                url: Core.siteUrl('cart/' + item[0]),
+                data: {
+                    qty: item[1] || 1,
+                }
             })
-                .then(response => {
-                    commit(actionTypes.CART_LOAD_SUCCESS, response)
-                    dispatch('updateLocalCart')
-                })
-                .catch(thrown => {
-                    if (! axios.isCancel(thrown)) {
-                        commit(actionTypes.CART_LOAD_FAILURE)
-                    }
-                })
         },
 
-        sync({ state, commit, dispatch }) {
-            let syncData = {
-                time: state.lastSyncTime,
-                items: state.items.map(item => ({
-                    key: item.key,
-                    qty: item.qty
-                }))
-            }
+        load({ dispatch }) {
+            dispatch('request', {
+                url: Core.siteUrl('cart'),
+                method: 'post',
+            })
+        },
 
-            commit(actionTypes.CART_SYNC_REQUEST)
-
-            this.cancelToken = new axios.CancelToken(c => this.abortRequest = c)
-
-            axios.request({
+        sync({ state, dispatch }) {
+            dispatch('request', {
                 url: Core.siteUrl('cart'),
                 method: 'put',
-                data: syncData,
-                cancelToken: this.cancelToken
+                data: {
+                    time: state.lastSyncTime,
+                    items: state.items.map(item => ({
+                        key: item.key,
+                        qty: item.qty
+                    }))
+                },
+            })
+        },
+
+        request({ commit, dispatch }, config) {
+            commit(actionTypes.CART_REQUEST_START)
+
+            axios.request({
+                ... config,
+                cancelToken: new axios.CancelToken(c => this.abortRequest = c)
             })
                 .then(response => {
-                    commit(actionTypes.CART_SYNC_SUCCESS, response)
+                    commit(actionTypes.CART_REQUEST_SUCCESS, response)
                     dispatch('updateLocalCart')
                 })
                 .catch(thrown => {
                     if (! axios.isCancel(thrown)) {
-                        commit(actionTypes.CART_SYNC_FAILURE)
+                        commit(actionTypes.CART_REQUEST_FAILURE)
                     }
                 })
         },
@@ -268,7 +261,7 @@ export default {
         },
 
         [actionTypes.CART_REMOVE_ITEM](state, key) {
-            state.items = state.items.filter(item => item.key !== key)
+            state.items = state.items.filter(item => !item.hasKey(key))
         },
 
         [actionTypes.CART_CLEAR](state) {
@@ -279,31 +272,21 @@ export default {
             state.synchronized = false
         },
 
-        [actionTypes.CART_LOAD_REQUEST](state) {
+        [actionTypes.CART_REQUEST_START](state) {
             state.loading = true
             state.error = false
         },
 
-        [actionTypes.CART_LOAD_SUCCESS](state, response) {
-            handleSuccessResponse(response, state)
-        },
-
-        [actionTypes.CART_LOAD_FAILURE](state) {
+        [actionTypes.CART_REQUEST_SUCCESS](state, response = {}) {
+            let data = response.data || {}
+            state.items = itemsToCartItems(data.items)
+            state.lastSyncTime = data.time
+            state.ready = true
+            state.synchronized = true
             state.loading = false
-            state.ready = false
-            state.error = true
         },
 
-        [actionTypes.CART_SYNC_REQUEST](state) {
-            state.loading = true
-            state.error = false
-        },
-
-        [actionTypes.CART_SYNC_SUCCESS](state, response) {
-            handleSuccessResponse(response, state)
-        },
-
-        [actionTypes.CART_SYNC_FAILURE](state) {
+        [actionTypes.CART_REQUEST_FAILURE](state) {
             state.loading = false
             state.ready = false
             state.error = true
@@ -321,6 +304,10 @@ export default {
                 quantity: item.qty
             }))
         },
+
+        quantity(state) {
+            return state.items.reduce((acc, item) => acc + item.qty, 0)
+        }
     }
 }
 

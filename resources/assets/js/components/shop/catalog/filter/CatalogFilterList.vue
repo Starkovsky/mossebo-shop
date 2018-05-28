@@ -1,5 +1,5 @@
 <template>
-    <div class="catalog-filter bulge">
+    <div class="catalog-filter block-ui">
         <div class="catalog-filter-item" v-if="prices">
             <catalog-filter-price
                 ref="filter-price"

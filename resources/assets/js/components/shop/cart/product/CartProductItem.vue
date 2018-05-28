@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'cart-product-item': true, 'cart-product-item--ghost': isGhost, 'bulge': true}">
+    <div :class="{'cart-product-item': true, 'cart-product-item--ghost': isGhost, 'block-ui': true}">
         <div class="cart-product-item__top">
             <product-short-description
                 :product="product"
@@ -13,6 +13,8 @@
                     :number="product.quantity"
                     @update:number="changeQty"
                     :small="small"
+                    :min="1"
+                    :max="99"
                 ></num-control>
             </div>
 

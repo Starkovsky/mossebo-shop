@@ -1,7 +1,9 @@
-import CartStore from './Cart'
+import CartStore from './cart'
+import CheckoutStore from './checkout'
 
 export default {
     modules: {
-        cart: CartStore
+        cart: CartStore,
+        checkout: CheckoutStore
     }
 }
