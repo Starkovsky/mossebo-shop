@@ -135,10 +135,6 @@ $('.cart').click(function () {
     $('.cart').toggleClass('cart-active');
 });
 
-// TODO: Временная функция отключения авторизации конкретных соцсетей
-$('.auth-social-google, .auth-social-facebook').addClass('disabled').click(function (event) {
-    event.preventDefault();
-})
 
 
 // Product Tabs

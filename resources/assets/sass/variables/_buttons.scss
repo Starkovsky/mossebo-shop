@@ -8,8 +8,9 @@
     border: 1px solid transparent;
     border-radius: 30px;
     transition: $transition-primary;
-    padding: 10px 35px;
+    padding: 14px 35px;
     text-decoration: none;
+    font-size: 14px;
     &:hover {
         text-decoration: none;
         cursor: pointer;
