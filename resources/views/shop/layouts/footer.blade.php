@@ -33,6 +33,9 @@
                     <svg class="symbol-icon pay-paypal">
                         <use xlink:href="/assets/images/icons.svg#pay-paypal"></use>
                     </svg>
+                    <svg class="symbol-icon pay-yandex">
+                        <use xlink:href="/assets/images/icons.svg#pay-yandex"></use>
+                    </svg>
                 </div>
             </div>
             <div class="col-md-6">
@@ -70,13 +73,13 @@
                             <div class="footer-nav-title">Покупателю</div>
                             <ul class="footer-nav-links">
                                 <li class="footer-nav-links__item">
-                                    <a href="#">Доставка</a>
+                                    <a href="{{ route('delivery') }}">Доставка</a>
                                 </li>
                                 <li class="footer-nav-links__item">
-                                    <a href="#">Оплата</a>
+                                    <a href="{{ route('pay') }}">Оплата</a>
                                 </li>
                                 <li class="footer-nav-links__item">
-                                    <a href="#">Возврат</a>
+                                    <a href="{{ route('garant') }}">Гарантии</a>
                                 </li>
                                 <li class="footer-nav-links__item">
                                     <a href="#">Поддержка</a>

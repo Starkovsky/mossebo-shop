@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="header-navigation-list">
             <li class="header-navigation-list__item header-navigation-catalog">
-                <a href="/ru/catalog" class="">
+                <a href="/{{ app()->getLocale() }}/catalog" class="">
                     <svg class="symbol-icon symbol-menu">
                         <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
                     </svg>
@@ -12,7 +12,7 @@
                 {{--<a href="#" class="">Стили</a>--}}
             {{--</li>--}}
             <li class="header-navigation-list__item">
-                <a href="#" class="">Комнаты</a>
+                <a href="/{{ app()->getLocale() }}/rooms" class="">Комнаты</a>
             </li>
             <li class="header-navigation-list__item">
                 <a href="#" class="">Комплекты</a>

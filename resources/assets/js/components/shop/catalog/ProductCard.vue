@@ -5,7 +5,7 @@
                 <a href="#"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="Добавить в сравнение"
+                   title="Данная функция в разработке"
                 >
                     <svg class="symbol-icon symbol-wishlist">
                         <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
@@ -15,7 +15,7 @@
                 <a href="#"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="Добавить в избранное"
+                   title="Данная функция в разработке"
                 >
                     <svg class="symbol-icon symbol-heart">
                         <use xlink:href="/assets/images/icons.svg#symbol-heart"></use>

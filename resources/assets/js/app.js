@@ -130,11 +130,17 @@ $('.catalog-nav').click(function () {
 });
 
 
-// TODO: Временная функция показа активной корзины
-$('.cart').click(function () {
-    $('.cart').toggleClass('cart-active');
+// Instagram Slider
+$('.slider-instagram').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    fade: true,
+    lazyLoad: 'ondemand',
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
 });
-
 
 
 // Product Tabs

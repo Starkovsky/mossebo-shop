@@ -58,6 +58,7 @@
 
 // TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
 .information-block {
+    display: block;
     border-radius: $radius;
     box-shadow: $shadows-primary;
     background: $color-ui;
@@ -66,6 +67,14 @@
     color: $color-text-secondary;
     padding: 25px;
     height: 100%;
+    transition: $transition-primary;
+    &:hover {
+        color: $color-text-primary;
+        text-decoration: none;
+        .information-block__title {
+            color: $color-primary;
+        }
+    }
     @include media-breakpoint-down(sm) {
         margin-top: 15px;
         margin-bottom: 15px;
@@ -75,5 +84,6 @@
         font-size: 24px;
         color: $color-text-primary;
         margin-bottom: 15px;
+        transition: $transition-primary;
     }
 }

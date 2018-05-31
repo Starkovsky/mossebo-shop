@@ -31,6 +31,7 @@ class SocialAuthController extends Controller
         try {
 
             $socialUser = Socialite::driver($provider)->stateless()->user();
+            dd($socialUser);
 
         } catch (\InvalidArgumentException $e) {
             // TODO: Сохранить логи ошибок куда то
