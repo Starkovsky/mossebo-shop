@@ -25,12 +25,17 @@
 @import "layouts/footer";
 @import "layouts/shop-breadcrumb";
 
-// U-Blocks
+// Universal Blocks
 @import "u-blocks/dropdown";
 @import "u-blocks/height-toggle";
+@import "u-blocks/huge-radio";
 @import "u-blocks/images";
 @import "u-blocks/interior-styles";
+@import "u-blocks/label-value-table";
+@import "u-blocks/links";
 @import "u-blocks/num-control";
+@import "u-blocks/payment-item-info";
+@import "u-blocks/tabs";
 @import "u-blocks/instagram-slider";
 
 
@@ -39,10 +44,14 @@
 @import "variables/plugins/slick-slider";
 
 //Pages
-@import "pages/catalog";
-@import "pages/error-404";
-@import "pages/product-page";
 @import "pages/cart";
+@import "pages/catalog";
+@import "pages/checkout";
+@import "pages/confirmation";
+@import "pages/error-404";
+@import "pages/payment";
+@import "pages/product-page";
+@import "pages/shipping";
 
 //Auth
 @import "pages/auth";

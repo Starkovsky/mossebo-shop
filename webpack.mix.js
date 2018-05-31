@@ -29,6 +29,7 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         'vue',
         'vuex',
         'vue-the-mask',
+        'vee-validate',
         'jquery',
         'lodash',
         'popper.js',

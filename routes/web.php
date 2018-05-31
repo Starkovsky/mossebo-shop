@@ -82,11 +82,16 @@ Route::prefix('ru')->group(function () {
 
     });
 
-    // Корзина и оформление заказа
-    Route::get('/cart', 'Shop\CartController@index');
+    // Корзина
+    Route::get('/cart', 'Shop\CartController@index')->name('cart');
     Route::post('/cart', 'Shop\CartController@get');
     Route::put('/cart', 'Shop\CartController@sync');
     Route::put('/cart/{key}', 'Shop\CartController@add');
+
+    // Оформление заказа
+    Route::post('/checkout', 'Shop\CheckoutController@index');
+    Route::post('/checkout/email', 'Shop\CheckoutController@email');
+    Route::post('/checkout/phone', 'Shop\CheckoutController@phone');
 });
 
 // Маршруты для Авторизации через Соцсети
