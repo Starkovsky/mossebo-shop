@@ -117,7 +117,7 @@
 
     &-mobile-fix {
         display: none;
-        height: 55px;
+        height: 76px;
         @include media-breakpoint-down(md) {
             display: block;
         }

@@ -18,7 +18,8 @@ class EventServiceProvider extends ServiceProvider
 //        ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\VKontakte\VKontakteExtendSocialite@handle',
-            \JhaoDa\SocialiteProviders\Odnoklassniki\OdnoklassnikiExtendSocialite::class
+            \JhaoDa\SocialiteProviders\Odnoklassniki\OdnoklassnikiExtendSocialite::class,
+            'SocialiteProviders\Google\GoogleExtendSocialite@handle',
         ],
     ];
 

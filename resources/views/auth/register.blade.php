@@ -11,13 +11,17 @@
 
             <form method="POST" action="{{ route('register') }}">
                 @csrf
-                <div class="row justify-content-center auth-social auth-border-bottom pb-5">
-                    <div class="col-md-6">
+                <div class="row justify-content-center auth-social">
+                    <div class="col-11 col-md-6">
                         <h1 class="title_h1 text-center">Создание аккаунта</h1>
                         <div class="title-label mb-4">Аккаунт позволит вам добавлять товары в избранное, отслеживать
                             заказы, а также получать скидки, специальные предложения.
                         </div>
-                        @if($socialUser)
+                    </div>
+                </div>
+                @if($socialUser)
+                    <div class="row justify-content-center auth-social auth-border-bottom pb-4 pb-md-5">
+                        <div class="col-10 col-md-6">
                             <input type="hidden"
                                    name="provider_user_id"
                                    value="{{ $socialUser->getId() }}"
@@ -27,7 +31,7 @@
                                    value="{{ $provider }}"
                             >
                             <div class="row justify-content-center">
-                                <div class="col-sm-6">
+                                <div class="col-6">
                                     <div class="row align-items-center">
                                         <div style="background-image: url({{ $socialUser->getAvatar() }});"
                                              class="auth-avatar">
@@ -36,7 +40,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @else
+                        </div>
+                    </div>
+                @else
+                    <div class="row justify-content-center auth-social auth-border-bottom pb-4 pb-md-5">
+                        <div class="col-12 col-md-6">
                             <div class="text-center">
                                 <a href="{{ url('login/vkontakte') }}"
                                    class="auth-social-vk cricle mb-3"
@@ -67,9 +75,9 @@
                                     </svg>
                                 </a>
                             </div>
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <div class="py-5 auth-form">
                     <div class="row justify-content-center">

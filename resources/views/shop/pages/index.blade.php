@@ -6,17 +6,8 @@
 
 @section('content')
     <div class="container">
-        <main class="header__title d-none">
-            <h1 class="title_h1">
-                {{ __('layouts.mossebo-header-name') }}
-                <br>
-                {{ config('app.name', 'Laravel') }}
-            </h1>
-        </main>
 
-
-
-        <main class="py-4">
+        <main class="pb-4 mt-md-4">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <banner-home-stock></banner-home-stock>

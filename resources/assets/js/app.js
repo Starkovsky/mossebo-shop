@@ -150,7 +150,6 @@ $('.catalog-nav').click(function () {
     $('.catalog-nav').removeClass('catalog-nav-active');
 });
 
-
 // TODO: Временная функция отключения авторизации конкретных соцсетей
 $('.auth-social-google, .auth-social-facebook').addClass('disabled').click(function (event) {
     event.preventDefault();

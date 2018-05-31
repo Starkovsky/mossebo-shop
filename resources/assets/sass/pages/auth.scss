@@ -58,6 +58,9 @@
                 border-radius: 50%;
                 margin-left: 5px;
                 margin-right: 5px;
+                @include media-breakpoint-down(sm) {
+                    padding: 12px;
+                }
             }
         }
         &-vk {
