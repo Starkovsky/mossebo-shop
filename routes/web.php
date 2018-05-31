@@ -34,13 +34,17 @@ Route::prefix('ru')->group(function () {
 
         Route::get('/', 'Shop\HomeController@index')
             ->name('lk');
-
     });
 
-    Route::get('/cart', 'Shop\CartController@index');
+    Route::get('/cart', 'Shop\CartController@index')->name('cart');
     Route::post('/cart', 'Shop\CartController@get');
     Route::put('/cart', 'Shop\CartController@sync');
     Route::put('/cart/{key}', 'Shop\CartController@add');
+
+
+    Route::post('/checkout', 'Shop\CheckoutController@index');
+    Route::post('/checkout/email', 'Shop\CheckoutController@email');
+    Route::post('/checkout/phone', 'Shop\CheckoutController@phone');
 });
 
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');

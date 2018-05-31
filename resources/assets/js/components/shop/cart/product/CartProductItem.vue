@@ -9,7 +9,12 @@
 
         <div class="cart-product-item__bottom">
             <div class="cart-product-item__num">
+                <template v-if="noControls">
+                    {{ product.quantity }}&nbsp;шт
+                </template>
+
                 <num-control
+                    v-else
                     :number="product.quantity"
                     @update:number="changeQty"
                     :small="small"
@@ -25,7 +30,7 @@
                 ></formatted-price>
             </div>
 
-            <div class="cart-product-item__trash">
+            <div v-if="!noControls" class="cart-product-item__trash">
                 <button class="cart-trash-btn cart-table__ghost-focus" @click="remove">
                     <svg class="symbol-icon">
                         <use xlink:href="/assets/images/icons.svg#symbol-trash"></use>

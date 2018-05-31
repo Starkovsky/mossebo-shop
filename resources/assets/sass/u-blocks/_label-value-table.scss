@@ -1,0 +1,22 @@
+.label-value-table {
+    &__item {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 14px / 17px;
+
+        &:not(:first-child) {
+            margin-top: 16px;
+        }
+    }
+
+    &__label {
+        width: 150px;
+        color: $color-text-secondary;
+        padding-right: 20px;
+    }
+
+    &__value {
+        width: calc(100% - 150px);
+        color: $color-text-primary;
+    }
+}

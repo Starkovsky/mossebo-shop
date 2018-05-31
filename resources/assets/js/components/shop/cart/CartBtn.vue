@@ -12,7 +12,7 @@
                     </svg>
                 </div>
 
-                <div v-if="isDesktop">
+                <div v-if="$root.isDesktop">
                     <div class="cart-btn-name">
                         Корзина
                     </div>
@@ -67,7 +67,6 @@
                             <div class="cart-popup block-ui">
                                 <scroll-container class="cart-popup__products" :max-height="260">
                                     <cart-table
-                                        :products.sync="products"
                                         :no-header="true"
                                         :small="true"
                                         class-name-modificators="small"
@@ -111,7 +110,6 @@
 
 <script>
     import Core from '../../../scripts/core'
-    import PendingLoader from '../../../scripts/PendingLoader'
 
     import ScrollContainer from '../../ScrollContainer'
 
@@ -154,7 +152,7 @@
             }, 1000, {leading: true});
 
 
-            this.anumateUnsubscriber = this.$store.subscribe(mutation => {
+            this.animateUnsubscriber = this.$store.subscribe(mutation => {
                 if (mutation.type === 'cart/CART_ADD_ITEM') {
                     if (this.loaded) {
                         this.$nextTick(() => {
@@ -173,8 +171,8 @@
                 this.btn.heightToggle.destroy()
             }
 
-            if (typeof this.anumateUnsubscriber === 'function') {
-                this.anumateUnsubscriber()
+            if (typeof this.animateUnsubscriber === 'function') {
+                this.animateUnsubscriber()
             }
 
             this.badgeAnimator = undefined
@@ -189,10 +187,6 @@
                 return this.productsQuantity
             },
 
-            isDesktop() {
-                return this.$root.windowMoreThan('lg')
-            },
-
             btnLink() {
                 if (this.isDesktop) {
                     return 'javascript:void(0)'
@@ -204,6 +198,10 @@
             linkToCart() {
                 return Core.siteUrl('/cart')
             },
+
+            isDesktop() {
+                return this.$root.isDesktop
+            }
         },
 
         methods: {

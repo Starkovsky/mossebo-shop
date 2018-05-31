@@ -5,10 +5,12 @@
     display: block !important;
     overflow: hidden;
     margin: -8px;
+    transform: translate3d(0, 0, 0);
 }
 
 .ht-inner {
     z-index: 5;
     margin: 8px;
     background-color: $color-ui;
+    overflow: hidden;
 }

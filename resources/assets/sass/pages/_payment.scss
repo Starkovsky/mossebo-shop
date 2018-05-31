@@ -1,0 +1,47 @@
+.payment-page {
+    &__top {
+        font-size: 14px / 17px;
+        color: $color-text-primary;
+        margin-bottom: 24px;
+
+        @include media-breakpoint-up(lg) {
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            border-bottom: 1px solid $border-color;
+            color: $color-text-secondary;
+            height: 88px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &__content {
+        max-width: 580px;
+        margin: auto;
+
+        @include media-breakpoint-up(lg) {
+            padding: 60px 0 80px;
+        }
+    }
+
+    &__option:not(:first-child) {
+        margin-top: 16px;
+
+        @include media-breakpoint-up(lg) {
+            margin: 0;
+        }
+    }
+
+    &__info {
+        margin-top: 16px;
+        color: $color-text-secondary;
+
+        @include media-breakpoint-up(lg) {
+            margin-top: 40px;
+            text-align: center;
+            color: $color-text-primary;
+        }
+    }
+}

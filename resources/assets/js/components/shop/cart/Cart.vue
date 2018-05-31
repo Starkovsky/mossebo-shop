@@ -9,7 +9,7 @@
         tag="div"
     >
         <div v-if="hasError" key="error" class="cart-animation-wrap__item">
-            <div class="cart-error block-ui">
+            <div :class="{'cart-error': true, 'block-ui': !$root.isDesktop}">
                 <h4>Ошибка соединения с сервером</h4>
 
                 <div class="cart-error__buttons">
@@ -22,59 +22,37 @@
 
         <div v-else-if="!isReady" key="ready" class="cart-animation-wrap__item">
             <loading
-                class="block-ui"
                 :loading="true"
                 :no-overlay="true"
+                :class="{'block-ui': !$root.isDesktop}"
             ></loading>
         </div>
 
         <div v-else-if="isEmpty" key="empty" class="cart-animation-wrap__item">
-            <div class="cart-empty block-ui">
+            <div :class="{'cart-empty': true, 'block-ui': !$root.isDesktop}">
                 Корзина пуста.
             </div>
         </div>
 
         <div v-else key="list" class="cart-animation-wrap__item">
             <loading :loading="loading$" key="list">
-                <div :class="{'cart-page': true, 'block-ui': isDesktop}">
-                    <cart-table
-                        :products.sync="products"
-                    ></cart-table>
+                <div class="cart-page">
+                    <div :class="{'block-ui': $root.windowBetween('md', 'lg')}">
+                        <cart-table></cart-table>
+                    </div>
 
-                    <template v-if="isDesktop">
+                    <template v-if="$root.isDesktop">
                         <div class="cart-page__total">
                             <div class="cart-total">
-                    <span class="cart-total__label">
-                        Предварительная цена:
-                    </span>
+                                <span class="cart-total__label">
+                                    Предварительная цена:
+                                </span>
 
                                 <span class="cart-total__value">
-                        <formatted-price
-                            :value="totalPrice"
-                        ></formatted-price>
-                    </span>
-                            </div>
-                        </div>
-
-                        <div class="cart-page__controls">
-                            <div class="cart-page__back">
-                                <a class="button button-light" href="/">
-                                    <svg class="button__icon button__icon--left">
-                                        <use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use>
-                                    </svg>
-
-                                    К покупкам
-                                </a>
-                            </div>
-
-                            <div class="cart-page__submit">
-                                <button @click="next" class="button button-primary">
-                                    Оформить заказ
-
-                                    <svg class="button__icon button__icon--right">
-                                        <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
-                                    </svg>
-                                </button>
+                                    <formatted-price
+                                        :value="totalPrice"
+                                    ></formatted-price>
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -137,16 +115,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="cart-page__mobile-submit">
-                            <button @click="next" class="button button-primary">
-                                Оформить заказ
-
-                                <svg class="button__icon button__icon--right">
-                                    <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
-                                </svg>
-                            </button>
-                        </div>
                     </template>
                 </div>
             </loading>
@@ -156,9 +124,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import Core from '../../../scripts/core'
-    import CheckoutSteps from '../checkout/CheckoutSteps'
     import Mixin from './mixin'
     import AnimatedInteger from '../../../components/AnimatedInteger'
 
@@ -166,7 +131,6 @@
         name: "Cart",
 
         components: {
-            CheckoutSteps,
             AnimatedInteger
         },
 
@@ -176,12 +140,6 @@
 
         mounted() {
             this.$store.dispatch('cart/init')
-        },
-
-        computed: {
-            isDesktop() {
-                return this.$root.windowMoreThan('md')
-            },
         },
 
         methods: {
@@ -207,30 +165,6 @@
                     wrapEl.classList.remove('animation-in-process')
                 })
             },
-
-            next() {
-                this.$store.dispatch('checkout/next')
-            },
         },
     }
 </script>
-
-
-<style lang="scss" scoped>
-    .cart-animation-wrap {
-        padding: 50px 0;
-        margin: -50px 0;
-        overflow: hidden;
-        transform: translate3d(0, 0, 0);
-        transition: height .3s;
-    }
-
-    .cart-animation-wrap.animation-in-process {
-        position: relative;
-
-        & > .cart-animation-wrap__item {
-            position: absolute;
-            width: 100%;
-        }
-    }
-</style>

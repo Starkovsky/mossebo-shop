@@ -28,6 +28,7 @@
             >
                 <div class="product-card__image-box">
                     <background-image-loader
+                        v-if="product.image"
                         class="product-card__image"
                         :screen="true"
                         :image="prepareImage(product.image.src)"

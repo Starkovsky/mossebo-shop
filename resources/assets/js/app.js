@@ -13,12 +13,15 @@ import 'bootstrap'
 import Vue from 'vue'
 
 import Vuex from 'vuex'
-import storeSkeleton from './store'
-
 Vue.use(Vuex)
+import storeSkeleton from './store'
 const store = new Vuex.Store(storeSkeleton)
 
-
+import VeeValidate from 'vee-validate'
+Vue.use(VeeValidate, {
+    fieldsBagName: 'formFields',
+    errorBagName: 'formErrors'
+});
 
 
 /**
@@ -36,7 +39,7 @@ import Checkout from './components/shop/checkout/Checkout'
 import CartBtn from './components/shop/cart/CartBtn'
 
 
-
+import Core from './scripts/core'
 /**
  * App
  */
@@ -89,6 +92,24 @@ const app = new Vue({
         windowMoreThan(size) {
             return this.windowWidth >= breakpoints[size]
         },
+
+        windowBetween(from, to) {
+            return this.windowWidth >= breakpoints[from] && this.windowWidth < breakpoints[to]
+        },
+
+        translate() {
+            return Core.translate.apply(null, arguments)
+        }
+    },
+
+    computed: {
+        isDesktop() {
+            return this.windowMoreThan('lg')
+        },
+
+        isTablet() {
+            return this.windowMoreThan('sm') && this.windowLessThan('lg')
+        }
     },
 
     created() {
@@ -129,11 +150,6 @@ $('.catalog-nav').click(function () {
     $('.catalog-nav').removeClass('catalog-nav-active');
 });
 
-
-// TODO: Временная функция показа активной корзины
-$('.cart').click(function () {
-    $('.cart').toggleClass('cart-active');
-});
 
 // TODO: Временная функция отключения авторизации конкретных соцсетей
 $('.auth-social-google, .auth-social-facebook').addClass('disabled').click(function (event) {

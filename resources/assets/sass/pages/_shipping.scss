@@ -1,0 +1,21 @@
+.shipping {
+    &__type {
+        border-bottom: 1px solid $border-color;
+    }
+
+    &__form {
+        max-width: 580px;
+        margin: auto;
+        padding: 24px 16px;
+
+        @include media-breakpoint-up(lg) {
+            padding: 60px 16px 40px;
+        }
+    }
+
+    &__note {
+        &:not(:first-child) {
+            margin-top: 40px;
+        }
+    }
+}

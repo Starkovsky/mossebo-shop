@@ -87,7 +87,7 @@ class CartProxy
         }, new Collection);
     }
 
-    protected static function getProductInfo($key)
+    public static function getProductInfo($key)
     {
         $decoded = static::decodeKey($key);
 

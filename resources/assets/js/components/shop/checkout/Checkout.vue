@@ -1,35 +1,58 @@
 <template>
-    <div class="checkout">
-        <div class="checkout__steps">
-            <checkout-steps
+    <div class="checkout js-checkout">
+        <div class="checkout__steps js-checkout-steps">
+            <checkout-steps-panel
                 active="cart"
-            ></checkout-steps>
+            ></checkout-steps-panel>
         </div>
 
         <div class="py-3"></div>
 
-        <div class="checkout__content">
-            <transition
-                :name="animationName"
-                @beforeEnter="beforeEnter"
-                @beforeLeave="beforeLeave"
-            >
-                <div
-                    v-if="isActive('cart')"
-                    key="cart"
-                    class="checkout__item"
-                >
-                    <cart></cart>
-                </div>
+        <div :class="{'block-ui': $root.isDesktop}">
+            <div class="checkout__wrap js-checkout-wrap">
+                <div class="checkout__content">
+                    <transition
+                        :name="animationName"
+                        @before-leave="beforeLeave"
+                        @enter="enter"
+                        @after-enter="afterEnter"
+                    >
+                        <div
+                            v-if="isActive('cart')"
+                            key="cart"
+                            class="checkout__item"
+                        >
+                            <checkout-step-cart></checkout-step-cart>
+                        </div>
 
-                <div
-                    v-if="isActive('shipping')"
-                    key="shipping"
-                    class="checkout__item"
-                >
-                    <shipping></shipping>
+                        <div
+                            v-if="isActive('shipping')"
+                            key="shipping"
+                            class="checkout__item"
+                        >
+                            <checkout-step-shipping></checkout-step-shipping>
+                        </div>
+
+                        <div
+                            v-if="isActive('payment')"
+                            key="payment"
+                            class="checkout__item"
+                        >
+                            <checkout-step-payments></checkout-step-payments>
+                        </div>
+
+                        <div
+                            v-if="isActive('confirmation')"
+                            key="confirmation"
+                            class="checkout__item"
+                        >
+                            <checkout-step-confirmation></checkout-step-confirmation>
+                        </div>
+                    </transition>
                 </div>
-            </transition>
+            </div>
+
+
         </div>
     </div>
 </template>
@@ -37,17 +60,29 @@
 <script>
     import { mapGetters, mapState } from 'vuex'
 
-    import Cart from "../cart/Cart"
-    import Shipping from "../shipping/Shipping"
-    import CheckoutSteps from './CheckoutSteps'
+    import CheckoutStepsPanel from './CheckoutStepsPanel'
+
+    import CheckoutStepCart from './steps/CheckoutStepCart'
+    import CheckoutStepShipping from './steps/CheckoutStepShipping'
+    import CheckoutStepPayments from './steps/CheckoutStepPayments'
+    import CheckoutStepConfirmation from './steps/CheckoutStepConfirmation'
 
     export default {
         name: "Checkout",
 
         components: {
-            CheckoutSteps,
-            Cart,
-            Shipping
+            CheckoutStepsPanel,
+            CheckoutStepCart,
+            CheckoutStepShipping,
+            CheckoutStepPayments,
+            CheckoutStepConfirmation
+        },
+
+        created() {
+            this.$store.dispatch('checkout/init')
+            this.$store.dispatch('cart/init')
+            this.$store.dispatch('shipping/init')
+            this.$store.dispatch('payments/init')
         },
 
         methods: {
@@ -55,17 +90,37 @@
                 return tab === this.activeTab
             },
 
-            beforeEnter(el) {
-                console.log('enter', el)
-
-                el.classList.add('enter')
+            getWrapEl() {
+                return this.$el.querySelector('.js-checkout-wrap')
             },
 
             beforeLeave(el) {
-                console.log('leave', el)
+                let wrapEl = this.getWrapEl()
+                wrapEl.classList.add('animation-in-process')
 
-                el.classList.add('leave')
-            }
+                this.$nextTick(() => {
+                    wrapEl.style.height = el.clientHeight + 'px'
+                })
+
+
+            },
+
+            enter(el) {
+                let wrapEl = this.getWrapEl()
+
+                this.$nextTick(() => {
+                    wrapEl.style.height = el.clientHeight + 'px'
+                })
+            },
+
+            afterEnter() {
+                let wrapEl = this.getWrapEl()
+                wrapEl.classList.remove('animation-in-process')
+
+                this.$nextTick(() => {
+                    wrapEl.style.height = 'auto'
+                })
+            },
         },
 
         computed: {
@@ -76,7 +131,7 @@
 
             ... mapGetters({
                 activeTab: 'checkout/activeTab'
-            })
+            }),
         }
     }
 </script>

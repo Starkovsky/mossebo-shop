@@ -1,14 +1,38 @@
-export default {
-    __data: {},
-
-    __available: 'localStorage' in window && window['localStorage'] !== null,
+export class LocalStorageProxy {
+    constructor(namespace = false) {
+        this.__data = {}
+        this.__available = 'localStorage' in window && window['localStorage'] !== null
+        this.__namespace = namespace
+    }
 
     isAvailable() {
         return this.__available
-    },
+    }
 
-    add(identif, data) {
-        this.__data[identif] = data
+    prepareKey(key) {
+        if (this.__namespace) {
+            if (key.indexOf(this.__namespace + '::') === 0) {
+                return key
+            }
+
+            return this.__namespace + '::' + key
+        }
+
+        return key
+    }
+
+    keyToShort(key) {
+        if (this.__namespace) {
+            return key.replace(this.__namespace + '::', '')
+        }
+
+        return key
+    }
+
+    add(key, data) {
+        key = this.prepareKey(key)
+
+        this.__data[key] = data
 
         if (!this.isAvailable()) return
         if (typeof data === 'function') return
@@ -17,20 +41,22 @@ export default {
             data = JSON.stringify(data)
         }
 
-        localStorage.setItem(identif, data)
-    },
+        localStorage.setItem(key, data)
+    }
 
-    get(identif) {
-        if (identif in this.__data) {
-            let data = this.__data[identif]
+    get(key) {
+        key = this.prepareKey(key)
+
+        if (key in this.__data) {
+            let data = this.__data[key]
 
             if (typeof data !== 'string') {
                 try {
-                    data = JSON.parse(JSON.stringify(this.__data[identif]))
+                    data = JSON.parse(JSON.stringify(this.__data[key]))
                 }
                 catch(e){
-                    delete this.__data[identif]
-                    return this.get(identif)
+                    delete this.__data[key]
+                    return this.get(key)
                 }
             }
 
@@ -39,32 +65,45 @@ export default {
 
         if (!this.isAvailable()) return
 
-        let data = localStorage.getItem(identif)
+        let data = localStorage.getItem(key)
 
         try {
             data = JSON.parse(data)
         }
         catch(e){}
 
-        this.__data[identif] = data
+        this.__data[key] = data
 
         return data
-    },
+    }
 
-    has(identif) {
-        if (!this.isAvailable()) return false
+    getAllKeys() {
+        let keys = Object.keys(localStorage).filter(key => localStorage.hasOwnProperty(key))
 
-        return identif in localStorage
-    },
+        if (this.__namespace) {
+            keys = keys.filter(key => key.indexOf(this.__namespace) === 0)
+        }
 
-    /*
-      Достаем данные из хранилища.
-      Если данных нет, или хранилище не доступно - используем getDataFunc для получения данных.
-    */
-    remember(identif, getDataFunc, callback) {
+        return keys
+    }
+
+    getAll() {
+        return this.getAllKeys().reduce((acc, key) => {
+            acc[this.keyToShort(key)] = this.get(key)
+
+            return acc
+        }, {})
+    }
+
+    has(key) {
+        return this.prepareKey(key) in localStorage
+    }
+
+    remember(key, getDataFunc, callback) {
         if (! _.isFunction(callback)) return
+        key = this.prepareKey(key)
 
-        data = this.get(identif)
+        data = this.get(key)
 
         if (data) {
             callback(data)
@@ -72,7 +111,7 @@ export default {
         else {
             try {
                 getDataFunc(data => {
-                    this.add(identif, data)
+                    this.add(key, data)
                     callback(data)
                 });
             }
@@ -80,11 +119,19 @@ export default {
                 console.log(e)
             }
         }
-    },
+    }
 
-    forget(identif) {
+    forget(key) {
         if (!this.isAvailable()) return
 
-        localStorage.removeItem(identif)
+        localStorage.removeItem(this.prepareKey(key))
+    }
+
+    forgetAll() {
+        this.getAllKeys().forEach(key => this.forget(key))
     }
 }
+
+const defaultProxy = new LocalStorageProxy()
+
+export default defaultProxy

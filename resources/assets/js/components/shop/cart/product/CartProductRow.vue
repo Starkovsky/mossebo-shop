@@ -22,7 +22,12 @@
             </td>
 
             <td>
+                <template v-if="noControls">
+                   {{ product.quantity }}&nbsp;шт
+                </template>
+
                 <num-control
+                    v-else
                     :number="product.quantity"
                     @update:number="changeQty"
                     :small="small"
@@ -40,7 +45,7 @@
             </span>
             </td>
 
-            <td>
+            <td v-if="!noControls">
                 <div class="cart-table__ghost-focus">
                     <button class="cart-trash-btn" @click="remove()">
                         <svg class="symbol-icon">

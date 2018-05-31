@@ -12,7 +12,8 @@ export default {
 
     props: {
         product: Object,
-        small: Boolean
+        small: Boolean,
+        noControls: Boolean
     },
 
     data() {

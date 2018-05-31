@@ -1,5 +1,3 @@
-import CatalogSort from './CatalogSort'
-
 export default {
     data() {
         return {
@@ -12,10 +10,6 @@ export default {
 
             activeSortType: false
         }
-    },
-
-    components: {
-        CatalogSort
     },
 
     created() {

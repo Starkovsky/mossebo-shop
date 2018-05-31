@@ -5,6 +5,8 @@
 @section('meta-description', 'description main page')
 
 @section('content')
+    <div class="pt-5"></div>
+
     <div class="container">
         <checkout></checkout>
     </div>

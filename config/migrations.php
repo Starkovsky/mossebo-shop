@@ -46,6 +46,7 @@ return [
     // 'ComplectProducts' => 'shop_complect_products',
 
     'Orders' => 'shop_orders',
+    'OrdersTemp' => 'shop_orders_temp',
     'OrderProducts' => 'shop_order_products',
     'OrderStatuses' => 'shop_order_statuses',
 

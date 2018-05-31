@@ -307,6 +307,14 @@ export default {
 
         quantity(state) {
             return state.items.reduce((acc, item) => acc + item.qty, 0)
+        },
+
+        isEmpty(state) {
+            return state.items.length === 0
+        },
+
+        stepNotDone(state, getters) {
+            return state.loading || state.error || getters.isEmpty || !(state.ready && state.synchronized)
         }
     }
 }

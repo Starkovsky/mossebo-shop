@@ -10,7 +10,6 @@ use App\Cart\CartProxy;
 
 class CartController extends Controller
 {
-
     public function index()
     {
         return view('shop.pages.cart');
