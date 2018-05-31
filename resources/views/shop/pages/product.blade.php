@@ -63,17 +63,17 @@
                     </div>
 
                     <div class="product-page__price">
-                        <formatted-price :price="{{ $product->current_price->value }}"></formatted-price>
+                        <formatted-price :value="{{ $product->currentPrice->getValue() }}"></formatted-price>
                     </div>
 
-                    @if(isset($product->old_price))
+                    @if(isset($product->oldPrice))
                         <div class="product-page__oldprice">
-                            <formatted-price :price="{{ $product->old_price->value }}"></formatted-price>
+                            <formatted-price :value="{{ $product->oldPrice->getValue() }}"></formatted-price>
                         </div>
                         <div class="product-page__economy">
                             Вы сэкономите:
                             <formatted-price
-                                :price="{{ $product->old_price->value - $product->current_price->value }}"
+                                :value="{{ $product->oldPrice->getValue() - $product->currentPrice->getValue() }}"
                             >
                             </formatted-price>
                         </div>
@@ -185,6 +185,7 @@
                                     Купить в 1 клик
                                 </button>
                             </div>
+
                             <div class="col-sm-6">
                                 <button type="button"
                                         class="button button-primary js-product-add"
@@ -269,7 +270,7 @@
                             @foreach($product->attributes as $attribute)
                                 <div class="product-page-attribute">
                                     {{ $attribute->i18n->title }}:
-                                    @foreach($product->attribute_options as $option)
+                                    @foreach($product->attributeOptions as $option)
                                         @if($option->attribute_id == $attribute->id)
                                             <span class="product-page-option">{{ $option->i18n->value }}</span>
                                         @endif

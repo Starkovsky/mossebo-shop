@@ -309,8 +309,8 @@ export default {
             return state.items.reduce((acc, item) => acc + item.qty, 0)
         },
 
-        isEmpty(state) {
-            return state.items.length === 0
+        isEmpty(state, getters) {
+            return getters.loaded.length === 0
         },
 
         stepNotDone(state, getters) {

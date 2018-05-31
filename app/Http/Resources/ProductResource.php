@@ -36,19 +36,12 @@ class ProductResource extends JsonResource
             }
         }
 
-        // todo: убрать деление на 100 - привести к формированию с использованием валюты
-        if (! empty($this->prices)) {
-            foreach ($this->prices as $price) {
-                switch ($price->price_type_id) {
-                    case 1:
-                        $data['old_price'] = $price->value / 100;
-                        break;
+        if (! empty($this->currentPrice)) {
+            $data['price'] = $this->currentPrice->value / 100;
+        }
 
-                    case 2:
-                        $data['price'] = $price->value / 100;
-                        break;
-                }
-            }
+        if (! empty($this->oldPrice)) {
+            $data['old_price'] = $this->oldPrice->value / 100;
         }
 
         return $data;

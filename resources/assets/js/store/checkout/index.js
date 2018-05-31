@@ -143,7 +143,7 @@ export default {
         },
 
         setByIndex({ state, commit }, [index, toHistory = true]) {
-            if (index in state.steps) {
+            if (index in state.steps && state.active !== index) {
                 scrollToStart(() => {
                     commit(actionTypes.CHECKOUT_SET_STEP, index)
                 })

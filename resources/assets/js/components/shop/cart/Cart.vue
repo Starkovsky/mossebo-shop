@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div v-else-if="!isReady" key="ready" class="cart-animation-wrap__item">
+        <div v-else-if="!isReady || (isEmpty && loading)" key="ready" class="cart-animation-wrap__item">
             <loading
                 :loading="true"
                 :no-overlay="true"

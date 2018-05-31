@@ -31,16 +31,16 @@ class ProductController extends Controller
             $product = Product::with(
                 'i18n',
                 'images',
-                'current_price',
-                'old_price',
+                'currentPrice',
+                'oldPrice',
                 'attributes',
-                'attribute_options'
+                'attributeOptions'
             )
                 ->where('enabled','=','true')
                 ->findOrFail($id);
 
             // Проверка доступности товаров поставщика
-            if($product->supplier->enabled) {
+            if ($product->supplier->enabled) {
                 return view('shop.pages.product', [
                     'product' => $product,
                 ]);

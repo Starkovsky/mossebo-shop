@@ -40,7 +40,7 @@
 
         <div class="dropdown-menu dropdown-menu-ht dropdown-menu-right ht-container" v-if="isDesktop">
             <div class="ht-inner">
-                <div :class="{'cart-popup-wrap': !(isReady && isEmpty)}">
+                <div :class="{'cart-popup-wrap': ! (isEmpty && !loading)}">
                     <transition name="fade" mode="out-in">
                         <div v-if="hasError" class="cart-error block-ui">
                             <h4>Ошибка соединения с сервером</h4>
@@ -53,7 +53,7 @@
                         </div>
 
                         <loading
-                            v-else-if="!isReady"
+                            v-else-if="!isReady || (isEmpty && loading)"
                             class="block-ui"
                             :loading="true"
                             :no-overlay="true"

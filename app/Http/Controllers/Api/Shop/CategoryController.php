@@ -6,7 +6,6 @@ use App\Http\Controllers\Api\ApiController;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Shop\Category;
-use App\Models\Shop\Product;
 
 class CategoryController extends ApiController
 {
@@ -15,16 +14,39 @@ class CategoryController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function products($categorySlug)
+    public function products($slug)
     {
-        $category = Category::where('slug', $categorySlug)->firstOrFail();
+        $category = Category::where('slug', $slug)->firstOrFail();
         // firstOrFail - бросает ошибку.
         // Ошибка перхватывается в App\Exceptions\Handler - возвращает клиенту 404.
 
-        $products = $category->products()->with(['i18n', 'image', 'prices', 'productAttributeOptions'])->get();
+        $products = \Cache::remember('category::' . $slug, 60, function() use($category) {
+            return $this->getCategoryProducts($category);
+        });
 
         return response()->json([
-            'products' => ProductResource::collection($products)
+            'products' => $products
         ]);
     }
+
+    protected function getCategoryProducts($category)
+    {
+        $products = $category->products()->with([
+            'i18n',
+            'image',
+            'currentPrice',
+            'oldPrice',
+            'productAttributeOptions',
+            'supplier'
+        ])->get();
+
+        return $products->reduce(function ($carry, $product) {
+            if ($product->canBeShowed()) {
+                $carry[] = new ProductResource($product);
+            }
+
+            return $carry;
+        }, []);
+    }
 }
+

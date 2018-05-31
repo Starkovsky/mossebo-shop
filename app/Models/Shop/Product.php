@@ -57,7 +57,7 @@ class Product extends Model
             ->orderBy('order_column', 'asc');
     }
 
-    public function current_price()
+    public function currentPrice()
     {
         return $this
             ->hasOne(Price::class, 'item_id')
@@ -65,7 +65,7 @@ class Product extends Model
             ->where('price_type_id','=', '2');
     }
 
-    public function old_price()
+    public function oldPrice()
     {
         return $this
             ->hasOne(Price::class, 'item_id')
@@ -90,7 +90,7 @@ class Product extends Model
             ->with('i18n');
     }
 
-    public function attribute_options()
+    public function attributeOptions()
     {
         return $this
             ->belongsToMany(
@@ -127,5 +127,10 @@ class Product extends Model
         }
 
         return $query->first();
+    }
+
+    public function canBeShowed()
+    {
+        return $this->currentPrice && $this->i18n && $this->image && $this->supplier->enabled;
     }
 }

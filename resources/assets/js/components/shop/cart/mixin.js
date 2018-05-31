@@ -71,13 +71,13 @@ export default {
     computed: {
         ... mapGetters({
             productsQuantity: 'cart/quantity',
+            isEmpty: 'cart/isEmpty'
         }),
 
         ... mapState({
             loading: state => state.cart.loading,
             hasError: state => state.cart.error,
             isReady: state => state.cart.ready,
-            isEmpty: state => !state.cart.items.length,
             productsPrice: (state, getters) => {
                 return getters['cart/products'].reduce((acc, product) => {
                     acc += product.quantity * product.price
