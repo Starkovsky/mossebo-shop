@@ -1,0 +1,23 @@
+.link {
+    color: $color-link;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease-out;
+
+    &:hover {
+        border-bottom-color: currentColor;
+    }
+
+    &--dashed {
+        border-bottom-style: dashed;
+    }
+
+    &--inverse {
+        border-bottom-color: currentColor;
+
+        &:hover {
+            border-bottom-color: transparent;
+        }
+    }
+}

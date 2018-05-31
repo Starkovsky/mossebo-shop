@@ -69,17 +69,23 @@ export default {
     },
 
     computed: {
-        isEmpty() {
-            return !this.products.length
-        },
+        ... mapGetters({
+            productsQuantity: 'cart/quantity',
+        }),
 
-        productsPrice() {
-            return this.products.reduce((acc, product) => {
-                acc += product.quantity * product.price
+        ... mapState({
+            loading: state => state.cart.loading,
+            hasError: state => state.cart.error,
+            isReady: state => state.cart.ready,
+            isEmpty: state => !state.cart.items.length,
+            productsPrice: (state, getters) => {
+                return getters['cart/products'].reduce((acc, product) => {
+                    acc += product.quantity * product.price
 
-                return acc
-            }, 0)
-        },
+                    return acc
+                }, 0)
+            }
+        }),
 
         shippingPrice() {
             return 0
@@ -88,16 +94,5 @@ export default {
         totalPrice() {
             return this.productsPrice + this.shippingPrice
         },
-
-        ... mapGetters({
-            products: 'cart/products',
-            productsQuantity: 'cart/quantity',
-        }),
-
-        ... mapState({
-            loading: state => state.cart.loading,
-            hasError: state => state.cart.error,
-            isReady: state => state.cart.ready,
-        })
     }
 }

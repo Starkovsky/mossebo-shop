@@ -1,5 +1,15 @@
 .form {
-    &-input[type="text"], &-input[type="email"], &-input[type="password"], &-input[type="phone"] {
+    &-group {
+        &.has-error {
+            & .form-input,
+            & .form-textarea {
+                border-color: $color-danger;
+            }
+        }
+    }
+
+    &-input,
+    &-textarea {
         display: block;
         width: 100%;
         box-sizing: border-box;
@@ -8,12 +18,59 @@
         padding: 10px 16px;
         color: $color-text-primary;
         -webkit-appearance: none;
+        transition: border-color .3s ease-out;
+
         &:focus {
             outline: none;
         }
+
         &.is-invalid {
-            border: 1px solid $color-danger;
+            border-color: $color-danger;
         }
+
+        &::-webkit-input-placeholder {
+            color: $color-text-secondary;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        &::-moz-placeholder {
+            color: $color-text-secondary;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        &:-moz-placeholder {
+            color: $color-text-secondary;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        &:-ms-input-placeholder {
+            color: $color-text-secondary;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        &:focus::-webkit-input-placeholder {
+            opacity: 0;
+        }
+
+        &:focus::-moz-placeholder {
+            opacity: 0;
+        }
+
+        &:focus:-moz-placeholder {
+            opacity: 0;
+        }
+
+        &:focus:-ms-input-placeholder {
+            opacity: 0;
+        }
+    }
+    &-textarea {
+        resize: none;
+        min-height: 90px;
     }
     &-checkbox {
         display: block;
@@ -67,5 +124,18 @@
         }
     }
 
+    &-label {
+        display: block;
+    }
 
+    &-help {
+        font-size: 12px / 19px;
+        &:not(:first-child) {
+            margin-top: 5px;
+        }
+    }
+
+    &-required {
+        color: $color-danger;
+    }
 }

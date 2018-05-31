@@ -1,0 +1,17 @@
+.payment-item-info {
+    &__image {
+        display: block;
+        max-width: 140px;
+
+        &:before {
+            content: '';
+            display: block;
+            padding-top: 40%;
+        }
+    }
+
+    &__title {
+        color: $color-text-primary;
+        font-size: 14px / 17px;
+    }
+}

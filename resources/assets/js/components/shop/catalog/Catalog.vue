@@ -32,11 +32,13 @@
 
                 <div class="col-md-9">
                     <template v-if="productsToShow.length > 0">
-                        <catalog-sort
-                            :types="sortTypes"
+                        <tabs
+                            :tabs="sortTypes"
                             :active="activeSortType"
-                            @change="setActiveSortType"
-                        ></catalog-sort>
+                            @activation="setActiveSortType"
+                            class="block-ui"
+                            style="margin-bottom: 17px"
+                        ></tabs>
 
                         <loading
                             :loading="productsLoading.inProcess"
@@ -86,12 +88,14 @@
     import catalogProductList from './productList/mixin'
 
     import Loading from '../../Loading'
+    import Tabs from '../../Tabs'
 
     export default {
         name: "Catalog",
 
         components: {
-            Loading
+            Loading,
+            Tabs
         },
 
         mixins: [

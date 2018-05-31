@@ -1,0 +1,93 @@
+.confirmation-page {
+    &__content {
+        max-width: 900px;
+        margin: auto;
+
+        @include media-breakpoint-up(lg) {
+            padding: 40px 0;
+        }
+    }
+}
+
+
+.confirmation-block {
+    &:not(:first-child) {
+        margin-top: 16px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 40px;
+
+        &:not(:first-child) {
+            margin-top: 40px;
+        }
+    }
+
+    &__head,
+    &__content {
+        padding: 16px;
+
+        @include media-breakpoint-up(lg) {
+            margin-left: 125px;
+        }
+    }
+
+    &__head {
+        position: relative;
+        border-bottom: 1px solid $border-color;
+        display: flex;
+        align-items: center;
+
+        @include media-breakpoint-up(lg) {
+            padding: 0 16px 40px;
+        }
+    }
+
+    &__content {
+        @include media-breakpoint-up(lg) {
+            padding: 0;
+        }
+    }
+
+    &__title {
+        font-size: 14px / 17px;
+        margin-left: 16px;
+        flex-grow: 2;
+
+        @include media-breakpoint-up(lg) {
+            margin-left: 0;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: $color-text-secondary;
+
+        @include media-breakpoint-up(lg) {
+            position: absolute;
+            left: -75px;
+            top: -2px;
+        }
+    }
+
+    &__change {
+        color: $color-primary;
+    }
+
+    &.success &__icon {
+        fill: $color-success;
+    }
+
+    &.has-error &__icon {
+        fill: $color-danger;
+    }
+}
+
+.confirmation-content-wrap {
+    padding: 24px 16px 0;
+}
+
+.confirmation-empty {
+    color: red;
+}

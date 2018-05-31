@@ -18,7 +18,7 @@
                     Цена
                 </th>
 
-                <th></th>
+                <th v-if="!noControls"></th>
             </tr>
         </thead>
 
@@ -28,7 +28,7 @@
                     :key="product.id"
                     :small="small"
                     :product="product"
-                    :quantity.sync="product.quantity"
+                    :no-controls="noControls"
                     @remove="remove(product.id)"
                 ></cart-product-row>
             </template>
@@ -41,7 +41,7 @@
                 :key="product.id"
                 :small="small"
                 :product="product"
-                :quantity.sync="product.quantity"
+                :no-controls="noControls"
                 @remove="remove(product.id)"
             ></cart-product-item>
         </template>
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+
     import CartProductRow from './product/CartProductRow'
     import CartProductItem from './product/CartProductItem'
 
@@ -72,12 +74,12 @@
                 default: false,
             },
 
-            small: Boolean,
-
-            products: {
-                type: Array,
-                default: () => []
+            'no-controls': {
+                type: Boolean,
+                default: false,
             },
+
+            small: Boolean,
         },
 
         data() {
@@ -105,6 +107,10 @@
 
                 return baseClass
             },
+
+            ... mapState({
+                products: (state, getters) => getters['cart/products']
+            }),
         }
     }
 </script>

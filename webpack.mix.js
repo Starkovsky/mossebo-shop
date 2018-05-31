@@ -28,6 +28,7 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         'babel-polyfill',
         'vue',
         'vuex',
+        'vue-the-mask',
         'jquery',
         'lodash',
         'popper.js',

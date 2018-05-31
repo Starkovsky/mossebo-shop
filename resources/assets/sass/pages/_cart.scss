@@ -7,18 +7,17 @@
         font-weight: 400;
         text-align: left;
         padding: 16px 5px;
+        color: $color-text-secondary;
+        border-bottom: 1px solid $color-border;
 
         &:not(:first-child) {
             text-align: center;
         }
-
-        color: $color-text-secondary;
     }
 
     & td {
         position: relative;
         text-align: center;
-        border-top: 1px solid $color-border;
         padding: 16px 15px;
 
         &::before {
@@ -37,6 +36,10 @@
         &:first-child {
             width: 100%;
         }
+    }
+
+    & tr:not(:first-child) td {
+        border-top: 1px solid $color-border;
     }
 
     & th,
@@ -194,6 +197,7 @@
 
 .cart-product-item {
     margin: 16px 0;
+    color: $color-text-primary;
 
     &:first-child {
         margin-top: 0;
@@ -224,6 +228,10 @@
         flex-grow: 1;
         text-align: center;
         font-size: 16px / 21px;
+
+        &:last-child {
+            text-align: right;
+        }
     }
 
     &--ghost &__top {
@@ -291,34 +299,17 @@
         margin-bottom: 16px;
     }
 
-    &__mobile-submit {
-        margin-top: 24px;
-        text-align: center;
-    }
-
-    &__total,
-    &__controls {
+    &__total {
         height: 150px;
         display: flex;
         align-items: center;
         padding: 20px;
         border-top: 1px solid $color-border;
+        justify-content: flex-end;
 
         @include media-breakpoint-up(lg) {
             padding: 20px 40px;
         }
-    }
-
-    &__total {
-        justify-content: flex-end;
-    }
-
-    &__controls {
-        justify-content: center;
-    }
-
-    &__submit:not(:first-child) {
-        margin-left: 16px;
     }
 }
 
@@ -396,8 +387,24 @@
 }
 
 .cart-empty {
-    padding: 20px 30px;
+    padding: 24px 16px;
 }
 
 
 
+.cart-animation-wrap {
+    padding: 50px 15px;
+    margin: -50px -15px;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    transition: height .3s;
+}
+
+.cart-animation-wrap.animation-in-process {
+    position: relative;
+
+    & > .cart-animation-wrap__item {
+        position: absolute;
+        width: calc(100% - 30px);
+    }
+}

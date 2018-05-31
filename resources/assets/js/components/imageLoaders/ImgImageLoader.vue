@@ -3,13 +3,13 @@
 </template>
 
 <script>
-    import ImageLoader from "../../mixins/ImageLoader";
+    import mixin from "./mixin";
 
     export default {
         name: "ImgImageLoader",
 
         mixins: [
-            ImageLoader
+            mixin
         ],
     }
 </script>

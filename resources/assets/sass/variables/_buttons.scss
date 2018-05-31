@@ -56,6 +56,7 @@
             box-shadow: $shadows-primary;
         }
     }
+
     &:disabled {
         cursor: not-allowed;
     }
@@ -96,5 +97,48 @@
     input {
         border: 1px solid $color-border;
         text-align: center;
+    }
+}
+
+@keyframes cog {
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+
+.button-loading {
+    position: relative;
+
+    &__content {
+        transform: translate3d(0, 0, 0);
+        transition: opacity .3s;
+    }
+
+    &__loader {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        left: 50%;
+        margin-left: -12px;
+        top: 50%;
+        margin-top: -12px;
+        fill: currentColor;
+        animation-name: cog;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        transition: opacity .3s;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    &.is-loading &__content {
+        opacity: 0;
+    }
+
+    &.is-loading &__loader {
+        opacity: 1;
+        z-index: 1;
     }
 }

@@ -19,6 +19,10 @@ export default class SmoothScroll {
     }
 
     static findEndPoint(elem) {
+        if (typeof elem === 'string') {
+            elem = document.querySelector(elem)
+        }
+
         if (elem instanceof Element) {
             return elem.offsetTop
         }

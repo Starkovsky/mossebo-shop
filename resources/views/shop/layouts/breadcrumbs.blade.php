@@ -6,7 +6,7 @@
     }
 @endphp
 
-@if($page_route_name != 'home')
+@if(!in_array($page_route_name, ['home', 'cart']))
 
 <div class="container">
     <ul class="shop-breadcrumb">
