@@ -54,11 +54,11 @@ class CheckoutController extends Controller
         ]))->save();
 
         $result['orderId'] = $order;
-        Mail::send('emails.checkout.test', $result, function ($message) use($result) {
+        dd(Mail::send('emails.checkout.test', $result, function ($message) use($result) {
             $message->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $message->to(env('MAIL_TO_ADDRESS'), env('MAIL_TO_NAME'))->subject('Заказ с сайта Mossebo.Market');
             $message->cc($result['shipping']['data']['email'])->subject('Заказ с сайта Mossebo.market');
-        });
+        }));
 
         return response(null, 200);
     }
