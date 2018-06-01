@@ -202,9 +202,12 @@
         <div class="overlay">
             <div class="container">
                 <h3 class="title_h2">Наша продукция в реальных интерьерах</h3>
-                <div class="insta">
-                    Instagram &nbsp;&nbsp;&nbsp;&nbsp; &#8594;
-                </div>
+                <button class="button button-instagram">
+                    Instagram
+                    <svg class="symbol-icon symbol-person">
+                        <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+                    </svg>
+                </button>
             </div>
             <div class="instagram-overlay-svg"></div>
         </div>
