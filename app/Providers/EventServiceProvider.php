@@ -21,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
             \JhaoDa\SocialiteProviders\Odnoklassniki\OdnoklassnikiExtendSocialite::class,
             'SocialiteProviders\Google\GoogleExtendSocialite@handle',
         ],
+        'Illuminate\Mail\Events\MessageSending' => [
+            'App\Listeners\LogSendingMessage',
+        ],
+        'Illuminate\Mail\Events\MessageSent' => [
+            'App\Listeners\LogSentMessage',
+        ],
     ];
 
     /**
