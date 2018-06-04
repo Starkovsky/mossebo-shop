@@ -202,9 +202,12 @@
         <div class="overlay">
             <div class="container">
                 <h3 class="title_h2">Наша продукция в реальных интерьерах</h3>
-                <div class="insta">
-                    Instagram &nbsp;&nbsp;&nbsp;&nbsp; &#8594;
-                </div>
+                <a href="https://www.instagram.com/remont.design/" target="_blank" class="button button-instagram">
+                    Instagram
+                    <svg class="symbol-icon symbol-arrow-forward">
+                        <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
+                    </svg>
+                </a>
             </div>
             <div class="instagram-overlay-svg"></div>
         </div>

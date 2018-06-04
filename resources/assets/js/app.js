@@ -217,6 +217,3 @@ $('.zoom-gallery').magnificPopup({
         }
     }
 });
-
-
-
