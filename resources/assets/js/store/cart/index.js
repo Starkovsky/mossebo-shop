@@ -3,7 +3,7 @@ import * as actionTypes from './types'
 import LocalCart from './LocalCart'
 import Core from '../../scripts/core'
 
-function makeKey (id, options = []) {
+export function makeKey (id, options = []) {
     return options.sort((a, b) => a - b).reduce((acc, optionId) => {
         return acc + '-' + optionId
     }, id)
@@ -17,6 +17,7 @@ class CartItem {
     }
 
     hasKey(key) {
+        if (! key) return false
         return this.key === key.toString()
     }
 

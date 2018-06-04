@@ -18,7 +18,7 @@ class CartResource extends JsonResource
 
         $data = [
             'id' => $product->id,
-            'title' => $product->i18n->title,
+            'title' => $product->currentI18n->title,
             'payable' => $product->is_payable
         ];
 

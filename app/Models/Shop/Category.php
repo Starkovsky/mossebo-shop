@@ -2,30 +2,10 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
-use Kalnoy\Nestedset\NodeTrait;
-use App;
+use MosseboShopCore\Models\Shop\Category as BaseCategory;
 
-class Category extends Model
+class Category extends BaseCategory
 {
-    use NodeTrait;
-
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_categories';
-
-
-    public function i18n()
-    {
-        $locale = App::getLocale();
-        return $this
-            ->hasOne(CategoryI18n::class, 'category_id')
-            ->where('language_code','=', $locale);
-    }
-
     public function products()
     {
         return $this

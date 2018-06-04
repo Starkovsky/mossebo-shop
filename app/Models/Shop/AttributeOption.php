@@ -2,24 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
-use App;
+use MosseboShopCore\Models\Shop\AttributeOption as BaseAttributeOption;
 
-class AttributeOption extends Model
+class AttributeOption extends BaseAttributeOption
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_attribute_options';
 
-    public function i18n()
-    {
-        $locale = App::getLocale();
-
-        return $this
-            ->hasOne(AttributeOptionI18n::class, 'option_id')
-            ->where('language_code','=', $locale);
-    }
 }

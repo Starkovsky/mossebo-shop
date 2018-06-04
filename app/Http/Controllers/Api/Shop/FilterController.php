@@ -16,7 +16,7 @@ class FilterController extends ApiController
      */
     public function index()
     {
-        $attributes = Attribute::with(['i18n', 'options'])->get();
+        $attributes = \Attributes::getCollection(['currentI18n']);
 
         return response()->json([
             'filters' => FilterResource::collection($attributes)

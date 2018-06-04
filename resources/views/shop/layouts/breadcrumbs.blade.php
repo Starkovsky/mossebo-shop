@@ -22,7 +22,7 @@
             @foreach($category->ancestors as $ancestor)
                 <li class="shop-breadcrumb-item">
                     <a href="{{ route('catalog', $ancestor->slug) }}">
-                        {{ $ancestor->i18n->title }}
+                        {{ $ancestor->currentI18n->title }}
                     </a>
                     <svg class="symbol-icon symbol-person">
                         <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
@@ -31,7 +31,7 @@
             @endforeach
                 <li class="shop-breadcrumb-item">
                     <a>
-                        {{ $category->i18n->title }}
+                        {{ $category->currentI18n->title }}
                     </a>
                 </li>
         @endif
@@ -40,7 +40,7 @@
 
             <li class="shop-breadcrumb-item">
                 <a>
-                    {{ $product->i18n->title }}
+                    {{ $product->currentI18n->title }}
                 </a>
             </li>
 

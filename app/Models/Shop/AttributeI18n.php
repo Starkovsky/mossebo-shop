@@ -2,14 +2,8 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\AttributeI18n as BaseAttributeI18n;
 
-class AttributeI18n extends Model
+class AttributeI18n extends BaseAttributeI18n
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_attributes_i18n';
 }

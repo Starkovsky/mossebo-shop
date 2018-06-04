@@ -283,7 +283,7 @@
                                                 <tr>
                                                     <td style="padding: 16px 10px; text-align: left">
                                                         <a href="http://mossebo.market/ru/goods/{{ $item['product']->id }}" target="_blank" style="color: #555555; font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;margin: 0;font-size: 16px; line-height: 21px;">
-                                                            {{ $item['product']->i18n->title }}
+                                                            {{ $item['product']->currentI18n->title }}
                                                         </a>
                                                     </td>
 

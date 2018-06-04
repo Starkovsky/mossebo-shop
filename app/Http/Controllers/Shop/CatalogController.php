@@ -27,8 +27,8 @@ class CatalogController extends Controller
     {
         try {
 
-            $category = Category::with(['i18n','ancestors' => function($query) {
-                $query->with('i18n')->defaultOrder()->get();
+            $category = Category::with(['currentI18n','ancestors' => function($query) {
+                $query->with('currentI18n')->defaultOrder()->get();
             }])
                 ->where('slug', '=', $category_slug)
                 ->where('enabled', '=', 'true')

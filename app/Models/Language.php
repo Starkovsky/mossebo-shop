@@ -2,21 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Shop\Currency;
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Language as BaseLanguage;
 
-class Language extends Model
+class Language extends BaseLanguage
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'languages';
 
-    public function currency()
-    {
-        return $this
-            ->hasOne(Currency::class, 'code','currency_code');
-    }
 }

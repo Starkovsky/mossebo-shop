@@ -2,15 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\CategoryI18n as BaseCategoryI18n;
 
-class CategoryI18n extends Model
+class CategoryI18n extends BaseCategoryI18n
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_categories_i18n';
 
 }

@@ -37,6 +37,7 @@ import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 import Checkout from './components/shop/checkout/Checkout'
 import CartBtn from './components/shop/cart/CartBtn'
+import ProductControls from './components/shop/product/ProductControls'
 
 
 import Core from './scripts/core'
@@ -64,7 +65,8 @@ const app = new Vue({
         BannerHomeStock,
         BannerHomeNew,
         Checkout,
-        CartBtn
+        CartBtn,
+        ProductControls
     },
     data: {
         windowWidth: window.innerWidth,
@@ -217,10 +219,4 @@ $('.zoom-gallery').magnificPopup({
 });
 
 
-document.addEventListener('click', (e) => {
-    let btn = e.target.closest('.js-product-add')
 
-    if (btn) {
-        app.$store.dispatch('cart/addProduct', [{id: btn.getAttribute('data-id')}, 1])
-    }
-}, { passive: true })

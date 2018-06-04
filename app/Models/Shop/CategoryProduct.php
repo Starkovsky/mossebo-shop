@@ -2,19 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\CategoryProduct as BaseCategoryProduct;
 
-class CategoryProduct extends Model
+class CategoryProduct extends BaseCategoryProduct
 {
-    protected $table = 'shop_category_products';
 
-    public function categories()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-
-    public function products()
-    {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
 }

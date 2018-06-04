@@ -16,7 +16,7 @@ class FilterResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->i18n->title,
+            'title' => $this->currentI18n->title,
             'options' => OptionResource::collection($this->options),
             'position' => $this->position
         ];

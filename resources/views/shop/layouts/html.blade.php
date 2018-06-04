@@ -32,6 +32,8 @@
 <script src="{{ mix('assets/js/vendor.js') }}" defer></script>
 <script src="{{ mix('assets/js/app.js') }}" defer></script>
 
+@yield('scripts')
+
 
 @include('shop.layouts.metrika')
 

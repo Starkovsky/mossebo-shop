@@ -18,7 +18,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'new' => $this->is_new,
             'popular' => $this->is_popular,
-            'name' => $this->i18n->title,
+            'name' => $this->currentI18n->title,
         ];
 
         if (! empty($this->productAttributeOptions)) {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Shop;
 
-
 use App\Models\Shop\Product;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
@@ -26,33 +26,66 @@ class ProductController extends Controller
      */
     public function index($id)
     {
-        try {
+        $product = Product::with(
+            'currentI18n',
+            'images',
+            'currentPrice',
+            'oldPrice',
+            'productAttributes',
+            'productAttributeOptions',
+            'supplier'
+        )
+            ->where('enabled','=',true)
+            ->findOrFail($id);
 
-            $product = Product::with(
-                'i18n',
-                'images',
-                'currentPrice',
-                'oldPrice',
-                'attributes',
-                'attributeOptions'
-            )
-                ->where('enabled','=','true')
-                ->findOrFail($id);
+        $attributesIds = array_column($product->productAttributes->toArray(), 'attribute_id');
+        $optionsIds = array_column($product->productAttributeOptions->toArray(), 'option_id');
 
-            // Проверка доступности товаров поставщика
-            if ($product->supplier->enabled) {
-                return view('shop.pages.product', [
-                    'product' => $product,
-                ]);
+        $attributes = \Attributes::enabled(['currentI18n'])
+            ->whereIn('id', $attributesIds);
+
+        $carry = [
+            'all' => new Collection(),
+            'selectable' => new Collection(),
+        ];
+
+        $attributes->reduce(function($carry, $attribute) use ($optionsIds) {
+            $attribute->setRelation('options', $attribute->options->whereIn('id', $optionsIds));
+
+            if ($attribute->options->count() > 0) {
+                $carry['all']->push($attribute);
+
+                if ($attribute->selectable) {
+                    $carry['selectable']->push([
+                        'id' => $attribute->id,
+                        'title' => $attribute->currentI18n->title,
+                        'options' => $attribute->options->reduce(function ($carry, $item) {
+                            $carry[] = [
+                                'id' => $item->id,
+                                'title' => $item->currentI18n->value
+                            ];
+
+                            return $carry;
+                        }, []),
+                        'need_to_select' => true
+                    ]);
+                }
             }
-            else {
-                return abort(404);
-            }
+
+            return $carry;
+        }, $carry);
+
+
+        // Проверка доступности товаров поставщика
+        if ($product->canBeShowed()) {
+            return view('shop.pages.product', [
+                'product' => $product,
+                'attributes' => $carry['all'],
+                'selectable' => json_encode($carry['selectable'], JSON_UNESCAPED_UNICODE)
+            ]);
         }
-        catch (\Exception $e) {
-            // TODO: Временно закоментировано, надо куда то складывать ошибки
-            return $e->getMessage();
-            //return abort(404);
+        else {
+            return abort(404);
         }
     }
 }

@@ -85,7 +85,7 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-ht ht-container">
-                    <div class="ht-inner">
+                    <div class="ht-inner block-ui">
                         @guest
                             <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                             <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>

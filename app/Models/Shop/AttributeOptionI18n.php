@@ -2,14 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\AttributeOptionI18n as BaseAttribeutOptionI18n;
 
-class AttributeOptionI18n extends Model
+class AttributeOptionI18n extends BaseAttribeutOptionI18n
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_attribute_options_i18n';
+
 }

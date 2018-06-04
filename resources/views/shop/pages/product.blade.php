@@ -4,12 +4,20 @@
 
 @section('meta-description', 'description main page')
 
+@section('scripts')
+    <script>
+        window.product = {
+            id: {{ $product->id }},
+            selectable: {!! $selectable !!}
+        }
+    </script>
+@endsection
 
 @section('content')
 
     <div class="container mb-4">
         <h1 class="title_h1">
-            {{ $product->i18n->title }}
+            {{ $product->currentI18n->title }}
         </h1>
     </div>
 
@@ -136,72 +144,7 @@
                         <span class="product-page-option">14 дней</span>
                     </div>
 
-                    <div class="mb-5">
-                        <div class="row">
-                            <div class="col-md-3 d-flex align-items-center">
-                                <span>Количество:</span>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="input-group"
-                                     data-toggle="tooltip"
-                                     data-placement="top"
-                                     title="Количество">
-                                    <div class="input-group-prepend">
-                                        <button class="button button-light" type="button">
-                                            <svg class="symbol-icon symbol-remove">
-                                                <use xlink:href="/assets/images/icons.svg#symbol-remove"></use>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder=""
-                                           aria-label=""
-                                           aria-describedby="basic-addon1"
-                                           value="1"
-                                    >
-                                    <div class="input-group-append">
-                                        <button class="button button-light" type="button">
-                                            <svg class="symbol-icon symbol-add">
-                                                <use xlink:href="/assets/images/icons.svg#symbol-add"></use>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4"></div>
-                        </div>
-                    </div>
-
-
-                    <div class="product-page__buttons py-3">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <button type="button"
-                                        class="button button-dark"
-                                        data-toggle="modal"
-                                        data-target="#exampleModal"
-                                >
-                                    Купить в 1 клик
-                                </button>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <button type="button"
-                                        class="button button-primary js-product-add"
-                                        data-id="{{ $product->id }}"
-                                >
-                                    Добавить в корзину
-                                </button>
-                            </div>
-                        </div>
-                        {{--<button type="button"
-                                class="button button-light"
-                        >
-                            <i class="md-icon">add_shopping_cart</i>
-                            Добавить в корзину
-                        </button>--}}
-                    </div>
+                    <product-controls></product-controls>
 
                     <div class="product-page__label">
                         Расскажите друзьям:
@@ -267,12 +210,12 @@
                     <div class="row">
                         <div class="col-md-6">
 
-                            @foreach($product->attributes as $attribute)
+                            @foreach($attributes as $attribute)
                                 <div class="product-page-attribute">
-                                    {{ $attribute->i18n->title }}:
+                                    {{ $attribute->currentI18n->title }}:
                                     @foreach($product->attributeOptions as $option)
                                         @if($option->attribute_id == $attribute->id)
-                                            <span class="product-page-option">{{ $option->i18n->value }}</span>
+                                            <span class="product-page-option">{{ $option->currentI18n->value }}</span>
                                         @endif
                                     @endforeach
                                 </div>
@@ -280,7 +223,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            {!! $product->i18n->description !!}
+                            {!! $product->currentI18n->description !!}
                         </div>
                     </div>
                 </div>

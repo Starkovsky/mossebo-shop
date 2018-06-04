@@ -1,12 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Models\SocialAccount;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use MosseboShopCore\Models\User as BaseUser;
 
-class User extends Authenticatable
+class User extends BaseUser
 {
     use Notifiable;
 

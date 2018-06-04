@@ -36,22 +36,22 @@
     </div>
 </nav>
 @php
-    $categorys = App\Models\Shop\Category::with('i18n')->get()->toTree();
+    $categories = App\Models\Shop\Category::with('currentI18n')->get()->toTree();
 @endphp
 <div class="catalog-nav">
     <div class="container">
         <div class="catalog-nav-box">
             <ul>
-                @foreach($categorys as $category)
+                @foreach ($categories as $category)
                     <li>
                         <a href="/{{ app()->getLocale() }}/catalog/{{ $category->slug }}">
-                            {{ $category->i18n->title }}
+                            {{ $category->currentI18n->title }}
                         </a>
                         <ul>
                             @foreach($category->children as $children)
                                 <li>
                                     <a href="/{{ app()->getLocale() }}/catalog/{{ $children->slug }}">
-                                        {{ $children->i18n->title }}
+                                        {{ $children->currentI18n->title }}
                                     </a>
                                 </li>
                             @endforeach

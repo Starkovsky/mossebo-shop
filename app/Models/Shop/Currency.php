@@ -2,16 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\Currency as BaseCurrency;
 
-class Currency extends Model
+class Currency extends BaseCurrency
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_currencies';
-
 
 }

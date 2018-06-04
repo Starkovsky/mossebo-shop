@@ -2,45 +2,11 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
-use App;
 use App\Models\Media;
+use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
-class Product extends Model
+class Product extends BaseProduct
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_products';
-
-
-    public function languages()
-    {
-        return $this
-            ->belongsToMany(
-                Language::class,
-                'shop_languages',
-                'product_id',
-                'language_id'
-            );
-    }
-
-    public function i18n()
-    {
-        $locale = App::getLocale();
-        return $this
-            ->hasOne(ProductI18n::class, 'product_id')
-            ->where('language_code','=', $locale);
-    }
-
-    public function supplier()
-    {
-        return $this
-            ->hasOne(Supplier::class, 'id','supplier_id');
-    }
-
     public function image()
     {
         return $this
@@ -73,47 +39,13 @@ class Product extends Model
             ->where('price_type_id','=', '1');
     }
 
-    public function prices()
-    {
-        return $this->morphMany(Price::class, 'item');
-    }
-
-    public function attributes()
-    {
-        return $this
-            ->belongsToMany(
-                Attribute::class,
-                'shop_product_attributes',
-                'product_id',
-                'attribute_id'
-            )
-            ->with('i18n');
-    }
-
-    public function attributeOptions()
-    {
-        return $this
-            ->belongsToMany(
-                AttributeOption::class,
-                'shop_product_attribute_options',
-                'product_id',
-                'option_id'
-            )
-            ->with('i18n');
-    }
-
-    public function productAttributeOptions()
-    {
-        return $this->hasMany(ProductAttributeOption::class, 'product_id');
-    }
-
     public static function getCartItem($id, $options = [])
     {
         $productTable = (new static)->getTable();
         $optionsTable = (new AttributeOption())->getTable();
         $productOptionsTable = (new ProductAttributeOption)->getTable();
 
-        $query = self::with(['image', 'prices', 'i18n'])
+        $query = self::with(['image', 'prices', 'currentI18n'])
             ->select("{$productTable}.*")
             ->where("{$productTable}.enabled", true)
             ->where("{$productTable}.id", $id);
@@ -131,6 +63,11 @@ class Product extends Model
 
     public function canBeShowed()
     {
-        return $this->currentPrice && $this->i18n && $this->image && $this->supplier->enabled;
+        return
+            $this->enabled &&
+            $this->currentPrice &&
+            $this->currentI18n &&
+            $this->image &&
+            $this->supplier->enabled;
     }
 }

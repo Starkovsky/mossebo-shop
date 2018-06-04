@@ -32,13 +32,13 @@ class CategoryController extends ApiController
     protected function getCategoryProducts($category)
     {
         $products = $category->products()->with([
-            'i18n',
+            'currentI18n',
             'image',
             'currentPrice',
             'oldPrice',
             'productAttributeOptions',
             'supplier'
-        ])->get();
+        ])->where('enabled', '=', true)->get();
 
         return $products->reduce(function ($carry, $product) {
             if ($product->canBeShowed()) {

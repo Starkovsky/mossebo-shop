@@ -2,19 +2,9 @@
 
 namespace App\Models\Shop;
 
-use Illuminate\Database\Eloquent\Model;
+use MosseboShopCore\Models\Shop\Supplier as BaseSupplier;
 
-class Supplier extends Model
+class Supplier extends BaseSupplier
 {
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
-    protected $table = 'shop_suppliers';
 
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'supplier_id');
-    }
 }
