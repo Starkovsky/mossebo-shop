@@ -163,7 +163,7 @@ return [
 
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
 
-        MosseboShopCore\MosseboShopCoreServiceProvider::class
+        \MosseboShopCore\MosseboShopCoreServiceProvider::class
     ],
 
     /*

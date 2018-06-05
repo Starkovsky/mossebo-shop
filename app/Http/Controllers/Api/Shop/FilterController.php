@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Shop;
 use App\Http\Controllers\Api\ApiController;
 
 use App\Http\Resources\FilterResource;
-use App\Models\Shop\Attribute;
 
 class FilterController extends ApiController
 {
