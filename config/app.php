@@ -162,8 +162,6 @@ return [
         App\Providers\MorphServiceProvider::class,
 
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
-
-        \MosseboShopCore\MosseboShopCoreServiceProvider::class
     ],
 
     /*
