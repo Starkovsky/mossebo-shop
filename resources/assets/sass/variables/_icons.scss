@@ -11,6 +11,10 @@
 .symbol-logo {
     width: 144px;
     height: 31px;
+    @include media-breakpoint-down(md) {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .symbol-logo-ru {
@@ -93,8 +97,8 @@
     height: 24px;
 }
 .pay-visa {
-    width: 80px;
-    height: 26px;
+    width: 55px;
+    height: 18px;
 }
 
 .pay-maestro {

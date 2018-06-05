@@ -17,10 +17,10 @@
             font-size: 9pt;
             color: $color-text-secondary;
             max-width: 400px;
-            text-align: justify;
             @include media-breakpoint-down(md) {
                 margin-left: auto;
                 margin-right: auto;
+                text-align: center;
             }
         }
     }
@@ -38,8 +38,12 @@
     }
     &-pay {
         &-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 400px;
             .symbol-icon {
-                margin-right: 15px;
+                margin-right: 24px;
                 display: inline-block;
             }
             @include media-breakpoint-down(md) {
@@ -100,8 +104,10 @@
 }
 
 .social-links {
+    max-width: 400px;
+    margin-bottom: 16px;
     @include media-breakpoint-down(sm) {
-
+        text-align: center;
     }
     &__item {
         margin-right: 8px;
