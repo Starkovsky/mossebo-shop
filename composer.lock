@@ -1762,14 +1762,22 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:mossebo-cm/mossebo-shop-core.git",
-                "reference": "f74345bd8e5165a68703f874803fbaf9e31ee11c"
+                "reference": "ce82d691a0a409b4172e78d9653031607167e2d7"
             },
             "require": {
                 "composer/installers": "^1.0",
                 "ext-curl": "*",
+                "kalnoy/nestedset": "^4.3",
                 "php": ">=5.5"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MosseboShopCore\\MosseboShopCoreServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "MosseboShopCore\\": "src/"
@@ -1787,7 +1795,7 @@
                 "Mossebo",
                 "Shop"
             ],
-            "time": "2018-06-01T12:40:38+00:00"
+            "time": "2018-06-05T09:09:49+00:00"
         },
         {
             "name": "nesbot/carbon",
