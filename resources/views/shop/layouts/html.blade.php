@@ -4,7 +4,7 @@
     @include('shop.layouts.meta')
 
     <link rel="stylesheet" href="{{ mix('assets/css/app.css') }}" media="all">
-    <link rel="stylesheet" href="{{ url('assets/css/montserrat.css') }}" media="all">
+    {{--<link rel="stylesheet" href="{{ url('assets/css/montserrat.css') }}" media="all">--}}
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500&amp;subset=cyrillic-ext" rel="stylesheet">
 
 </head>
