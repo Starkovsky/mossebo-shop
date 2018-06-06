@@ -98,6 +98,7 @@
             &--city {
                 width: 100%;
                 padding-left: 52px;
+                flex: 1;
                 .ht-container {
                     margin-left: 49px;
                 }
@@ -132,7 +133,7 @@
         transition: $transition-primary;
         color: $color-text-primary;
         line-height: 1.4;
-        width: 215px;
+        width: 220px;
         .symbol-location {
             transition: $transition-primary;
             fill: $color-icons;

@@ -60,7 +60,7 @@
             }
         }
         .title {
-            font-size: 18px;
+            font-size: 16px;
             color: $color-ui;
             text-align: center;
             margin-bottom: 25px;

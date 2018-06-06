@@ -2,7 +2,6 @@
  * GLOBAL
  */
 import svg4everybody from './core/svg4everybody.legacy.min'
-import './scripts/HeightToggle'
 import './common'
 
 /**
@@ -41,6 +40,7 @@ import ProductControls from './components/shop/product/ProductControls'
 
 
 import Core from './scripts/core'
+import './scripts/HeightToggle'
 /**
  * App
  */
