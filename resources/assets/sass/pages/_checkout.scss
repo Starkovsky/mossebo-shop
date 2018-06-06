@@ -1,4 +1,9 @@
 .checkout {
+    @include media-breakpoint-down(lg) {
+        margin-top: -48px;
+        padding-top: 48px;
+    }
+
     &__wrap {
         overflow: hidden;
         padding: 0 15px;
@@ -26,6 +31,12 @@
         height: 100%;
         padding-left: 30px;
         transition: none;
+    }
+
+    &__steps {
+        @include media-breakpoint-down(lg) {
+            margin: -32px 0 -16px;
+        }
     }
 }
 
@@ -71,7 +82,7 @@
     }
 }
 
-.checkout-steps {
+.checkout-steps-panel {
     padding: 30px 20px;
 
     @media (min-width: 768px) {
@@ -90,6 +101,16 @@
             padding: 0 5px;
         }
     }
+}
+
+.checkout-steps-panel-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 14px / 17px;
+    color: $color-text-secondary;
+    padding: 12px 0;
 }
 
 .checkout-step-badge {

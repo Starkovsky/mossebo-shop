@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Models\Shop\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CatalogController extends Controller
@@ -23,14 +22,13 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($category_slug)
+    public function index($categorySlug)
     {
         try {
-
-            $category = Category::with(['currentI18n','ancestors' => function($query) {
+            $category = Category::with(['currentI18n', 'ancestors' => function($query) {
                 $query->with('currentI18n')->defaultOrder()->get();
             }])
-                ->where('slug', '=', $category_slug)
+                ->where('slug', '=', $categorySlug)
                 ->where('enabled', '=', 'true')
                 ->firstOrFail();
 

@@ -1,0 +1,287 @@
+.filter-desc--20 {
+    margin: -5px 0 0 -5px;
+}
+
+.filter-label {
+    display: block;
+    position: relative;
+    color: $color-text-primary;
+    font-size: 13px;
+    margin-bottom: 12px;
+    padding-left: 35px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover input ~ .checkmark {
+        border-color: $color-primary;
+    }
+
+    input {
+        display: none;
+
+        &:checked ~ .checkmark {
+            background-color: $color-primary;
+            border-color: $color-primary;
+
+            &:after {
+                opacity: 1;
+            }
+        }
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        margin-top: -10px;
+        background-color: $color-ui;
+        border: 2px solid $color-border;
+        border-radius: 2px;
+        box-sizing: border-box;
+        transition: all .3s;
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            margin-left: -3px;
+            top: 50%;
+            margin-top: -6px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+            transition: opacity .3s;
+            opacity: 0;
+        }
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+
+        & input ~ .checkmark {
+            background-color: $color-border;
+        }
+
+        & .checkmark,
+        & .value {
+            opacity: .5;
+        }
+    }
+}
+
+.filter-name {
+    display: block;
+    position: relative;
+    padding: 20px;
+    color: $color-text-primary;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: none;
+        .symbol-icon {
+            fill: $color-text-primary;
+        }
+    }
+
+    .symbol-icon {
+        float: right;
+    }
+
+    &.is-active .symbol-icon {
+        transform: rotate(180deg);
+    }
+}
+
+.filter-desc {
+    padding: 0 20px 8px;
+}
+
+.filter-desc--20 .filter-label {
+    display: inline-flex;
+    margin: 0;
+    padding: 5px 0 0 5px;
+    width: 14.285714285714286%;
+
+    & .checkmark {
+        width: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        margin-top: 0;
+        display: block;
+        height: auto;
+        top: 0;
+
+        &::before {
+            content: '';
+            padding-top: 100%;
+            display: block;
+            z-index: 1;
+        }
+    }
+
+    &:hover input ~ .checkmark {
+        border-color: $color-primary;
+    }
+
+    & .value {
+        display: none;
+    }
+}
+
+
+.filter-label--93 .checkmark::before {
+    background-color: #987654;
+}
+
+.filter-label--95 .checkmark::before {
+    background-color: #403a3a;
+}
+
+.filter-label--112 .checkmark::before {
+    background-color: #808080;
+}
+
+.filter-label--113 .checkmark::before {
+    background-color: #e6e39f;
+}
+
+.filter-label--116 .checkmark::before {
+    background-color: #000000;
+}
+
+.filter-label--117 .checkmark::before {
+    background-color: #cd7f32;
+}
+
+.filter-label--121 .checkmark::before {
+    background-color: #b7b7b7;
+    background: -moz-linear-gradient(45deg, #b7b7b7 0%, #f7f7f7 51%, #b7b7b7 100%);
+    background: -webkit-linear-gradient(45deg, #b7b7b7 0%,#f7f7f7 51%,#b7b7b7 100%);
+    background: linear-gradient(45deg, #b7b7b7 0%,#f7f7f7 51%,#b7b7b7 100%);
+}
+
+.filter-label--129 .checkmark::before {
+    background-color: #787563;
+    background: -moz-linear-gradient(45deg, #787563 0%, #d7d0c2 50%, #787563 100%);
+    background: -webkit-linear-gradient(45deg, #787563 0%,#d7d0c2 50%,#787563 100%);
+    background: linear-gradient(45deg, #787563 0%,#d7d0c2 50%,#787563 100%);
+}
+
+.filter-label--131 .checkmark::before {
+    background-color: #5a2905;
+    background: -moz-linear-gradient(45deg, #5a2905 0%, #fcdbc5 50%, #5a2905 100%);
+    background: -webkit-linear-gradient(45deg, #5a2905 0%,#fcdbc5 50%,#5a2905 100%);
+    background: linear-gradient(45deg, #5a2905 0%,#fcdbc5 50%,#5a2905 100%);
+}
+
+.filter-label--132 .checkmark::before {
+    background-color: #d4af37;
+    background: -moz-linear-gradient(45deg, #d4af37 0%, #fcda01 50%, #d4af37 100%);
+    background: -webkit-linear-gradient(45deg, #d4af37 0%,#fcda01 50%,#d4af37 100%);
+    background: linear-gradient(45deg, #d4af37 0%,#fcda01 50%,#d4af37 100%);
+}
+
+.filter-label--134 .checkmark::before {
+    background-color: #f5f5dc;
+}
+
+.filter-label--135 .checkmark::before {
+    background-color: #964b00;
+}
+
+.filter-label--143 .checkmark::before {
+    background-color: #008000;
+}
+
+.filter-label--144 .checkmark::before {
+    background-color: #ffff00;
+}
+
+.filter-label--147 .checkmark::before {
+    background-color: #654321;
+}
+
+.filter-label--148 .checkmark::before {
+    background-color: #49423d;
+}
+
+.filter-label--153 .checkmark::before {
+    background-color: #808000;
+}
+
+.filter-label--154 .checkmark::before {
+    background-color: #0000ff;
+}
+
+.filter-label--155 .checkmark::before {
+    background-color: #492d19;
+    background: -moz-linear-gradient(45deg, #492d19 0%, #9a5429 50%, #b66639 100%);
+    background: -webkit-linear-gradient(45deg, #492d19 0%,#9a5429 50%,#b66639 100%);
+    background: linear-gradient(45deg, #492d19 0%,#9a5429 50%,#b66639 100%);
+}
+
+.filter-label--156 .checkmark::before {
+    background-color: #876c3d;
+    background: -moz-linear-gradient(45deg, #876c3d 0%, #f0e3a5 50%, #876c3d 100%);
+    background: -webkit-linear-gradient(45deg, #876c3d 0%,#f0e3a5 50%,#876c3d 100%);
+    background: linear-gradient(45deg, #876c3d 0%,#f0e3a5 50%,#876c3d 100%);
+}
+
+.filter-label--157 .checkmark::before {
+    background-color: #787975;
+    background: -moz-linear-gradient(45deg, #787975 0%, #e9e9e7 50%, #787975 100%);
+    background: -webkit-linear-gradient(45deg, #787975 0%,#e9e9e7 50%,#787975 100%);
+    background: linear-gradient(45deg, #787975 0%,#e9e9e7 50%,#787975 100%);
+}
+
+.filter-label--168 .checkmark::before {
+    background-color: #120a8f;
+}
+
+.filter-label--171 .checkmark::before {
+    background-color: #ffc0cb;
+}
+
+.filter-label--175 .checkmark::before {
+    background-color: #42aaff;
+}
+
+.filter-label--177 .checkmark::before {
+    background-color: #d77d31;
+}
+
+.filter-label--178 .checkmark::before {
+    background-color: #ff0000;
+}
+
+.filter-label--179 .checkmark::before {
+    background-color: #30d5c8;
+}
+
+.filter-label--181 .checkmark::before {
+    background-color: #8b00ff;
+}
+
+.filter-label--182 .checkmark::before {
+    background-color: #ffe5b4;
+}
+
+.filter-label--190 .checkmark::before {
+    background-color: #008080;
+}
+
+.filter-label--192 .checkmark::before {
+    background-color: #99ff99;
+}
+
+.filter-label--198 .checkmark::before {
+    background-image: url("/assets/images/filters/colors/multicolor.jpg");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}

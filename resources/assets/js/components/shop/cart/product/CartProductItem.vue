@@ -17,7 +17,7 @@
                     v-else
                     :number="product.quantity"
                     @update:number="changeQty"
-                    :small="small"
+                    :classNameModificators="small ? 'small' : 'default'"
                     :min="1"
                     :max="99"
                 ></num-control>

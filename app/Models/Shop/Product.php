@@ -39,6 +39,11 @@ class Product extends BaseProduct
             ->where('price_type_id','=', '1');
     }
 
+    public function attributeOptions()
+    {
+        return parent::attributeOptions()->with('currentI18n');
+    }
+
     public static function getCartItem($id, $options = [])
     {
         $productTable = (new static)->getTable();

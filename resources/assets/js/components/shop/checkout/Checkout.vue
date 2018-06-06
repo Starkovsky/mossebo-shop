@@ -1,9 +1,13 @@
 <template>
     <div class="checkout js-checkout">
         <div class="checkout__steps js-checkout-steps">
-            <checkout-steps-panel
-                active="cart"
-            ></checkout-steps-panel>
+            <template v-if="$root.isDesktop">
+                <checkout-steps-panel></checkout-steps-panel>
+            </template>
+
+            <template v-else>
+                <checkout-steps-panel-mobile></checkout-steps-panel-mobile>
+            </template>
         </div>
 
         <div class="py-3"></div>
@@ -60,7 +64,8 @@
 <script>
     import { mapGetters, mapState } from 'vuex'
 
-    import CheckoutStepsPanel from './CheckoutStepsPanel'
+    import CheckoutStepsPanel from './panels/CheckoutStepsPanel'
+    import CheckoutStepsPanelMobile from './panels/CheckoutStepsPanelMobile'
 
     import CheckoutStepCart from './steps/CheckoutStepCart'
     import CheckoutStepShipping from './steps/CheckoutStepShipping'
@@ -72,6 +77,7 @@
 
         components: {
             CheckoutStepsPanel,
+            CheckoutStepsPanelMobile,
             CheckoutStepCart,
             CheckoutStepShipping,
             CheckoutStepPayments,
@@ -101,8 +107,6 @@
                 this.$nextTick(() => {
                     wrapEl.style.height = el.clientHeight + 'px'
                 })
-
-
             },
 
             enter(el) {

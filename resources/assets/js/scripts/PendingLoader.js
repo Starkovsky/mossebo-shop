@@ -1,3 +1,4 @@
+// Чтобы задержка между асинхронными действиями не была меньше определенного времени. (Избавление от моргания загрузки)
 export default class PendingLoader {
     constructor(time) {
         this.timeIsElapsed = false

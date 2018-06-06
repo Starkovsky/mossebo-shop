@@ -143,14 +143,14 @@ export default {
         },
 
         setByIndex({ state, commit }, [index, toHistory = true]) {
-            if (index in state.steps && state.active !== index) {
+            if (state.active !== index && index in state.steps) {
                 scrollToStart(() => {
                     commit(actionTypes.CHECKOUT_SET_STEP, index)
                 })
-            }
 
-            if (toHistory) {
-                hp.setHash(index === 0 ? '' : state.steps[index].identif)
+                if (toHistory) {
+                    hp.setHash(index === 0 ? '' : state.steps[index].identif)
+                }
             }
         },
     },

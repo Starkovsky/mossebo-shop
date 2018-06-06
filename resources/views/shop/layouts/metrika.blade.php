@@ -27,6 +27,4 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/48404660" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-
-
 <script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>

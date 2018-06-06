@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as actionTypes from './types'
 import LocalCart from './LocalCart'
 import Core from '../../scripts/core'
+import DataHandler from '../../scripts/DataHandler'
 
 export function makeKey (id, options = []) {
     return options.sort((a, b) => a - b).reduce((acc, optionId) => {
@@ -111,6 +112,8 @@ export default {
         error: false,
         synchronized: false,
         items: [],
+        options: [],
+        abortRequest: null
     },
 
     actions: {
@@ -158,13 +161,13 @@ export default {
             commit(actionTypes.CART_DIRTY)
             dispatch('updateLocalCart')
 
-            if (state.loading) {
-                this.abortRequest()
+            if (state.loading && _.isFunction(state.abortRequest)) {
+                state.abortRequest()
             }
         },
 
-        refresh({ dispatch }) {
-            dispatch('sync')
+        refresh({ state, dispatch }) {
+            dispatch('init')
         },
 
         init({ commit, state, dispatch }) {
@@ -173,22 +176,34 @@ export default {
             }
 
             this.syncDebouncer = _.debounce(() => dispatch('sync'), 400)
+            let cartRequest
 
             if (!LocalCart.exists()) {
-                dispatch('load')
+                cartRequest = dispatch('load')
             }
             else {
                 let localCartData = LocalCart.get()
 
-                if (localCartData.synchronized) {
-                    dispatch('load')
+                if (!localCartData.synchronized) {
+                    cartRequest = dispatch('load')
                 }
                 else {
                     state.lastSyncTime = localCartData.time
                     state.items = itemsToCartItems(localCartData.items)
-                    dispatch('sync')
+                    cartRequest = dispatch('sync')
                 }
             }
+
+            // todo: вынести отсюда загрузку аттрибутов в отдельное место (DataStore?)
+            Promise.all([cartRequest, dispatch('loadOptionsDescription')])
+        },
+
+        loadOptionsDescription({ commit }) {
+            return DataHandler.get('attributes')
+                .then(data => commit(actionTypes.CART_SET_OPTION_DESCRIPTIONS, data.attributes))
+                .catch(() => {
+                    DataHandler.flush()
+                })
         },
 
         add({dispatch}, item) {
@@ -201,15 +216,41 @@ export default {
             })
         },
 
-        load({ dispatch }) {
-            dispatch('request', {
+        makeRequest({ state }, config) {
+            return axios.request({
+                ... config,
+                cancelToken: new axios.CancelToken(c => state.abortRequest = c)
+            })
+                .catch(thrown => {
+                    if (! axios.isCancel(thrown)) {
+                        console.log(thrown)
+                        throw thrown
+                    }
+                })
+        },
+
+        request({ commit, dispatch }, config) {
+            commit(actionTypes.CART_REQUEST_START)
+
+            return dispatch('makeRequest', config)
+                .then(response => {
+                    commit(actionTypes.CART_REQUEST_SUCCESS, response)
+                    dispatch('updateLocalCart')
+                })
+                .catch(() => {
+                    commit(actionTypes.CART_REQUEST_FAILURE)
+                })
+        },
+
+        load({ state, commit, dispatch }) {
+            return dispatch('request', {
                 url: Core.siteUrl('cart'),
                 method: 'post',
             })
         },
 
         sync({ state, dispatch }) {
-            dispatch('request', {
+            return dispatch('request', {
                 url: Core.siteUrl('cart'),
                 method: 'put',
                 data: {
@@ -220,24 +261,6 @@ export default {
                     }))
                 },
             })
-        },
-
-        request({ commit, dispatch }, config) {
-            commit(actionTypes.CART_REQUEST_START)
-
-            axios.request({
-                ... config,
-                cancelToken: new axios.CancelToken(c => this.abortRequest = c)
-            })
-                .then(response => {
-                    commit(actionTypes.CART_REQUEST_SUCCESS, response)
-                    dispatch('updateLocalCart')
-                })
-                .catch(thrown => {
-                    if (! axios.isCancel(thrown)) {
-                        commit(actionTypes.CART_REQUEST_FAILURE)
-                    }
-                })
         },
 
         updateLocalCart({ state }) {
@@ -278,6 +301,10 @@ export default {
             state.error = false
         },
 
+        [actionTypes.CART_READY](state) {
+            state.ready = true
+        },
+
         [actionTypes.CART_REQUEST_SUCCESS](state, response = {}) {
             let data = response.data || {}
             state.items = itemsToCartItems(data.items)
@@ -289,9 +316,18 @@ export default {
 
         [actionTypes.CART_REQUEST_FAILURE](state) {
             state.loading = false
-            state.ready = false
             state.error = true
         },
+
+        [actionTypes.CART_SET_OPTION_DESCRIPTIONS](state, attributes) {
+            state.options = attributes.reduce((acc, attribute) => {
+                (attribute.options || []).forEach(option => {
+                    acc[option.id] = option.title
+                })
+
+                return acc
+            }, {})
+        }
     },
 
     getters: {
@@ -300,10 +336,25 @@ export default {
         },
 
         products(state, getters) {
-            return getters.loaded.map(item => ({
-                ... item.getInfo(),
-                quantity: item.qty
-            }))
+            return getters.loaded.map(item => {
+                let product = {
+                    ... item.getInfo(),
+                    quantity: item.qty,
+                    key: item.key
+                }
+
+                if (! (_.isEmpty(state.options) || _.isEmpty(product.options))) {
+                    product.attributes = product.options.reduce((acc, id) => {
+                        if (id in state.options) {
+                            acc.push(state.options[id])
+                        }
+
+                        return acc
+                    }, []).join(', ')
+                }
+
+                return product
+            })
         },
 
         quantity(state) {

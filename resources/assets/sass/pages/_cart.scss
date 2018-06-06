@@ -114,10 +114,6 @@
         overflow: hidden;
     }
 
-    &--small &__image-wrap {
-        width: 64px;
-    }
-
     &__image {
         display: block;
         transition: transform .5s, opacity .3s !important;
@@ -161,6 +157,7 @@
         font-size: 12px / 14px;
         color: $color-text-secondary;
         margin-top: 12px;
+        padding-bottom: 3px;
     }
 
     &.link-is-active &__title span {
@@ -169,6 +166,14 @@
 
     &.link-is-active &__image {
         transform: scale(1.1);
+    }
+
+    &--small &__image-wrap {
+        width: 64px;
+    }
+
+    &--small &__attributes {
+        margin-top: 6px;
     }
 }
 

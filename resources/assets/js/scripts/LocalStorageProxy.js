@@ -1,3 +1,6 @@
+// Прослойка между localStorage и app.
+
+// Класс, который можно использовать для хранения данных с определенным пространством имен.
 export class LocalStorageProxy {
     constructor(namespace = false) {
         this.__data = {}
@@ -132,6 +135,7 @@ export class LocalStorageProxy {
     }
 }
 
+// По-умолчанию без пространства имен.
 const defaultProxy = new LocalStorageProxy()
 
 export default defaultProxy

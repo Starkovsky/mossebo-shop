@@ -10,9 +10,6 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-// Slick-slider
-@import '~slick-carousel/slick/slick';
-@import '~slick-carousel/slick/slick-theme';
 // magnific-popup
 @import "~magnific-popup/src/css/main";
 
@@ -27,7 +24,9 @@
 @import "layouts/shop-breadcrumb";
 
 // Universal Blocks
+@import "u-blocks/attributes";
 @import "u-blocks/dropdown";
+@import "u-blocks/filters";
 @import "u-blocks/height-toggle";
 @import "u-blocks/huge-radio";
 @import "u-blocks/images";
@@ -37,6 +36,8 @@
 @import "u-blocks/multiselect";
 @import "u-blocks/num-control";
 @import "u-blocks/payment-item-info";
+@import "u-blocks/product-card";
+@import "u-blocks/rating";
 @import "u-blocks/tabs";
 @import "u-blocks/instagram-slider";
 

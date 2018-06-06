@@ -2,17 +2,19 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    padding: 0 32px;
+    padding: 0 16px;
 
     &__item {
         font-size: 14px / 17px;
         font-weight: 400;
         cursor: pointer;
         user-select: none;
-        text-align: center;
-        padding: 24px 21px 23px;
+        padding: 16px;
         color: $color-text-primary;
         transition: color .4s;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
 
         &.is-active {
             color: $color-primary;
@@ -23,27 +25,62 @@
     &__line-tube {
         position: absolute;
         left: 0;
-        bottom: 0;
-        height: 2px;
+        top: 0;
+        width: 2px;
+        height: 100%;
+        overflow: hidden;
     }
 
     &__line {
         position: absolute;
-        bottom: 0;
-        height: 100%;
+        left: 0;
+        width: 100%;
         background-color: $color-primary;
-        transition: width .4s, left .4s;
+        transition: all .4s;
     }
 
     &--center {
         justify-content: center;
     }
 
-    &--sm &__item {
-        padding: 13px 21px 11px;
+    &--underline {
+        border-bottom: 1px solid $color-border;
     }
 
-    &--xl &__item {
-        padding: 37px 26px 36px;
+    &--sm &__item {
+        padding-top: 13px;
+        padding-bottom: 11px;
+    }
+
+    @include media-breakpoint-up(md) {
+        &__item {
+            width: auto;
+            padding: 24px 21px 23px;
+        }
+
+        &--sm &__item {
+            padding: 13px 21px 11px;
+        }
+
+        &--xl &__item {
+            padding: 37px 26px 36px;
+        }
+
+        &__line-tube {
+            top: auto;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+        }
+
+        &--underline &__line-tube {
+            bottom: -1px;
+        }
+
+        &__line {
+            bottom: 0;
+            height: 100%;
+            top: auto!important;
+        }
     }
 }

@@ -1,21 +1,155 @@
+.slick-slider
+{
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list
+{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.slick-list:focus
+{
+    outline: none;
+}
+
+.slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list
+{
+    transform: translate3d(0, 0, 0);
+}
+
+.slick-track
+{
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.slick-loading .slick-track
+{
+    visibility: hidden;
+}
+
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+
+.slick-slide.dragging img
+{
+    pointer-events: none;
+}
+
+.slick-initialized .slick-slide
+{
+    display: block;
+}
+
+.slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+
+.slick-vertical .slick-slide
+{
+    display: block;
+    height: auto;
+    border: 1px solid transparent;
+}
+
+.slick-arrow.slick-hidden {
+    display: none;
+}
+
+.slick-dots
+{
+    position: absolute;
+    top: 100%;
+    margin-top: 16px;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.slick-dots li:not(:first-child)
+{
+    margin-left: 12px;
+}
+
+.slick-dots li button
+{
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background-color: $color-text-secondary-3;
+    cursor: pointer;
+    font-size: 0;
+    transition: .3s;
+
+    &::before{
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.slick-dots .slick-active button{
+    background-color: $color-text-secondary;
+}
+
 
 // Slick Slider Theme
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
     width: 48px;
     height: 48px;
     border: 1px solid $color-border;
     border-radius: 50%;
     transition: $transition-primary;
+
     .symbol-icon {
         display: inline-block;
         width: 28px;
         height: 28px;
     }
+
     &:before {
         display: none;
     }
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
         border: 1px solid $color-text-primary;
+
         .symbol-icon {
             fill: $color-text-primary;
         }
@@ -24,50 +158,85 @@
 
 
 
-.slider-for {
-    margin-bottom: 15px;
+.slider-product {
+    margin-bottom: 24px;
+
     .slick-slide {
+        //margin: 0 16px;
+
         a {
-            height: 522px;
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
+            max-width: 522px;
+            display: block !important;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: auto;
+
+            &::before {
+                content: '';
+                display: block;
+                padding-top: 100%;
+            }
+
             &:focus {
                 outline: none;
             }
-            img {
-                display: block;
-                max-width: 100%;
-                max-height: 100%;
-            }
+
         }
     }
 }
+
 .slider-nav {
-    width: 350px;
+    display: none;
+    max-width: 522px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 78px;
+
     .slick-next {
-        right: -60px;
+        right: 15px;
     }
+
     .slick-prev {
-        left: -60px;
+        left: 15px;
     }
+
+    .slick-next,
+    .slick-prev {
+        position: absolute;
+        top: 50%;
+        margin-top: -24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
     .slick-slide {
         padding: 0 5px;
+
         .slider-nav__box {
-            height: 78px;
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
+            display: block !important;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
             border: 1px solid $color-border;
             border-radius: $border-radius;
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                display: block;
+                padding-top: 100%;
+            }
         }
-        img {
-            display: inline-block;
-            width: 100%;
-            height: auto;
-            border-radius: $radius;
-        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        display: block;
     }
 }

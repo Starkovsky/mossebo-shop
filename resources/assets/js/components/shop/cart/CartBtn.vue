@@ -3,7 +3,7 @@
         <a class="cart-btn js-cart-btn" :href="btnLink">
             <div class="d-flex flex-nowrap align-items-center">
                 <div class="cart-btn-icon">
-                    <div class="badge js-badge" v-show="productsQuantity > 0">
+                    <div class="badge js-badge" v-show="!isEmpty">
                         {{ productsShortQuantity }}
                     </div>
 
@@ -17,7 +17,7 @@
                         Корзина
                     </div>
 
-                    <div v-if="productsQuantity > 0" class="cart-btn-result">
+                    <div v-if="!isEmpty" class="cart-btn-result">
                         <!--<span class="items">-->
                             <!--{{ productsQuantity }}-->
                         <!--</span>-->
@@ -38,7 +38,7 @@
             </div>
         </a>
 
-        <div class="dropdown-menu dropdown-menu-ht dropdown-menu-right ht-container" v-if="isDesktop">
+        <div class="dropdown-menu dropdown-menu-ht dropdown-menu-right ht-container ht-container--popup" v-if="isDesktop">
             <div class="ht-inner">
                 <div :class="{'cart-popup-wrap': ! (isEmpty && !loading)}">
                     <transition name="fade" mode="out-in">
@@ -114,6 +114,8 @@
     import ScrollContainer from '../../ScrollContainer'
 
     import Mixin from './mixin'
+
+    import { mapGetters } from 'vuex'
 
     export default {
         name: 'CartBtn',
@@ -201,7 +203,11 @@
 
             isDesktop() {
                 return this.$root.isDesktop
-            }
+            },
+
+            ... mapGetters({
+                isEmpty: 'cart/isEmpty'
+            }),
         },
 
         methods: {

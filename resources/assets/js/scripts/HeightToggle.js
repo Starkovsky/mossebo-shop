@@ -185,10 +185,11 @@
             el = e.target;
 
         if (_.els.container.contains(el) || _.els.trigger.contains(el)) {
-            _.toggle()
+            _.toggle();
+            e.stopPropagation();
         }
         else if (_.opt.bindCloseEvents) {
-            _.close()
+            _.close();
         }
     }
 

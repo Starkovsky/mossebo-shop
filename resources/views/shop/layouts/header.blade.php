@@ -91,7 +91,7 @@
                     </div>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-ht ht-container">
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-ht ht-container ht-container--popup">
                     <div class="ht-inner block-ui">
                         @guest
                             <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
@@ -123,4 +123,4 @@
     </div>
 </header>
 
-<div class="header-mobile-fix"></div>
+<div class="header-mobile-fix js-header-mobile-fix"></div>
