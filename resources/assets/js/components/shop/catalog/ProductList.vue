@@ -1,7 +1,7 @@
 <template>
-    <div class="product-list">
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3"
+    <div class="catalog-product-list">
+        <div class="catalog-product-list__row row">
+            <div class="catalog-product-list__product col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3"
                  v-for="(Product, index) in Products"
                  v-if="index < 8"
                  :key="index"
