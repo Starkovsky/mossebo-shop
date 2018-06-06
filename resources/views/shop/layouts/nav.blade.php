@@ -14,9 +14,9 @@
             <li class="header-navigation-list__item">
                 <a href="/{{ app()->getLocale() }}/rooms" class="">Комнаты</a>
             </li>
-            <li class="header-navigation-list__item">
-                <a href="#" class="">Комплекты</a>
-            </li>
+            {{--<li class="header-navigation-list__item">--}}
+                {{--<a href="#" class="">Комплекты</a>--}}
+            {{--</li>--}}
             {{--<li class="header-navigation-list__item">--}}
                 {{--<a href="#" class="">Новинки</a>--}}
             {{--</li>--}}

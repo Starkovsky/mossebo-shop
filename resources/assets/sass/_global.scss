@@ -1,8 +1,14 @@
+html, body {
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+}
+
 .navbar-laravel {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
-
 
 .title_h1 {
     font-size: 40px;
@@ -17,6 +23,7 @@
         font-size: 24px;
     }
 }
+
 .title_h2 {
     font-size: 32px;
     color: $color-text-primary;
@@ -31,6 +38,7 @@
         font-size: 20px;
     }
 }
+
 .title_h3 {
     font-size: 24px;
     color: $color-text-primary;
@@ -45,7 +53,6 @@
         font-size: 18px;
     }
 }
-
 
 .block-ui {
     border-radius: $radius;

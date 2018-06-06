@@ -53,10 +53,17 @@
                 <div class="footer-button-group">
                     <div class="row justify-content-center">
                         <div class="col-9 col-md-6">
-                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-recall') }}</a>
+                            <a href="#"
+                               class="button button-light btn-block pop-up__call"
+                            >
+                                {{ __('layouts.footer-recall') }}
+                            </a>
                         </div>
                         <div class="col-9 col-md-6">
-                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-write') }}</a>
+                            <a href="#"
+                               class="button button-light btn-block">
+                                {{ __('layouts.footer-write') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -184,4 +191,18 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Modal -->
+<div id="pop-up__call" class="pop-up mfp-hide">
+        <div class="block-ui">
+            <div class="pop-up__title">
+                Заказать обратный звонок
+            </div>
+            <div class="pop-up__desc">
+
+            </div>
+            <a href="#" class="button button-primary">Отправить</a>
+        </div>
 </div>

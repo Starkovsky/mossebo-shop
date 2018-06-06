@@ -17,3 +17,4 @@
 {{-- Apple Touch Icon (reuse 192px icon.png) --}}
 <link rel="apple-touch-icon" href="/favicon.png">
 
+<meta name="theme-color" content="#fcc600"/>

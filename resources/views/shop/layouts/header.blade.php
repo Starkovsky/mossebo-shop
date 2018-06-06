@@ -31,7 +31,7 @@
                                 Санкт-Петербург
                             </div>
                             <div class="location-phone">
-                                8 (800) 000-00-00
+                                8 (800) 707-83-47
                             </div>
                         </div>
                         <svg class="symbol-icon symbol-keyboard-down">

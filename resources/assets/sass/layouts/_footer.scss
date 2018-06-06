@@ -108,6 +108,8 @@
     margin-bottom: 16px;
     @include media-breakpoint-down(sm) {
         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
     }
     &__item {
         margin-right: 8px;
