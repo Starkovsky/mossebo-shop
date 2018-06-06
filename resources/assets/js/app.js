@@ -237,3 +237,11 @@ $('.zoom-gallery').magnificPopup({
         }
     }
 });
+
+// From an element with ID #popup
+$('.pop-up__call').magnificPopup({
+    items: {
+        src: '#pop-up__call',
+        type: 'inline'
+    }
+});

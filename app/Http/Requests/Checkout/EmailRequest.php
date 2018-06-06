@@ -4,7 +4,7 @@ namespace App\Http\Requests\Checkout;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\User;
+use App\Models\User;
 
 class EmailRequest extends FormRequest
 {

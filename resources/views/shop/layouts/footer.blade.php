@@ -7,16 +7,63 @@
                         <use xlink:href="/assets/images/icons.svg#symbol-logo"></use>
                     </svg>
                 </a>
+
+                <div class="social-links">
+                    <a href="https://www.instagram.com/remont.design/" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-in">
+                            <use xlink:href="/assets/images/icons.svg#social-in"></use>
+                        </svg>
+                    </a>
+                    <a href="https://vk.com/design_mossebo" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-vk">
+                            <use xlink:href="/assets/images/icons.svg#social-vk"></use>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/mossebodesign/" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-fb">
+                            <use xlink:href="/assets/images/icons.svg#social-fb"></use>
+                        </svg>
+                    </a>
+                    <a href="https://ok.ru/mossebodesign" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-ok">
+                            <use xlink:href="/assets/images/icons.svg#social-ok"></use>
+                        </svg>
+                    </a>
+                    <a href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-zen">
+                            <use xlink:href="/assets/images/icons.svg#social-zen"></use>
+                        </svg>
+                    </a>
+                    <a href="https://ru.pinterest.com/mossebo0752/" class="social-links__item" target="_blank">
+                        <svg class="symbol-icon social-pi">
+                            <use xlink:href="/assets/images/icons.svg#social-pi"></use>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
+                       class="social-links__item d-none d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-inline-block" target="_blank">
+                        <svg class="symbol-icon social-you">
+                            <use xlink:href="/assets/images/icons.svg#social-you"></use>
+                        </svg>
+                    </a>
+                </div>
+
                 <div class="footer-logo-description">
                     {{ __('layouts.footer-logo-description') }}
                 </div>
                 <div class="footer-button-group">
                     <div class="row justify-content-center">
                         <div class="col-9 col-md-6">
-                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-recall') }}</a>
+                            <a href="#"
+                               class="button button-light btn-block pop-up__call"
+                            >
+                                {{ __('layouts.footer-recall') }}
+                            </a>
                         </div>
                         <div class="col-9 col-md-6">
-                            <a href="#" class="button button-light btn-block">{{ __('layouts.footer-write') }}</a>
+                            <a href="#"
+                               class="button button-light btn-block">
+                                {{ __('layouts.footer-write') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -30,7 +77,7 @@
                     <svg class="symbol-icon pay-mastercard">
                         <use xlink:href="/assets/images/icons.svg#pay-mastercard"></use>
                     </svg>
-                    <svg class="symbol-icon pay-paypal">
+                    <svg class="symbol-icon pay-paypal d-none">
                         <use xlink:href="/assets/images/icons.svg#pay-paypal"></use>
                     </svg>
                     <svg class="symbol-icon pay-yandex">
@@ -127,47 +174,7 @@
 <div class="footer-bottom">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-4">
-                <div class="social-links">
-                    <a href="https://www.instagram.com/remont.design/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-in">
-                            <use xlink:href="/assets/images/icons.svg#social-in"></use>
-                        </svg>
-                    </a>
-                    <a href="https://vk.com/design_mossebo" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-vk">
-                            <use xlink:href="/assets/images/icons.svg#social-vk"></use>
-                        </svg>
-                    </a>
-                    <a href="https://www.facebook.com/mossebodesign/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-fb">
-                            <use xlink:href="/assets/images/icons.svg#social-fb"></use>
-                        </svg>
-                    </a>
-                    <a href="https://ok.ru/mossebodesign" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-ok">
-                            <use xlink:href="/assets/images/icons.svg#social-ok"></use>
-                        </svg>
-                    </a>
-                    <a href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-zen">
-                            <use xlink:href="/assets/images/icons.svg#social-zen"></use>
-                        </svg>
-                    </a>
-                    <a href="https://ru.pinterest.com/mossebo0752/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-pi">
-                            <use xlink:href="/assets/images/icons.svg#social-pi"></use>
-                        </svg>
-                    </a>
-                    <a href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
-                       class="social-links__item d-none d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-inline-block" target="_blank">
-                        <svg class="symbol-icon social-you">
-                            <use xlink:href="/assets/images/icons.svg#social-you"></use>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-7">
                 <div class="rcopy">
                     &copy; 2017-@php echo date("Y") @endphp Mossebo.Market
                 </div>
@@ -184,4 +191,18 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Modal -->
+<div id="pop-up__call" class="pop-up mfp-hide">
+        <div class="block-ui">
+            <div class="pop-up__title">
+                Заказать обратный звонок
+            </div>
+            <div class="pop-up__desc">
+
+            </div>
+            <a href="#" class="button button-primary">Отправить</a>
+        </div>
 </div>

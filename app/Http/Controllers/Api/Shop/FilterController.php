@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
-
 use App\Http\Resources\AttributeResource;
 
 class FilterController extends ApiController

@@ -18,7 +18,7 @@
             </div>
 
             <div class="header-float-item header-float-item--city">
-                <a href="#" class="location"
+                <a href="#" class="location js-ht"
                 >
                     <div class="d-flex flex-nowrap align-items-center">
                         <div class="location-icon">
@@ -31,7 +31,7 @@
                                 Санкт-Петербург
                             </div>
                             <div class="location-phone">
-                                8 (800) 000-00-00
+                                8 (800) 707-83-47
                             </div>
                         </div>
                         <svg class="symbol-icon symbol-keyboard-down">
@@ -39,6 +39,13 @@
                         </svg>
                     </div>
                 </a>
+                <div class="dropdown-menu dropdown-menu-ht ht-container">
+                    <div class="ht-inner block-ui">
+                        <a href="#" class="dropdown-item">Санкт-Петербург</a>
+                        <a href="#" class="dropdown-item">Москва</a>
+                        <a href="#" class="dropdown-item">Екатеринбург</a>
+                    </div>
+                </div>
             </div>
 
             <div class="header-float-item header-float-item--search">
