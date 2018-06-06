@@ -1,3 +1,7 @@
+// Анимированный скролл.
+
+import Core from './core'
+
 const eventsList = [
     'keydown',
     'wheel',
@@ -6,7 +10,23 @@ const eventsList = [
     'touchstart'
 ]
 
-export default class SmoothScroll {
+
+export default class SmoothScrollProxy {
+    constructor(elem, duration, callback) {
+        return new SmoothScroll(SmoothScroll.findEndPoint(elem) - this.getOffset(), duration, callback)
+    }
+
+    getOffset() {
+        if (window.innerWidth < 992) {
+            return document.querySelector('.js-header-mobile-fix').clientHeight
+        }
+        else {
+            return 0
+        }
+    }
+}
+
+export class SmoothScroll {
     constructor(elem, duration, callback) {
         this.startFrom = window.pageYOffset
         this.scrollHeight = SmoothScroll.findEndPoint(elem) - this.startFrom

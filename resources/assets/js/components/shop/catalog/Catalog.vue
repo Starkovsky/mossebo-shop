@@ -32,13 +32,20 @@
 
                 <div class="col-md-9">
                     <template v-if="productsToShow.length > 0">
-                        <tabs
-                            :tabs="sortTypes"
-                            :active="activeSortType"
-                            @activation="setActiveSortType"
-                            class="block-ui"
-                            style="margin-bottom: 17px"
-                        ></tabs>
+                        <div class="catalog-top-panel block-ui">
+                            <div class="catalog-top-panel__sort">
+                                <tabs
+                                    :tabs="sortTypes"
+                                    :active="activeSortType"
+                                    @activation="setActiveSortType"
+                                ></tabs>
+                            </div>
+
+                            <div class="catalog-top-panel__card-types">
+                                <card-types-changer></card-types-changer>
+                            </div>
+                        </div>
+
 
                         <loading
                             :loading="productsLoading.inProcess"
@@ -85,17 +92,20 @@
 
     import catalogSort from './sort/mixin'
     import catalogFilter from './filter/mixin'
-    import catalogProductList from './productList/mixin'
+    import catalogProductList from './product-list/mixin'
 
     import Loading from '../../Loading'
     import Tabs from '../../Tabs'
+    import DataHandler from '../../../scripts/DataHandler'
+    import CardTypesChanger from './CardTypesChanger'
 
     export default {
         name: "Catalog",
 
         components: {
             Loading,
-            Tabs
+            Tabs,
+            CardTypesChanger
         },
 
         mixins: [
@@ -116,6 +126,19 @@
 
         created() {
             this.fetchCatalog()
+
+            this.$store.subscribe(mutation => {
+                if (mutation.type === 'catalog/CATALOG_SET_CARD_TYPE') {
+                    this.loadingProductsStart()
+
+                    this.$nextTick(() => {
+                        this.resetPage()
+                        this.loadingProductsEnd()
+                    })
+                }
+            })
+
+            this.$store.dispatch('catalog/init')
         },
 
         watch: {
@@ -132,16 +155,16 @@
             },
 
             fetchFilters() {
-                return axios.get('/api/ru/filters')
+                return DataHandler.get('attributes')
             },
 
             fetchCatalog() {
                 this.loading = true
 
-                axios.all([this.fetchFilters(), this.fetchProducts()])
+                Promise.all([this.fetchFilters(), this.fetchProducts()])
                     .then((response) => {
                         this.products$ = response[1].data.products
-                        this.filters$ = response[0].data.filters
+                        this.filters$ = response[0].attributes
 
                         this.init()
 
@@ -155,7 +178,7 @@
                             this.error = true
                         })
 
-                        console.log(error)
+                        console.error(error)
                     })
             },
 

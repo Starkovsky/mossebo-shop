@@ -1,30 +1,26 @@
 <template>
     <div>
-        <a class="filter-name"
-           data-toggle="collapse"
-           :href="'#filerCollapse' + id"
-           role="button"
-           :aria-expanded="expanded"
-           :aria-controls="'filerCollapse' + id" >
+        <div :class="{'filter-name js-ht-filter': true, 'is-active': expanded}">
 
             {{ title }}
 
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
-        </a>
+        </div>
 
-        <div class="collapse multi-collapse"
-             :id="'filerCollapse' + id"
-             :class="{show: expanded}" >
-
-            <div class="filter-desc">
-                <div v-for="option in orderedOptions" :key="option.id">
-                    <catalog-filter-option
-                        :title="option.title"
-                        :checked="optionIsChecked(option.id)"
-                        :disabled="optionIsDisabled(option.id)"
-                        @click="optionClick(option.id)"/>
+        <div class="ht-container">
+            <div class="ht-inner">
+                <div :class="'filter-desc filter-desc--' + id">
+                    <template v-for="option in orderedOptions">
+                        <catalog-filter-option
+                            :id="option.id"
+                            :key="option.id"
+                            :title="option.title"
+                            :checked="optionIsChecked(option.id)"
+                            :disabled="optionIsDisabled(option.id)"
+                            @click="optionClick(option.id)"/>
+                    </template>
                 </div>
             </div>
         </div>
@@ -57,6 +53,12 @@
                 activeOptions: [],
                 activeOptions$: {}
             }
+        },
+
+        mounted() {
+            this.$nextTick(() => {
+                heightToggle('.js-ht-filter')
+            })
         },
 
         methods: {
@@ -136,42 +138,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../../../../sass/variables/colors";
-
-    .filter-name {
-        display: block;
-        position: relative;
-        padding: 20px;
-        color: $color-text-primary;
-
-        &:hover {
-            text-decoration: none;
-            .symbol-icon {
-                fill: $color-text-primary;
-            }
-        }
-
-        .symbol-icon {
-            float: right;
-        }
-
-        &[aria-expanded="false"] {
-            .symbol-icon {
-                transform: rotate(0deg);
-            }
-        }
-
-        &[aria-expanded="true"] {
-            .symbol-icon {
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    .filter-desc {
-        padding: 0 20px 8px;
-    }
-</style>

@@ -18,7 +18,7 @@
 <script>
     import GetProducts from '../../../mixins/GetProducts'
 
-    import ProductCard from "./ProductCard"
+    import ProductCard from "./product-cards/ProductCard"
 
     export default {
         name: "ProductList",

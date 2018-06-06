@@ -21,3 +21,20 @@
         }
     }
 }
+
+
+.back-link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+
+    &__icon {
+        margin-right: 6px;
+        width: 2em;
+        height: 2em;
+        max-width: 24px;
+        max-height: 24px;
+        fill: currentColor;
+    }
+}

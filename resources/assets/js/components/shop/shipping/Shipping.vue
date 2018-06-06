@@ -5,7 +5,7 @@
                 :tabs="shippingTypes"
                 :active="activeShippingType"
                 @activation="setType"
-                :classNameModificators="['xl', 'center']"
+                :classNameModificators="['xl', 'center', 'underline']"
                 style="margin-bottom: -1px;"
             ></tabs>
         </div>

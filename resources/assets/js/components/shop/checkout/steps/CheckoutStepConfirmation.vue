@@ -18,7 +18,7 @@
             <button
                 @click="submit"
                 :class="{'button button-loading': true, 'is-loading': loading, 'button-primary': !submitDisabled, 'button-light': submitDisabled}"
-                :disabled="loading"
+                :disabled="submitDisabled"
             >
                 <div class="button-loading__content">
                     Оформить заказ

@@ -1,4 +1,3 @@
-
 .catalog {
     &-list-property {
         background: $color-ui;
@@ -9,5 +8,71 @@
         font-weight: 400;
         color: $color-text-secondary;
         box-shadow: $shadows-primary;
+    }
+}
+
+.catalog-product-list {
+    &__row {
+        margin: -4px;
+    }
+
+    &__product {
+        padding: 4px;
+    }
+
+    @include media-breakpoint-up(sm) {
+        &__row {
+            margin: -8px;
+        }
+
+        &__product {
+            padding: 8px;
+        }
+    }
+}
+
+.catalog-top-panel {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    &__card-types {
+        display: none;
+        border-left: 1px solid $color-border;
+
+        @include media-breakpoint-up(lg) {
+            display: block;
+        }
+    }
+}
+
+
+.card-types-changer {
+    display: flex;
+    height: 100%;
+
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 64px;
+        cursor: pointer;
+        color: $color-text-secondary;
+        transition: all .3s;
+
+        &:not(:first-child) {
+            border-left: 1px solid $color-border;
+        }
+
+        &.is-active {
+            color: $color-text-primary;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
     }
 }

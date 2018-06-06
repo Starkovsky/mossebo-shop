@@ -160,10 +160,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\MorphServiceProvider::class,
-
-        Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
-
-        MosseboShopCore\MosseboShopCoreServiceProvider::class
     ],
 
     /*
@@ -212,11 +208,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        /*
-         * Application Class Aliases
-         */
-        'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
     ],
 
 ];

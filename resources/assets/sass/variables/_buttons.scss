@@ -37,6 +37,7 @@
             color: $color-text-primary-3;
             border-color: $color-border-3;
             background-color: $color-background;
+            pointer-events: none;
         }
     }
     &-primary {
@@ -81,6 +82,7 @@
 
     &:disabled {
         cursor: not-allowed;
+        pointer-events: none;
     }
 
     &__icon {
@@ -133,6 +135,7 @@
     position: relative;
 
     &__content {
+        position: relative;
         transform: translate3d(0, 0, 0);
         transition: opacity .3s;
     }
@@ -157,6 +160,7 @@
 
     &.is-loading &__content {
         opacity: 0;
+        z-index: -1;
     }
 
     &.is-loading &__loader {

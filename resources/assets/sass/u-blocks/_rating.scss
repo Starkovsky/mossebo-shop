@@ -1,0 +1,46 @@
+.rating {
+    display: flex;
+    align-items: center;
+    font-size: 12px / 14px;
+
+    &__stars {
+        position: relative;
+        margin-right: 8px;
+        overflow: hidden;
+        background-color: #D8D8D8;
+    }
+
+    &__icon {
+        position: relative;
+        fill: $color-ui;
+        width: 80px;
+        z-index: 2;
+        vertical-align: middle;
+    }
+
+    &__percent {
+        background-color: $color-primary;
+        position: absolute;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    &__reviews-num {
+        padding-top: 1px;
+    }
+
+    &--lg {
+        font-size: 14px / 17px;
+    }
+
+    &--lg &__stars {
+        margin-right: 16px;
+    }
+
+    &--lg &__icon {
+        width: 120px;
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'num-control': true, 'num-control--small': small}">
+    <div :class="classNameWithModificators('num-control')">
         <button
             class="num-control__minus"
             @mousedown="minusEventHandle"
@@ -19,7 +19,6 @@
             @change="set"
             @keydown="handleInputArrows"
             @keyup="numberFlowStop"
-            style="z-index: 1"
         >
 
         <button
@@ -38,6 +37,7 @@
 
 <script>
     import PendingLoader from '../scripts/PendingLoader'
+    import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
 
     export default {
         name: "NumControl",
@@ -48,6 +48,10 @@
             min: Number,
             max: Number,
         },
+
+        mixins: [
+            ClassNameWithModificators
+        ],
 
         data() {
             return {

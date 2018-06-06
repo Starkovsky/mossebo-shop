@@ -58,10 +58,4 @@ export default {
             state.type = type
         },
     },
-
-    getters: {
-        payment({payment}) {
-
-        }
-    }
 }

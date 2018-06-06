@@ -1,3 +1,5 @@
+// Всплывашки.
+
 ;(function() {
     "use strict";
 
@@ -6,7 +8,6 @@
     var defaultOptions = {
         containerQuery: '.ht-container',
         innerQuery: '.ht-inner',
-        bindClickEvents: true,
         bindCloseEvents: false,
         isOpened: false,
         toggleCaption: false,
@@ -79,17 +80,17 @@
     Plugin.prototype.init = function () {
         var _ = this;
 
-        _.bindEvent(document, 'DOMSubtreeModified', _.update, { passive: true })
+        _.mutationObserver = new MutationObserver(_.update.bind(_))
+
+        _.mutationObserver.observe(
+            _.els.container,
+            { attributes: false, childList: true, characterData: true, subtree: true }
+        )
+
         _.bindEvent(window, 'resize', _.update, { passive: true })
+        _.bindEvent(document, 'click', _.windowClick, { passive: true })
 
-        if (_.opt.bindClickEvents) {
-            _.bindEvent(_.els.trigger, 'click', function() {
-                _.toggle();
-            })
-        }
-
-        if (_.opt.bindCloseEvents){
-            _.bindEvent(document, 'click', _.windowClick, { passive: true })
+        if (_.opt.bindCloseEvents) {
             _.bindEvent(document, 'keydown', _.keydown, { passive: true })
         }
 
@@ -119,6 +120,8 @@
     Plugin.prototype.close = function () {
         var _ = this;
 
+        if (!_.active) return;
+
         _.active = false;
         _.els.trigger.classList.remove('is-active');
         _.els.container.classList.remove('is-active');
@@ -133,6 +136,8 @@
 
     Plugin.prototype.open = function () {
         var _ = this;
+
+        if (_.active) return;
 
         _.active = true;
         _.els.trigger.classList.add('is-active');
@@ -179,10 +184,13 @@
         var _ = this,
             el = e.target;
 
-        if (_.els.container.contains(el) || _.els.trigger.contains(el)) return;
-
-        e.stopPropagation();
-        _.close();
+        if (_.els.container.contains(el) || _.els.trigger.contains(el)) {
+            _.toggle();
+            e.stopPropagation();
+        }
+        else if (_.opt.bindCloseEvents) {
+            _.close();
+        }
     }
 
     Plugin.prototype.keydown = function (e) {
@@ -214,10 +222,16 @@
     Plugin.prototype.destroy = function() {
         var _ = this;
 
-        this.close()
-        this.eventDestroyers.forEach(destroyer => destroyer())
+        _.close()
+        _.eventDestroyers.forEach(destroyer => destroyer())
         _.els.trigger[pluginName] = undefined
         delete _.els.trigger[pluginName]
+
+        if (_.mutationObserver) {
+            _.mutationObserver.disconnect()
+            _.mutationObserver = undefined
+            delete _.mutationObserver
+        }
     }
 
     window[pluginName] = function( el, options ){

@@ -56,11 +56,11 @@ export default  {
         },
 
         getResponsiveImage() {
-            if (isHighDensity() && !_.isEmpty(this.retinaImage)) {
+            if (isHighDensity() && _.isString(this.retinaImage)) {
                 return this.retinaImage
             }
 
-            return _.isString(this.image) ? this.image : ''
+            return _.isString(this.image) ? this.image : this.image$
         },
 
         load() {
@@ -69,7 +69,7 @@ export default  {
 
             this.onLoad(elImg, () => {
                 this.loaded = true
-                this.image$ = this.image
+                this.image$ = elImg.src
             })
         },
 

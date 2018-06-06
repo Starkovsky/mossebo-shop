@@ -1,5 +1,5 @@
 <template>
-    <div class="checkout-steps block-ui">
+    <div class="checkout-steps-panel block-ui">
         <div class="row">
             <template v-for="step in steps">
                 <div :key="step.identif" class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-    import { mapGetters, mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import mixin from './mixin'
 
     export default {
         name: "CheckoutStepsPanel",
@@ -35,6 +36,10 @@
             active: String
         },
 
+        mixins: [
+            mixin
+        ],
+
         methods: {
             isActive(step) {
                 return step.identif === this.activeTab
@@ -42,17 +47,11 @@
 
             setStep(step) {
                 this.$store.dispatch('checkout/set', step)
-            }
-        },
-
-        computed: {
-            ... mapState({
-                steps: state => state.checkout.steps,
-            }),
+            },
 
             ... mapGetters({
                 activeTab: 'checkout/activeTab'
             })
-        }
+        },
     }
 </script>

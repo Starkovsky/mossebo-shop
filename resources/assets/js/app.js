@@ -31,13 +31,18 @@ Vue.use(VeeValidate, {
 import ScrollBar from './components/ScrollBar'
 import Catalog from './components/shop/catalog/Catalog'
 import ProductList from './components/shop/catalog/ProductList'
-import ProductCard from './components/shop/catalog/ProductCard'
+import ProductCard from './components/shop/catalog/product-cards/ProductCard'
 import FormattedPrice from './components/shop/price/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 import Checkout from './components/shop/checkout/Checkout'
 import CartBtn from './components/shop/cart/CartBtn'
+
+
 import ProductControls from './components/shop/product/ProductControls'
+import TabsHtml from './components/TabsHtml'
+import Rating from './components/Rating'
+import ProductActions from './components/shop/product/ProductActions'
 
 
 import Core from './scripts/core'
@@ -66,7 +71,10 @@ const app = new Vue({
         BannerHomeNew,
         Checkout,
         CartBtn,
-        ProductControls
+        ProductControls,
+        TabsHtml,
+        Rating,
+        ProductActions
     },
     data: {
         windowWidth: window.innerWidth,
@@ -117,6 +125,7 @@ const app = new Vue({
     created() {
         this.resizeHandler = _.debounce(() => {
             this.windowWidth = window.innerWidth
+            this.$emit('resize')
         }, 50)
 
         window.addEventListener('resize', this.resizeHandler, { passive: true })
@@ -171,26 +180,37 @@ $('.slider-instagram').slick({
 $('#ProductTabs li:first-child a').tab('show');
 
 // Product Slider
-$('.slider-for').slick({
+$('.js-product-slider').slick({
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    fade: true,
+    dots: true,
     asNavFor: '.slider-nav',
-    lazyLoad: 'ondemand'
+    lazyLoad: 'ondemand',
+    mobileFirst: true,
+
+    responsive: [
+        {
+            breakpoint: 991,
+            settings: {
+                fade: true,
+                dots: false
+            }
+        }
+    ]
 });
 
 $('.slider-nav').slick({
     slidesToShow: 4,
     slidesToScroll: 1,
-    asNavFor: '.slider-for',
+    asNavFor: '.js-product-slider',
     dots: false,
     //arrows: true,
     prevArrow: '<button type="button" class="slick-prev"><svg class="symbol-icon symbol-arrow-back"><use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use></svg></button>',
     nextArrow: '<button type="button" class="slick-next"><svg class="symbol-icon symbol-arrow-forward"><use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use></svg></button>',
     centerMode: false,
     focusOnSelect: true,
-    lazyLoad: 'ondemand'
+    lazyLoad: 'ondemand',
 });
 
 // Product gallery

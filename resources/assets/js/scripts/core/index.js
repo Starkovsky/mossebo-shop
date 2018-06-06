@@ -4,7 +4,7 @@ export default {
             return url
         }
 
-        return window.location.origin + '/ru/' + _.trim(url, '/')
+        return window.location.origin + '/' + this.getLang() + '/' + _.trim(url, '/')
     },
 
     apiUrl(url = '') {
@@ -12,11 +12,15 @@ export default {
             return url
         }
 
-        return window.location.origin + '/api/ru/' + _.trim(url, '/')
+        return window.location.origin + '/api/' + this.getLang() + '/' + _.trim(url, '/')
     },
 
     translate(identif, data = {}) {
         return _.get(window.mossebo.translates, identif)
+    },
+
+    getLang() {
+        return 'ru'
     }
 }
 

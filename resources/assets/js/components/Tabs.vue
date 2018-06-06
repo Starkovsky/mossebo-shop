@@ -30,11 +30,21 @@
         },
 
         watch: {
-            active: 'activate'
+            active: 'updateLinePosition'
         },
 
         mounted() {
-            this.activate()
+            this.updateLinePosition()
+
+            this.resizeUnsubscriber = this.$root.$on('resize', () => {
+                this.updateLinePosition()
+            })
+        },
+
+        beforeDestroy() {
+            if (_.isFunction(this.resizeUnsubscriber)) {
+                this.resizeUnsubscriber()
+            }
         },
 
         methods: {
@@ -52,14 +62,26 @@
                 }
             },
 
-            activate() {
+            updateLinePosition() {
                 this.$nextTick(() => {
                     let activeEl = this.getActiveEl()
                     let lineEl = this.getLineEl()
 
-                    lineEl.style.left = Math.round(activeEl.offsetLeft) + 'px'
-                    lineEl.style.width = Math.round(activeEl.scrollWidth) + 'px'
+                    if (this.$root.windowLessThan('md')) {
+                        this.updateLineV(activeEl, lineEl)
+                    }
+                    else {
+                        this.updateLineH(activeEl, lineEl)
+                    }
                 })
+            },
+
+            updateLineH(activeEl, lineEl) {
+                lineEl.setAttribute('style', `left:${Math.round(activeEl.offsetLeft)}px;width:${Math.round(activeEl.scrollWidth)}px`)
+            },
+
+            updateLineV(activeEl, lineEl) {
+                lineEl.setAttribute('style', `top:${Math.round(activeEl.offsetTop)}px;height:${Math.round(activeEl.scrollHeight)}px`)
             },
 
             isActive(key) {

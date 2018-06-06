@@ -32,14 +32,14 @@ class ProductController extends Controller
             'currentPrice',
             'oldPrice',
             'productAttributes',
-            'productAttributeOptions',
+            'attributeOptions',
             'supplier'
         )
             ->where('enabled','=',true)
             ->findOrFail($id);
 
         $attributesIds = array_column($product->productAttributes->toArray(), 'attribute_id');
-        $optionsIds = array_column($product->productAttributeOptions->toArray(), 'option_id');
+        $optionsIds = array_column($product->attributeOptions->toArray(), 'id');
 
         $attributes = \Attributes::enabled(['currentI18n'])
             ->whereIn('id', $attributesIds);
@@ -52,10 +52,10 @@ class ProductController extends Controller
         $attributes->reduce(function($carry, $attribute) use ($optionsIds) {
             $attribute->setRelation('options', $attribute->options->whereIn('id', $optionsIds));
 
-            if ($attribute->options->count() > 0) {
-                $carry['all']->push($attribute);
+            $count = $attribute->options->count();
 
-                if ($attribute->selectable) {
+            if ($count > 0) {
+                if ($count > 1 && $attribute->selectable) {
                     $carry['selectable']->push([
                         'id' => $attribute->id,
                         'title' => $attribute->currentI18n->title,
@@ -69,6 +69,9 @@ class ProductController extends Controller
                         }, []),
                         'need_to_select' => true
                     ]);
+                }
+                else {
+                    $carry['all']->push($attribute);
                 }
             }
 

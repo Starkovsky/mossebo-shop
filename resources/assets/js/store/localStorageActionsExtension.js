@@ -2,7 +2,41 @@ function isObject(obj) {
     return _.isObject(obj) && !_.isFunction(obj)
 }
 
-function deepCopy(state, data) {
+
+/**
+ * Преобразование вида
+ *
+ * data = {
+ *     'key1.key2': value
+ * }
+ *
+ * в
+ *
+ * data = {
+ *     key1: {
+ *         key2: value
+ *     }
+ * }
+ *
+ * @param data
+ * @returns {{}}
+ */
+function flatDataToTree(data) {
+    return Object.keys(data).reduce((acc, key) => {
+        _.set(acc, key, data[key])
+
+        return acc
+    }, {})
+}
+
+
+/**
+ * Копирование данных в state
+ *
+ * @param state
+ * @param data
+ */
+function deepCopy(state, data = {}) {
     for (let i in state) {
         if (i in data) {
             if (isObject(state[i])) {
@@ -17,6 +51,12 @@ function deepCopy(state, data) {
     }
 }
 
+/**
+ * Получение не пустых данных (удаление пустых строк, объектов и т.д.), чтобы не захламлять localStorage
+ *
+ * @param data
+ * @returns {*}
+ */
 function getNotEmptyData(data) {
     let result
 
@@ -49,7 +89,7 @@ export default {
     updateLocalStorage({ state }, type) {
         if (! (type in state.debouncers)) {
             state.debouncers[type] = _.debounce(() => {
-                let data = getNotEmptyData(state[type])
+                let data = getNotEmptyData(_.get(state, type))
 
                 if (_.isBoolean(data) || !_.isEmpty(data)) {
                     state.localStorageProxy.add(type, data)
@@ -67,7 +107,7 @@ export default {
         let data = state.localStorageProxy.getAll()
 
         if (!_.isEmpty(data)) {
-            deepCopy(state, data)
+            deepCopy(state, flatDataToTree(data))
         }
     },
 

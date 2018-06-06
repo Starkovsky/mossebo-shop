@@ -1,0 +1,204 @@
+.attribute-option--93,
+.attribute-option--112,
+.attribute-option--113,
+.attribute-option--116,
+.attribute-option--117,
+.attribute-option--121,
+.attribute-option--125,
+.attribute-option--127,
+.attribute-option--129,
+.attribute-option--131,
+.attribute-option--132,
+.attribute-option--134,
+.attribute-option--135,
+.attribute-option--143,
+.attribute-option--144,
+.attribute-option--147,
+.attribute-option--148,
+.attribute-option--153,
+.attribute-option--154,
+.attribute-option--155,
+.attribute-option--156,
+.attribute-option--157,
+.attribute-option--168,
+.attribute-option--171,
+.attribute-option--175,
+.attribute-option--177,
+.attribute-option--178,
+.attribute-option--179,
+.attribute-option--181,
+.attribute-option--182,
+.attribute-option--190,
+.attribute-option--192 {
+    padding-left: 28px;
+    position: relative;
+    border: 1px solid transparent;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 0;
+        top: 50%;
+        margin-top: -8px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+}
+
+
+.attribute-option--93::before {
+    background-color: #987654;
+}
+
+.attribute-option--95::before {
+    background-color: #403a3a;
+}
+
+.attribute-option--112::before {
+    background-color: #808080;
+}
+
+.attribute-option--113::before {
+    background-color: #e6e39f;
+}
+
+.attribute-option--116::before {
+    background-color: #000000;
+}
+
+.attribute-option--117::before {
+    background-color: #cd7f32;
+}
+
+.attribute-option--121::before {
+    background-color: #b7b7b7;
+    background: -moz-linear-gradient(45deg, #b7b7b7 0%, #f7f7f7 51%, #b7b7b7 100%);
+    background: -webkit-linear-gradient(45deg, #b7b7b7 0%,#f7f7f7 51%,#b7b7b7 100%);
+    background: linear-gradient(45deg, #b7b7b7 0%,#f7f7f7 51%,#b7b7b7 100%);
+}
+
+.attribute-option--125::before {
+    border: 1px solid $color-border;
+    background-color: #ffffff;
+}
+
+.attribute-option--127::before {
+    border: 1px solid $color-border;
+    background-color: transparent;
+}
+
+.attribute-option--129::before {
+    background-color: #787563;
+    background: -moz-linear-gradient(45deg, #787563 0%, #d7d0c2 50%, #787563 100%);
+    background: -webkit-linear-gradient(45deg, #787563 0%,#d7d0c2 50%,#787563 100%);
+    background: linear-gradient(45deg, #787563 0%,#d7d0c2 50%,#787563 100%);
+}
+
+.attribute-option--131::before {
+    background-color: #5a2905;
+    background: -moz-linear-gradient(45deg, #5a2905 0%, #fcdbc5 50%, #5a2905 100%);
+    background: -webkit-linear-gradient(45deg, #5a2905 0%,#fcdbc5 50%,#5a2905 100%);
+    background: linear-gradient(45deg, #5a2905 0%,#fcdbc5 50%,#5a2905 100%);
+}
+
+.attribute-option--132::before {
+    background-color: #d4af37;
+    background: -moz-linear-gradient(45deg, #d4af37 0%, #fcda01 50%, #d4af37 100%);
+    background: -webkit-linear-gradient(45deg, #d4af37 0%,#fcda01 50%,#d4af37 100%);
+    background: linear-gradient(45deg, #d4af37 0%,#fcda01 50%,#d4af37 100%);
+}
+
+.attribute-option--134::before {
+    background-color: #f5f5dc;
+}
+
+.attribute-option--135::before {
+    background-color: #964b00;
+}
+
+.attribute-option--143::before {
+    background-color: #008000;
+}
+
+.attribute-option--144::before {
+    background-color: #ffff00;
+}
+
+.attribute-option--147::before {
+    background-color: #654321;
+}
+
+.attribute-option--148::before {
+    background-color: #49423d;
+}
+
+.attribute-option--153::before {
+    background-color: #808000;
+}
+
+.attribute-option--154::before {
+    background-color: #0000ff;
+}
+
+.attribute-option--155::before {
+    background-color: #492d19;
+    background: -moz-linear-gradient(45deg, #492d19 0%, #9a5429 50%, #b66639 100%);
+    background: -webkit-linear-gradient(45deg, #492d19 0%,#9a5429 50%,#b66639 100%);
+    background: linear-gradient(45deg, #492d19 0%,#9a5429 50%,#b66639 100%);
+}
+
+.attribute-option--156::before {
+    background-color: #876c3d;
+    background: -moz-linear-gradient(45deg, #876c3d 0%, #f0e3a5 50%, #876c3d 100%);
+    background: -webkit-linear-gradient(45deg, #876c3d 0%,#f0e3a5 50%,#876c3d 100%);
+    background: linear-gradient(45deg, #876c3d 0%,#f0e3a5 50%,#876c3d 100%);
+}
+
+.attribute-option--157::before {
+    background-color: #787975;
+    background: -moz-linear-gradient(45deg, #787975 0%, #e9e9e7 50%, #787975 100%);
+    background: -webkit-linear-gradient(45deg, #787975 0%,#e9e9e7 50%,#787975 100%);
+    background: linear-gradient(45deg, #787975 0%,#e9e9e7 50%,#787975 100%);
+}
+
+.attribute-option--168::before {
+    background-color: #120a8f;
+}
+
+.attribute-option--171::before {
+    background-color: #ffc0cb;
+}
+
+.attribute-option--175::before {
+    background-color: #42aaff;
+}
+
+.attribute-option--177::before {
+    background-color: #d77d31;
+}
+
+.attribute-option--178::before {
+    background-color: #ff0000;
+}
+
+.attribute-option--179::before {
+    background-color: #30d5c8;
+}
+
+.attribute-option--181::before {
+    background-color: #8b00ff;
+}
+
+.attribute-option--182::before {
+    background-color: #ffe5b4;
+}
+
+.attribute-option--190::before {
+    background-color: #008080;
+}
+
+.attribute-option--192::before {
+    background-color: #99ff99;
+}

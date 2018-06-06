@@ -38,6 +38,9 @@
                     this.bindEvents()
                 }
                 else {
+                    this.$el.classList.remove('overflow-top')
+                    this.$el.classList.remove('overflow-bottom')
+                    this.$el.classList.remove('overflow-both')
                     this.unbindEvents()
                 }
             },

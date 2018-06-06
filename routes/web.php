@@ -92,6 +92,9 @@ Route::prefix('ru')->group(function () {
     Route::post('/checkout', 'Shop\CheckoutController@index');
     Route::post('/checkout/email', 'Shop\CheckoutController@email');
     Route::post('/checkout/phone', 'Shop\CheckoutController@phone');
+
+    // Получение различных данных с сервера
+    Route::get('/data', 'Shop\DataController@get');
 });
 
 // Маршруты для Авторизации через Соцсети

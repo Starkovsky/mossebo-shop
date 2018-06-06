@@ -25,7 +25,7 @@
         <tbody>
             <template v-for="product in products">
                 <cart-product-row
-                    :key="product.id"
+                    :key="product.key"
                     :small="small"
                     :product="product"
                     :no-controls="noControls"
@@ -38,7 +38,7 @@
     <div v-else>
         <template v-for="product in products">
             <cart-product-item
-                :key="product.id"
+                :key="product.key"
                 :small="small"
                 :product="product"
                 :no-controls="noControls"

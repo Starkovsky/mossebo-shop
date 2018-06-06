@@ -1,5 +1,4 @@
 <script>
-
     import VueSlider from 'vue-slider-component';
 
     // Добавлены event клика по слайдеру

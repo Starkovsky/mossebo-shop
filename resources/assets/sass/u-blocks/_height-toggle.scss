@@ -1,16 +1,22 @@
 .ht-container {
-    z-index: 99;
-    transition: .3s;
     max-height: 0;
     display: block !important;
     overflow: hidden;
-    margin: -8px;
+    transition: all .3s;
     transform: translate3d(0, 0, 0);
 }
 
 .ht-inner {
     z-index: 5;
-    margin: 8px;
-    background-color: $color-ui;
-    overflow: hidden;
+}
+
+.ht-container--popup {
+    z-index: 99;
+    margin: -8px;
+
+    & .ht-inner {
+        margin: 8px;
+        background-color: $color-ui;
+        overflow: hidden;
+    }
 }
