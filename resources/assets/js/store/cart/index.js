@@ -216,29 +216,21 @@ export default {
             })
         },
 
-        makeRequest({ state }, config) {
+        request({ state, commit, dispatch }, config) {
+            commit(actionTypes.CART_REQUEST_START)
+
             return axios.request({
                 ... config,
                 cancelToken: new axios.CancelToken(c => state.abortRequest = c)
             })
-                .catch(thrown => {
-                    if (! axios.isCancel(thrown)) {
-                        console.log(thrown)
-                        throw thrown
-                    }
-                })
-        },
-
-        request({ commit, dispatch }, config) {
-            commit(actionTypes.CART_REQUEST_START)
-
-            return dispatch('makeRequest', config)
                 .then(response => {
                     commit(actionTypes.CART_REQUEST_SUCCESS, response)
                     dispatch('updateLocalCart')
                 })
-                .catch(() => {
-                    commit(actionTypes.CART_REQUEST_FAILURE)
+                .catch(thrown => {
+                    if (! axios.isCancel(thrown)) {
+                        commit(actionTypes.CART_REQUEST_FAILURE)
+                    }
                 })
         },
 
