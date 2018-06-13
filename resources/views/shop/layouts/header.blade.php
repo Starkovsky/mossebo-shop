@@ -81,7 +81,7 @@
                                 </div>
                             @else
                                 <div class="profile-name">
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->first_name }}
                                 </div>
                             @endguest
                         </div>

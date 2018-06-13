@@ -29,7 +29,7 @@ class User extends BaseUser
 
     public function socialProvider()
     {
-        return $this->hasOne(SocialAccount::class);
+        return $this->hasOne(SocialProvider::class);
     }
 
 }

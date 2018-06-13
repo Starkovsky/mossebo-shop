@@ -85,12 +85,12 @@
                             <div class="row">
 
                                 <div class="col-sm-6 mb-3">
-                                    <label for="name" class="form-label">Имя</label>
-                                    <input id="name"
+                                    <label for="first_name" class="form-label">Имя</label>
+                                    <input id="first_name"
                                            type="text"
-                                           class="form-input {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                           name="name"
-                                           value="{{ old('name') }}"
+                                           class="form-input {{ $errors->has('first_name') ? 'is-invalid' : '' }}"
+                                           name="first_name"
+                                           value="{{ old('first_name') }}"
                                            required
                                            autofocus
                                     >
