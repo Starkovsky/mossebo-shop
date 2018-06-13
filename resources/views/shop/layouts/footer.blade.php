@@ -29,7 +29,8 @@
                             <use xlink:href="/assets/images/icons.svg#social-ok"></use>
                         </svg>
                     </a>
-                    <a href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2" class="social-links__item" target="_blank">
+                    <a href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2" class="social-links__item"
+                       target="_blank">
                         <svg class="symbol-icon social-zen">
                             <use xlink:href="/assets/images/icons.svg#social-zen"></use>
                         </svg>
@@ -40,7 +41,8 @@
                         </svg>
                     </a>
                     <a href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
-                       class="social-links__item d-none d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-inline-block" target="_blank">
+                       class="social-links__item d-none d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-inline-block"
+                       target="_blank">
                         <svg class="symbol-icon social-you">
                             <use xlink:href="/assets/images/icons.svg#social-you"></use>
                         </svg>
@@ -61,7 +63,7 @@
                         </div>
                         <div class="col-9 col-md-6">
                             <a href="#"
-                               class="button button-light btn-block">
+                               class="button button-light btn-block pop-up__message">
                                 {{ __('layouts.footer-write') }}
                             </a>
                         </div>
@@ -194,15 +196,83 @@
 </div>
 
 
-<!-- Modal -->
-<div id="pop-up__call" class="pop-up mfp-hide">
-        <div class="block-ui">
-            <div class="pop-up__title">
-                Заказать обратный звонок
+<!-- Modal Call-back -->
+<div id="pop-up__call" class="pop-up mfp-hide animated zoomIn">
+    <div class="block-ui">
+        <form>
+            <div class="pop-up__title title_h3">
+                Обратный звонок
             </div>
             <div class="pop-up__desc">
-
+                Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
             </div>
-            <a href="#" class="button button-primary">Отправить</a>
-        </div>
+            <div class="pop-up__input">
+                <label for="name" class="form-label">Имя</label>
+                <input id="name"
+                       type="text"
+                       class="form-input mb-3"
+                       name="name"
+                       value=""
+                       required
+                >
+                <label for="tel" class="form-label">Телефон</label>
+                <input id="tel"
+                       type="tel"
+                       class="form-input"
+                       name="tel"
+                       value=""
+                       required
+                >
+            </div>
+            <button type="submit" class="button button-primary">
+                Отправить
+            </button>
+
+        </form>
+    </div>
+</div>
+
+<!-- Modal msg-back -->
+<div id="pop-up__message" class="pop-up mfp-hide animated zoomIn">
+    <div class="block-ui">
+        <form>
+            <div class="pop-up__title title_h3">
+                Напишите нам
+            </div>
+            <div class="pop-up__desc">
+                Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
+            </div>
+            <div class="pop-up__input">
+                <label for="name" class="form-label">Имя</label>
+                <input id="name"
+                       type="text"
+                       class="form-input mb-3"
+                       name="name"
+                       value=""
+                       required
+                >
+                <label for="tel" class="form-label">Телефон</label>
+                <input id="tel"
+                       type="tel"
+                       class="form-input mb-3"
+                       name="tel"
+                       value=""
+                       required
+                >
+                <label for="message" class="form-label">Ваше сообщение</label>
+                <textarea id="message"
+                          rows="6"
+                          class="form-input"
+                          name="message"
+                          value=""
+                          required
+                >
+                </textarea>
+            </div>
+            <button type="submit" class="button button-primary">
+                Отправить
+            </button>
+
+        </form>
+    </div>
 </div>

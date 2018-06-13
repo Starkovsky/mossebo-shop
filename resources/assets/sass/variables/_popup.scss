@@ -1,9 +1,5 @@
 #pop-up {
-    &__call {
-        .block-ui {
 
-        }
-    }
 }
 
 
@@ -13,16 +9,33 @@
     max-width: 400px;
     position: relative;
     .block-ui {
-        padding: 25px;
+        padding: 48px 32px;
+        text-align: center;
+    }
+    &__title {
+
     }
     &__desc {
-        height: 300px;
+
+    }
+    &__input {
+        max-width: 250px;
+        margin-top: 32px;
+        margin-bottom: 32px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
     }
     .mfp-close {
         color: $color-icons !important;
+        &:hover {
+            color: $color-text-primary !important;
+        }
     }
     .button {
         padding-left: 40px;
         padding-right: 40px;
+        max-width: 250px;
+        width: 100%;
     }
 }

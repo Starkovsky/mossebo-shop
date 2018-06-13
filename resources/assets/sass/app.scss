@@ -1,3 +1,4 @@
+
 // Variables
 @import "variables/colors";
 @import "variables/variables";
@@ -18,6 +19,7 @@
 @import "layouts/header-navigation";
 @import "layouts/footer";
 @import "layouts/shop-breadcrumb";
+@import "layouts/faq-sub-nav";
 
 // Universal Blocks
 @import "u-blocks/attributes";
@@ -51,6 +53,7 @@
 @import "pages/payment";
 @import "pages/product-page";
 @import "pages/shipping";
+@import "pages/faq";
 
 //Auth
 @import "pages/auth";

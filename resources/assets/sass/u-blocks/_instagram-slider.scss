@@ -11,8 +11,8 @@ $instagram-slider--height: 600px;
         height: $instagram-slider--height;
     }
     .slick-dots {
-        margin-top: -110px;
-        padding-left: 18%;
+        margin-top: -85px;
+        padding-left: 330px;
         bottom: auto;
         z-index: 9;
         box-sizing: border-box;
@@ -22,15 +22,14 @@ $instagram-slider--height: 600px;
             button {
                 width: 6px;
                 height: 6px;
+                background: $color-ui;
                 :before {
                     font-size: 6px;
-                    opacity: 1;
-                    color: #fff;
                 }
             }
         }
-        li.slick-active button:before {
-            color: #3897f0;
+        li.slick-active button {
+            background: #3897f0;
         }
     }
     &__image {

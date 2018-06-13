@@ -31,9 +31,10 @@
         background: linear-gradient(45deg, $color-primary 0%,$color-primary-2 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color-primary', endColorstr='$color-primary-2',GradientType=1 );
         width: 100%;
+        max-width: 320px;
         height: 420px;
         padding: 20px;
-        margin: 15px 0;
+        margin: 15px auto;
         border-radius: 5px;
         box-shadow: $shadows-primary;
         .image {

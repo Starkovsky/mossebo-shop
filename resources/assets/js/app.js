@@ -245,3 +245,10 @@ $('.pop-up__call').magnificPopup({
         type: 'inline'
     }
 });
+// From an element with ID #popup
+$('.pop-up__message').magnificPopup({
+    items: {
+        src: '#pop-up__message',
+        type: 'inline'
+    }
+});
