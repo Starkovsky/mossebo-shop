@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\SocialAccount;
+use App\Models\SocialProvider;
 use App\Http\Controllers\Controller;
 
 class SocialAuthController extends Controller
@@ -20,8 +20,12 @@ class SocialAuthController extends Controller
         }
         catch (\Exception $e) {
             // TODO: Сохранить логи ошибок куда то
-            //return $e->getMessage();
-            return redirect()->route('login');
+            if(app()->isLocal()) {
+                return $e->getMessage();
+            }
+            else {
+                return redirect()->route('login');
+            }
         }
         //dd(Socialite::driver($provider)->redirect());
     }
@@ -35,16 +39,23 @@ class SocialAuthController extends Controller
 
         } catch (\InvalidArgumentException $e) {
             // TODO: Сохранить логи ошибок куда то
-            //return $e->getMessage();
-            return redirect()->route('login');
-
+            if(app()->isLocal()) {
+                return $e->getMessage();
+            }
+            else {
+                return redirect()->route('login');
+            }
         } catch (\Exception $e) {
             // TODO: Сохранить логи ошибок куда то
-            //return $e->getMessage();
-            return redirect()->route('login');
+            if(app()->isLocal()) {
+                return $e->getMessage();
+            }
+            else {
+                return redirect()->route('login');
+            }
         }
 
-        $socialProvider = SocialAccount::where('provider_user_id', $socialUser->getId())->first();
+        $socialProvider = SocialProvider::where('provider_user_id', $socialUser->getId())->first();
 
         if ($socialProvider) {
 

@@ -207,16 +207,16 @@
                 Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
             </div>
             <div class="pop-up__input">
-                <label for="name" class="form-label">Имя</label>
-                <input id="name"
+                <label for="pop-up__call_name" class="form-label">Имя</label>
+                <input id="pop-up__call_name"
                        type="text"
                        class="form-input mb-3"
                        name="name"
                        value=""
                        required
                 >
-                <label for="tel" class="form-label">Телефон</label>
-                <input id="tel"
+                <label for="pop-up__call_tel" class="form-label">Телефон</label>
+                <input id="pop-up__call_tel"
                        type="tel"
                        class="form-input"
                        name="tel"
@@ -243,24 +243,24 @@
                 Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
             </div>
             <div class="pop-up__input">
-                <label for="name" class="form-label">Имя</label>
-                <input id="name"
+                <label for="pop-up__message_name" class="form-label">Имя</label>
+                <input id="pop-up__message_name"
                        type="text"
                        class="form-input mb-3"
                        name="name"
                        value=""
                        required
                 >
-                <label for="tel" class="form-label">Телефон</label>
-                <input id="tel"
+                <label for="pop-up__message_tel" class="form-label">Телефон</label>
+                <input id="pop-up__message_tel"
                        type="tel"
                        class="form-input mb-3"
                        name="tel"
                        value=""
                        required
                 >
-                <label for="message" class="form-label">Ваше сообщение</label>
-                <textarea id="message"
+                <label for="pop-up__message_message" class="form-label">Ваше сообщение</label>
+                <textarea id="pop-up__message_message"
                           rows="6"
                           class="form-input"
                           name="message"
