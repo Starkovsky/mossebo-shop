@@ -36,7 +36,7 @@
     </div>
 </nav>
 @php
-    $categories = \Categories::getCollection(['productCount'])->where('products_count', '>', 0)->toTree();
+    $categories = \Categories::getCollection(['currentI18n', 'productCount'])->where('products_count', '>', 0)->toTree();
 @endphp
 <div class="catalog-nav">
     <div class="container">
