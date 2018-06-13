@@ -1,0 +1,22 @@
+.faq {
+    &__item {
+        padding: 3rem;
+        @include media-breakpoint-down(xs) {
+            padding: 1rem;
+        }
+    }
+    &__item + &__item {
+        border-top: 1px solid $color-border;
+    }
+    &__border-left {
+        border-left: 1px solid $color-border;
+        padding-left: 0;
+        @include media-breakpoint-down(md) {
+            border-left: none;
+            padding-left: 15px;
+        }
+    }
+    .block-ui {
+        color: $color-text-primary;
+    }
+}
