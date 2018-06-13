@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "fc15c859528b1c059d60896f9d59e639",
@@ -1762,7 +1762,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:mossebo-cm/mossebo-shop-core.git",
-                "reference": "0f6e15137282193119ea4621891541e5aee1f993"
+                "reference": "a2d668b55308d305598fb1cd74e7a5b72667cb26"
             },
             "require": {
                 "composer/installers": "^1.0",
@@ -1795,7 +1795,7 @@
                 "Mossebo",
                 "Shop"
             ],
-            "time": "2018-06-05T09:31:02+00:00"
+            "time": "2018-06-09T12:30:56+00:00"
         },
         {
             "name": "nesbot/carbon",

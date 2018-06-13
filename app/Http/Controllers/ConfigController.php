@@ -8,7 +8,7 @@ class ConfigController extends Controller
 {
     public function index()
     {
-        $lang = \App\Models\Language::with('currency')->first();
+        $lang = \Languages::getCollection(['currency'])->first();
 
         $config = [
             'language' => [

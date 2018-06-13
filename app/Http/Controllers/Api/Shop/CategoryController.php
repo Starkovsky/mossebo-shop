@@ -36,7 +36,7 @@ class CategoryController extends ApiController
             'image',
             'currentPrice',
             'oldPrice',
-            'productAttributeOptions',
+            'attributeOptionRelations',
             'supplier'
         ])->where('enabled', '=', true)->get();
 

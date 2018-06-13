@@ -7,6 +7,55 @@ use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct
 {
+    public function prices()
+    {
+        return $this->morphMany(Price::class, 'item');
+    }
+
+    public function categoryRelations()
+    {
+        return $this->hasMany(CategoryProduct::class, $this->relationFieldName);
+    }
+
+    public function categories()
+    {
+        return $this->hasManyThrough(
+            Category::class, CategoryProduct::class,
+            $this->relationFieldName, 'id'
+        );
+    }
+
+    public function attributes()
+    {
+        return $this->hasManyThrough(
+            Attribute::class, ProductAttribute::class,
+            $this->relationFieldName, 'id', 'id', 'attribute_id'
+        );
+    }
+
+    public function attributeRelations()
+    {
+        return $this->hasMany(ProductAttribute::class, $this->relationFieldName);
+    }
+
+    public function attributeOptions()
+    {
+        return $this->hasManyThrough(
+            AttributeOption::class, ProductAttributeOption::class,
+            $this->relationFieldName, 'id', 'id', 'option_id'
+        )->with('currentI18n');
+    }
+
+    public function attributeOptionRelations()
+    {
+        return $this->hasMany(ProductAttributeOption::class, $this->relationFieldName);
+    }
+
+    public function supplier()
+    {
+        return $this->hasOne(Supplier::class, 'id', 'supplier_id');
+    }
+
     public function image()
     {
         return $this
@@ -37,11 +86,6 @@ class Product extends BaseProduct
             ->hasOne(Price::class, 'item_id')
             ->where('item_type','=', 'product')
             ->where('price_type_id','=', '1');
-    }
-
-    public function attributeOptions()
-    {
-        return parent::attributeOptions()->with('currentI18n');
     }
 
     public static function getCartItem($id, $options = [])

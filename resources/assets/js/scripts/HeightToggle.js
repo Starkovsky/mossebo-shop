@@ -14,6 +14,8 @@
     }
 
     function Plugin( el, options ) {
+        if (pluginName in el) return;
+
         var _ = this,
             href;
 
@@ -120,11 +122,11 @@
     Plugin.prototype.close = function () {
         var _ = this;
 
-        if (!_.active) return;
-
-        _.active = false;
-        _.els.trigger.classList.remove('is-active');
-        _.els.container.classList.remove('is-active');
+        if (_.active) {
+            _.active = false;
+            _.els.trigger.classList.remove('is-active');
+            _.els.container.classList.remove('is-active');
+        }
 
         if (_.opt.minH) {
             _.els.container.style.maxHeight = _.opt.minH + 'px';
@@ -137,11 +139,12 @@
     Plugin.prototype.open = function () {
         var _ = this;
 
-        if (_.active) return;
+        if (!_.active) {
+            _.active = true;
+            _.els.trigger.classList.add('is-active');
+            _.els.container.classList.add('is-active');
+        }
 
-        _.active = true;
-        _.els.trigger.classList.add('is-active');
-        _.els.container.classList.add('is-active');
         _.els.container.style.maxHeight = _.maxH + 'px';
     }
 
@@ -171,7 +174,7 @@
         var styles = window.getComputedStyle(_.els.inner);
         var margin = parseFloat(styles['marginTop']) + parseFloat(styles['marginBottom']);
 
-        var h = Math.ceil(_.els.inner.offsetHeight + margin);
+        var h = Math.ceil(_.els.inner.scrollHeight + margin);
         h = _.opt.maxH ? Math.min(h, _.opt.maxH) : h;
 
         if (_.maxH != h) {
@@ -184,8 +187,11 @@
         var _ = this,
             el = e.target;
 
-        if (_.els.container.contains(el) || _.els.trigger.contains(el)) {
+        if (_.els.trigger.contains(el)) {
             _.toggle();
+            e.stopPropagation();
+        }
+        else if (_.els.container.contains(el)) {
             e.stopPropagation();
         }
         else if (_.opt.bindCloseEvents) {

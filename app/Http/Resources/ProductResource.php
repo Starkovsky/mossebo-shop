@@ -21,11 +21,11 @@ class ProductResource extends JsonResource
             'name' => $this->currentI18n->title,
         ];
 
-        if (! empty($this->productAttributeOptions)) {
-            $data['options'] = array_column($this->productAttributeOptions->toArray(), 'option_id');
+        if ($this->relationNotEmpty('attributeOptionRelations')) {
+            $data['options'] = array_column($this->attributeOptionRelations->toArray(), 'option_id');
         }
 
-        if (! empty($this->image)) {
+        if ($this->relationNotEmpty('image')) {
             if (! empty($this->image->pathes)) {
                 $imagePathes = json_decode($this->image->pathes);
 
@@ -36,11 +36,11 @@ class ProductResource extends JsonResource
             }
         }
 
-        if (! empty($this->currentPrice)) {
+        if ($this->relationNotEmpty('currentPrice')) {
             $data['price'] = $this->currentPrice->value / 100;
         }
 
-        if (! empty($this->oldPrice)) {
+        if ($this->relationNotEmpty('oldPrice')) {
             $data['old_price'] = $this->oldPrice->value / 100;
         }
 
