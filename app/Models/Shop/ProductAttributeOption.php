@@ -6,17 +6,17 @@ use MosseboShopCore\Models\Shop\ProductAttributeOption as BaseProductAttributeOp
 
 class ProductAttributeOption extends BaseProductAttributeOption
 {
-    public function attributes()
+    public function attribute()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function options()
+    public function option()
     {
         return $this->belongsTo(AttributeOption::class, 'option_id');
     }

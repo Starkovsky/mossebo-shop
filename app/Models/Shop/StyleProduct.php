@@ -6,12 +6,12 @@ use MosseboShopCore\Models\Shop\StyleProduct as BaseStyleProduct;
 
 class StyleProduct extends BaseStyleProduct
 {
-    public function styles()
+    public function style()
     {
         return $this->belongsTo(Style::class, 'style_id');
     }
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
