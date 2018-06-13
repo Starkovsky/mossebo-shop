@@ -31,14 +31,14 @@ class ProductController extends Controller
             'images',
             'currentPrice',
             'oldPrice',
-            'productAttributes',
+            'attributeRelations',
             'attributeOptions',
             'supplier'
         )
             ->where('enabled','=',true)
             ->findOrFail($id);
 
-        $attributesIds = array_column($product->productAttributes->toArray(), 'attribute_id');
+        $attributesIds = array_column($product->attributeRelations->toArray(), 'attribute_id');
         $optionsIds = array_column($product->attributeOptions->toArray(), 'id');
 
         $attributes = \Attributes::enabled(['currentI18n'])

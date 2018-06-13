@@ -22,11 +22,11 @@ class CartResource extends JsonResource
             'payable' => $product->is_payable
         ];
 
-        if (! empty($product->options)) {
+        if (!empty($product->options)) {
             $data['options'] = $product->options;
         }
 
-        if (! empty($product->image)) {
+        if ($product->relationNotEmpty('image')) {
             if (! empty($product->image->pathes)) {
                 $imagePathes = json_decode($product->image->pathes);
 
@@ -38,7 +38,7 @@ class CartResource extends JsonResource
         }
 
         // todo: убрать деление на 100 - привести к формированию с использованием валюты
-        if (! empty($product->prices)) {
+        if ($product->relationNotEmpty('prices')) {
             foreach ($product->prices as $price) {
                 switch ($price->price_type_id) {
                     case 1:

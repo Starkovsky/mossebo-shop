@@ -12857,6 +12857,7 @@ fieldset[disabled] .multiselect {
   width: 80px;
   z-index: 2;
   vertical-align: middle;
+  margin-top: -2px;
 }
 
 .rating__percent {

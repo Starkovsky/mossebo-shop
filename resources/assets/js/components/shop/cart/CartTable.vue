@@ -29,7 +29,6 @@
                     :small="small"
                     :product="product"
                     :no-controls="noControls"
-                    @remove="remove(product.id)"
                 ></cart-product-row>
             </template>
         </tbody>
@@ -42,7 +41,6 @@
                 :small="small"
                 :product="product"
                 :no-controls="noControls"
-                @remove="remove(product.id)"
             ></cart-product-item>
         </template>
     </div>

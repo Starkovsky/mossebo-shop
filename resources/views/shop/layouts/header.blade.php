@@ -39,7 +39,7 @@
                         </svg>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-ht ht-container">
+                <div class="dropdown-menu dropdown-menu-ht ht-container ht-container--popup">
                     <div class="ht-inner block-ui">
                         <a href="#" class="dropdown-item">Санкт-Петербург</a>
                         <a href="#" class="dropdown-item">Москва</a>

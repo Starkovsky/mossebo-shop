@@ -182,6 +182,7 @@
 <script>
     import axios from 'axios'
     import { mapState } from 'vuex'
+    // todo: Маску телефона поправить (убрать код?)
     import { TheMask } from 'vue-the-mask'
     import { Validator } from 'vee-validate'
 

@@ -48,10 +48,12 @@
             setStep(step) {
                 this.$store.dispatch('checkout/set', step)
             },
+        },
 
+        computed: {
             ... mapGetters({
                 activeTab: 'checkout/activeTab'
             })
-        },
+        }
     }
 </script>

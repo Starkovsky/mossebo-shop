@@ -1372,8 +1372,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
 
 
 
@@ -3071,14 +3069,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     mixins: [__WEBPACK_IMPORTED_MODULE_1__mixin__["a" /* default */]],
 
-    methods: _extends({
+    methods: {
         isActive: function isActive(step) {
             return step.identif === this.activeTab;
         },
         setStep: function setStep(step) {
             this.$store.dispatch('checkout/set', step);
         }
-    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapGetters"])({
+    },
+
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapGetters"])({
         activeTab: 'checkout/activeTab'
     }))
 });
@@ -4511,6 +4511,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+// todo: Маску телефона поправить (убрать код?)
 
 
 
@@ -6204,11 +6205,6 @@ var render = function() {
                       small: _vm.small,
                       product: product,
                       "no-controls": _vm.noControls
-                    },
-                    on: {
-                      remove: function($event) {
-                        _vm.remove(product.id)
-                      }
                     }
                   })
                 ]
@@ -6229,11 +6225,6 @@ var render = function() {
                   small: _vm.small,
                   product: product,
                   "no-controls": _vm.noControls
-                },
-                on: {
-                  remove: function($event) {
-                    _vm.remove(product.id)
-                  }
                 }
               })
             ]
@@ -13448,6 +13439,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
 
     function Plugin(el, options) {
+        if (pluginName in el) return;
+
         var _ = this,
             href;
 
@@ -13547,11 +13540,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     Plugin.prototype.close = function () {
         var _ = this;
 
-        if (!_.active) return;
-
-        _.active = false;
-        _.els.trigger.classList.remove('is-active');
-        _.els.container.classList.remove('is-active');
+        if (_.active) {
+            _.active = false;
+            _.els.trigger.classList.remove('is-active');
+            _.els.container.classList.remove('is-active');
+        }
 
         if (_.opt.minH) {
             _.els.container.style.maxHeight = _.opt.minH + 'px';
@@ -13563,11 +13556,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     Plugin.prototype.open = function () {
         var _ = this;
 
-        if (_.active) return;
+        if (!_.active) {
+            _.active = true;
+            _.els.trigger.classList.add('is-active');
+            _.els.container.classList.add('is-active');
+        }
 
-        _.active = true;
-        _.els.trigger.classList.add('is-active');
-        _.els.container.classList.add('is-active');
         _.els.container.style.maxHeight = _.maxH + 'px';
     };
 
@@ -13597,7 +13591,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         var styles = window.getComputedStyle(_.els.inner);
         var margin = parseFloat(styles['marginTop']) + parseFloat(styles['marginBottom']);
 
-        var h = Math.ceil(_.els.inner.offsetHeight + margin);
+        var h = Math.ceil(_.els.inner.scrollHeight + margin);
         h = _.opt.maxH ? Math.min(h, _.opt.maxH) : h;
 
         if (_.maxH != h) {
@@ -13610,8 +13604,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         var _ = this,
             el = e.target;
 
-        if (_.els.container.contains(el) || _.els.trigger.contains(el)) {
+        if (_.els.trigger.contains(el)) {
             _.toggle();
+            e.stopPropagation();
+        } else if (_.els.container.contains(el)) {
             e.stopPropagation();
         } else if (_.opt.bindCloseEvents) {
             _.close();
