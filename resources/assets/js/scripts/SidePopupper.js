@@ -1,9 +1,5 @@
 import BlankPlugin from './base/BlankPlugin'
 import Core from './core'
-import ScrollContainer from '../components/ScrollContainer'
-import Vue from 'vue'
-
-let ScrollContainerClass = Vue.extend(ScrollContainer)
 
 export default class SidePopupper extends BlankPlugin {
     constructor(content = false) {
@@ -122,19 +118,10 @@ export default class SidePopupper extends BlankPlugin {
             pageEl.appendChild(backButtonEl)
         }
 
-        let pageContentEl = this.makeEl()
+        let pageContentEl = this.makeEl('side-popup__page-content')
         pageEl.appendChild(pageContentEl)
 
-        let container = new ScrollContainerClass({
-            propsData: {
-                maxHeight: 9999
-            },
-        })
-
-        container.$mount(pageContentEl)
-        pageContentEl = container.$el
-
-        pageContentEl.classList.add('side-popup__page-content')
+        pageContentEl.classList.add()
         pageContentEl.appendChild(content)
 
         this.pages.push(pageEl)

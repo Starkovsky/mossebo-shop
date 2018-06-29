@@ -69,11 +69,19 @@
                     </div>
 
                     <side-popup ref="popup">
-                        <catalog-filter-list
-                            ref="filters"
-                            :filters="filters"
-                            :prices="prices"
-                        ></catalog-filter-list>
+                        <div>
+                            <catalog-filter-list
+                                ref="filters"
+                                :filters="filters"
+                                :prices="prices"
+                            ></catalog-filter-list>
+
+                            <div v-if="filters.length > 0" class="catalog-filters-controls">
+                                <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                                    Сбросить фильтры
+                                </button>
+                            </div>
+                        </div>
                     </side-popup>
                 </div>
 

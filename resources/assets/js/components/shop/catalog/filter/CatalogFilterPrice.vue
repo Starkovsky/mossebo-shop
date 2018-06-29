@@ -43,7 +43,9 @@
                     piecewise: false,
                     // processDragable: true,
                     style: {
-                        "marginTop": "30px",
+                        "paddingTop": "37.5px",
+                        "paddingLeft": "0",
+                        "paddingRight": "0",
                         "marginBottom": "0px",
                         "marginLeft": "auto",
                         "marginRight": "auto"
@@ -110,6 +112,11 @@
             }
         },
 
+        mounted() {
+            this.$nextTick(() => {
+                heightToggle('.js-ht-price-filter')
+            })
+        },
 
         methods: {
             checkProduct(product = {}) {
@@ -243,52 +250,49 @@
 
 <template>
     <div>
-        <a
-            class="filter-name"
-            data-toggle="collapse"
-            href="#filerCollapsePrice"
-            role="button"
-            aria-expanded="true"
-            aria-controls="filerCollapsePrice" >
-
+        <a class="filter-name js-ht-price-filter is-active">
             Цена
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
         </a>
 
-        <div class="filter-desc collapse multi-collapse show" :id="'filerCollapsePrice'">
-            <div class="prices-slider">
-                <vue-slider
-                    v-bind="priceFilter"
-                    v-model="priceFilter.value"
-                    @drag-end="sliderValueChanged"
-                    @click="sliderValueChanged" />
+        <div class="ht-container">
+            <div class="ht-inner">
+                <div></div>
+                <div class="filter-desc" :id="'filerCollapsePrice'">
+                    <div class="prices-slider">
+                        <vue-slider
+                            v-bind="priceFilter"
+                            v-model="priceFilter.value"
+                            @drag-end="sliderValueChanged"
+                            @click="sliderValueChanged" />
 
-                <div class="prices-slider__group">
-                    <input
-                        ref="minPrice" type="number"
-                        :value="priceFilter.value[0]"
-                        @change="inputChange"
-                        class="prices-slider__input" >
+                        <div class="prices-slider__group">
+                            <input
+                                ref="minPrice" type="number"
+                                :value="priceFilter.value[0]"
+                                @change="inputChange"
+                                class="prices-slider__input" >
 
-                    <div class="prices-slider__separator">&#8212;</div>
+                            <div class="prices-slider__separator">&#8212;</div>
 
-                    <input
-                        ref="maxPrice"
-                        type="number"
-                        :value="priceFilter.value[1]"
-                        @change="inputChange"
-                        class="prices-slider__input" >
-                </div>
+                            <input
+                                ref="maxPrice"
+                                type="number"
+                                :value="priceFilter.value[1]"
+                                @change="inputChange"
+                                class="prices-slider__input" >
+                        </div>
 
-                <div class="prices-slider__tube">
-                    <div :style="emptyLeftStyle" class="prices-slider__empty"></div>
-                    <div :style="emptyRightStyle" class="prices-slider__empty"></div>
-                    <div :style="availableStyle" class="prices-slider__available-process"></div>
+                        <div class="prices-slider__tube">
+                            <div :style="emptyLeftStyle" class="prices-slider__empty"></div>
+                            <div :style="emptyRightStyle" class="prices-slider__empty"></div>
+                            <div :style="availableStyle" class="prices-slider__available-process"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>

@@ -65,6 +65,15 @@ const MakeHtUniqueId = (() => {
             el.classList.remove('is-active');
         }
 
+        _.clickTimeout = null
+
+        _.windowClick = function() {
+            clearTimeout(_.clickTimeout)
+            _.clickTimeout = setTimeout(() => {
+                Plugin.prototype.windowClick.apply(_, arguments)
+            }, 64)
+        }
+
         _.init();
     }
 
@@ -105,6 +114,7 @@ const MakeHtUniqueId = (() => {
 
         _.bindEvent(window, 'resize', _.update, { passive: true })
         _.bindEvent(document, 'click', _.windowClick, { passive: true })
+        _.bindEvent(document, 'touchend', _.windowClick, { passive: true })
 
         if (_.opt.bindCloseEvents) {
             _.bindEvent(document, 'keydown', _.keydown, { passive: true })
@@ -207,14 +217,14 @@ const MakeHtUniqueId = (() => {
         var el = e.target;
 
         if (_.els.trigger.contains(el)) {
-            _.toggle();
+            _.toggle()
             _.handleEvent(e)
         }
         else if (_.els.container.contains(el)) {
             _.handleEvent(e)
         }
         else if (_.opt.bindCloseEvents) {
-            _.close();
+            _.close()
             _.handleEvent(e)
         }
     }
@@ -265,6 +275,7 @@ const MakeHtUniqueId = (() => {
         var _ = this;
 
         _.close()
+        clearTimeout(_.clickTimeout)
         _.eventDestroyers.forEach(destroyer => destroyer())
         _.els.trigger[pluginName] = undefined
         delete _.els.trigger[pluginName]

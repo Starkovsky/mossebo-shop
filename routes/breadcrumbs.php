@@ -36,8 +36,7 @@ Breadcrumbs::for('room-catalog', function ($trail, $room, $category) {
 });
 
 Breadcrumbs::for('room-category', function ($trail, $room, $category) {
-    $trail->parent('rooms', $room);
-    $trail->parent('category-tree', $category, 'room-category', ['roomSlug' => $room->slug]);
+    $trail->parent('room-catalog', $room, $category);
 });
 
 /*
@@ -58,8 +57,7 @@ Breadcrumbs::for('style-catalog', function ($trail, $style, $category) {
 });
 
 Breadcrumbs::for('style-category', function ($trail, $style, $category) {
-    $trail->parent('styles', $style);
-    $trail->parent('category-tree', $category, 'style-category', ['styleSlug' => $style->slug]);
+    $trail->parent('style-catalog', $style, $category);
 });
 
 
