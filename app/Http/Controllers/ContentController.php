@@ -47,6 +47,7 @@ class ContentController extends Controller
         abort(404);
     }
 
+
     /**
      * Выводит страницу Политика конфедициальности
      *
@@ -55,5 +56,15 @@ class ContentController extends Controller
     public function privacy()
     {
         return view('shop.pages.privacy');
+    }
+
+    /**
+     * Выводит страницу Политика конфедициальности
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function aboutUs()
+    {
+        return view('shop.pages.about-us');
     }
 }

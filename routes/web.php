@@ -49,19 +49,17 @@ Route::prefix('ru')->group(function () {
     Route::get('/help', 'ContentController@help')->name('help');
     Route::get('/help/{slug}', 'ContentController@helpArticle')->name('help-article');
 
-    Route::get('/privacy', function () {
-        return view('shop.pages.privacy');
-    })->name('privacy');
+    Route::get('/privacy', 'ContentController@privacy')->name('privacy');
+    Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
 
 
     /*
      * Личный кабинет
      */
-    Route::prefix('lk')->group(function () {
-
-        Route::get('/', 'Shop\HomeController@index')
-            ->name('lk');
-    });
+//    Route::prefix('lk')->group(function () {
+//        Route::get('/', 'Shop\HomeController@index')
+//            ->name('lk');
+//    });
 
     // Корзина
     Route::get('/cart', 'Shop\CartController@index')->name('cart');
@@ -78,9 +76,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/data', 'Shop\DataController@get');
 
 
-    Route::get('/about-us', function () {
-        return view('shop.pages.about-us');
-    });
+
 });
 
 // Маршруты для Авторизации через Соцсети

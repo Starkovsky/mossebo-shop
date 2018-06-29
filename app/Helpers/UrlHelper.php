@@ -3,9 +3,7 @@
 if (! function_exists('baseUrl')) {
     function baseUrl()
     {
-        $server = request()->server;
-
-        return $server->get('REQUEST_SCHEME') . '://' . $server->get('SERVER_NAME');
+        return Request::root();
     }
 }
 
