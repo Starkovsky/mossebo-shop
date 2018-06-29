@@ -1,44 +1,42 @@
 <template>
-    <div>
+    <div class="ht-popup-wrap">
         <a class="cart-btn js-cart-btn" :href="btnLink">
-            <div class="d-flex flex-nowrap align-items-center">
-                <div class="cart-btn-icon">
-                    <div class="badge js-badge" v-show="!isEmpty">
-                        {{ productsShortQuantity }}
-                    </div>
-
-                    <svg class="symbol-icon symbol-cart">
-                        <use xlink:href="/assets/images/icons.svg#symbol-cart"></use>
-                    </svg>
+            <div class="cart-btn-icon">
+                <div class="badge js-badge" v-show="!isEmpty">
+                    {{ productsShortQuantity }}
                 </div>
 
-                <div v-if="$root.isDesktop">
-                    <div class="cart-btn-name">
-                        Корзина
-                    </div>
-
-                    <div v-if="!isEmpty" class="cart-btn-result">
-                        <!--<span class="items">-->
-                            <!--{{ productsQuantity }}-->
-                        <!--</span>-->
-
-                        <!--шт. - -->
-
-                        <span class="prices">
-                            <formatted-price
-                                :value="productsPrice"
-                            ></formatted-price>
-                        </span>
-                    </div>
-                </div>
-
-                <svg class="symbol-icon symbol-keyboard-down">
-                    <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+                <svg class="symbol-icon symbol-cart">
+                    <use xlink:href="/assets/images/icons.svg#symbol-cart"></use>
                 </svg>
             </div>
+
+            <div v-if="$root.isDesktop">
+                <div class="cart-btn-name">
+                    Корзина
+                </div>
+
+                <div v-if="!isEmpty" class="cart-btn-result">
+                    <!--<span class="items">-->
+                        <!--{{ productsQuantity }}-->
+                    <!--</span>-->
+
+                    <!--шт. - -->
+
+                    <span class="prices">
+                        <formatted-price
+                            :value="productsPrice"
+                        ></formatted-price>
+                    </span>
+                </div>
+            </div>
+
+            <svg class="symbol-icon symbol-keyboard-down">
+                <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+            </svg>
         </a>
 
-        <div class="dropdown-menu dropdown-menu-ht dropdown-menu-right ht-container ht-container--popup" v-if="isDesktop">
+        <div class="ht-container ht-container--popup ht-container--right" v-if="isDesktop">
             <div class="ht-inner">
                 <div :class="{'cart-popup-wrap': ! (isEmpty && !loading)}">
                     <transition name="fade" mode="out-in">

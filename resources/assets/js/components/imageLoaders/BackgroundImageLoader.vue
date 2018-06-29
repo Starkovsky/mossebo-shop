@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'bg-image-loader': true, 'animate': animate, 'loaded': loaded}" :style="{ 'background-image': `url(${image$})` }"></div>
+    <div :class="{'bg-image-loader': true, animate: animate, loaded: loaded, empty: empty}" :style="style"></div>
 </template>
 
 <script>
@@ -11,5 +11,17 @@
         mixins: [
             mixin
         ],
+
+        computed: {
+            style() {
+                if (this.image$) {
+                    return {
+                        'background-image': `url('${this.image$}')`
+                    }
+                }
+
+                return ''
+            }
+        }
     }
 </script>

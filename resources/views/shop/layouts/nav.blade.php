@@ -1,64 +1,98 @@
-<nav class="header-navigation d-none d-lg-block d-xl-block">
-    <div class="container">
-        <ul class="header-navigation-list">
-            <li class="header-navigation-list__item header-navigation-catalog">
-                <a href="/{{ app()->getLocale() }}/catalog" class="">
-                    <svg class="symbol-icon symbol-menu">
-                        <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
-                    </svg>
-                    Каталог товаров</a>
-            </li>
-            {{--<li class="header-navigation-list__item">--}}
-                {{--<a href="#" class="">Стили</a>--}}
-            {{--</li>--}}
-            <li class="header-navigation-list__item">
-                <a href="/{{ app()->getLocale() }}/rooms" class="">Комнаты</a>
-            </li>
-            {{--<li class="header-navigation-list__item">--}}
-                {{--<a href="#" class="">Комплекты</a>--}}
-            {{--</li>--}}
-            {{--<li class="header-navigation-list__item">--}}
-                {{--<a href="#" class="">Новинки</a>--}}
-            {{--</li>--}}
-            {{--<li class="header-navigation-list__item header-navigation-list-discount">--}}
-                {{--<a href="#" class="">Скидки</a>--}}
-            {{--</li>--}}
-            <li class="header-navigation-list__item">
-                <a href="/ru/delivery" class="">Доставка</a>
-            </li>
-            <li class="header-navigation-list__item">
-                <a href="/ru/pay" class="">Оплата</a>
-            </li>
-            <li class="header-navigation-list__item">
-                <a href="/ru/garant" class="">Гарантия и возврат</a>
-            </li>
-        </ul>
-    </div>
-</nav>
 @php
-    $categories = \Categories::getCollection(['currentI18n', 'productCount'])->where('products_count', '>', 0)->toTree();
+    $categories = Categories::enabled(['currentI18n', 'productCount'])->where('products_count', '>', 0)->toTree();
 @endphp
-<div class="catalog-nav">
+
+<div class="main-nav-wrap">
     <div class="container">
-        <div class="catalog-nav-box">
-            <ul>
-                @foreach ($categories as $category)
-                    <li>
-                        <a href="/{{ app()->getLocale() }}/catalog/{{ $category->slug }}">
-                            {{ $category->currentI18n->title }}
-                        </a>
-                        <ul>
-                            @foreach($category->children as $children)
-                                <li>
-                                    <a href="/{{ app()->getLocale() }}/catalog/{{ $children->slug }}">
-                                        {{ $children->currentI18n->title }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                @endforeach
+        <nav class="main-menu js-main-menu">
+
+            <ul class="main-menu__container">
+                <li class="main-menu__item">
+                    <span class="main-menu__trigger catalog-mobile-link js-mobile-nav-btn" data-id="0">
+                        Каталог товаров
+                    </span>
+
+                    <span class="main-menu__trigger catalog-desktop-link js-desktop-menu-btn">
+                        <div class="catalog-desktop-link__icon">
+                            <span class="catalog-desktop-link__line"></span>
+                            <span class="catalog-desktop-link__line"></span>
+                            <span class="catalog-desktop-link__line"></span>
+                        </div>
+
+                        <span class="catalog-desktop-link__label">
+                            Каталог товаров
+                        </span>
+                    </span>
+                </li>
+
+                <li class="main-menu__item">
+                    <a href="{{ siteUrl('styles') }}" class="main-menu__link">
+                        Стили
+                    </a>
+                </li>
+
+                <li class="main-menu__item">
+                    <a href="{{ siteUrl('rooms') }}" class="main-menu__link">
+                        Комнаты
+                    </a>
+                </li>
+
+                <li class="main-menu__item">
+                    <a href="{{ route('help-article', ['slug' => 'delivery']) }}" class="main-menu__link">
+                        Доставка
+                    </a>
+                </li>
+
+                <li class="main-menu__item">
+                    <a href="{{ route('help-article', ['slug' => 'pay']) }}" class="main-menu__link">
+                        Оплата
+                    </a>
+                </li>
+
+                <li class="main-menu__item">
+                    <a href="{{ route('help-article', ['slug' => 'garant']) }}" class="main-menu__link">
+                        Гарантия и возврат
+                    </a>
+                </li>
             </ul>
-        </div>
+        </nav>
+
+        <nav class="catalog-nav js-catalog-nav">
+            <div class="catalog-nav__inner block-ui js-catalog-nav--menu">
+                <div class="catalog-nav__main">
+                    <ul class="catalog-nav__sub js-catalog-nav--sub" data-id="0">
+                        @foreach ($categories as $category)
+                            <li class="catalog-nav__item">
+                                @if (is_null($category->children))
+                                    <a href="{{ siteUrl('catalog/' . $category->slug) }}" class="catalog-nav__link js-catalog-nav--link">
+                                        {{ $category->currentI18n->title }}
+                                    </a>
+                                @else
+                                    <span class="catalog-nav__trigger js-catalog-nav--link" data-id="{{ $category->id }}">
+                                        {{ $category->currentI18n->title }}
+                                    </span>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="catalog-nav__subs js-catalog-nav--subs">
+                    @foreach ($categories as $category)
+                        @if (! is_null($category->children))
+                            <ul class="catalog-nav__sub js-catalog-nav--sub" data-id="{{ $category->id }}">
+                                @foreach($category->children as $children)
+                                    <li class="catalog-nav__item">
+                                        <a href="{{ siteUrl('catalog/' . $children->slug) }}" class="catalog-nav__link">
+                                            {{ $children->currentI18n->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </nav>
     </div>
 </div>

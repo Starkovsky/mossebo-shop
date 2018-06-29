@@ -1,18 +1,23 @@
 <template>
-    <div class="product-card-mobile block-ui">
+    <div class="product-card-mobile block-ui block-ui--with-hover">
         <div class="product-card-mobile__actions text-right">
             <product-actions></product-actions>
         </div>
 
         <div class="product-card-mobile__image-box">
             <a class="product-card-mobile__link" :href="link">
-                <background-image-loader
-                    v-if="product.image"
-                    class="product-card-mobile__image"
-                    :screen="true"
-                    :image="prepareImage(product.image.src)"
-                    :retina-image="prepareImage(product.image.srcset)"
-                ></background-image-loader>
+                <template v-if="product.image">
+                    <background-image-loader
+                        class="product-card-mobile__image product-image"
+                        :screen="true"
+                        :image="prepareImage(product.image.src)"
+                        :retina-image="prepareImage(product.image.srcset)"
+                    ></background-image-loader>
+                </template>
+
+                <template v-else>
+                    <div class="product-card-mobile__image bg-image product-image"></div>
+                </template>
             </a>
         </div>
 
@@ -25,7 +30,9 @@
 
             <div class="product-card-mobile__info">
                 <div class="product-card-mobile__rating">
-                    <rating></rating>
+                    <rating
+                        class-name-modificators="sm"
+                    ></rating>
                 </div>
             </div>
 

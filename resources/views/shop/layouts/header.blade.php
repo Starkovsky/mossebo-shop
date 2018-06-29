@@ -1,80 +1,69 @@
-<header class="header">
-    <div class="container">
-        <div class="header-float">
-            <div class="header-float-item header-float-item--menu">
-                <a href="#" class="mobile-catalog">
-                    <svg class="symbol-icon symbol-menu">
-                        <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
-                    </svg>
-                </a>
-            </div>
+@php
+    $banner = app()->make(App\Http\Controllers\BannerController::class)->getHeaderBanner();
+@endphp
 
-            <div class="header-float-item header-float-item--logo">
-                <a href="{{ url('/' . App::getLocale()) }}" class="logo">
-                    <svg class="symbol-icon symbol-logo-ru">
-                        <use xlink:href="/assets/images/icons.svg#{{ __('layouts.mossebo-market-logo') }}"></use>
-                    </svg>
-                </a>
-            </div>
+@if ($banner)
+    <div class="header-banner-wrap js-header-banner">
+        <header-banner
+            link="{{ siteUrl($banner->link) }}"
+            image="{{ $banner->image }}"
+            mobile-image="{{ $banner->mobile_image }}"
+        ></header-banner>
+    </div>
+@endif
 
-            <div class="header-float-item header-float-item--city">
-                <a href="#" class="location js-ht"
-                >
-                    <div class="d-flex flex-nowrap align-items-center">
-                        <div class="location-icon">
-                            <svg class="symbol-icon symbol-location">
-                                <use xlink:href="/assets/images/icons.svg#symbol-location"></use>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="location-name">
-                                Санкт-Петербург
-                            </div>
-                            <div class="location-phone">
-                                8 (800) 707-83-47
-                            </div>
-                        </div>
-                        <svg class="symbol-icon symbol-keyboard-down">
-                            <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+
+<header class="header js-fixed-menu">
+    <div class="header__fixer"></div>
+    <div class="header__fixed js-fixed-menu-container">
+        <div class="container">
+            <div class="header-float js-fixed-menu-inner">
+                <div class="header-float__item header-float__item--menu">
+                    <span class="mobile-catalog-btn js-mobile-menu-btn">
+                        <svg class="symbol-menu">
+                            <use xlink:href="/assets/images/icons.svg#symbol-menu"></use>
                         </svg>
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-ht ht-container ht-container--popup">
-                    <div class="ht-inner block-ui">
-                        <a href="#" class="dropdown-item">Санкт-Петербург</a>
-                        <a href="#" class="dropdown-item">Москва</a>
-                        <a href="#" class="dropdown-item">Екатеринбург</a>
-                    </div>
+                    </span>
                 </div>
-            </div>
 
-            <div class="header-float-item header-float-item--search d-none">
-                <a href="#" class="search"
-                >
-                    <div class="d-flex flex-nowrap align-items-center">
+                <div class="header-float__item header-float__item--logo">
+                    <a href="{{ siteUrl() }}">
+                        <svg class="symbol-logo symbol-logo--header">
+                            <use xlink:href="/assets/images/icons.svg#symbol-logo-{{ App::getLocale() }}"></use>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="header-float__item header-float__item--city">
+                    <cities-select></cities-select>
+                </div>
+
+                <div class="header-float__item header-float__item--search d-none">
+                    <a href="#" class="search"
+                    >
                         <div class="search-icon">
                             <svg class="symbol-icon symbol-search">
                                 <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
                             </svg>
                         </div>
+
                         <div>
                             <div class="search-name">
                                 Поиск
                             </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
 
-            <div class="header-float-item header-float-item--auth">
-                <a href="javascript:void(0);" class="profile js-ht">
-                    <div class="d-flex flex-nowrap align-items-center">
-                        <div class="profile-icon">
-                            <svg class="symbol-icon symbol-person">
-                                <use xlink:href="/assets/images/icons.svg#symbol-person"></use>
-                            </svg>
-                        </div>
-                        <div>
+                <div class="header-float__item header-float__item--auth">
+                    <div class="ht-popup-wrap">
+                        <a href="javascript:void(0);" class="profile js-ht">
+                            <div class="profile-icon">
+                                <svg class="symbol-icon symbol-person">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-person"></use>
+                                </svg>
+                            </div>
+
                             @guest
                                 <div class="profile-name">
                                     Личный кабинет
@@ -84,43 +73,44 @@
                                     {{ Auth::user()->first_name }}
                                 </div>
                             @endguest
-                        </div>
-                        <svg class="symbol-icon symbol-keyboard-down">
-                            <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
-                        </svg>
-                    </div>
-                </a>
 
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-ht ht-container ht-container--popup">
-                    <div class="ht-inner block-ui">
-                        @guest
-                            <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
-                            <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
-                        @else
-                            <a href="#" class="dropdown-item">Мои заказы</a>
-                            <a href="#" class="dropdown-item">Профиль</a>
-                            <a href="#" class="dropdown-item">Отзывы</a>
-                            <a href="#" class="dropdown-item">Вопросы</a>
-                            <a href="#" class="dropdown-item gray">Помощь</a>
-                            <a class="dropdown-item logout"
-                               href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                            >
-                                {{ __('auth.logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        @endguest
+                            <svg class="symbol-icon symbol-keyboard-down">
+                                <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+                            </svg>
+                        </a>
+
+                        <div class="ht-container ht-container--popup ht-container--right">
+                            <div class="ht-inner block-ui">
+                                @guest
+                                    <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
+                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                                @else
+                                    <a href="#" class="dropdown-item">Мои заказы</a>
+                                    <a href="#" class="dropdown-item">Профиль</a>
+                                    <a href="#" class="dropdown-item">Отзывы</a>
+                                    <a href="#" class="dropdown-item">Вопросы</a>
+                                    <a href="#" class="dropdown-item gray">Помощь</a>
+                                    <a class="dropdown-item logout"
+                                       href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    >
+                                        {{ __('auth.logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                @endguest
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="header-float-item header-float-item--cart">
-                <cart-btn></cart-btn>
+                <div class="header-float__item header-float__item--cart">
+                    <cart-btn></cart-btn>
+                </div>
             </div>
         </div>
     </div>
 </header>
 
-<div class="header-mobile-fix js-header-mobile-fix"></div>
+@include('shop.layouts.nav')

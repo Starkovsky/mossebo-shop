@@ -3,8 +3,9 @@
         'loading-wrap': true,
         'loading-wrap--no-overlay': noOverlay,
         'loading-wrap--no-min-height': noMinHeight,
-        'loaded': !loading}"
-    >
+        'loading-wrap--sticky': sticky && loading,
+        loaded: !loading,
+    }">
         <div v-if="loading" class="loading-wrap__spinner">
             <svg
                 class="loading-wrap__icon"
@@ -42,6 +43,10 @@
                 type: Boolean,
                 default: false
             },
+            sticky: {
+                type: Boolean,
+                default: false
+            },
             noOverlay: {
                 type: Boolean,
                 default: false
@@ -53,56 +58,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../sass/variables/colors";
-
-    .loading-wrap {
-        position: relative;
-
-        &:not(.loaded) {
-            min-height: 200px;
-        }
-
-        &--no-min-height {
-            min-height: auto !important;
-        }
-
-        &__spinner {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 80px;
-            height: 80px;
-            margin: auto;
-            z-index: 11;
-        }
-
-        &__icon {
-            width: 100%;
-            fill: $color-primary;
-        }
-
-        &:not(&--no-overlay)::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #fff;
-            z-index: -1;
-            opacity: 0;
-            transition: all .3s;
-        }
-
-        &:not(&--no-overlay):not(.loaded)::before {
-            opacity: .5;
-            z-index: 10;
-            transition: opacity .3s;
-        }
-    }
-</style>

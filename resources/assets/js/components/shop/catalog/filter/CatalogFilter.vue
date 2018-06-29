@@ -1,10 +1,11 @@
 <template>
     <div>
         <div :class="{'filter-name js-ht-filter': true, 'is-active': expanded}">
+            <span class="filter-name__name">
+                {{ title }}
+            </span>
 
-            {{ title }}
-
-            <svg class="symbol-icon symbol-keyboard-down">
+            <svg class="filter-name__icon symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
         </div>
@@ -19,7 +20,8 @@
                             :title="option.title"
                             :checked="optionIsChecked(option.id)"
                             :disabled="optionIsDisabled(option.id)"
-                            @click="optionClick(option.id)"/>
+                            @click="optionClick(option.id)"
+                        ></catalog-filter-option>
                     </template>
                 </div>
             </div>

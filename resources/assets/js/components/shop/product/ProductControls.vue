@@ -4,7 +4,7 @@
             <div class="product-controls-attributes">
                 <div class="row">
                     <template v-for="attribute in selectable">
-                        <div class="col-12 col-sm-6 col-md-12 col-lg-6">
+                        <div class="col-12 col-sm-6 col-lg-6">
                             <multi-select
                                 v-model="attribute.value"
                                 :options="attribute.options"
@@ -38,13 +38,11 @@
         </div>
 
         <div class="product-controls__buttons">
-            <div class="row">
+            <div class="row row--half">
                 <div class="col-sm-6 col-md-12 col-xl-6">
                     <button
                         type="button"
-                        class="product-controls__button button button-primary"
-                        data-toggle="modal"
-                        data-target="#exampleModal"
+                        class="product-controls__button button button-long button-primary"
                     >
                         Купить в 1 клик
                     </button>
@@ -53,7 +51,7 @@
                 <div class="col-sm-6 col-md-12 col-xl-6">
                     <template v-if="quantity === 0">
                         <button-loading
-                            class="product-controls__button button-dark"
+                            class="product-controls__button button button-long button-dark"
                             :loading="loading"
                             @click="addToCart"
                         >
@@ -64,7 +62,7 @@
                     <template v-else>
                         <button-loading
                             tag="div"
-                            class="product-controls__button button-dark p-0"
+                            class="product-controls__button product-controls__button--num button button-long button-dark"
                             :loading="loading"
                         >
                             <num-control

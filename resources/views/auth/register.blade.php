@@ -1,192 +1,242 @@
 @extends('shop.layouts.html')
 
-@section('title', config('app.name', 'Mossebo.Market'))
-
-@section('meta-description', 'description main page')
-
 @section('content')
-
     <div class="container">
-        <div class="auth">
-
+        <div class="auth auth--registration block-ui">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
-                <div class="row justify-content-center auth-social">
-                    <div class="col-11 col-md-6">
-                        <h1 class="title_h1 text-center">Создание аккаунта</h1>
-                        <div class="title-label mb-4">Аккаунт позволит вам добавлять товары в избранное, отслеживать
-                            заказы, а также получать скидки, специальные предложения.
-                        </div>
+
+                <div class="auth__top container">
+                    <h1 class="auth__title title-h1">
+                        Создание аккаунта
+                    </h1>
+
+                    <div class="auth__title-label">
+                        Аккаунт позволит вам добавлять товары в избранное, отслеживать заказы,  а также получать скидки и специальные предложения.
                     </div>
-                </div>
-                @if($socialUser)
-                    <div class="row justify-content-center auth-social auth-border-bottom pb-4 pb-md-5">
-                        <div class="col-10 col-md-6">
-                            <input type="hidden"
-                                   name="provider_user_id"
-                                   value="{{ $socialUser->getId() }}"
-                            >
-                            <input type="hidden"
-                                   name="provider"
-                                   value="{{ $provider }}"
-                            >
-                            <div class="row justify-content-center">
-                                <div class="col-6">
-                                    <div class="row align-items-center">
-                                        <div style="background-image: url({{ $socialUser->getAvatar() }});"
-                                             class="auth-avatar">
-                                        </div>
-                                        <div class="auth-name">{{ $socialUser->getName() }}</div>
-                                    </div>
+
+                    @if($socialUser)
+                        <input type="hidden"
+                               name="provider_user_id"
+                               value="{{ $socialUser->getId() }}"
+                        >
+                        <input type="hidden"
+                               name="provider"
+                               value="{{ $provider }}"
+                        >
+
+                        <div class="social-user-info">
+                            <div
+                                style="background-image: url({{ $socialUser->getAvatar() }});"
+                                class="social-user-info__avatar"
+                            ></div>
+
+                            <div class="social-user-info__name">
+                                {{ $socialUser->getName() }}
+                            </div>
+                        </div>
+                    @else
+                        <div class="auth-socials auth-socials--short">
+                            <div class="auth-socials__container">
+                                <div class="auth-socials__item">
+                                    <a href="{{ url('login/vkontakte') }}"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--vk cricle"
+                                    >
+                                        <svg class="symbol-icon social-embed-vk">
+                                            <use xlink:href="/assets/images/icons.svg#social-embed-vk"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                                <div class="auth-socials__item">
+                                    <a href="{{ url('login/odnoklassniki') }}"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--ok cricle"
+                                    >
+                                        <svg class="symbol-icon social-embed-ok">
+                                            <use xlink:href="/assets/images/icons.svg#social-embed-ok"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                                <div class="auth-socials__item">
+                                    <a href="{{ url('login/facebook') }}"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--facebook"
+                                    >
+                                        <svg class="symbol-icon social-embed-fb">
+                                            <use xlink:href="/assets/images/icons.svg#social-embed-fb"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                                <div class="auth-socials__item">
+                                    <a href="{{ url('login/google') }}"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--google"
+                                    >
+                                        <svg class="symbol-icon social-embed-google">
+                                            <use xlink:href="/assets/images/icons.svg#social-embed-google"></use>
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @else
-                    <div class="row justify-content-center auth-social auth-border-bottom pb-4 pb-md-5">
-                        <div class="col-12 col-md-6">
-                            <div class="text-center">
-                                <a href="{{ url('login/vkontakte') }}"
-                                   class="auth-social-vk cricle mb-3"
-                                >
-                                    <svg class="symbol-icon social-embed-vk">
-                                        <use xlink:href="/assets/images/icons.svg#social-embed-vk"></use>
-                                    </svg>
-                                </a>
-                                <a href="{{ url('login/odnoklassniki') }}"
-                                   class="auth-social-ok cricle mb-3"
-                                >
-                                    <svg class="symbol-icon social-embed-ok">
-                                        <use xlink:href="/assets/images/icons.svg#social-embed-ok"></use>
-                                    </svg>
-                                </a>
-                                <a href="{{ url('login/facebook') }}"
-                                   class="auth-social-facebook cricle mb-3"
-                                >
-                                    <svg class="symbol-icon social-embed-fb">
-                                        <use xlink:href="/assets/images/icons.svg#social-embed-fb"></use>
-                                    </svg>
-                                </a>
-                                <a href="{{ url('login/google') }}"
-                                   class="auth-social-google cricle mb-3"
-                                >
-                                    <svg class="symbol-icon social-embed-google">
-                                        <use xlink:href="/assets/images/icons.svg#social-embed-google"></use>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
 
-                <div class="py-5 auth-form">
-                    <div class="row justify-content-center">
-                        <div class="col-10 col-sm-10 col-md-9 col-lg-6">
-                            <div class="row">
+                <div class="auth__bottom container">
+                    <div class="auth__mobile-or mb-24">
+                        Или
+                    </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <label for="first_name" class="form-label">Имя</label>
-                                    <input id="first_name"
-                                           type="text"
-                                           class="form-input {{ $errors->has('first_name') ? 'is-invalid' : '' }}"
-                                           name="first_name"
-                                           value="{{ old('first_name') }}"
-                                           required
-                                           autofocus
+                    <div class="auth-form auth-form--registration">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
+                                    <label for="registration-first-name" class="form-label">
+                                        Имя
+                                    </label>
+
+                                    <input
+                                        id="registration-first-name"
+                                        type="text"
+                                        class="form-input"
+                                        name="first_name"
+                                        value="{{ old('first_name') }}"
+                                        required
                                     >
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback">
-                                            <strong>{{ $errors->first('name') }}</strong>
+
+                                    @if ($errors->has('first_name'))
+                                        <span class="form-error">
+                                            <strong>{{ $errors->first('first_name') }}</strong>
                                         </span>
                                     @endif
                                 </div>
+                            </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <label for="last_name" class="form-label">Фамилия</label>
-                                    <input id="last_name"
-                                           type="text"
-                                           class="form-input {{ $errors->has('last_name') ? 'is-invalid' : '' }}"
-                                           name="last_name"
-                                           value="{{ old('last_name') }}"
-                                           required
-                                           autofocus
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('last_name') ? 'has-error' : '' }}">
+                                    <label for="registration-last-name" class="form-label">
+                                        Фамилия
+                                    </label>
+
+                                    <input
+                                        id="registration-last-name"
+                                        type="text"
+                                        class="form-input"
+                                        name="last_name"
+                                        value="{{ old('last_name') }}"
+                                        required
                                     >
+
                                     @if ($errors->has('last_name'))
-                                        <span class="invalid-feedback">
+                                        <span class="form-error">
                                             <strong>{{ $errors->first('last_name') }}</strong>
                                         </span>
                                     @endif
                                 </div>
+                            </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <label for="phone" class="form-label">Телефон</label>
-                                    <input id="phone"
-                                           type="phone"
-                                           class="form-input {{ $errors->has('phone') ? 'is-invalid' : '' }}"
-                                           name="phone"
-                                           value="{{ old('phone') }}"
-                                           required
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
+                                    <label for="registration-phone" class="form-label">
+                                        Телефон
+                                    </label>
+
+                                    <input
+                                        id="registration-phone"
+                                        type="tel"
+                                        class="form-input"
+                                        name="phone"
+                                        value="{{ old('phone') }}"
+                                        required
                                     >
+
                                     @if ($errors->has('phone'))
-                                        <span class="invalid-feedback">
+                                        <span class="form-error">
                                             <strong>{{ $errors->first('phone') }}</strong>
                                         </span>
                                     @endif
                                 </div>
+                            </div>
 
-                                <div class="col-sm-6 mb-3">
-                                    <label for="email" class="form-label">E-Mail</label>
-                                    <input id="email"
-                                           type="email"
-                                           class="form-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                           name="email"
-                                           value="{{ old('email') }}"
-                                           required
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                                    <label for="registration-email" class="form-label">
+                                        E-Mail
+                                    </label>
+
+                                    <input
+                                        id="registration-email"
+                                        type="email"
+                                        class="form-input"
+                                        name="email"
+                                        value="{{ old('email') }}"
+                                        required
                                     >
+
                                     @if ($errors->has('email'))
-                                        <span class="invalid-feedback">
+                                        <span class="form-error">
                                             <strong>{{ $errors->first('email') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label for="password" class="form-label">Пароль</label>
-                                    <input id="password"
-                                           type="password"
-                                           class="form-input {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                           name="password"
-                                           required
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                    <label for="registration-password" class="form-label">
+                                        Пароль
+                                    </label>
+
+                                    <input
+                                        id="registration-password"
+                                        type="password"
+                                        class="form-input"
+                                        name="password"
+                                        required
                                     >
+
                                     @if ($errors->has('password'))
-                                        <span class="invalid-feedback">
+                                        <span class="form-error">
                                             <strong>{{ $errors->first('password') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                                <div class="col-sm-6 mb-3">
-                                    <label for="password-confirm" class="form-label">Подтверждение пароля</label>
-                                    <input id="password-confirm"
-                                           type="password"
-                                           class="form-input"
-                                           name="password_confirmation"
-                                           required
-                                    >
-                                </div>
                             </div>
 
-                            <div class="text-center py-4">
-                                <button type="submit" class="button button-primary login">
-                                    Создать
-                                </button>
+                            <div class="col-sm-6">
+                                <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                    <label for="registration-password-confirm" class="form-label">
+                                        Подтверждение пароля
+                                    </label>
+
+                                    <input
+                                        id="registration-password-confirm"
+                                        type="password"
+                                        class="form-input"
+                                        name="password_confirmation"
+                                        required
+                                    >
+
+                                    @if ($errors->has('password_confirmation'))
+                                        <span class="form-error">
+                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="title-label">
-                                Нажимая кнопку «Создать аккаунт», я соглашаюсь с условиями
-                                <a href="#">пользовательского соглашения</a>
-                            </div>
+                        </div>
+
+                        <div class="mt-32">
+                            <button type="submit" class="button button-primary">
+                                Создать аккаунт
+                            </button>
+                        </div>
+
+                        <div class="mt-32 auth__title-label">
+                            Нажимая кнопку «Создать аккаунт», вы соглашаетесь с условиями <a href="#" class="link">пользовательского соглашения</a>
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>

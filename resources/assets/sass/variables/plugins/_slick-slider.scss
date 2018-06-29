@@ -109,7 +109,8 @@
     background-color: $color-text-secondary-3;
     cursor: pointer;
     font-size: 0;
-    transition: .3s;
+    opacity: .5;
+    transition: all .3s;
 
     &::before{
         content: '';
@@ -123,7 +124,7 @@
 }
 
 .slick-dots .slick-active button{
-    background-color: $color-ui;
+    opacity: 1;
 }
 
 
@@ -159,29 +160,23 @@
 
 
 .slider-product {
-    margin-bottom: 24px;
+    white-space: nowrap;
 
-    .slick-slide {
-        //margin: 0 16px;
+    &:not(.slick-initialized) {
+        overflow: hidden;
+    }
 
-        a {
-            max-width: 522px;
+    &__slide {
+        vertical-align: bottom;
+        display: inline-block;
+        width: 100%;
+
+        & a {
             display: block !important;
-            background-position: center center;
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin: auto;
-
-            &::before {
-                content: '';
-                display: block;
-                padding-top: 100%;
-            }
 
             &:focus {
                 outline: none;
             }
-
         }
     }
 }
@@ -221,18 +216,7 @@
 
         .slider-nav__box {
             display: block !important;
-            background-position: center center;
-            background-size: contain;
-            background-repeat: no-repeat;
             border: 1px solid $color-border;
-            border-radius: $border-radius;
-            overflow: hidden;
-
-            &::before {
-                content: '';
-                display: block;
-                padding-top: 100%;
-            }
         }
     }
 

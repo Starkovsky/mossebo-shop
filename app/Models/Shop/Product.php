@@ -7,6 +7,10 @@ use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct
 {
+    protected $fillable = [
+        'showed'
+    ];
+
     public function prices()
     {
         return $this->morphMany(Price::class, 'item');
@@ -21,7 +25,7 @@ class Product extends BaseProduct
     {
         return $this->hasManyThrough(
             Category::class, CategoryProduct::class,
-            $this->relationFieldName, 'id'
+            $this->relationFieldName, 'id', 'id', 'category_id'
         );
     }
 
@@ -59,32 +63,28 @@ class Product extends BaseProduct
     public function image()
     {
         return $this
-            ->hasOne(Media::class, 'model_id')
-            ->where('model_type','=', 'product')
+            ->morphOne(Media::class, 'model')
             ->orderBy('order_column', 'asc');
     }
 
     public function images()
     {
         return $this
-            ->hasMany(Media::class, 'model_id')
-            ->where('model_type','=', 'product')
+            ->morphMany(Media::class, 'model')
             ->orderBy('order_column', 'asc');
     }
 
     public function currentPrice()
     {
         return $this
-            ->hasOne(Price::class, 'item_id')
-            ->where('item_type','=', 'product')
+            ->morphOne(Price::class, 'item')
             ->where('price_type_id','=', '2');
     }
 
     public function oldPrice()
     {
         return $this
-            ->hasOne(Price::class, 'item_id')
-            ->where('item_type','=', 'product')
+            ->morphOne(Price::class, 'item')
             ->where('price_type_id','=', '1');
     }
 
@@ -110,13 +110,66 @@ class Product extends BaseProduct
         return $query->first();
     }
 
+    public static function enabled()
+    {
+        $supplierTableName = config('tables.Suppliers');
+        $productTableName = config('tables.Products');
+
+        return self::select(\DB::raw("{$productTableName}.*"))
+            ->where("{$productTableName}.enabled", 1)
+            ->leftJoin("{$supplierTableName}", function($join) use($supplierTableName, $productTableName) {
+                $join->on("{$supplierTableName}.id", '=', "{$productTableName}.supplier_id")
+                    ->where("{$supplierTableName}.enabled", true);
+            });
+    }
+
     public function canBeShowed()
     {
         return
             $this->enabled &&
             $this->currentPrice &&
             $this->currentI18n &&
-            $this->image &&
+            ($this->image || $this->images) &&
             $this->supplier->enabled;
+    }
+
+    public function show()
+    {
+        $this->update([
+            'showed' => $this->showed + 1
+        ]);
+    }
+
+    public function scopeWhereStyle($query, $styleId)
+    {
+        $styleRelationsTableName = config('tables.StyleProducts');
+        $productTableName = config('tables.Products');
+
+        return $query->join($styleRelationsTableName, function($join) use($styleRelationsTableName, $productTableName, $styleId) {
+            $join->on("{$styleRelationsTableName}.product_id", '=', "{$productTableName}.id")
+                ->where("{$styleRelationsTableName}.style_id", $styleId);
+        });
+    }
+
+    public function scopeWhereRoom($query, $roomId)
+    {
+        $roomRelationsTableName = config('tables.RoomProducts');
+        $productTableName = config('tables.Products');
+
+        return $query->join($roomRelationsTableName, function($join) use($roomRelationsTableName, $productTableName, $roomId) {
+            $join->on("{$roomRelationsTableName}.product_id", '=', "{$productTableName}.id")
+                ->where("{$roomRelationsTableName}.room_id", $roomId);
+        });
+    }
+
+    public function scopeWhereCategory($query, $categoryId)
+    {
+        $categoryRelationsTableName = config('tables.CategoryProducts');
+        $productTableName = config('tables.Products');
+
+        return $query->join($categoryRelationsTableName, function($join) use($categoryRelationsTableName, $productTableName, $categoryId) {
+            $join->on("{$categoryRelationsTableName}.product_id", '=', "{$productTableName}.id")
+                ->where("{$categoryRelationsTableName}.category_id", $categoryId);
+        });
     }
 }

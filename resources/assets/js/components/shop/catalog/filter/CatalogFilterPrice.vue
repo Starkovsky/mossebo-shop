@@ -266,9 +266,20 @@
                     @click="sliderValueChanged" />
 
                 <div class="prices-slider__group">
-                    <input ref="minPrice" type="number" :value="priceFilter.value[0]" @change="inputChange">
-                    <div> &#8212; </div>
-                    <input ref="maxPrice" type="number" :value="priceFilter.value[1]" @change="inputChange">
+                    <input
+                        ref="minPrice" type="number"
+                        :value="priceFilter.value[0]"
+                        @change="inputChange"
+                        class="prices-slider__input" >
+
+                    <div class="prices-slider__separator">&#8212;</div>
+
+                    <input
+                        ref="maxPrice"
+                        type="number"
+                        :value="priceFilter.value[1]"
+                        @change="inputChange"
+                        class="prices-slider__input" >
                 </div>
 
                 <div class="prices-slider__tube">
@@ -281,97 +292,3 @@
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-
-    @import "../../../../../sass/variables/colors";
-
-    .filter-name {
-        display: block;
-        position: relative;
-        padding: 20px;
-        color: $color-text-primary;
-
-        &:hover {
-            text-decoration: none;
-
-            .symbol-icon {
-                fill: $color-text-primary;
-            }
-        }
-
-        .symbol-icon {
-            float: right;
-        }
-
-        &[aria-expanded="false"] {
-            .symbol-icon {
-                transform: rotate(0deg);
-            }
-        }
-
-        &[aria-expanded="true"] {
-            .symbol-icon {
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    .filter-desc {
-        padding: 0 20px 20px;
-    }
-
-    .prices-slider {
-        position: relative;
-
-        &__group {
-            margin-top: 15px;
-            position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            input[type="number"] {
-                font-size: 14px;
-                color: $color-text-primary;
-                line-height: normal;
-                padding: 6px 5px;
-                text-align: center;
-                display: inline-block;
-                width: 90px;
-                box-sizing: border-box;
-                border: 1px solid $color-border;
-                border-radius: 3px;
-            }
-        }
-
-        &__tube {
-            position: absolute;
-            height: 5px;
-            top: 7.5px;
-            left: 22.5px;
-            right: 22.5px;
-            z-index: 1;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-
-        &__available-process {
-            background-color: $color-primary;
-            position: absolute;
-            height: 100%;
-            top: 0;
-            transform: translate3d(0,0,0);
-            z-index: 1;
-        }
-
-        &__empty {
-            background-color: rgba(255, 255, 255, .5);
-            position: absolute;
-            height: 100%;
-            top: 0;
-            transform: translate3d(0,0,0);
-            z-index: 2;
-        }
-    }
-</style>

@@ -117,12 +117,6 @@
     &__image {
         display: block;
         transition: transform .5s, opacity .3s !important;
-
-        &::before {
-            content: '';
-            display: block;
-            padding-top: 100%;
-        }
     }
 
     &__info {
@@ -280,7 +274,7 @@
 
             &:last-child {
                 & td {
-                    border-top: 1px solid $border-color;
+                    border-top: 1px solid $color-border;
                     padding-top: 16px;
                     padding-bottom: 24px;
 

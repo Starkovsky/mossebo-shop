@@ -2,49 +2,87 @@
 
 namespace App\Http\Controllers\Shop;
 
-use App\Models\Shop\Category;
-use App\Http\Controllers\Controller;
+use SeoProxy;
+use Categories;
+use App\Models\Shop\Product;
+use App\Http\Controllers\Shop\BaseStructure\BaseStructureController;
 
-class CatalogController extends Controller
+class CatalogController extends BaseStructureController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected static $repository = Categories::class;
+
+    public function index()
     {
-        //
+        SeoProxy::setTitle('Категории');
+        SeoProxy::setDescription('Товары по категориям');
+
+        return view('shop.pages.catalog.index', [
+            'items' => static::all()
+        ]);
     }
 
-    /**
-     * Выводит весь каталог
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index($categorySlug)
+    public function category($slug)
     {
-        try {
-            $category = Category::with(['currentI18n', 'ancestors' => function($query) {
-                $query->with('currentI18n')->defaultOrder()->get();
-            }])
-                ->where('slug', '=', $categorySlug)
-                ->where('enabled', '=', 'true')
-                ->firstOrFail();
+        $category = static::find($slug);
 
-            // Проверка доступности категории
-            if ($category->enabled) {
+        $categoryChildren = Categories::enabled([
+            'image',
+            'currentI18n',
+            'productCount',
+        ])->where('parent_id', $category->id);
 
-                return view('shop.pages.catalog', [
-                    'category' => $category,
-                ]);
-            } else {
-                return abort(404);
-            }
-        } catch (\Exception $e) {
-            // TODO: Временно закоментировано, надо куда то складывать ошибки
-            return $e->getMessage();
-            //return abort(404);
+        if ($categoryChildren->count() > 0) {
+            return view('shop.pages.catalog.catalog', [
+                'category' => $category,
+                'categories' => static::makeCategoriesCollection($categoryChildren),
+            ]);
         }
+
+        $productsCount = Product::whereCategory($category->id)
+            ->count();
+
+        if ($productsCount === 0) {
+            abort(404);
+        }
+
+        return view('shop.pages.catalog.category', [
+            'category' => $category,
+        ]);
+    }
+
+    public static function all($parentId = 0)
+    {
+        $categories = static::$repository::enabled([
+            'image',
+            'currentI18n',
+            'productCount'
+        ])
+            ->where('parent_id', $parentId)
+            ->sortBy('position');
+
+        return static::makeStructureCollection(
+            $categories,
+            function ($resource) {
+                return siteUrl('catalog/' . $resource->slug);
+            }
+        );
+    }
+
+    protected static function makeCategoriesCollection($categories)
+    {
+        return static::makeStructureCollection(
+            $categories,
+            function ($resource) {
+                return siteUrl('catalog/' . $resource->slug);
+            },
+            function($resource) {
+                return $resource
+                    ->productCounts
+                    ->where('room_id', null)
+                    ->where('style_id', null)
+                    ->first()
+                    ->count;
+            }
+        );
     }
 }

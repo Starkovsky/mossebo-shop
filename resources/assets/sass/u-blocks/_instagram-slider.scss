@@ -1,8 +1,8 @@
-
 $instagram-slider--height: 600px;
 
 .instagram-slider {
     height: $instagram-slider--height;
+    margin: -32px 0 -64px;
     @include media-breakpoint-down(md) {
         display: none;
     }
@@ -58,7 +58,7 @@ $instagram-slider--height: 600px;
             position: relative;
             z-index: 1;
         }
-        .title_h2 {
+        .title-h2 {
             max-width: 400px;
             margin-top: 182px;
         }

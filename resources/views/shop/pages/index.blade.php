@@ -1,207 +1,95 @@
 @extends('shop.layouts.html')
 
-@section('title', config('app.name', 'Laravel'))
-
-@section('meta-description', 'description main page')
-
 @section('content')
-    <div class="container">
-
-        <main class="pb-4 mt-md-4">
+    <main class="content-block">
+        <div class="container">
             <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <banner-home-stock></banner-home-stock>
                 </div>
+
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
                     <banner-home-new></banner-home-new>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
-                    <product-card
-                        :product="ActionProduct"
-                    >
-                    </product-card>
-                </div>
-            </div>
-        </main>
 
-        <main class="py-4">
-            <div class="row align-items-stretch">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                    <product-sale></product-sale>
+                </div>
+
                 <div class="col-md-4">
-                    <a href="{{ route('delivery') }}" class="information-block">
+                    <a href="{{ route('help-article', ['slug' => 'delivery']) }}" class="information-block block-ui block-ui--with-hover">
                         <div class="information-block__title">Доставка</div>
                         Mossebo.Market доставляет товары по Москве и Санкт-Петербургу до порога вашей квартиры. Доставка в регионы согласуется отдельно.
                     </a>
                 </div>
+
                 <div class="col-md-4">
-                    <a href="{{ route('pay') }}" class="information-block">
+                    <a href="{{ route('help-article', ['slug' => 'pay']) }}" class="information-block block-ui block-ui--with-hover">
                         <div class="information-block__title">Оплата</div>
                         Сейчас на сайте доступна оплата по расчетному счету, в ближайшее время все заказы можно будет оплатить картой, электронными кошельками и бонусами.
                     </a>
                 </div>
+
                 <div class="col-md-4">
-                    <a href="{{ route('garant') }}" class="information-block">
+                    <a href="{{ route('help-article', ['slug' => 'garant']) }}" class="information-block block-ui block-ui--with-hover">
                         <div class="information-block__title">Гарантия</div>
                         Мы не только быстро доставляем,  но и без проблем возвращаем. В течение 14 дней без объяснения причин вы можете осуществить возврат товара.
                     </a>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
+    <main class="content-block">
+        <div class="container">
+            <h2 class="title-h2">
+                {{ __('pages/home.product_list_popular') }}
+            </h2>
 
-        <main class="py-4">
-            <h2 class="title_h2">{{ __('pages/home.product_list_popular') }}</h2>
             <product-list
-                :url="'/api/ru/catalog/osveschenie'"
-            >
-            </product-list>
-        </main>
+                :url="'{{ apiUrl('goods/popular') }}'"
+            ></product-list>
+        </div>
+    </main>
 
-        <main class="py-4">
-            <h2 class="title_h2">{{ __('pages/home.product_list_new') }}</h2>
+    <main class="content-block">
+        <div class="container">
+            <h2 class="title-h2">
+                {{ __('pages/home.product_list_new') }}
+            </h2>
+
             <product-list
-                :url="'/api/ru/catalog/osveschenie'"
-            >
-            </product-list>
-        </main>
+                :url="'{{ apiUrl('goods/new') }}'"
+            ></product-list>
+        </div>
+    </main>
 
+    <main class="content-block">
+        @include('shop.layouts.structure', [
+            'chunkName' => 'shop.chunks.structure-card',
+            'items' => app()->make(\App\Http\Controllers\Shop\RoomController::class)->all()
+        ])
+    </main>
 
-        @include('shop.chunks.rooms_chunk')
+    <main class="content-block">
+        <div class="container">
+            <h2 class="title-h2">Стили</h2>
+        </div>
 
+        @include('shop.layouts.structure', [
+            'chunkName' => 'shop.chunks.structure-card',
+            'items' => array_slice(app()->make(\App\Http\Controllers\Shop\StyleController::class)->all(), 0, 6)
+        ])
 
-
-        <main class="py-4 interior_styles">
-            <h2 class="title_h2">Стили</h2>
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/1.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Прованс
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 4 000 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/2.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Лофт
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 25 000 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/3.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Скандинавский
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 6 000 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/4.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Классический
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 3 300 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/5.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Кантри
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 8 400 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <a class="interior_styles__item"
-                       href="#"
-                    >
-                        <div class="interior_styles__item-image-box">
-                            <div class="interior_styles__item-image"
-                                 style="background-image: url('/assets/images/u-blocks/interier-styles/6.jpg');"
-                            >
-                            </div>
-                        </div>
-                        <div class="interior_styles__item-description">
-                            <div class="interior_styles__item-name">
-                                Модерн
-                            </div>
-                            <div class="interior_styles__item-amount">
-                                Более 3 500 товаров
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </main>
-
-    </div>
-
+        <div class="container">
+            @include('chunks.buttons.watch-all', ['link' => siteUrl('/styles')])
+        </div>
+    </main>
 
     <div class="instagram-slider">
         <div class="overlay">
             <div class="container">
-                <h3 class="title_h2">Наша продукция в реальных интерьерах</h3>
+                <h3 class="title-h2">Наша продукция в реальных интерьерах</h3>
                 <a href="https://www.instagram.com/remont.design/" target="_blank" class="button button-instagram">
                     Instagram
                     <svg class="symbol-icon symbol-arrow-forward">

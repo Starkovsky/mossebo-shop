@@ -2,167 +2,256 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <a href="{{ url('/' . App::getLocale()) }}" class="logo footer-logo">
-                    <svg class="symbol-icon symbol-logo">
-                        <use xlink:href="/assets/images/icons.svg#symbol-logo"></use>
-                    </svg>
-                </a>
+                <div class="footer__left">
+                    <div>
+                        <a href="{{ siteUrl() }}">
+                            <svg class="symbol-logo symbol-logo--footer">
+                                <use xlink:href="/assets/images/icons.svg#symbol-logo"></use>
+                            </svg>
+                        </a>
+                    </div>
 
-                <div class="social-links">
-                    <a href="https://www.instagram.com/remont.design/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-in">
-                            <use xlink:href="/assets/images/icons.svg#social-in"></use>
-                        </svg>
-                    </a>
-                    <a href="https://vk.com/design_mossebo" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-vk">
-                            <use xlink:href="/assets/images/icons.svg#social-vk"></use>
-                        </svg>
-                    </a>
-                    <a href="https://www.facebook.com/mossebodesign/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-fb">
-                            <use xlink:href="/assets/images/icons.svg#social-fb"></use>
-                        </svg>
-                    </a>
-                    <a href="https://ok.ru/mossebodesign" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-ok">
-                            <use xlink:href="/assets/images/icons.svg#social-ok"></use>
-                        </svg>
-                    </a>
-                    <a href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2" class="social-links__item"
-                       target="_blank">
-                        <svg class="symbol-icon social-zen">
-                            <use xlink:href="/assets/images/icons.svg#social-zen"></use>
-                        </svg>
-                    </a>
-                    <a href="https://ru.pinterest.com/mossebo0752/" class="social-links__item" target="_blank">
-                        <svg class="symbol-icon social-pi">
-                            <use xlink:href="/assets/images/icons.svg#social-pi"></use>
-                        </svg>
-                    </a>
-                    <a href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
-                       class="social-links__item d-none d-sm-inline-block d-md-inline-block d-lg-inline-block d-xl-inline-block"
-                       target="_blank">
-                        <svg class="symbol-icon social-you">
-                            <use xlink:href="/assets/images/icons.svg#social-you"></use>
-                        </svg>
-                    </a>
-                </div>
+                    <div class="social-links mt-32">
+                        <div class="social-links__container">
+                            <div class="social-links__item">
+                                <a
+                                    href="https://www.instagram.com/remont.design/"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-in"></use>
+                                    </svg>
+                                </a>
+                            </div>
 
-                <div class="footer-logo-description">
-                    {{ __('layouts.footer-logo-description') }}
-                </div>
-                <div class="footer-button-group">
-                    <div class="row justify-content-center">
-                        <div class="col-9 col-md-6">
-                            <a href="#"
-                               class="button button-light btn-block pop-up__call"
-                            >
-                                {{ __('layouts.footer-recall') }}
-                            </a>
+                            <div class="social-links__item">
+                                <a
+                                    href="https://vk.com/design_mossebo"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-vk"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="social-links__item">
+                                <a
+                                    href="https://www.facebook.com/mossebodesign/"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-fb"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="social-links__item">
+                                <a
+                                    href="https://ok.ru/mossebodesign"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-ok"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="social-links__item">
+                                <a
+                                    href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-zen"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="social-links__item">
+                                <a
+                                    href="https://ru.pinterest.com/mossebo0752/"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-pi"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="social-links__item">
+                                <a
+                                    href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
+                                    class="social-links__link"
+                                    target="_blank"
+                                    rel="nofollow noreferrer noopener"
+                                >
+                                    <svg class="social-links__icon symbol-icon">
+                                        <use xlink:href="/assets/images/icons.svg#social-you"></use>
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-9 col-md-6">
-                            <a href="#"
-                               class="button button-light btn-block pop-up__message">
-                                {{ __('layouts.footer-write') }}
-                            </a>
+                    </div>
+
+                    <div class="footer-company-info mt-24">
+                        {!! __('layouts.footer-company-info') !!}
+                    </div>
+
+                    <div class="mt-32">
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-9 col-md-6">
+                                <button class="button button-light button-long js-pop-up-call">
+                                    {{ __('layouts.footer-recall') }}
+                                </button>
+                            </div>
+
+                            <div class="col-9 col-md-6">
+                                <button class="button button-light button-long js-pop-up-message">
+                                    {{ __('layouts.footer-write') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-pay-group mt-32">
+                        <div class="footer-pay-group__container">
+                            <div class="footer-pay-group__item">
+                                <svg class="pay-visa">
+                                    <use xlink:href="/assets/images/icons.svg#pay-visa"></use>
+                                </svg>
+                            </div>
+
+                            <div class="footer-pay-group__item">
+                                <svg class="pay-maestro">
+                                    <use xlink:href="/assets/images/icons.svg#pay-maestro"></use>
+                                </svg>
+                            </div>
+
+                            <div class="footer-pay-group__item">
+                                <svg class="pay-mastercard">
+                                    <use xlink:href="/assets/images/icons.svg#pay-mastercard"></use>
+                                </svg>
+                            </div>
+
+                            <div class="footer-pay-group__item d-none">
+                                <svg class="pay-paypal">
+                                    <use xlink:href="/assets/images/icons.svg#pay-paypal"></use>
+                                </svg>
+                            </div>
+
+                            <div class="footer-pay-group__item">
+                                <svg class="pay-yandex">
+                                    <use xlink:href="/assets/images/icons.svg#pay-yandex"></use>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="footer-pay-group">
-                    <svg class="symbol-icon pay-visa">
-                        <use xlink:href="/assets/images/icons.svg#pay-visa"></use>
-                    </svg>
-                    <svg class="symbol-icon pay-maestro">
-                        <use xlink:href="/assets/images/icons.svg#pay-maestro"></use>
-                    </svg>
-                    <svg class="symbol-icon pay-mastercard">
-                        <use xlink:href="/assets/images/icons.svg#pay-mastercard"></use>
-                    </svg>
-                    <svg class="symbol-icon pay-paypal d-none">
-                        <use xlink:href="/assets/images/icons.svg#pay-paypal"></use>
-                    </svg>
-                    <svg class="symbol-icon pay-yandex">
-                        <use xlink:href="/assets/images/icons.svg#pay-yandex"></use>
-                    </svg>
-                </div>
             </div>
+
             <div class="col-md-6">
                 <div class="row footer-nav">
                     <div class="col-md-4">
                         <nav>
-                            <div class="footer-nav-title">Магазин</div>
-                            <ul class="footer-nav-links">
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Каталог</a>
+                            <div class="footer-nav__title">
+                                Магазин
+                            </div>
+
+                            <ul class="footer-nav__links">
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('catalog') }}" class="footer-nav__link link">Каталог</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Стили</a>
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('styles') }}" class="footer-nav__link link">Стили</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Комплекты</a>
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('rooms') }}" class="footer-nav__link link">Комнаты</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Распродажа</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Комплекты</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Новинки</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Распродажа</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Топ-продаж</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Новинки</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Наш выбор</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Топ-продаж</a>
                                 </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="col-md-4">
-                        <nav>
-                            <div class="footer-nav-title">Покупателю</div>
-                            <ul class="footer-nav-links">
-                                <li class="footer-nav-links__item">
-                                    <a href="{{ route('delivery') }}">Доставка</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="{{ route('pay') }}">Оплата</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="{{ route('garant') }}">Гарантии</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Поддержка</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Акции</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Отзывы</a>
-                                </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">FAQ</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Наш выбор</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+
                     <div class="col-md-4">
                         <nav>
-                            <div class="footer-nav-title">Компания</div>
-                            <ul class="footer-nav-links">
-                                <li class="footer-nav-links__item">
-                                    <a href="#">О нас</a>
+                            <div class="footer-nav__title">
+                                Покупателю
+                            </div>
+
+                            <ul class="footer-nav__links">
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('help-article', ['slug' => 'delivery']) }}" class="footer-nav__link link">Доставка</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Проекты</a>
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('help-article', ['slug' => 'pay']) }}" class="footer-nav__link link">Оплата</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Блог</a>
+                                <li class="footer-nav__item">
+                                    <a href="{{ route('help-article', ['slug' => 'garant']) }}" class="footer-nav__link link">Гарантии</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Вакансии</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Поддержка</a>
                                 </li>
-                                <li class="footer-nav-links__item">
-                                    <a href="#">Контакты</a>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Акции</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Отзывы</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">FAQ</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="col-md-4">
+                        <nav>
+                            <div class="footer-nav__title">
+                                Компания
+                            </div>
+
+                            <ul class="footer-nav__links">
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">О нас</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Проекты</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Блог</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Вакансии</a>
+                                </li>
+                                <li class="footer-nav__item">
+                                    <a href="#" class="footer-nav__link link">Контакты</a>
                                 </li>
                             </ul>
                         </nav>
@@ -178,7 +267,7 @@
         <div class="row align-items-center">
             <div class="col-md-7">
                 <div class="rcopy">
-                    &copy; 2017-@php echo date("Y") @endphp Mossebo.Market
+                    &copy; 2017-{{ date("Y") }} Mossebo.Market
                 </div>
             </div>
             <div class="col-md-5 footer-bottom__links">
@@ -186,6 +275,7 @@
                     <div class="col-lg-6">
                         <a href="#" class="footer-link">Правила пользования</a>
                     </div>
+
                     <div class="col-lg-6">
                         <a href="{{ route('privacy') }}" class="footer-link">Политика конфиденциальности</a>
                     </div>
@@ -196,83 +286,118 @@
 </div>
 
 
-<!-- Modal Call-back -->
-<div id="pop-up__call" class="pop-up mfp-hide animated zoomIn">
+<!-- Modal Callback -->
+<div id="pop-up-call" class="pop-up mfp-hide animated zoomIn">
     <div class="block-ui">
         <form>
-            <div class="pop-up__title title_h3">
+            <div class="pop-up__title title-h3">
                 Обратный звонок
             </div>
+
             <div class="pop-up__desc">
                 Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
             </div>
-            <div class="pop-up__input">
-                <label for="pop-up__call_name" class="form-label">Имя</label>
-                <input id="pop-up__call_name"
-                       type="text"
-                       class="form-input mb-3"
-                       name="name"
-                       value=""
-                       required
-                >
-                <label for="pop-up__call_tel" class="form-label">Телефон</label>
-                <input id="pop-up__call_tel"
-                       type="tel"
-                       class="form-input"
-                       name="tel"
-                       value=""
-                       required
-                >
-            </div>
-            <button type="submit" class="button button-primary">
-                Отправить
-            </button>
 
+            <div class="pop-up__input">
+                <div class="form-group">
+                    <label for="pop-up__call_name" class="form-label">
+                        Имя
+                    </label>
+
+                    <input
+                        id="pop-up__call_name"
+                        type="text"
+                        class="form-input"
+                        name="name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group mt-24">
+                    <label for="pop-up__call_tel" class="form-label">
+                        Телефон
+                    </label>
+
+                    <input
+                        id="pop-up__call_tel"
+                        type="tel"
+                        class="form-input"
+                        name="tel"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="mt-24">
+                <button type="submit" class="button button-primary">
+                    Отправить
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
 <!-- Modal msg-back -->
-<div id="pop-up__message" class="pop-up mfp-hide animated zoomIn">
+<div id="pop-up-message" class="pop-up mfp-hide animated zoomIn">
     <div class="block-ui">
         <form>
-            <div class="pop-up__title title_h3">
+            <div class="pop-up__title title-h3">
                 Напишите нам
             </div>
+
             <div class="pop-up__desc">
                 Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
             </div>
-            <div class="pop-up__input">
-                <label for="pop-up__message_name" class="form-label">Имя</label>
-                <input id="pop-up__message_name"
-                       type="text"
-                       class="form-input mb-3"
-                       name="name"
-                       value=""
-                       required
-                >
-                <label for="pop-up__message_tel" class="form-label">Телефон</label>
-                <input id="pop-up__message_tel"
-                       type="tel"
-                       class="form-input mb-3"
-                       name="tel"
-                       value=""
-                       required
-                >
-                <label for="pop-up__message_message" class="form-label">Ваше сообщение</label>
-                <textarea id="pop-up__message_message"
-                          rows="6"
-                          class="form-input"
-                          name="message"
-                          value=""
-                          required
-                >
-                </textarea>
-            </div>
-            <button type="submit" class="button button-primary">
-                Отправить
-            </button>
 
+            <div class="pop-up__input">
+                <div class="form-group">
+                    <label for="pop-up__message_name" class="form-label">
+                        Имя
+                    </label>
+
+                    <input
+                        id="pop-up__message_name"
+                        type="text"
+                        class="form-input"
+                        name="name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group mt-24">
+                    <label for="pop-up__message_tel" class="form-label">
+                        Телефон
+                    </label>
+
+                    <input
+                        id="pop-up__message_tel"
+                        type="tel"
+                        class="form-input"
+                        name="tel"
+                        required
+                    >
+                </div>
+
+                <div class="form-group mt-24">
+                    <label for="pop-up__message_message" class="form-label">
+                        Ваше сообщение
+                    </label>
+
+                    <textarea
+                        id="pop-up__message_message"
+                        rows="6"
+                        class="form-input"
+                        name="message"
+                        required
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="mt-24">
+                <button type="submit" class="button button-primary">
+                    Отправить
+                </button>
+            </div>
         </form>
     </div>
 </div>

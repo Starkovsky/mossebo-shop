@@ -1,0 +1,2 @@
+export const CATALOG_SET_PAGE = 'CATALOG_SET_PAGE'
+export const CATALOG_READY = 'CATALOG_READY'

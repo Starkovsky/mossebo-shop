@@ -161,8 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\MorphServiceProvider::class,
         App\Providers\RepoServiceProvider::class,
-
-
+        App\Providers\HelpersServiceProvider::class,
     ],
 
     /*
@@ -211,5 +210,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+
+
+        'SeoProxy' => App\Seo\SeoProxy::class
     ],
 ];

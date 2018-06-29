@@ -1,6 +1,14 @@
 // Всплывашки.
 
-;(function() {
+const MakeHtUniqueId = (() => {
+    let counter = 0
+
+    return () => {
+        return btoa((new Date()).getTime() + counter++).replace('=', '')
+    }
+})();
+
+(function() {
     "use strict";
 
     var pluginName = 'heightToggle';
@@ -11,6 +19,7 @@
         bindCloseEvents: false,
         isOpened: false,
         toggleCaption: false,
+        element: null
     }
 
     function Plugin( el, options ) {
@@ -24,11 +33,16 @@
         _.loadOptions(options || {});
 
         _.els = {};
+        _.id = MakeHtUniqueId();
 
         try{
             _.els.trigger = el;
 
-            if (href = el.getAttribute('data-href')) {
+            if (_.opt.element) {
+                _.els.container = _.opt.element
+                _.opt.element = null
+            }
+            else if (href = el.getAttribute('data-href')) {
                 _.els.container = document.querySelector(href);
             }
             else if (_.opt.containerQuery !== defaultOptions.containerQuery) {
@@ -111,10 +125,10 @@
             e.stopPropagation();
 
             if (_.active) {
-                _.dispatchEvent('HT::opened');
+                _.dispatchEvent('HT::after-open');
             }
             else {
-                _.dispatchEvent('HT::closed');
+                _.dispatchEvent('HT::after-close');
             }
         }, { passive: true })
     }
@@ -126,6 +140,7 @@
             _.active = false;
             _.els.trigger.classList.remove('is-active');
             _.els.container.classList.remove('is-active');
+            _.dispatchEvent('HT::before-close');
         }
 
         if (_.opt.minH) {
@@ -143,6 +158,7 @@
             _.active = true;
             _.els.trigger.classList.add('is-active');
             _.els.container.classList.add('is-active');
+            _.dispatchEvent('HT::before-open');
         }
 
         _.els.container.style.maxHeight = _.maxH + 'px';
@@ -184,19 +200,39 @@
     }
 
     Plugin.prototype.windowClick = function (e) {
-        var _ = this,
-            el = e.target;
+        var _ = this;
+
+        if (_.eventHandled(e)) return
+
+        var el = e.target;
 
         if (_.els.trigger.contains(el)) {
             _.toggle();
-            e.stopPropagation();
+            _.handleEvent(e)
         }
         else if (_.els.container.contains(el)) {
-            e.stopPropagation();
+            _.handleEvent(e)
         }
         else if (_.opt.bindCloseEvents) {
             _.close();
+            _.handleEvent(e)
         }
+    }
+
+    Plugin.prototype.eventHandled = function(e) {
+        if ('htHandled' in e && e.htHandled.indexOf(this.id) !== -1) {
+            return true
+        }
+
+        return false
+    }
+
+    Plugin.prototype.handleEvent = function(e) {
+        if (! ('htHandled' in e)) {
+            e.htHandled = []
+        }
+
+        e.htHandled.push(this.id)
     }
 
     Plugin.prototype.keydown = function (e) {

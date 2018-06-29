@@ -20,7 +20,7 @@ export default {
 
     watch: {
         loading() {
-            // если ответ с сервера приходит менее чем за 100мс - никакой анимации загрузки не будет.
+            // если ответ с сервера приходит менее чем за 200мс - никакой анимации загрузки не будет.
             // если больше - включается загрузка, которая продлится не менее чем 300мс, чтобы избежать мигания.
             if (this.loading) {
                 this.startLoadingDebounce()
@@ -36,11 +36,11 @@ export default {
 
         this.startLoadingDebounce = _.debounce(() => {
             this.startInnerLoading()
-        }, 100)
+        }, 200)
 
         this.stopLoadingDebounce = _.debounce(() => {
             this.stopInnerLoading()
-        }, 100)
+        }, 200)
     },
 
     methods: {

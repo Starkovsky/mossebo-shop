@@ -10,16 +10,29 @@ export default  {
             type: Number,
             default: 1000
         },
-        index: Number
+        index: Number,
+        reset: {
+            type: Boolean,
+            default: false,
+        }
     },
 
     data() {
         return {
             loaded: false,
             animate: false,
+            empty: false,
             // todo: протестировать в ie
-            image$: 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
+            image$: '',
         }
+    },
+
+    created() {
+        this.init()
+    },
+
+    beforeDestroy() {
+        this.unbindEvents()
     },
 
     methods: {
@@ -39,7 +52,12 @@ export default  {
             if (typeof cb !== 'function') return
 
             if (this.isLoaded(elImg)) {
-                this.animate = false
+                if (this.reset) {
+                    this.animate = true
+                }
+                else {
+                    this.animate = false
+                }
 
                 cb()
             }
@@ -64,8 +82,16 @@ export default  {
         },
 
         load() {
+            let image = this.getResponsiveImage()
+
+            if (! image) {
+                this.loaded = true
+                this.empty = true
+                return
+            }
+
             let elImg = document.createElement('img')
-            elImg.src = this.getResponsiveImage()
+            elImg.src = image
 
             this.onLoad(elImg, () => {
                 this.loaded = true
@@ -89,16 +115,12 @@ export default  {
         },
 
         bindEvents() {
-            this.handler = () => {
-                clearTimeout(this.timeout)
-
-                this.timeout = setTimeout(() => {
-                    if (this.isNeedToShow()) {
-                        this.load()
-                        this.unbindEvents()
-                    }
-                }, 60)
-            }
+            this.handler = _.throttle(() => {
+                if (this.isNeedToShow()) {
+                    this.load()
+                    this.unbindEvents()
+                }
+            })
 
             window.addEventListener('scroll', this.handler, { passive: true })
             document.addEventListener('DOMSubtreeModified', this.handler)
@@ -126,13 +148,5 @@ export default  {
             })
         }
     },
-
-    created() {
-        this.init()
-    },
-
-    beforeDestroy() {
-        this.unbindEvents()
-    }
 }
 

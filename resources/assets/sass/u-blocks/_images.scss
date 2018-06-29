@@ -1,8 +1,23 @@
+img {
+    max-width: 100%;
+    vertical-align: bottom;
+}
+
+.bg-image,
 .bg-image-loader {
-    opacity: 0;
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+}
+
+.bg-image-loader {
+    opacity: 0;
 }
 
 .bg-image-loader.loaded {
@@ -16,7 +31,7 @@
 }
 
 
-.image-loader{
+.image-loader {
     opacity: 0;
 }
 
@@ -27,5 +42,10 @@
 .image-loader.animate {
     transition: opacity .772s;
     transform: translate3d(0, 0 ,0);
+    overflow: hidden;
+}
+
+.br-image {
+    border-radius: $border-radius;
     overflow: hidden;
 }

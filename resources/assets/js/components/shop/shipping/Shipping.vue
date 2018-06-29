@@ -12,7 +12,7 @@
 
         <div class="shipping__form">
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[name]')}">
                         <label for="shipping-name" class="form-label">
                             {{ $root.translate('form.fields.name') }}
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[surname]')}">
                         <label for="shipping-surname" class="form-label">
                             {{ $root.translate('form.fields.surname') }}
@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[phone]')}">
                         <label for="shipping-phone" class="form-label">
                             {{ $root.translate('form.fields.phone') }}
@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[email]')}">
                         <label for="shipping-email" class="form-label">
                             {{ $root.translate('form.fields.email') }}
@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[city]')}">
                         <label for="shipping-city" class="form-label">
                             {{ $root.translate('form.fields.city') }}
@@ -110,7 +110,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[post_code]')}">
                         <label for="shipping-post-code" class="form-label">
                             {{ $root.translate('form.fields.post_code') }}
@@ -132,7 +132,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-12">
                     <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[address]')}">
                         <label for="shipping-address" class="form-label">
                             {{ $root.translate('form.fields.address') }}

@@ -2,7 +2,7 @@
     <component
         :is="tag"
         @click="click"
-        :class="{'button button-loading': true, 'is-loading': loading}"
+        :class="{'button-loading': true, 'is-loading': loading}"
     >
         <div class="button-loading__content">
             <slot></slot>
@@ -23,6 +23,7 @@
                 type: String,
                 default: 'button'
             },
+
             loading: Boolean
         },
 

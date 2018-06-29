@@ -95,6 +95,22 @@
             margin-right: 16px;
         }
     }
+
+    &-shadow {
+        box-shadow: $shadows-primary;
+        background: $color-ui;
+        color: $color-text-primary;
+
+        &:hover {
+            color: $color-text-primary;
+            box-shadow: $shadows-hover;
+        }
+    }
+
+    &-long {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 .input-group {

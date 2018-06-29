@@ -1,0 +1,15 @@
+.content-block {
+    margin: 48px auto;
+
+    @include media-breakpoint-up(lg) {
+        margin: 80px auto;
+    }
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}

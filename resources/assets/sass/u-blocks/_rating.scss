@@ -12,11 +12,14 @@
 
     &__icon {
         position: relative;
-        fill: $color-ui;
-        width: 80px;
         z-index: 2;
-        vertical-align: middle;
-        margin-top: -2px;
+        width: 80px;
+        height: 19px;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url('/assets/images/icons/stars/80.png');
+        margin: -1px 0;
     }
 
     &__percent {
@@ -33,6 +36,12 @@
         padding-top: 1px;
     }
 
+    &--sm &__icon {
+        width: 56px;
+        height: 14px;
+        background-image: url('/assets/images/icons/stars/56.png');
+    }
+
     &--lg {
         font-size: 14px / 17px;
     }
@@ -43,5 +52,7 @@
 
     &--lg &__icon {
         width: 120px;
+        height: 28px;
+        background-image: url('/assets/images/icons/stars/120.png');
     }
 }

@@ -6,16 +6,16 @@
 
         <template slot="back">
             <a href="/" class="button button-light">
-                <!--<svg class="button__icon button__icon&#45;&#45;left">-->
-                    <!--<use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use>-->
-                <!--</svg>-->
-
                 На главную
             </a>
         </template>
 
         <template slot="forward">
-            <button @click="toStep('shipping')" :class="{button: true, 'button-primary': !nextDisabled, 'button-light': nextDisabled}" :disabled="nextDisabled">
+            <button
+                @click="toStep('shipping')"
+                :class="{button: true, 'button-primary': !nextDisabled, 'button-light': nextDisabled}"
+                :disabled="nextDisabled"
+            >
                 Оформить заказ
 
                 <svg class="button__icon button__icon--right">

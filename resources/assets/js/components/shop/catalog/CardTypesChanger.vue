@@ -25,7 +25,7 @@
         name: "CardTypesChanger",
 
         mounted() {
-            $('[data-toggle="tooltip"]').tooltip()
+            this.$root.initTooltips()
         },
 
         methods: {

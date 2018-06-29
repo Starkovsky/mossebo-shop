@@ -25,32 +25,5 @@
 
     @import "../../sass/variables/colors";
 
-    body {
-        margin-top: 0.2em;
-    }
 
-    .scrollbar-progress {
-        left:0;
-        width: 100%;
-        height: 0.3em;
-        margin-bottom: 0px;
-        position: fixed;
-        top: 0px;
-        z-index: 99999;
-        overflow: hidden;
-        background-color: $color-ui;
-        content: "";
-        display: table;
-        table-layout: fixed;
-    }
-
-    .scrollbar-progress__bar {
-        width: 0%;
-        float: left;
-        z-index: 999999;
-        height: 100%;
-        max-width: 100%;
-        background-color: $color-primary;
-        //transition: width .2s ease;
-    }
 </style>

@@ -1,0 +1,31 @@
+.timer {
+    overflow: hidden;
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -34px 0 -15px -15px;
+        padding: 15px 0;
+    }
+
+    &__num {
+        display: flex;
+        padding: 19px 0 0 19px;
+    }
+}
+
+
+.action-small-timer {
+    display: inline-block;
+    vertical-align: bottom;
+    font-size: 14px / 17px;
+
+    &__label {
+        color: $color-danger;
+        margin-bottom: 8px;
+    }
+
+    &__timer {
+        color: $color-text-primary;
+    }
+}

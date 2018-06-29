@@ -7,6 +7,7 @@ use App\Http\Resources\AttributeResource;
 
 class FilterController extends ApiController
 {
+
     /**
      * Отдает все фильтры.
      *

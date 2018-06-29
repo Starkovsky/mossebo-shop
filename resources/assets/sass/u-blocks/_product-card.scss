@@ -1,13 +1,9 @@
 .product-card,
 .product-card-long,
-.product-card-mobile {
+.product-card-mobile,
+.product-card-sale {
     padding: 24px;
     position: relative;
-    transition: box-shadow .3s;
-
-    &:hover {
-        box-shadow: $shadows-hover;
-    }
 
     &__link {
         display: block;
@@ -28,12 +24,6 @@
         background-size: contain;
         background-position: center center;
         background-repeat: no-repeat;
-
-        &:before {
-            content: "";
-            display: block;
-            padding-top: 100%;
-        }
     }
 
     &__name {
@@ -77,6 +67,8 @@
 }
 
 .product-card {
+    min-height: 420px;
+
     &__actions {
         margin-bottom: 8px;
     }
@@ -150,10 +142,8 @@
     }
 }
 
-
-
 .product-card-mobile {
-    padding: 16px 8px;
+    padding: 8px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -203,6 +193,69 @@
 }
 
 
+.product-card-sale {
+    min-height: 420px;
+    padding: 16px;
+
+    &__actions {
+        position: absolute;
+        right: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+        padding: 24px;
+
+        &__actions {
+            right: 24px;
+        }
+    }
+
+
+
+    &--small &__timer,
+    &__actions {
+        margin-bottom: 8px;
+    }
+
+    &__image-box {
+        margin-bottom: 7px;
+    }
+
+    &__prices {
+        position: relative;
+    }
+
+    &__price {
+        font-size: 18px / 24px;
+        height: 24px;
+        margin-top: 16px;
+    }
+
+    &:not(&--small) &__name {
+        font-size: 20px / 24px;
+        height: 48px;
+        margin-bottom: 7px;
+    }
+
+    &:not(&--small) &__image-box {
+        margin-bottom: 24px;
+    }
+
+    &:not(&--small) &__timer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+
+    &__thumbs {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        z-index: 2;
+    }
+}
+
+
 .product-actions {
     overflow: hidden;
     display: inline-block;
@@ -238,5 +291,39 @@
                 fill: $color-text-primary;
             }
         }
+    }
+}
+
+.product-thumbs {
+    overflow: hidden;
+
+    &__container {
+        margin: -10px 0 0 -10px;
+    }
+
+    &__item {
+        padding: 10px 0 0 10px;
+    }
+
+    &__btn {
+        width: 60px;
+        height: 60px;
+        padding: 6px;
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        background-color: $color-ui;
+        cursor: pointer;
+    }
+
+    &__image {
+        display: block;
+
+        &.loaded {
+            transition: all .772s, background 0ms;
+        }
+    }
+
+    &__btn:hover &__image {
+        transform: scale(1.1);
     }
 }

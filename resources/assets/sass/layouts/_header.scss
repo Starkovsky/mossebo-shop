@@ -1,66 +1,109 @@
 .header {
-    background: $color-ui;
-    box-shadow: $shadows-primary;
-    @include media-breakpoint-down(md) {
-        position: fixed;
-        width: 100%;
-        top: 0.2em;
-        z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    height: 56px;
+
+    @include media-breakpoint-up(lg) {
+        height: 70px;
     }
+
+    &__fixer {
+        flex: 1 0 auto;
+    }
+
+    &__fixed {
+        width: 100%;
+        background: $color-ui;
+
+        @include media-breakpoint-down(md) {
+            box-shadow: $shadows-primary;
+        }
+    }
+
+    &.fixed {
+        z-index: 10;
+        position: relative;
+    }
+
+    &.fixed &__fixed {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: $shadows-primary;
+        transition: transform .3s;
+
+        &.from-top {
+            transform: translate3d(0, -100%, 0);
+            transition: transform 0s;
+        }
+    }
+
     &__title {
         padding-top: 35px;
     }
 
-
-    .mobile-catalog,
+    .mobile-catalog-btn,
     .location,
     .cart-btn,
     .search,
     .profile,
-    .cart-btn,
-    .logo {
+    .cart-btn {
         margin-left: 0;
         padding: 15px;
         min-width: 55px;
-        display: block;
         white-space: nowrap;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        line-height: 1.4;
+        color: $color-text-primary;
+        overflow: hidden;
     }
 
-    .logo {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        @include media-breakpoint-down(md) {
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-    }
     .phone {
         font-size: 16px;
         color: $color-text-primary;
         display: inline-block;
+
         small {
             color: $color-text-secondary;
             font-size: 12px;
             margin-left: 8px;
         }
     }
+
     &-float {
         overflow: visible;
         display: flex;
-        margin-left: -15px;
-        margin-right: -15px;
+        margin: 0 -16px;
 
-        &-item {
+        height: 56px;
+
+        @include media-breakpoint-up(lg) {
+            height: 70px;
+        }
+
+        @include media-breakpoint-up(sm) {
+            border-left: 1px solid $color-border;
+            border-right: 1px solid $color-border;
+            margin: 0;
+        }
+
+        @include media-breakpoint-up(lg) {
+            border: none;
+            margin: 0 -16px;
+        }
+
+        &__item {
             display: flex;
             justify-content: flex-start;
             align-items: center;
             position: relative;
-            height: 70px;
+            height: 100%;
             box-sizing: border-box;
 
             @include media-breakpoint-down(md) {
-                height: 55px;
-
                 &:not(:first-child) {
                     border-left: 1px solid $color-border;
                 }
@@ -75,6 +118,7 @@
 
             &--logo {
                 width: auto;
+                padding-left: 16px;
 
                 @include media-breakpoint-down(md) {
                     width: 100%;
@@ -97,11 +141,9 @@
 
             &--city {
                 width: 100%;
-                padding-left: 52px;
+                padding-left: 68px;
                 flex: 1;
-                .ht-container {
-                    margin-left: 49px;
-                }
+
                 @include media-breakpoint-down(md) {
                     display: none;
                 }
@@ -109,7 +151,7 @@
         }
     }
 
-    .mobile-catalog {
+    .mobile-catalog-btn {
         display: block;
         color: $color-primary;
 
@@ -118,23 +160,10 @@
         }
     }
 
-    &-mobile-fix {
-        display: none;
-        height: 74px;
-
-        @include media-breakpoint-down(md) {
-            display: block;
-        }
-    }
-
-
     .location {
-        display: block;
         position: relative;
         transition: $transition-primary;
-        color: $color-text-primary;
-        line-height: 1.4;
-        width: 220px;
+
         .symbol-location {
             transition: $transition-primary;
             fill: $color-icons;
@@ -146,10 +175,12 @@
             margin-right: 8px;
         }
         &-name {
-            font-size: 14px;
+            padding-top: 1px;
+            font-size: 14px / 17px;
         }
         &-phone {
-            font-size: 12px;
+            font-size: 12px / 14px;
+            margin-top: 2px;
             color: $color-text-secondary;
         }
         &:hover {
@@ -164,9 +195,6 @@
     }
 
     .search {
-        display: block;
-        color: $color-text-primary;
-        line-height: 1.4;
         .symbol-person {
             transition: $transition-primary;
             fill: $color-icons;
@@ -179,7 +207,8 @@
             }
         }
         &-name {
-            font-size: 14px;
+            padding-top: 1px;
+            font-size: 14px / 17px;
             @include media-breakpoint-down(md) {
                 display: none;
             }
@@ -196,9 +225,6 @@
     }
 
     .profile {
-        display: block;
-        color: $color-text-primary;
-        line-height: 1.4;
         .symbol-person {
             transition: $transition-primary;
             fill: $color-icons;
@@ -210,7 +236,8 @@
             }
         }
         &-name {
-            font-size: 14px;
+            font-size: 14px / 17px;
+            padding-top: 1px;
             @include media-breakpoint-down(md) {
                 display: none;
             }
@@ -230,11 +257,8 @@
     }
 
     .cart-btn {
-        display: block;
         position: relative;
         transition: $transition-primary;
-        color: $color-text-primary;
-        line-height: 1.4;
 
         .symbol-cart {
             transition: $transition-primary;
@@ -253,15 +277,17 @@
         }
 
         &-name {
-            font-size: 14px;
+            font-size: 14px / 17px;
+            padding-top: 1px;
             @include media-breakpoint-down(md) {
                 display: none;
             }
         }
 
         &-result {
-            font-size: 12px;
+            font-size: 12px / 14px;
             color: $color-text-secondary;
+            margin-top: 2px;
             @include media-breakpoint-down(md) {
                 display: none;
             }
@@ -288,7 +314,7 @@
             top: 15px;
             background: #FF9001;
             color: $color-ui;
-            font-size: 10px;
+            font-size: 10px / 1;
             font-weight: 400;
             padding: 3px 0 2px;
             border-radius: 50%;
@@ -306,21 +332,10 @@
         }
     }
 }
-.logo {
-    display: block;
-    color: $color-text-primary;
-    @include media-breakpoint-down(md) {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    &:hover {
-        text-decoration: none;
-        color: $color-text-primary;
-    }
-    &__description {
-        font-size: 16px;
-    }
-}
+
 .logout {
     color: $color-danger;
 }
+
+
+

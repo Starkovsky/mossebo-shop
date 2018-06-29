@@ -8,7 +8,7 @@
             target="_blank"
         >
             <background-image-loader
-                class="product-short-description__image"
+                class="product-short-description__image product-image"
                 :image="prepareImage(product.image.src)"
                 :retina-image="prepareImage(product.image.srcset)"
             ></background-image-loader>

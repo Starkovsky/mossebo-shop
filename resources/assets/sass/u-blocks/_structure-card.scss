@@ -1,0 +1,56 @@
+.structure-card {
+    display: block;
+
+    &__image {
+        position: relative;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        background-image: url('/assets/images/empty--mid.png');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+
+        &::before {
+            content: "";
+            display: block;
+            padding-top: 60%;
+            position: relative;
+            background: #fff;
+            opacity: .2;
+            transition: opacity $transition-primary;
+        }
+
+        &.empty {
+            background-size: contain;
+        }
+    }
+
+    &__description {
+        padding: 16px 24px 32px;
+        border-top: 1px solid $color-border;
+    }
+
+    &__name {
+        font-size: 24px / 32px;
+        margin-bottom: 8px;
+        color: $color-text-primary;
+        transition: $transition-primary;
+    }
+
+    &__amount {
+        font-size: 14px / 17px;
+        color: $color-text-secondary;
+    }
+}
+
+a.structure-card:hover .structure-card__image::before {
+    opacity: 0;
+}
+
+a.structure-card:hover .structure-card__name {
+    color: $color-primary;
+    text-decoration: none;
+}

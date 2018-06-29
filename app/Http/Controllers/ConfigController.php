@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Cities;
+use App\Http\Resources\CityResource;
 
 class ConfigController extends Controller
 {
@@ -21,12 +23,29 @@ class ConfigController extends Controller
         ];
 
         $this->__connectTranslates($config);
+        $this->__connectLocations($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
     }
 
+
+    // todo: Добавлять только нужные для страницы переводы?
     protected function __connectTranslates(& $config)
     {
         $config['translates'] = \Lang::get('js');
+    }
+
+    protected function __connectLocations(& $config)
+    {
+        $cities = Cities::enabled('currentI18n');
+
+        if ($cities->count() > 0) {
+            $userCity = LocationController::getUserCity();
+
+            $config['location'] = [
+                'userCity' => $userCity->id,
+                'cities' => CityResource::collection($cities),
+            ];
+        }
     }
 }

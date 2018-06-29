@@ -10,48 +10,62 @@ html, body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.title_h1 {
+.title-h1 {
     font-size: 40px;
-    color: $color-text-primary;
+    margin-bottom: 32px;
+
     @include media-breakpoint-down(lg) {
         font-size: 32px;
     }
+
     @include media-breakpoint-down(md) {
         font-size: 28px;
     }
+
     @include media-breakpoint-down(sm) {
         font-size: 24px;
     }
 }
 
-.title_h2 {
+.title-h2 {
     font-size: 32px;
-    color: $color-text-primary;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+
     @include media-breakpoint-down(lg) {
         font-size: 28px;
     }
+
     @include media-breakpoint-down(md) {
         font-size: 24px;
     }
+
     @include media-breakpoint-down(sm) {
         font-size: 20px;
     }
 }
 
-.title_h3 {
+.title-h3 {
     font-size: 24px;
-    color: $color-text-primary;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+
     @include media-breakpoint-down(lg) {
         font-size: 22px;
     }
+
     @include media-breakpoint-down(md) {
         font-size: 20px;
     }
+
     @include media-breakpoint-down(sm) {
         font-size: 18px;
     }
+}
+
+.title-h1,
+.title-h2,
+.title-h3 {
+    color: $color-text-primary;
+    line-height: 1.2em;
 }
 
 .block-ui {
@@ -61,36 +75,13 @@ html, body {
     font-size: 14px;
     font-weight: 400;
     color: $color-text-secondary;
-}
 
-// TODO: Блоки с Доставкой Оплатой и Гарантией на главной (временно)
-.information-block {
-    display: block;
-    border-radius: $radius;
-    box-shadow: $shadows-primary;
-    background: $color-ui;
-    font-size: 14px;
-    font-weight: 400;
-    color: $color-text-secondary;
-    padding: 25px;
-    height: 100%;
-    transition: $transition-primary;
-    &:hover {
-        color: $color-text-primary;
-        text-decoration: none;
-        .information-block__title {
-            color: $color-primary;
+    &--with-hover {
+        transition: $transition-primary;
+
+        &:hover {
+            box-shadow: $shadows-hover;
         }
     }
-    @include media-breakpoint-down(sm) {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        height: auto;
-    }
-    &__title {
-        font-size: 24px;
-        color: $color-text-primary;
-        margin-bottom: 15px;
-        transition: $transition-primary;
-    }
 }
+

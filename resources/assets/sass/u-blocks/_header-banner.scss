@@ -1,0 +1,29 @@
+.header-banner-wrap {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 17.5347%;
+    }
+}
+
+.header-banner {
+    background-size: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@include media-breakpoint-up(sm) {
+    .header-banner-wrap {
+        height: 56px;
+
+        &::before {
+            content: none;
+        }
+    }
+}

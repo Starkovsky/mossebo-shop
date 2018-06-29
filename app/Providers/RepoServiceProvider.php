@@ -43,5 +43,17 @@ class RepoServiceProvider extends ServiceProvider
                 \App\Models\Shop\Currency::class
             );
         });
+
+        $this->app->singleton('cities', function() {
+            return new \MosseboShopCore\Repositories\CityRepository(
+                \App\Models\City::class
+            );
+        });
+
+        $this->app->singleton('countries', function() {
+            return new \MosseboShopCore\Repositories\CountryRepository(
+                \App\Models\Country::class
+            );
+        });
     }
 }

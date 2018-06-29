@@ -6,7 +6,6 @@
 
     &__item {
         font-size: 14px / 17px;
-        font-weight: 400;
         cursor: pointer;
         user-select: none;
         padding: 16px;
@@ -14,11 +13,10 @@
         transition: color .4s;
         width: 100%;
         text-align: left;
-        cursor: pointer;
+        font-weight: 500;
 
         &.is-active {
             color: $color-primary;
-            font-weight: 500;
         }
     }
 

@@ -18,7 +18,8 @@ export default class SmoothScrollProxy {
 
     getOffset() {
         if (window.innerWidth < 992) {
-            return document.querySelector('.js-header-mobile-fix').clientHeight
+            return 0
+            // return document.querySelector('.js-header-mobile-fix').clientHeight
         }
         else {
             return 0

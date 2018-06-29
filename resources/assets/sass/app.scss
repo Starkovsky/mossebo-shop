@@ -7,44 +7,63 @@
 @import "variables/popup";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
-// magnific-popup
-@import "~magnific-popup/src/css/main";
+//@import '~bootstrap/scss/bootstrap';
+@import "bootstrap/bootstrap";
 
 // Icons
 @import "variables/icons";
 
-//Layouts
-@import "layouts/header";
-@import "layouts/header-navigation";
-@import "layouts/footer";
-@import "layouts/shop-breadcrumb";
-@import "layouts/faq-sub-nav";
+//Global Styles
+@import "animations";
+@import "global";
+
+// magnific-popup
+@import "~magnific-popup/src/css/main";
 
 // Universal Blocks
+@import "u-blocks/images";
+
+@import "u-blocks/article";
 @import "u-blocks/attributes";
+@import "u-blocks/banner";
 @import "u-blocks/dropdown";
 @import "u-blocks/filters";
+@import "u-blocks/header-banner";
 @import "u-blocks/height-toggle";
 @import "u-blocks/huge-radio";
-@import "u-blocks/images";
-@import "u-blocks/interior-styles";
+@import "u-blocks/information-block";
+@import "u-blocks/structure-card";
 @import "u-blocks/label-value-table";
 @import "u-blocks/links";
+@import "u-blocks/loading-wrap";
 @import "u-blocks/multiselect";
 @import "u-blocks/num-control";
 @import "u-blocks/payment-item-info";
 @import "u-blocks/product-card";
+@import "u-blocks/product-image";
 @import "u-blocks/rating";
+@import "u-blocks/scrollbar";
+@import "u-blocks/side-popup";
 @import "u-blocks/tabs";
 @import "u-blocks/instagram-slider";
+@import "u-blocks/timer";
+@import "u-blocks/watch-all-btn";
 
+//Layouts
+@import "layouts/default-layout";
+@import "layouts/help-sub-nav";
+@import "layouts/footer";
+@import "layouts/header";
+@import "layouts/header-navigation";
+@import "layouts/main-layout";
+@import "layouts/shop-breadcrumbs";
 
 //Plugins
 @import "variables/plugins/magnific-popup";
 @import "variables/plugins/slick-slider";
 
 //Pages
+@import "pages/article-page";
 @import "pages/cart";
 @import "pages/catalog";
 @import "pages/checkout";
@@ -53,11 +72,7 @@
 @import "pages/payment";
 @import "pages/product-page";
 @import "pages/shipping";
-@import "pages/faq";
+@import "pages/help";
 
 //Auth
 @import "pages/auth";
-
-//Global Styles
-@import "animations";
-@import "global";

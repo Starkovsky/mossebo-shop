@@ -1,0 +1,52 @@
+.loading-wrap {
+    position: relative;
+
+    &:not(.loaded) {
+        min-height: 200px;
+    }
+
+    &--no-min-height {
+        min-height: auto !important;
+    }
+
+    &--sticky {
+        position: sticky;
+        top: calc(50% - 100px);
+    }
+
+    &__spinner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 80px;
+        height: 80px;
+        margin: auto;
+        z-index: 11;
+    }
+
+    &__icon {
+        width: 100%;
+        fill: $color-primary;
+    }
+
+    &:not(&--no-overlay)::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #fff;
+        z-index: -1;
+        opacity: 0;
+        transition: all .3s;
+    }
+
+    &:not(&--no-overlay):not(.loaded)::before {
+        opacity: .5;
+        z-index: 10;
+        transition: opacity .3s;
+    }
+}

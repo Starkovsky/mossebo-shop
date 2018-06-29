@@ -19,58 +19,40 @@ Route::prefix('ru')->group(function () {
     Auth::routes();
 
     // Главная страница
-    Route::get('/', 'Shop\HomeController@index')
+    Route::get('/', 'ContentController@index')
         ->name('home');
-    // Карточка товара
-    Route::get('/goods/{id}', 'Shop\ProductController@index')
-        ->name('good');
+
+    // Каталог товаров
+    Route::get('/catalog', 'Shop\CatalogController@index')->name('catalog');
     // Категория товаров
-    Route::get('/catalog/{category_slug}', 'Shop\CatalogController@index')
-        ->name('catalog');
+    Route::get('/catalog/{categorySlug}', 'Shop\CatalogController@category')->name('catalog-category');
+    // Карточка товара
+    Route::get('/goods/{id}', 'Shop\ProductController@index') ->name('good');
+
+    /*
+     * Комнаты
+     */
+    Route::get('/rooms', 'Shop\RoomController@index')->name('rooms');
+    Route::get('/rooms/{slug}', 'Shop\RoomController@catalog')->name('room-catalog');
+    Route::get('/rooms/{slug}/{categorySlug}', 'Shop\RoomController@category')->name('room-category');
+
+    /*
+     * Стили
+     */
+    Route::get('/styles', 'Shop\StyleController@index')->name('styles');
+    Route::get('/styles/{slug}', 'Shop\StyleController@catalog')->name('style-catalog');
+    Route::get('/styles/{slug}/{categorySlug}', 'Shop\StyleController@category')->name('style-category');
 
     /*
      * Страницы
      */
+    Route::get('/help', 'ContentController@help')->name('help');
+    Route::get('/help/{slug}', 'ContentController@helpArticle')->name('help-article');
 
-    // Доставка
-    Route::get('/delivery', 'Shop\PageController@delivery')->name('delivery');
-    // Оплата
-    Route::get('/pay', 'Shop\PageController@pay')->name('pay');
-    //Гарантии
-    Route::get('/garant', 'Shop\PageController@garant')->name('garant');
+    Route::get('/privacy', function () {
+        return view('shop.pages.privacy');
+    })->name('privacy');
 
-    // Политика конфедициальности
-    Route::get('/privacy', 'Shop\PageController@privacy')->name('privacy');
-
-    // Комнаты
-    Route::prefix('rooms')->group(function () {
-
-        // Все комнаты
-        Route::get('/', 'Shop\PageController@rooms')
-            ->name('rooms');
-
-        // Комната - Спальня
-        Route::get('/bathroom', 'Shop\PageController@bathroom')
-            ->name('bathroom');
-        // Комната - Гостиная
-        Route::get('/livingroom', 'Shop\PageController@livingroom')
-            ->name('livingroom');
-        // Комната - Детская
-        Route::get('/childrenroom', 'Shop\PageController@childrenroom')
-            ->name('childrenroom');
-        // Комната - Кабинет
-        Route::get('/cabinet', 'Shop\PageController@cabinet')
-            ->name('cabinet');
-        // Комната - Кухня и столовая
-        Route::get('/diningroom', 'Shop\PageController@diningroom')
-            ->name('diningroom');
-        // Комната - Прихожая
-        Route::get('/hallway', 'Shop\PageController@hallway')
-            ->name('hallway');
-        // Комната - Спальня
-        Route::get('/bedroom', 'Shop\PageController@bedroom')
-            ->name('bedroom');
-    });
 
     /*
      * Личный кабинет
@@ -79,7 +61,6 @@ Route::prefix('ru')->group(function () {
 
         Route::get('/', 'Shop\HomeController@index')
             ->name('lk');
-
     });
 
     // Корзина
@@ -95,22 +76,13 @@ Route::prefix('ru')->group(function () {
 
     // Получение различных данных с сервера
     Route::get('/data', 'Shop\DataController@get');
+
+
+    Route::get('/about-us', function () {
+        return view('shop.pages.about-us');
+    });
 });
 
 // Маршруты для Авторизации через Соцсети
 Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
 Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
-
-
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
-//Route::get('/test', function () {
-//
-//    $provider = 'vkontakte';
-//
-//    $provider = Config::get("services.{$provider}");
-//
-//    return $provider;
-//});
-

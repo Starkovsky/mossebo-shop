@@ -1,14 +1,15 @@
 <template>
     <div class="catalog-product-list" v-if="!loading">
-        <transition-group
-            tag="div"
-            class="catalog-product-list__row row"
-            name="catalog-product" >
+        <div :class="{row: true, 'row--half': cardType === 'mobile' || cardType === 'list', [rowClass]: true}">
+            <template v-for="(product, index) in products">
+                <catalog-banner
+                    :index="index"
+                    :key="index + 'banner'"
+                ></catalog-banner>
 
-            <template v-for="product in products">
-                <template v-if="activeCardType === 'tile'">
+                <template v-if="cardType === 'tile'">
                     <div
-                        class="catalog-product-list__product col-12 col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4"
+                        :class="'catalog-product-list__product ' + tileCardClass"
                         :key="product.id"
                         v-show="show"
                     >
@@ -18,8 +19,8 @@
                     </div>
                 </template>
 
-                <template v-if="activeCardType === 'list'">
-                    <div class="catalog-product-list__product col-12" :key="product.id">
+                <template v-if="cardType === 'list'">
+                    <div :class="'catalog-product-list__product ' + listCardClass" :key="product.id">
                         <product-card-long
                             :product="product"
                             v-show="show"
@@ -27,8 +28,8 @@
                     </div>
                 </template>
 
-                <template v-if="activeCardType === 'mobile'">
-                    <div class="catalog-product-list__product col-12" :key="product.id">
+                <template v-if="cardType === 'mobile'">
+                    <div :class="'catalog-product-list__product ' + mobileCardClass" :key="product.id">
                         <product-card-mobile
                             :product="product"
                             v-show="show"
@@ -36,13 +37,13 @@
                     </div>
                 </template>
             </template>
-
-        </transition-group>
+        </div>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+
+    import CatalogBanner from "../banner/CatalogBanner"
     import ProductCard from "../product-cards/ProductCard"
     import ProductCardLong from "../product-cards/ProductCardLong"
     import ProductCardMobile from "../product-cards/ProductCardMobile"
@@ -53,7 +54,8 @@
         components: {
             ProductCard,
             ProductCardLong,
-            ProductCardMobile
+            ProductCardMobile,
+            CatalogBanner
         },
 
         props: {
@@ -61,7 +63,29 @@
                 type: Array,
                 default: () => []
             },
+
+            cardType: {
+                type: String,
+                default: () => 'tile'
+            },
+
             loading: Boolean,
+
+            rowClass: {
+                default: ''
+            },
+
+            tileCardClass: {
+                default : 'col-lg-3'
+            },
+
+            listCardClass: {
+                default: 'col-12'
+            },
+
+            mobileCardClass: {
+                default: 'col-12'
+            }
         },
 
         data() {
@@ -90,18 +114,6 @@
                     this.type = 'default'
                 }
             }
-        },
-
-        computed: {
-            ... mapState({
-                activeCardType(state) {
-                    if (this.$root.windowLessThan('lg')) {
-                        return 'mobile'
-                    }
-
-                    return state.catalog.cards.active
-                }
-            })
         },
     }
 </script>

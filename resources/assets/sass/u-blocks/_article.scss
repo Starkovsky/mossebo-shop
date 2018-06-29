@@ -1,0 +1,29 @@
+.article {
+    color: $color-text-primary;
+
+    & p,
+    & li {
+        font-size: 14px / 17px;
+        list-style: disc;
+    }
+
+    & li {
+        margin-left: 18px;
+
+        &:not(:first-child) {
+            margin-top: 5px;
+
+        }
+    }
+
+    & p,
+    & ul {
+        &:not(:first-child) {
+            margin-top: 17px;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 17px;
+        }
+    }
+}

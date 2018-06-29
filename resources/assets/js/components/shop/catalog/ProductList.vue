@@ -1,49 +1,69 @@
 <template>
-    <div class="catalog-product-list">
-        <div class="catalog-product-list__row row">
-            <div class="catalog-product-list__product col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3"
-                 v-for="(Product, index) in Products"
-                 v-if="index < 8"
-                 :key="index"
-            >
-                <product-card
-                    :product="Product"
-                >
-                </product-card>
-            </div>
-        </div>
-    </div>
+    <loading :loading="loading" :no-overlay="true">
+        <catalog-product-list
+            :products="products"
+            :card-type="cardType"
+            :loading="loading"
+            tile-card-class="col-lg-4 col-xl-3"
+        ></catalog-product-list>
+    </loading>
 </template>
 
 <script>
-    import GetProducts from '../../../mixins/GetProducts'
+    import axios from 'axios'
 
-    import ProductCard from "./product-cards/ProductCard"
+    import Loading from '../../Loading'
+    import CatalogProductList from './product-list/CatalogProductList'
 
     export default {
         name: "ProductList",
+
         components: {
-            ProductCard
+            CatalogProductList,
+            Loading
         },
         data () {
             return {
-                Products: [],
+                error: false,
+                loading: true,
+                products: [],
             }
         },
-        props: [
-            'url'
-        ],
-
-        mounted() {
-            this.GetProductsJSON(this.url)
+        props: {
+            url: null,
+            limit: {
+                type: Number,
+                default: 8
+            }
         },
 
-        mixins: [
-            GetProducts
-        ]
+        mounted() {
+            this.fetchProducts()
+        },
+
+        computed: {
+            cardType() {
+                return this.$root.windowMoreThan('lg') ? 'tile' : 'mobile'
+            }
+        },
+
+        methods: {
+            fetchProducts() {
+                // todo: доделать обработку ошибок
+                axios.get(this.url)
+                    .then(response => {
+                        this.products = response.data.products.slice(0, this.limit)
+                        this.loading = false
+                    })
+                    .catch(error => {
+                        this.error = true
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        // this.loading = false
+                    })
+            }
+        },
     }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

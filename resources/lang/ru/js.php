@@ -45,4 +45,29 @@ return [
 
     'tile' => 'Плитка',
     'list' => 'Список',
+
+
+
+
+
+    'days' => [
+        'short' => 'д'
+    ],
+
+    'hours' => [
+        'short' => 'ч'
+    ],
+
+    'minutes' => [
+        'short' => 'м'
+    ],
+
+    'seconds' => [
+        'short' => 'с'
+    ],
+
+
+    'See details' => 'Смотреть',
+
+    'Back' => 'Назад'
 ];

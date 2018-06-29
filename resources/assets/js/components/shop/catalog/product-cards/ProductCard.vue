@@ -1,5 +1,5 @@
 <template>
-    <div class="product-card block-ui">
+    <div class="product-card block-ui block-ui--with-hover">
         <div class="product-card__actions text-right">
             <product-actions></product-actions>
         </div>
@@ -8,13 +8,18 @@
            :href="link"
         >
             <div class="product-card__image-box">
-                <background-image-loader
-                    v-if="product.image"
-                    class="product-card__image"
-                    :screen="true"
-                    :image="prepareImage(product.image.src)"
-                    :retina-image="prepareImage(product.image.srcset)"
-                ></background-image-loader>
+                <template v-if="product.image">
+                    <background-image-loader
+                        class="product-card__image product-image"
+                        :screen="true"
+                        :image="prepareImage(product.image.src)"
+                        :retina-image="prepareImage(product.image.srcset)"
+                    ></background-image-loader>
+                </template>
+
+                <template v-else>
+                    <div class="product-card__image bg-image product-image"></div>
+                </template>
             </div>
 
             <div class="product-card__name">

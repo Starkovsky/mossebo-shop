@@ -15,23 +15,18 @@
         </template>
 
         <template slot="forward">
-            <button
+            <button-loading
                 @click="submit"
-                :class="{'button button-loading': true, 'is-loading': loading, 'button-primary': !submitDisabled, 'button-light': submitDisabled}"
+                :class="{'button': true, 'button-primary': !submitDisabled, 'button-light': submitDisabled}"
+                :loading="loading"
                 :disabled="submitDisabled"
             >
-                <div class="button-loading__content">
-                    Оформить заказ
+                Оформить заказ
 
-                    <svg class="button__icon button__icon--right">
-                        <use xlink:href="/assets/images/icons.svg#symbol-cart"></use>
-                    </svg>
-                </div>
-
-                <svg class="button-loading__loader">
-                    <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                <svg class="button__icon button__icon--right">
+                    <use xlink:href="/assets/images/icons.svg#symbol-cart"></use>
                 </svg>
-            </button>
+            </button-loading>
         </template>
     </checkout-step>
 </template>
@@ -47,7 +42,8 @@
     import Mixin from './mixin'
 
     import CheckoutStep from './CheckoutStep'
-    import Confirmation from "../../confirmation/Confirmation"
+    import Confirmation from '../../confirmation/Confirmation'
+    import ButtonLoading from '../../../buttons/ButtonLoading'
 
     export default {
         name: "CheckoutStepPayment",
@@ -58,7 +54,8 @@
 
         components: {
             CheckoutStep,
-            Confirmation
+            Confirmation,
+            ButtonLoading
         },
 
         data() {

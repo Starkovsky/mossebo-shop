@@ -1,3 +1,5 @@
+import cookie from './cookie'
+
 export default {
     siteUrl(url = '') {
         if (url.indexOf('http') === 0) {
@@ -21,7 +23,13 @@ export default {
 
     getLang() {
         return 'ru'
-    }
+    },
+
+    config(path) {
+        return _.get(window.mossebo, path);
+    },
+
+    cookie
 }
 
 

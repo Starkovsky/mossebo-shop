@@ -33,7 +33,7 @@
         name: "ProductActions",
 
         mounted: function () {
-            $('[data-toggle="tooltip"]').tooltip();
+            this.$root.initTooltips()
         },
     }
 </script>

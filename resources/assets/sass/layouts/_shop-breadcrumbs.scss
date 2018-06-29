@@ -1,0 +1,41 @@
+.shop-breadcrumbs {
+    margin: 0;
+    overflow: hidden;
+
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: -8px 0 0 -16px;
+    }
+
+    &__item {
+        padding: 8px 0 0 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__active,
+    &__link {
+        font-size: 14px / 17px;
+    }
+
+    &__active {
+        color: $color-text-primary-2;
+    }
+
+    &__link {
+        color: $color-text-secondary-2;
+    }
+
+
+    &__separator {
+        width: 24px;
+        height: 24px;
+        fill: $color-text-secondary-3;
+    }
+}

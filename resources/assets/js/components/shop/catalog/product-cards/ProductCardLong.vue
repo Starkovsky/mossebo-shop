@@ -1,18 +1,23 @@
 <template>
-    <div :class="{'product-card-long block-ui': true, 'link-is-hovered': linkIsHovered}">
+    <div :class="{'product-card-long block-ui block-ui--with-hover': true, 'link-is-hovered': linkIsHovered}">
         <div class="product-card-long__actions text-right">
             <product-actions></product-actions>
         </div>
 
         <div class="product-card-long__image-box">
             <a class="product-card-long__link" :href="link" @mouseenter="hoverLink" @mouseout="unHoverLink">
-                <background-image-loader
-                    v-if="product.image"
-                    class="product-card-long__image"
-                    :screen="true"
-                    :image="prepareImage(product.image.src)"
-                    :retina-image="prepareImage(product.image.srcset)"
-                ></background-image-loader>
+                <template v-if="product.image">
+                    <background-image-loader
+                        class="product-card-long__image product-image"
+                        :screen="true"
+                        :image="prepareImage(product.image.src)"
+                        :retina-image="prepareImage(product.image.srcset)"
+                    ></background-image-loader>
+                </template>
+
+                <template v-else>
+                    <div class="product-card-long__image bg-image product-image"></div>
+                </template>
             </a>
         </div>
 

@@ -16,6 +16,11 @@ return [
 
     'Settings' => 'settings',
 
+    'Countries' => 'countries',
+    'CountriesI18n' => 'countries_i18n',
+    'Cities' => 'cities',
+    'CitiesI18n' => 'cities_i18n',
+
     'Languages' => 'languages',
 
     'Currencies' => 'shop_currencies',
@@ -40,6 +45,8 @@ return [
 
     'Products' => 'shop_products',
     'ProductsI18n' => 'shop_products_i18n',
+
+    'ProductCounts' => 'shop_product_counts',
 
   // 'ProductsFields' => 'shop_product_fields',
   // 'ProductsFieldsI18' => 'shop_product_fields_i18',

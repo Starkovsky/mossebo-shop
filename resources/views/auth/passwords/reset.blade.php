@@ -1,24 +1,20 @@
 @extends('shop.layouts.html')
 
-@section('title', config('app.name', 'Mossebo.Market'))
-
-@section('meta-description', 'description main page')
-
 @section('content')
     <div class="container">
-        <div class="auth">
+        <div class="auth auth--reset block-ui">
             <form method="POST" action="{{ route('password.request') }}">
-            @csrf
 
+            @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="row align-middle">
                     <div class="col-sm-6">
-                        <h1 class="title_h1 text-center">Здравствуйте, войдите</h1>
+                        <h1 class="title-h1 text-center">Здравствуйте, войдите</h1>
 
                         <label for="email" class="form-label">Введите E-Mail</label>
 
-                        <input id="email"
+                        <input id="email"f
                                type="email"
                                class="form-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
                                name="email"

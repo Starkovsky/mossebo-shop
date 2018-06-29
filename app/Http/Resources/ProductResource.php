@@ -36,12 +36,24 @@ class ProductResource extends JsonResource
             }
         }
 
+        if ($this->relationNotEmpty('images')) {
+            if (! empty($this->images)) {
+                $data['images'] = [];
+
+                foreach ($this->images as $image) {
+                    $data['images'][] = array_merge([
+                        'id' => $image->id
+                    ], json_decode($image->pathes, true));
+                }
+            }
+        }
+
         if ($this->relationNotEmpty('currentPrice')) {
-            $data['price'] = $this->currentPrice->value / 100;
+            $data['price'] = $this->currentPrice->getValue();
         }
 
         if ($this->relationNotEmpty('oldPrice')) {
-            $data['old_price'] = $this->oldPrice->value / 100;
+            $data['old_price'] = $this->oldPrice->getValue();
         }
 
         return $data;

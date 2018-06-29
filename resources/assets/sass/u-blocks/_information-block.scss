@@ -1,0 +1,24 @@
+.information-block {
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 25px;
+
+    &:hover {
+        color: $color-text-primary;
+        text-decoration: none;
+    }
+
+    &:hover &__title {
+        color: $color-primary;
+    }
+
+        height: 100%;
+
+    &__title {
+        font-size: 24px;
+        color: $color-text-primary;
+        margin-bottom: 15px;
+        transition: $transition-primary;
+    }
+}

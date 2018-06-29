@@ -125,14 +125,9 @@
 
 <script>
     import Mixin from './mixin'
-    import AnimatedInteger from '../../../components/AnimatedInteger'
 
     export default {
         name: "Cart",
-
-        components: {
-            AnimatedInteger
-        },
 
         mixins: [
             Mixin

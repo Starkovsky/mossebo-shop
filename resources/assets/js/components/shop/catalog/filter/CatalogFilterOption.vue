@@ -23,8 +23,9 @@
                 'label',
                 {
                     class: {
-                        'filter-label': true,
-                        ['filter-label--' + this.id]: true,
+                        'form-checkbox': true,
+                        'filter-option': true,
+                        ['filter-option--' + this.id]: true,
                         'disabled': this.disabled
                     },
 
@@ -43,6 +44,7 @@
                     createElement(
                         'input',
                         {
+                            class: 'form-checkbox__input',
                             attrs: {
                                 type: 'checkbox',
                                 checked: this.checked,
@@ -51,12 +53,12 @@
                         }
                     ),
 
-                    createElement('span', {class: 'checkmark'}),
+                    createElement('span', {class: 'form-checkbox__checkmark'}),
 
                     createElement(
                         'span',
                         {
-                            class: 'value'
+                            class: 'form-checkbox__label'
                         },
                         [this.title]
                     )

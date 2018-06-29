@@ -88,7 +88,7 @@ export default {
 
     updateLocalStorage({ state }, type) {
         if (! (type in state.debouncers)) {
-            state.debouncers[type] = _.debounce(() => {
+            state.debouncers[type] = _.throttle(() => {
                 let data = getNotEmptyData(_.get(state, type))
 
                 if (_.isBoolean(data) || !_.isEmpty(data)) {

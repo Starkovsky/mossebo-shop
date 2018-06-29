@@ -4,6 +4,7 @@
         :tabs="tabs"
         :class-name-modificators="classNameModificators"
         @activation="activate"
+
     ></tabs>
 </template>
 
@@ -39,7 +40,7 @@
 
         methods: {
             activate(key) {
-                this.els[this.active$].addEventListener('transitionend', (e) => {
+                this.els[this.active$].addEventListener('transitionend', () => {
                     this.els[this.active$].classList.remove('active')
 
                     this.active$ = key
@@ -49,7 +50,7 @@
                     setTimeout(() => {
                         this.els[key].classList.add('show')
                     })
-                }, {passive: true, once: true})
+                }, { passive: true, once: true })
 
                 this.els[this.active$].classList.remove('show')
             }

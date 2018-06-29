@@ -84,7 +84,12 @@ export default {
 
     setDataToStorage(data) {
         for (let key in data) {
-            this.setItemToStorage(key, data[key])
+            if (_.isBoolean(data[key])) {
+                this.setItemToStorage(key, data[key])
+            }
+            else if (!_.isEmpty(data[key])) {
+                this.setItemToStorage(key, data[key])
+            }
         }
     },
 

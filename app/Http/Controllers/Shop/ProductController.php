@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Models\Shop\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use SeoProxy;
 
 class ProductController extends Controller
 {
@@ -81,6 +82,11 @@ class ProductController extends Controller
 
         // Проверка доступности товаров поставщика
         if ($product->canBeShowed()) {
+            $product->show();
+
+            SeoProxy::setMetaFromI18nModel($product);
+            SeoProxy::setImageFromModel($product, 'oneHalf');
+
             return view('shop.pages.product', [
                 'product' => $product,
                 'attributes' => $carry['all'],

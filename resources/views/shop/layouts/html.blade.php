@@ -10,19 +10,18 @@
 </head>
 <body>
 
-<div id="app">
+<div id="app" class="main-layout js-app">
+    <div class="main-layout__header">
+        @include('shop.layouts.header')
+    </div>
 
-    <scroll-bar></scroll-bar>
+    <div class="main-layout__content">
+        @yield('content')
+    </div>
 
-    @include('shop.layouts.header')
-    @include('shop.layouts.nav')
-
-    @include('shop.layouts.breadcrumbs')
-
-    @yield('content')
-
-    @include('shop.layouts.footer')
-
+    <div class="main-layout__footer">
+        @include('shop.layouts.footer')
+    </div>
 </div>
 
 @include('shop.layouts.shop_config')
@@ -32,7 +31,6 @@
 <script src="{{ mix('assets/js/app.js') }}" defer></script>
 
 @yield('scripts')
-
 
 @include('shop.layouts.metrika')
 

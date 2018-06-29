@@ -35,8 +35,8 @@
             'filters'
         ],
 
-        computed: {
-            filtersArray() {
+        methods: {
+            getFiltersArray() {
                 let filters = []
 
                 for (let key in this.$refs) {
@@ -55,23 +55,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../../../../sass/variables/colors";
-    @import "../../../../../sass/variables/variables";
-
-    .catalog {
-        &-filter {
-            &-item {
-                font-size: 14px;
-                font-weight: 400;
-                color: $color-text-secondary;
-
-                & + & {
-                    border-top: 1px solid $color-border;
-                }
-            }
-        }
-    }
-</style>

@@ -1,5 +1,5 @@
 <template>
-    <loading class="without-overlay" :loading="loading">
+    <loading :loading="loading">
         <template v-if="error">
             <div style="text-align: center;" v-show="!loading">
                 <h4 style="margin-bottom: 30px">
@@ -16,7 +16,7 @@
 
         <template v-else>
             <div class="row align-content-stretch">
-                <div class="col-md-3">
+                <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
                     <catalog-filter-list
                         ref="filters"
                         :filters="filters"
@@ -28,11 +28,58 @@
                             Сбросить фильтры
                         </button>
                     </div>
+
+                    <div class="catalog-filters-banner" v-if="! loading">
+                        <banner-random></banner-random>
+                    </div>
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-12" v-else>
+                    <div class="catalog-top-panel block-ui">
+                        <div class="catalog-top-panel__sort">
+                            <multi-select
+                                class="multiselect--mobile-sort"
+                                :value="multiselectActiveSortType"
+                                :options="multiselectSortOptions"
+                                :max-height="300"
+                                :placeholder="$root.translate('Sort')"
+                                :searchable="false"
+                                :hide-selected="false"
+                                :multiple="false"
+                                :allow-empty="false"
+                                @select="setActiveSortTypeByMultiselect"
+                            >
+                                <template slot="option" slot-scope="props">
+                                    {{ props.option.title }}
+                                </template>
+
+                                <template slot="singleLabel" slot-scope="props">
+                                    {{ props.option.title }}
+                                </template>
+                            </multi-select>
+                        </div>
+
+                        <div class="catalog-top-panel__filter-btn">
+                            <div class="filters-mobile-btn" @click="openPopup">
+                                <svg class="filters-mobile-btn__icon">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-filters"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <side-popup ref="popup">
+                        <catalog-filter-list
+                            ref="filters"
+                            :filters="filters"
+                            :prices="prices"
+                        ></catalog-filter-list>
+                    </side-popup>
+                </div>
+
+                <div class="col-lg-9">
                     <template v-if="productsToShow.length > 0">
-                        <div class="catalog-top-panel block-ui">
+                        <div class="catalog-top-panel block-ui" v-if="$root.windowMoreThan('lg')">
                             <div class="catalog-top-panel__sort">
                                 <tabs
                                     :tabs="sortTypes"
@@ -49,22 +96,29 @@
 
                         <loading
                             :loading="productsLoading.inProcess"
+                            :sticky="true"
                             :no-overlay="true"
-                            style="
-                            min-height: 450px"
                         >
                             <catalog-product-list
+                                :cardType="activeCardType"
                                 :products="productsToShow"
                                 :loading="productsLoading.inProcess"
+                                row-class="row--half"
+                                tile-card-class="col-lg-4"
                             ></catalog-product-list>
                         </loading>
 
-                        <div @click="more" class="block-ui catalog-more-btn js-more-btn" v-if="moreBtnIsVisible" v-show="!productsLoading.inProcess">
+                        <button-loading
+                            v-if="moreBtnIsVisible"
+                            v-show="!productsLoading.inProcess"
+                            class="catalog-more-btn block-ui js-more-btn"
+                            :loading="productsToShowCalculateInProcess"
+                        >
                             Показать еще
-                        </div>
+                        </button-loading>
                     </template>
 
-                    <template v-else-if="productsToShow.length === 0 && this.products$.length > 0">
+                    <template v-else-if="!productsToShowCalculateInProcess && productsToShow.length === 0 && this.products$.length > 0">
                         <div style="text-align: center;">
                             <h4 style="margin-bottom: 30px">
                                 В выбранной категории ничего не найдено
@@ -96,8 +150,15 @@
 
     import Loading from '../../Loading'
     import Tabs from '../../Tabs'
-    import DataHandler from '../../../scripts/DataHandler'
     import CardTypesChanger from './CardTypesChanger'
+    import ButtonLoading from '../../buttons/ButtonLoading'
+    import PendingLoader from '../../../scripts/PendingLoader'
+    import BannerRandom from '../../banners/BannerRandom'
+    import SidePopup from '../../SidePopup'
+    import MultiSelect from 'vue-multiselect'
+
+
+    import DataHandler from '../../../scripts/DataHandler'
 
     export default {
         name: "Catalog",
@@ -105,7 +166,11 @@
         components: {
             Loading,
             Tabs,
-            CardTypesChanger
+            CardTypesChanger,
+            ButtonLoading,
+            BannerRandom,
+            SidePopup,
+            MultiSelect
         },
 
         mixins: [
@@ -120,33 +185,65 @@
                 error: false,
                 loading: true,
                 products$: [],
-                productsThatCanBeShown: []
+                productsThatCanBeShown: [],
+                productsToShow: [],
+                activeCardType: '',
+                productsToShowCalculateInProcess: false,
+                productsLoading: {
+                    inProcess: false,
+                    minTime: 700,
+                    handler: false
+                },
+
+                lastFilterName: false
             }
         },
 
-        created() {
-            this.fetchCatalog()
-
-            this.$store.subscribe(mutation => {
-                if (mutation.type === 'catalog/CATALOG_SET_CARD_TYPE') {
-                    this.loadingProductsStart()
-
-                    this.$nextTick(() => {
-                        this.resetPage()
-                        this.loadingProductsEnd()
-                    })
-                }
-            })
-
-            this.$store.dispatch('catalog/init')
-        },
-
         watch: {
-            productsThatCanBeShown: 'loadingProductsEnd',
+            productsToShow: 'loadingProductsEnd',
+            perPage: 'calculateProductsToShow',
+            productsThatCanBeShown: [
+                'calculateProductsToShow',
+                'applyActiveOptions'
+            ],
+            activeCardType: 'calculateProductsToShow',
             activeSortType: [
                 'loadingProductsStart',
                 'changeSortType'
             ],
+        },
+
+        created() {
+            let throttle = _.throttle(() => {
+                this.productsToShowCalculateInProcess = false
+                this.unbindScrollMoreEvent()
+                this.calculatePerPager()
+
+                this.loadingProductsEnd()
+                this.bindScrollMoreEvent()
+            }, 300)
+
+            this.calculateProductsToShowThrottler = () => {
+                this.productsToShowCalculateInProcess = true
+
+                throttle()
+            }
+
+            this.$store.subscribe(mutation => {
+                if (mutation.type === 'catalog/CATALOG_SET_CARD_TYPE') {
+                    this.setActiveCardType()
+                }
+            })
+
+            this.filterChangeHandler = filterName => {
+                this.lastFilterName = filterName
+                this.productsThatCanBeShown = this.filterProducts(this.products$)
+                this.resetPage()
+            }
+
+            this.$store.dispatch('catalog/init')
+
+            this.fetchCatalog()
         },
 
         methods: {
@@ -169,54 +266,31 @@
                         this.init()
 
                         this.error = false
-                        this.loading = false
                     })
                     .catch((error) => {
-                        this.loading = false
-
-                        this.$nextTick(() => {
-                            this.error = true
-                        })
+                        this.error = true
 
                         console.error(error)
+                    })
+                    .finally (() => {
+                        this.loading = false
                     })
             },
 
             // todo: разобраться с этим ужасом
             init() {
-                this.$nextTick(() => {
-                    this.changeSortType()
-
-                    this.productsThatCanBeShown = this.products$
-                    this.applyActiveOptions(this.productsThatCanBeShown)
-
-                    this.bindScrollMoreEvent()
-                })
-
-                this.filterChangeHandler = filterName => {
-                    this.unbindScrollMoreEvent()
-                    this.loadingProductsStart()
-
-                    this.$nextTick(() => {
-                        this.resetPage()
-                        this.productsThatCanBeShown = this.filterProducts(this.products$)
-
-                        this.applyActiveOptions(this.productsThatCanBeShown, filterName)
-
-                        this.bindScrollMoreEvent()
-                    })
-                }
-
                 this.$root.$on('filterChanged', this.filterChangeHandler)
+                this.$root.$on('resize', this.setActiveCardType)
+
+                this.loadingProductsStart()
+                this.setActiveCardType()
+                this.changeSortType()
             },
 
             changeSortType() {
-                this.loadingProductsStart()
-
-                this.$nextTick(() => {
-                    this.products$ = this.sortProducts(this.products$)
-                    this.productsThatCanBeShown = this.filterProducts(this.products$)
-                })
+                this.products$ = this.sortProducts(this.products$)
+                this.productsThatCanBeShown = this.filterProducts(this.products$)
+                this.resetPage()
             },
 
             /**
@@ -230,33 +304,88 @@
                     this.fetchCatalog()
                 }
             },
+
+            calculateProductsToShow() {
+                this.loadingProductsStart()
+
+                this.calculateProductsToShowThrottler()
+            },
+
+            setActiveCardType() {
+                let type = this.$root.windowLessThan('lg') ? 'mobile' : this.$store.state.catalog.cards.active
+
+                if (type !== this.activeCardType) {
+                    this.resetPage()
+                    this.activeCardType = type
+                }
+            },
+
+            loadingProductsStart() {
+                if (this.productsLoading.inProcess) {
+                    this.productsLoading.handler.cancel()
+                }
+
+                this.productsLoading = {
+                    inProcess: true,
+                    minTime: this.productsLoading.minTime,
+                    handler: new PendingLoader(this.productsLoading.minTime)
+                }
+            },
+
+            loadingProductsEnd() {
+                if (this.productsLoading.inProcess) {
+                    this.productsLoading.handler.finish(() => {
+                        this.productsLoading = {
+                            inProcess: false,
+                            minTime: this.productsLoading.minTime,
+                            handler: false
+                        }
+                    })
+                }
+            },
+
+            resetPage() {
+                this.page = 1
+
+                this.calculateProductsToShow()
+            },
+
+            calculatePerPager() {
+                let end = Math.min(this.perPage * this.page, this.productsThatCanBeShown.length)
+
+                this.productsToShow = this.productsThatCanBeShown.slice(0, end)
+            },
+
+            openPopup() {
+                this.$refs.popup.open()
+            },
+
+            setActiveSortTypeByMultiselect(type) {
+                this.setActiveSortType(type.value)
+            }
+        },
+
+        computed: {
+            multiselectSortOptions() {
+                return Object.keys(this.sortTypes).reduce((acc, key) => {
+                    acc.push({
+                        title: this.sortTypes[key],
+                        value: key
+                    })
+
+                    return acc
+                }, [])
+            },
+
+            multiselectActiveSortType() {
+                return this.multiselectSortOptions.find(option => option.value === this.activeSortType)
+            }
         },
 
         beforeDestroy() {
             if (this.filterChangeHandler) {
                 this.$root.$off('filterChanged', this.filterChangeHandler)
             }
-
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import "../../../../sass/variables/colors";
-
-    .catalog-more-btn {
-        margin-top: 17px;
-        text-align: center;
-        position: relative;
-        padding: 24px 32px 23px;
-        font-size: 14px / 17px;
-        font-weight: 400;
-        color: $color-text-primary;
-        cursor: pointer;
-    }
-
-    .catalog-filters-controls {
-        text-align: center;
-        margin-top: 30px;
-    }
-</style>

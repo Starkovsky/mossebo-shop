@@ -1,56 +1,57 @@
 @extends('shop.layouts.html')
 
-@section('title', config('app.name', 'Mossebo.Market'))
-
-@section('meta-description', 'description main page')
-
 @section('content')
-
     <div class="container">
-        <div class="auth">
+        @if (session('status'))
+            <div class="alert alert-success mb-24">
+                {{ session('status') }}
+            </div>
+        @endif
 
-            <div class="row justify-content-center">
-                <div class="col-10 pb-0 pb-md-5">
-                    <h1 class="title_h1 text-center">Восстановление пароля</h1>
-                    <div class="title-label mb-5">Мы пришлем вам ссылку на восстановление пароля</div>
+        <div class="auth auth--email block-ui">
+            <div class="container">
+                <h1 class="auth__title title-h1">
+                    Восстановление пароля
+                </h1>
 
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <div class="row justify-content-center pb-5">
-                        <div class="col-10 col-md-8 col-lg-6">
-                            <form method="POST" action="{{ route('password.email') }}">
-                                @csrf
+                <div class="auth__title-label">
+                    Мы пришлем вам ссылку на восстановление пароля
+                </div>
 
-                                <label for="email" class="form-label">Введите E-Mail</label>
-                                <input id="email"
+                <div class="mt-24">
+                    <div class="auth-forgotten mt-32">
+                        <form method="POST" action="{{ route('password.email') }}">
+                            @csrf
+
+                            <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <label for="forgotten-email" class="form-label">
+                                    Введите E-Mail
+                                </label>
+
+                                <input id="forgotten-email"
                                        type="email"
-                                       class="form-input mb-4 {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                       class="form-input"
                                        name="email"
                                        value="{{ old('email') }}"
                                        required
                                 >
+
                                 @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                    <span class="form-error">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
                                 @endif
+                            </div>
 
-                                <div class="text-center">
-                                    <button type="submit" class="button button-primary auth-reset">
-                                        Восстановить
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="mt-24">
+                                <button type="submit" class="button button-primary auth-reset">
+                                    Восстановить
+                                </button>
+                            </div>
+                        </form>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
-
 @endsection

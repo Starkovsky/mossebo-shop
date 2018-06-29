@@ -8,7 +8,7 @@ import './common'
  * Imports
  */
 
-import 'bootstrap'
+import './bootstrap'
 import Vue from 'vue'
 
 import Vuex from 'vuex'
@@ -27,7 +27,6 @@ Vue.use(VeeValidate, {
  * Components
  */
 
-import ScrollBar from './components/ScrollBar'
 import Catalog from './components/shop/catalog/Catalog'
 import ProductList from './components/shop/catalog/ProductList'
 import ProductCard from './components/shop/catalog/product-cards/ProductCard'
@@ -42,17 +41,29 @@ import ProductControls from './components/shop/product/ProductControls'
 import TabsHtml from './components/TabsHtml'
 import Rating from './components/Rating'
 import ProductActions from './components/shop/product/ProductActions'
+import ProductSale from './components/shop/sale/ProductSale'
 
+import CitiesSelect from './components/CitiesSelect'
+import HeaderBanner from './components/HeaderBanner'
+import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoader'
 
 import Core from './scripts/core'
 import './scripts/HeightToggle'
+import './bootstrap/tooltip'
+
+import initFixedMenu from './scripts/FixedMenu'
+import initMainMenu from './scripts/MainMenu'
+import setMeta from './scripts/MetaSetter'
+
+
+
 /**
  * App
  */
 
 const breakpoints = {
     xs: 1,
-    sm: 544,
+    sm: 576,
     md: 768,
     lg: 992,
     xl: 1200
@@ -62,7 +73,7 @@ const app = new Vue({
     el: '#app',
     store,
     components: {
-        ScrollBar,
+        ProductSale,
         Catalog,
         ProductList,
         ProductCard,
@@ -74,21 +85,13 @@ const app = new Vue({
         ProductControls,
         TabsHtml,
         Rating,
-        ProductActions
+        ProductActions,
+        CitiesSelect,
+        HeaderBanner,
+        BackgroundImageLoader
     },
     data: {
         windowWidth: window.innerWidth,
-
-        ActionProduct: {
-            'id': '100028',
-            'name': 'Настольная лампа CHESTER 49385',
-            'image': {
-                src: '/uploads/media/product/467/responsive-images/5af5556b838f3777579684___small_200_200.jpg',
-                srcset: '/uploads/media/product/467/responsive-images/5af5556b838f3777579684___small_400_400.jpg',
-            },
-            'price': '3490',
-            'old_price': '4120'
-        },
 
         mossebo: window.mossebo,
     },
@@ -109,17 +112,27 @@ const app = new Vue({
 
         translate() {
             return Core.translate.apply(null, arguments)
-        }
+        },
+
+        initTooltips() {
+            $('[data-toggle="tooltip"]').tooltip()
+        },
+
+        setMeta
     },
 
     computed: {
-        isDesktop() {
-            return this.windowMoreThan('lg')
+        isMobile() {
+            return this.windowLessThan('sm')
         },
 
         isTablet() {
             return this.windowMoreThan('sm') && this.windowLessThan('lg')
-        }
+        },
+
+        isDesktop() {
+            return this.windowMoreThan('lg')
+        },
     },
 
     created() {
@@ -132,9 +145,9 @@ const app = new Vue({
     },
 
     mounted() {
-        // Tooltip
-        $('[data-toggle="tooltip"]').tooltip();
-        $('.dropdown-toggle').dropdown();
+        initFixedMenu('.js-fixed-menu')
+
+        initMainMenu()
 
         heightToggle('.js-ht', {
             bindCloseEvents: true
@@ -146,21 +159,12 @@ const app = new Vue({
     },
 });
 
+window.app = app
+
 
 // All Browser support SVG
 // https://github.com/jonathantneal/svg4everybody
 svg4everybody();
-
-
-// TODO: Временная функция показа меню
-$('.header-navigation-catalog').click(function (event) {
-    $('.catalog-nav').toggleClass('catalog-nav-active');
-    event.preventDefault();
-});
-$('.catalog-nav').click(function () {
-    $('.catalog-nav').removeClass('catalog-nav-active');
-});
-
 
 // Instagram Slider
 $('.slider-instagram').slick({
@@ -173,11 +177,6 @@ $('.slider-instagram').slick({
     autoplay: true,
     autoplaySpeed: 5000,
 });
-
-
-// Product Tabs
-//$('#ProductTabs').tab('show');
-$('#ProductTabs li:first-child a').tab('show');
 
 // Product Slider
 $('.js-product-slider').slick({
@@ -214,7 +213,7 @@ $('.slider-nav').slick({
 });
 
 // Product gallery
-$('.zoom-gallery').magnificPopup({
+$('.js-zoom-gallery').magnificPopup({
     delegate: 'a',
     type: 'image',
     closeOnContentClick: false,
@@ -229,26 +228,35 @@ $('.zoom-gallery').magnificPopup({
     gallery: {
         enabled: true
     },
-    zoom: {
-        enabled: true,
-        duration: 300, // don't foget to change the duration also in CSS
-        opener: function(element) {
-            return element.find('img');
-        }
-    }
 });
 
 // From an element with ID #popup
-$('.pop-up__call').magnificPopup({
+$('.js-pop-up-call').magnificPopup({
     items: {
-        src: '#pop-up__call',
+        src: '#pop-up-call',
         type: 'inline'
     }
 });
 // From an element with ID #popup
-$('.pop-up__message').magnificPopup({
+$('.js-pop-up-message').magnificPopup({
     items: {
-        src: '#pop-up__message',
+        src: '#pop-up-message',
         type: 'inline'
     }
 });
+
+
+// setMeta({
+//     title: 'Azazazium',
+//     breadcrumbs: [
+//         {
+//             title: 'Главная',
+//             link: '/',
+//         },
+//         {
+//             title: 'Комнаты',
+//             link: '',
+//         },
+//     ],
+//     'og:title': 'aza'
+// })

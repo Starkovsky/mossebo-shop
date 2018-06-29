@@ -1,28 +1,38 @@
 @extends('shop.layouts.html')
 
-@section('title', config('app.name', 'Laravel'))
-
-@section('meta-description', 'description main page')
-
-
 @section('content')
-
-    <div class="container py-5">
-        <div class="error-404">
-            <div class="row">
+    <div class="container">
+        <div class="error-404 block-ui">
+            <div class="error-404__row row">
                 <div class="col-md-4">
-                    <div class="error-404__code">404</div>
+                    <div class="error-404__code">
+                        404
+                    </div>
                 </div>
+
                 <div class="col-md-8">
-                    <h1 class="title_h2">Страница не найдена</h1>
-                    <p>
-                        К сожалению, запрашиваемая вами веб-страница не найдена. <br>
-                        Вы всегда можете найти интересующий вас товар, воспользовавшись поисковым полем в меню сайта или или воспользоваться каталогом товаров.
-                    </p>
-                    <a href="/" class="button button-light"><i class="md-icon mr-3">arrow_back</i>Главная страница</a>
+                    <h1 class="error-404__title title-h1">
+                        {{ __('content.404.title') }}
+
+                    </h1>
+
+                    <div class="error-404__text">
+                        <p>
+                            {{ __('content.404.message') }}
+                        </p>
+                    </div>
+
+                    <div class="error-404__button">
+                        <a href="{{ siteUrl() }}" class="button button-primary button-icon">
+                            <svg class="button__icon button__icon--left">
+                                <use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use>
+                            </svg>
+
+                            {{ __('content.404.homepage') }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection

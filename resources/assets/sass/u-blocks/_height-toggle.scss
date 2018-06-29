@@ -4,19 +4,52 @@
     overflow: hidden;
     transition: all .3s;
     transform: translate3d(0, 0, 0);
+
+    &--popup {
+        position: absolute;
+        top: 100%;
+        z-index: 9;
+        margin: -16px -8px -8px;
+        padding: 0;
+        left: 4px;
+        min-width: 224px;
+        filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.14));
+
+        &:after {
+            content:"";
+            border-style: solid;
+            border-width: 0 8px 8px 8px;
+            border-color: transparent transparent $color-ui transparent;
+            position: absolute;
+            left: 23px;
+            top: 0;
+        }
+
+        & .ht-inner {
+            margin: 8px;
+            background-color: $color-ui;
+            overflow: hidden;
+        }
+    }
+
+    &--right {
+        left: auto;
+        right: 4px;
+
+        &:after {
+            left: auto;
+            right: 23px;
+        }
+    }
 }
 
 .ht-inner {
     z-index: 5;
 }
 
-.ht-container--popup {
-    z-index: 99;
-    margin: -8px;
 
-    & .ht-inner {
-        margin: 8px;
-        background-color: $color-ui;
-        overflow: hidden;
-    }
+.ht-popup-wrap {
+    display: inline-block;
+    vertical-align: bottom;
+    position: relative;
 }

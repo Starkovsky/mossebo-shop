@@ -34,7 +34,6 @@ mix.js('resources/assets/js/app.js', publicDir + '/assets/js')
         'lodash',
         'popper.js',
         'axios',
-        'bootstrap',
         'slick-carousel',
         'magnific-popup'
     ])
@@ -53,9 +52,9 @@ mix.autoload({
 
 mix.browserSync({
     proxy: {
-        target: "https://mossebo-shop.test"
+        target: "http://mossebo-shop.test"
     },
-    https: true,
+    https: false,
     open: false
 });
 

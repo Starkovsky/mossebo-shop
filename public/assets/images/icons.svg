@@ -267,6 +267,10 @@
         <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
     </symbol>
 
+    <symbol id="symbol-chevron-right" viewBox="0 0 24 24">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    </symbol>
+
 
     <symbol id="symbol-tile" viewBox="0 0 24 24">
         <path d="M4 11h5V5H4v6zm0 7h5v-6H4v6zm6 0h5v-6h-5v6zm6 0h5v-6h-5v6zm-6-7h5V5h-5v6zm6-6v6h5V5h-5z"/>
@@ -275,6 +279,15 @@
     <symbol id="symbol-list" viewBox="0 0 24 24">
         <path d="M4 18h17v-6H4v6zM4 5v6h17V5H4z"/>
     </symbol>
+
+    <symbol id="symbol-letter" viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+    </symbol>
+
+
+    <svg id="symbol-filters" viewBox="0 0 6.88 6.88">
+        <path class="cls-1" d="M2.68.69a1 1 0 0 0-1-.69 1 1 0 0 0-1 .69H0v.69h.76a1 1 0 0 0 1 .68 1 1 0 0 0 1-.68h4.2V.69zm-1 .69a.35.35 0 0 1-.3-.38.32.32 0 0 1 .34-.31.32.32 0 0 1 .34.31.32.32 0 0 1-.34.38zM4.47 2.41a1 1 0 0 0-1 .69H0v.68h3.51a1 1 0 0 0 1.92 0h1.45V3.1H5.43a1 1 0 0 0-.96-.69zm0 1.37a.32.32 0 0 1-.34-.34.32.32 0 0 1 .34-.34.32.32 0 0 1 .34.34.32.32 0 0 1-.34.34zM3.1 4.81a1 1 0 0 0-1 .69H0v.69h2.13a1 1 0 0 0 1.93 0h2.82V5.5H4.06a1 1 0 0 0-.96-.69zm0 1.38a.35.35 0 1 1 0-.69.35.35 0 0 1 0 .69z"/><circle class="cls-1" cx="1.63" cy="1.07" r=".6"/><circle class="cls-1" cx="4.47" cy="3.44" r=".6"/><circle class="cls-1" cx="3.1" cy="5.85" r=".6"/>
+    </svg>
 </svg>
 
 

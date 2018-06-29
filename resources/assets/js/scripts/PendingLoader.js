@@ -13,10 +13,6 @@ export default class PendingLoader {
         }, time)
     }
 
-    inProcess() {
-        return true
-    }
-
     finish(cb) {
         if (!_.isFunction(cb)) return
 
@@ -30,5 +26,6 @@ export default class PendingLoader {
 
     cancel() {
         clearTimeout(this.timeout)
+        this.callback = null
     }
 }

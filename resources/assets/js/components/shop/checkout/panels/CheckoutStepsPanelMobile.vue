@@ -17,7 +17,7 @@
         </div>
 
         <div class="checkout-steps-panel-mobile__right">
-            Шаг {{ current }} из {{ total }}
+            Шаг&nbsp;&nbsp;{{ current }}&nbsp;&nbsp;из&nbsp;&nbsp;{{ total }}
         </div>
     </div>
 </template>

@@ -19,43 +19,33 @@
 
         <template slot="forward">
             <template v-if="nextDisabled">
-                <button
+                <button-loading
                     @click="showValidationErrors"
-                    :class="{'button button-light button-loading': true, 'is-loading': validationLoading}"
+                    class="button button-light"
+                    :loading="validationLoading"
                     :disabled="validationLoading"
                 >
-                    <div class="button-loading__content">
-                        Перейти к оплате
+                    Перейти к оплате
 
-                        <svg class="button__icon button__icon--right">
-                            <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
-                        </svg>
-                    </div>
-
-                    <svg class="button-loading__loader">
-                        <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                    <svg class="button__icon button__icon--right">
+                        <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
                     </svg>
-                </button>
+                </button-loading>
             </template>
 
             <template v-else>
-                <button
+                <button-loading
                     @click="toStep('payment')"
-                    :class="{'button button-primary button-loading': true, 'is-loading': validationLoading}"
+                    class="button button-primary"
+                    :loading="validationLoading"
                     :disabled="validationLoading"
                 >
-                    <div class="button-loading__content">
-                        Перейти к оплате
+                    Перейти к оплате
 
-                        <svg class="button__icon button__icon--right">
-                            <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
-                        </svg>
-                    </div>
-
-                    <svg class="button-loading__loader">
-                        <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                    <svg class="button__icon button__icon--right">
+                        <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
                     </svg>
-                </button>
+                </button-loading>
             </template>
         </template>
 
@@ -67,7 +57,8 @@
     import Mixin from './mixin'
 
     import CheckoutStep from './CheckoutStep'
-    import Shipping from "../../shipping/Shipping"
+    import Shipping from '../../shipping/Shipping'
+    import ButtonLoading from '../../../buttons/ButtonLoading'
 
     export default {
         name: "CheckoutStepShipping",
@@ -78,7 +69,8 @@
 
         components: {
             CheckoutStep,
-            Shipping
+            Shipping,
+            ButtonLoading
         },
 
         data() {

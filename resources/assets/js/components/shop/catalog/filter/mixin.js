@@ -51,24 +51,27 @@ export default {
             }
         },
 
-        applyActiveOptions(products, type) {
-            if (products.length === 0) return
+        applyActiveOptions() {
+            this.$nextTick(() => {
+                if (this.productsThatCanBeShown.length === 0) return
 
-            this.getFilterComponents().forEach(filterComponent => {
-                products.forEach(product => {
-                    filterComponent.prepareActiveOptions(product)
+                this.getFilterComponents().forEach(filterComponent => {
+                    this.productsThatCanBeShown.forEach(product => {
+                        filterComponent.prepareActiveOptions(product)
+                    })
+
+                    if (filterComponent.isDirty()) {
+                        this.filtersIsDirty = true
+                    }
+
+                    filterComponent.applyActiveOptions(this.lastFilterName)
+                    this.lastFilterName = false
                 })
-
-                if (filterComponent.isDirty()) {
-                    this.filtersIsDirty = true
-                }
-
-                filterComponent.applyActiveOptions(type)
             })
         },
 
         getFilterComponents() {
-            return this.$refs.filters.filtersArray
+            return this.$refs.filters ? this.$refs.filters.getFiltersArray() : []
         },
 
         clearFilters() {
