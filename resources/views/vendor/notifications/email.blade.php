@@ -41,7 +41,7 @@
     @slot('footer')
         @isset($footerText)
             @component('mail::rows.footer')
-                {{ $footerText }}
+                {!! $footerText !!}
             @endcomponent
         @endisset
     @endslot
