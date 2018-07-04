@@ -26,7 +26,7 @@
     <table class="wrapper" width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td align="center" height="100%">
-                <table class="content" width="100%" cellpadding="0" cellspacing="0">
+                <table class="content-body" width="100%" cellpadding="0" cellspacing="0">
                     {{ $header ?? '' }}
 
                     <tr>
