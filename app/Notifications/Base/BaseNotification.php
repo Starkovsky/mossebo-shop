@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Base;
 
+use Settings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,6 +50,14 @@ class BaseNotification extends Notification
     protected function newMailMessage()
     {
         return new DefaultMessage();
+    }
+
+    protected function mailFooterText($langKey)
+    {
+        return trans($langKey, [
+            'email' => Settings::get('notify-help-email'),
+            'phone' => str_replace(' ', '&nbsp;', Settings::get('notify-help-phone'))
+        ]);
     }
 
     /**

@@ -37,9 +37,4 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
-
-    public function showResetForm(Request $request, $token = null)
-    {
-        abort(404);
-    }
 }

@@ -11,8 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function test()
-    {
-        return \Auth::user()->sendPasswordResetNotification('aazazaza');
-    }
+//    public function test()
+//    {
+//        return \Auth::user()->sendPasswordResetNotification('aazazaza');
+//    }
 }

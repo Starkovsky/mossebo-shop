@@ -100,7 +100,7 @@
                                         <label for="email" class="form-label">Введите E-Mail</label>
                                         <input id="email"
                                                type="email"
-                                               class="form-input mb-3 {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                               class="form-input mb-3{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                                name="email"
                                                value="{{ old('email') }}"
                                                required
@@ -118,14 +118,14 @@
                                         <label for="password" class="form-label mt-2">Введите пароль</label>
                                         <input id="password"
                                                type="password"
-                                               class="form-input mb-3 {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                               class="form-input mb-3{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                name="password"
                                                required
                                         >
                                         @if ($errors->has('password'))
                                             <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
 
@@ -141,8 +141,8 @@
                                             <span class="form-checkbox__checkmark"></span>
 
                                             <span class="form-checkbox__label">
-                                    Запомнить этот компьютер
-                                </span>
+                                                Запомнить этот компьютер
+                                            </span>
                                         </label>
                                     </div>
 

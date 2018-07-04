@@ -35,9 +35,6 @@ class ResetPassword extends BaseNotification
             ->line(trans('mail.reset-password.line-4', ['home' => url('/')]))
             ->image('assets/images/emails/auth', 'reset.jpg', trans('mail.reset-password.alt'))
             ->action(trans('mail.reset-password.button'), $resetLink)
-            ->footer(trans('mail.reset-password.footer', [
-                'email' => Settings::get('notify-help-email'),
-                'phone' => Settings::get('notify-help-phone')
-            ]));
+            ->footer($this->mailFooterText('mail.reset-password.footer'));
     }
 }

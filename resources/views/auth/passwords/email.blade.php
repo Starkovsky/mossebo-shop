@@ -43,7 +43,7 @@
                                 @endif
                             </div>
 
-                            <div class="mt-24">
+                            <div class="mt-32">
                                 <button type="submit" class="button button-primary auth-reset">
                                     Восстановить
                                 </button>

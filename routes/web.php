@@ -76,7 +76,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/data', 'Shop\DataController@get');
 
 
-    Route::get('/test', 'Controller@test');
+//    Route::get('/test', 'Controller@test');
 });
 
 // Маршруты для Авторизации через Соцсети

@@ -61,7 +61,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
@@ -80,6 +80,9 @@ class RegisterController extends Controller
                 'provider' => $data['provider']
             ]);
         }
+
+        // todo: возможно не лучшее место для вызова этого метода
+        $user->sendRegistrationNotification();
 
         return $user;
     }
