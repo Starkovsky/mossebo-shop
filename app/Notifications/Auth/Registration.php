@@ -16,7 +16,7 @@ class Registration extends BaseNotification
             ->line(Lang::get('mail.registration.hello', ['name' => Auth::user()->getFullName()]))
             ->line(Lang::get('mail.registration.line-1', ['site' => config('app.name')]))
             ->line(Lang::get('mail.registration.line-2'))
-            ->image('assets/images/email/auth', 'registration.jpg', Lang::get('mail.registration.alt'))
+            ->image('assets/images/emails/auth', 'registration.jpg', Lang::get('mail.registration.alt'))
             ->action(Lang::get('mail.registration.button'), siteUrl('catalog'))
             ->footer(Lang::get('mail.registration.footer', ['email' => 'help@mossebo.market', 'phone' => '8 (800) 707-83-47']));
     }
