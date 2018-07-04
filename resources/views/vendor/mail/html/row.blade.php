@@ -1,7 +1,7 @@
 <table class="row" align="center" width="615" cellpadding="0" cellspacing="0">
     <tr>
         <td>
-            <table class="{{ $class }}" align="center" width="615" cellpadding="0" cellspacing="0">
+            <table class="{{ $class }}" align="center" cellpadding="0" cellspacing="0">
                 <tr>
                     <td>
                         {{ $slot }}

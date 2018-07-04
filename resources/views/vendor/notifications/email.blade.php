@@ -11,7 +11,7 @@
 {{-- Content --}}
 @foreach ($content as $line)
 
-{{ $line }}
+{!! $line !!}
 @endforeach
 
     {{-- Image --}}

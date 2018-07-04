@@ -2,8 +2,10 @@
 
 namespace App\Notifications\Messages;
 
+use Settings;
 use Illuminate\Notifications\Action;
 use Illuminate\Notifications\Messages\MailMessage;
+
 
 class DefaultMessage extends MailMessage
 {
@@ -18,13 +20,15 @@ class DefaultMessage extends MailMessage
     {
         $this->locale = $locale ?: \App::getLocale();
 
-        $this->socials = [
-            [
-                'title' => 'Instagram',
-                'url'   => 'https://www.instagram.com/remont.design/',
-                'image' => asset('assets/images/emails/socials/instagram.png')
-            ]
-        ];
+        $this->socials = Settings::notifySocials()->reduce(function ($carry, $item) {
+            $carry[] = [
+                'title' => ucfirst($item->key),
+                'url' => $item->value,
+                'image' => asset('assets/images/emails/socials/' . strtolower($item->key) . '.png'),
+            ];
+
+            return $carry;
+        }, []);
     }
 
     public function image($imageFolder, $imageName, $alt = null)

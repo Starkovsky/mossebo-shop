@@ -55,5 +55,11 @@ class RepoServiceProvider extends ServiceProvider
                 \App\Models\Country::class
             );
         });
+
+        $this->app->singleton('settings', function() {
+            return new \MosseboShopCore\Repositories\SettingsRepository(
+                \App\Models\Settings::class
+            );
+        });
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use MosseboShopCore\Models\User as BaseUser;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\Auth\ResetPassword as ResetPasswordNotification;
 use App\Notifications\Auth\Registration as RegistrationNotification;
 
 class User extends BaseUser

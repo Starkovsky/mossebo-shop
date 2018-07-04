@@ -43,15 +43,7 @@
                         </td>
                     </tr>
 
-                    @if($actionImage)
-                        <tr>
-                            <td style="padding: 12px"></td>
-                        </tr>
-
-                        {{ $actionImage }}
-                    @endif
-
-                    @if($actionImage)
+                    @if($actionButton)
                         <tr>
                             <td style="padding: 12px"></td>
                         </tr>
@@ -60,6 +52,14 @@
                     @endif
 
                     @if($actionImage)
+                        <tr>
+                            <td style="padding: 12px"></td>
+                        </tr>
+
+                        {{ $actionImage }}
+                    @endif
+
+                    @if($socials)
                         <tr>
                             <td style="padding: 16px"></td>
                         </tr>
