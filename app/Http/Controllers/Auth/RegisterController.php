@@ -74,7 +74,7 @@ class RegisterController extends Controller
         ]);
 
         // Если при входе была авторизация через соцсеть
-        if(isset($data['provider_user_id']) && isset($data['provider'])) {
+        if (isset($data['provider_user_id']) && isset($data['provider'])) {
             $user->socialProvider()->create([
                 'provider_user_id' => $data['provider_user_id'],
                 'provider' => $data['provider']

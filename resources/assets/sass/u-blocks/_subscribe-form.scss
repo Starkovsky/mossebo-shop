@@ -1,0 +1,36 @@
+.subscribe-form-row {
+    max-width: 320px;
+    margin: auto;
+
+    &__submit {
+        padding-top: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+        display: flex;
+        align-items: center;
+        max-width: 480px;
+
+        &__email {
+            width: calc(100% - 224px);
+        }
+
+        &__submit {
+            padding: 0 0 0 16px;
+            width: 224px;
+        }
+    }
+}
+
+
+
+.subscribe-to-us {
+    padding: 24px 0 32px;
+    background-color: $color-ui;
+    margin-bottom: -64px;
+    border-bottom: 1px solid $color-border;
+
+    @include media-breakpoint-up(lg) {
+        padding: 80px 0 120px;
+    }
+}

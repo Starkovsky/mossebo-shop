@@ -1,0 +1,27 @@
+.email-input {
+    display: block;
+    position: relative;
+    border-radius: $border-radius;
+    border: 1px solid $color-border;
+    padding-left: 54px;
+
+    &__input {
+        border: none;
+        background: transparent;
+        width: 100%;
+        font-size: 14px;
+        vertical-align: bottom;
+        height: 46px;
+    }
+
+    &__icon {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        left: 16px;
+        top: 50%;
+        margin-top: -12px;
+        fill: $color-icons;
+        transition: fill .3s;
+    }
+}

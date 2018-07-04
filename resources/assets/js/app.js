@@ -260,3 +260,99 @@ $('.js-pop-up-message').magnificPopup({
 //     ],
 //     'og:title': 'aza'
 // })
+
+
+(function () {
+   let $slider = $('.js-studio-work-life')
+
+    if (! $slider.length) return
+    let initialized = false
+
+    function check() {
+        if (app.windowLessThan('md')) {
+            if (! initialized) {
+                $slider.slick({
+                    prevArrow: false,
+                    nextArrow: false,
+                    variableWidth: true,
+                    dots: true
+                })
+
+                initialized = true
+            }
+        }
+        else {
+            if (initialized) {
+                $slider.slick('unslick');
+                initialized = false
+            }
+        }
+    }
+
+    app.$on('resize', check)
+
+    check()
+}())
+
+// let currentImagePath = null
+// let elImage = document.querySelector('.js-scroll-image')
+//
+// function changeImage(path) {
+//     if (currentImagePath !== path) {
+//         // поменять картинку
+//     }
+// }
+//
+// function innerHandler() {
+//     let imageCoordinates = elImage.getBoundingClientRect()
+//     let els = document.querySelectorAll('.js-scroll-slide')
+//
+//     for (let i = 0; i < els.length; i++) {
+//         let el = els[i]
+//
+//         let coordinates = el.getBoundingClientRect()
+//
+//         if (coordinates.y <= imageCoordinates.y) {
+//             if (el.clientHeight + coordinates.y > imageCoordinates.y) {
+//                 changeImage(el.getAttribute('data-image'))
+//
+//                 break
+//             }
+//         }
+//     }
+// }
+//
+//
+//
+//
+// let elScrollBox = document.querySelector('.js-scroll-box')
+// let scrollIsActive = false
+//
+// function outerHandler() {
+//     let coordinates = elScrollBox.getBoundingClientRect()
+//
+//     if (coordinates.y <= window.scrollY && elScrollBox.clientHeight + coordinates.y > window.scrollY) {
+//         activateScrollBox()
+//     }
+//     else {
+//         deactivateScrollBox()
+//     }
+// }
+//
+// function activateScrollBox() {
+//     if (scrollIsActive) return
+//
+//     scrollIsActive = true
+//     window.addEventListener('scroll', innerHandler, {passive: true})
+// }
+//
+// function deactivateScrollBox() {
+//     if (!scrollIsActive) return
+//
+//     scrollIsActive = false
+//     window.removeEventListener('scroll', innerHandler)
+// }
+//
+// window.addEventListener('scroll', outerHandler, {passive: true})
+//
+//

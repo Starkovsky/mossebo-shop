@@ -44,9 +44,14 @@
         border: 1px solid $color-primary;
         color: $color-ui;
         background: $color-primary;
+        transition: box-shadow $transition-primary;
         &:hover {
             box-shadow: $shadows-primary;
             color: $color-ui;
+        }
+
+        &:active {
+            box-shadow: none;
         }
     }
     &-dark {

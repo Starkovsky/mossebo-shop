@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use MosseboShopCore\Models\User as BaseUser;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\Auth\Registration as RegistrationNotification;
 
 class User extends BaseUser
 {
@@ -32,4 +34,18 @@ class User extends BaseUser
         return $this->hasOne(SocialProvider::class);
     }
 
+    public function sendRegistrationNotification()
+    {
+        $this->notifyNow(new RegistrationNotification());
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

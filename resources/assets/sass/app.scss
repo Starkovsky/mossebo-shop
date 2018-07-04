@@ -27,12 +27,12 @@
 @import "u-blocks/attributes";
 @import "u-blocks/banner";
 @import "u-blocks/dropdown";
+@import "u-blocks/email-input";
 @import "u-blocks/filters";
 @import "u-blocks/header-banner";
 @import "u-blocks/height-toggle";
 @import "u-blocks/huge-radio";
 @import "u-blocks/information-block";
-@import "u-blocks/structure-card";
 @import "u-blocks/label-value-table";
 @import "u-blocks/links";
 @import "u-blocks/loading-wrap";
@@ -44,9 +44,12 @@
 @import "u-blocks/rating";
 @import "u-blocks/scrollbar";
 @import "u-blocks/side-popup";
+@import "u-blocks/structure-card";
+@import "u-blocks/subscribe-form";
 @import "u-blocks/tabs";
 @import "u-blocks/instagram-slider";
 @import "u-blocks/timer";
+@import "u-blocks/video-frame";
 @import "u-blocks/watch-all-btn";
 
 //Layouts
@@ -63,6 +66,7 @@
 @import "variables/plugins/slick-slider";
 
 //Pages
+@import "pages/about-us-page";
 @import "pages/article-page";
 @import "pages/cart";
 @import "pages/catalog";

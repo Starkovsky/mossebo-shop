@@ -36,6 +36,11 @@
     transform: translate3d(0, 0, 0);
 }
 
+.slick-slide,
+.slick-slide * {
+    outline: none !important;
+}
+
 .slick-track
 {
     position: relative;
