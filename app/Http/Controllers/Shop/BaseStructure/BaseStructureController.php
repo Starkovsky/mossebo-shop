@@ -30,7 +30,7 @@ class BaseStructureController extends Controller
 
     protected static function setMeta($structureModel)
     {
-        SeoProxy::setMetaFromI18nModel($structureModel->currentI18n);
+        SeoProxy::setMetaFromI18nModel($structureModel);
         SeoProxy::setImageFromModel($structureModel, 'oneHalf');
     }
 

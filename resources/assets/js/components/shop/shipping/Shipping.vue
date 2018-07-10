@@ -1,5 +1,5 @@
 <template>
-    <div class="shipping">
+    <form class="shipping">
         <div class="shipping__type d-none">
             <tabs
                 :tabs="shippingTypes"
@@ -13,7 +13,7 @@
         <div class="shipping__form">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[name]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-name" class="form-label">
                             {{ $root.translate('form.fields.name') }}
                             <span class="form-required">*</span>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[surname]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-surname" class="form-label">
                             {{ $root.translate('form.fields.surname') }}
                             <span class="form-required">*</span>
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[phone]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-phone" class="form-label">
                             {{ $root.translate('form.fields.phone') }}
                             <span class="form-required">*</span>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[email]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-email" class="form-label">
                             {{ $root.translate('form.fields.email') }}
                             <span class="form-required">*</span>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[city]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-city" class="form-label">
                             {{ $root.translate('form.fields.city') }}
                             <span class="form-required">*</span>
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[post_code]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-post-code" class="form-label">
                             {{ $root.translate('form.fields.post_code') }}
                             <span class="form-required">*</span>
@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[address]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-address" class="form-label">
                             {{ $root.translate('form.fields.address') }}
                             <span class="form-required">*</span>
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div :class="{'form-group': true, 'has-error': formErrors.has('shipping[comment]')}">
+                    <div class="form-group js-form-group">
                         <label for="shipping-comment" class="form-label">
                             {{ $root.translate('form.fields.comment') }}
                         </label>
@@ -176,7 +176,7 @@
                 {{ $root.translate('shipping.note') }}
             </div>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -185,6 +185,7 @@
     // todo: Маску телефона поправить (убрать код?)
     import { TheMask } from 'vue-the-mask'
     import { Validator } from 'vee-validate'
+    import { FormInputs } from "../../../scripts/formSender";
 
     import Core from '../../../scripts/core'
 
@@ -198,13 +199,35 @@
             TheMask
         },
 
+        watch: {
+            '$validator.errors.items': 'setErrors'
+        },
+
         created() {
+            Validator.localize(Core.getLang())
             this.extendFieldAvailable('email')
             // todo: Добавить форматирование (добавление в начало номера кода страны)
             this.extendFieldAvailable('phone')
         },
 
+        mounted() {
+            this.FormInputs = new FormInputs(this.$el)
+        },
+
+        beforeDestroy() {
+            this.FormInputs.destroy()
+            this.FormInputs = null
+        },
+
         methods: {
+            setErrors() {
+                this.FormInputs.showErrors(this.formErrors.items.reduce((acc, item) => {
+                    acc[item.field] = item.msg
+
+                    return acc
+                }, {}))
+            },
+
             input(e) {
                 this.setValue(e.target.name.replace('shipping[', '').replace(']', ''), e.target.value)
             },

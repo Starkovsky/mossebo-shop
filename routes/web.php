@@ -51,6 +51,7 @@ Route::prefix('ru')->group(function () {
 
     Route::get('/privacy', 'ContentController@privacy')->name('privacy');
     Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
+    Route::get('/cabinet', 'ContentController@cabinet')->name('cabinet');
 
 
     /*
@@ -77,6 +78,8 @@ Route::prefix('ru')->group(function () {
 
 
 //    Route::get('/test', 'Controller@test');
+
+    Route::post('/forms/callback', 'FormController@callback');
 });
 
 // Маршруты для Авторизации через Соцсети

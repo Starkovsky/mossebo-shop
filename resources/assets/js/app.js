@@ -34,7 +34,9 @@ import FormattedPrice from './components/shop/price/FormattedPrice'
 import BannerHomeStock from './components/banners/BannerHomeStock'
 import BannerHomeNew from './components/banners/BannerHomeNew'
 import Checkout from './components/shop/checkout/Checkout'
+import Cabinet from './components/shop/cabinet/Cabinet'
 import CartBtn from './components/shop/cart/CartBtn'
+
 
 
 import ProductControls from './components/shop/product/ProductControls'
@@ -50,10 +52,12 @@ import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoad
 import Core from './scripts/core'
 import './scripts/HeightToggle'
 import './bootstrap/tooltip'
+import '@fancyapps/fancybox'
 
 import initFixedMenu from './scripts/FixedMenu'
 import initMainMenu from './scripts/MainMenu'
 import setMeta from './scripts/MetaSetter'
+import FormSender from "./scripts/formSender";
 
 
 
@@ -81,6 +85,7 @@ const app = new Vue({
         BannerHomeStock,
         BannerHomeNew,
         Checkout,
+        Cabinet,
         CartBtn,
         ProductControls,
         TabsHtml,
@@ -230,37 +235,6 @@ $('.js-zoom-gallery').magnificPopup({
     },
 });
 
-// From an element with ID #popup
-$('.js-pop-up-call').magnificPopup({
-    items: {
-        src: '#pop-up-call',
-        type: 'inline'
-    }
-});
-// From an element with ID #popup
-$('.js-pop-up-message').magnificPopup({
-    items: {
-        src: '#pop-up-message',
-        type: 'inline'
-    }
-});
-
-
-// setMeta({
-//     title: 'Azazazium',
-//     breadcrumbs: [
-//         {
-//             title: 'Главная',
-//             link: '/',
-//         },
-//         {
-//             title: 'Комнаты',
-//             link: '',
-//         },
-//     ],
-//     'og:title': 'aza'
-// })
-
 
 (function () {
    let $slider = $('.js-studio-work-life')
@@ -294,65 +268,28 @@ $('.js-pop-up-message').magnificPopup({
     check()
 }())
 
-// let currentImagePath = null
-// let elImage = document.querySelector('.js-scroll-image')
-//
-// function changeImage(path) {
-//     if (currentImagePath !== path) {
-//         // поменять картинку
-//     }
-// }
-//
-// function innerHandler() {
-//     let imageCoordinates = elImage.getBoundingClientRect()
-//     let els = document.querySelectorAll('.js-scroll-slide')
-//
-//     for (let i = 0; i < els.length; i++) {
-//         let el = els[i]
-//
-//         let coordinates = el.getBoundingClientRect()
-//
-//         if (coordinates.y <= imageCoordinates.y) {
-//             if (el.clientHeight + coordinates.y > imageCoordinates.y) {
-//                 changeImage(el.getAttribute('data-image'))
-//
-//                 break
-//             }
-//         }
-//     }
-// }
-//
-//
-//
-//
-// let elScrollBox = document.querySelector('.js-scroll-box')
-// let scrollIsActive = false
-//
-// function outerHandler() {
-//     let coordinates = elScrollBox.getBoundingClientRect()
-//
-//     if (coordinates.y <= window.scrollY && elScrollBox.clientHeight + coordinates.y > window.scrollY) {
-//         activateScrollBox()
-//     }
-//     else {
-//         deactivateScrollBox()
-//     }
-// }
-//
-// function activateScrollBox() {
-//     if (scrollIsActive) return
-//
-//     scrollIsActive = true
-//     window.addEventListener('scroll', innerHandler, {passive: true})
-// }
-//
-// function deactivateScrollBox() {
-//     if (!scrollIsActive) return
-//
-//     scrollIsActive = false
-//     window.removeEventListener('scroll', innerHandler)
-// }
-//
-// window.addEventListener('scroll', outerHandler, {passive: true})
-//
-//
+;[].forEach.call(document.querySelectorAll('.js-form-sender'), el => new FormSender(el))
+
+
+$('.js-form-popup').fancybox({
+    toolbar: false,
+    infobar: false,
+    arrows: false,
+    buttons: ['close'],
+    protect: false,
+    // touch: {
+    //     vertical: false,
+    //     momentum: false
+    // },
+
+    touch: false,
+    hash: false,
+
+    lang: Core.getLang(),
+
+    autoFocus: true,
+
+    i18n: {
+        [Core.getLang()]: Core.translate('fancybox')
+    }
+})

@@ -1,6 +1,7 @@
 .form {
     &-group {
         text-align: left;
+        position: relative;
 
         &.has-error {
             & .form-input,
@@ -88,8 +89,31 @@
     }
 
     &-error {
-        font-size: 12px / 16px;
+        position: absolute;
         color: $color-danger;
+        font-size: 17px;
+        font-weight: 700;
+
+        bottom: 10px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+
+        border-radius: 50%;
+        border: 1px solid currentColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity .3s;
+
+        &::before {
+            content: '!';
+        }
+    }
+
+    &-group.has-error &-error {
+        opacity: 1;
     }
 }
 

@@ -5,7 +5,7 @@
 
     <div class="container">
         <h1 class="title-h1">
-            {{ $style->currentI18n->title }}
+            {{ $category->currentI18n->title }}
         </h1>
     </div>
 

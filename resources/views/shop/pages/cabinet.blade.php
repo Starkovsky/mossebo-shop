@@ -5,13 +5,13 @@
 
     <div class="container">
         <h1 class="title-h1">
-            {{ __('content.catalog') }}
+            {{ __('content.cabinet') }}
         </h1>
     </div>
 
     <div class="container">
-        <catalog
+        <cabinet
             class="block-ui"
-        ></catalog>
+        ></cabinet>
     </div>
 @endsection

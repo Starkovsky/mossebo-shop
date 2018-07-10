@@ -43,9 +43,7 @@
                     piecewise: false,
                     // processDragable: true,
                     style: {
-                        "paddingTop": "37.5px",
-                        "paddingLeft": "0",
-                        "paddingRight": "0",
+                        "marginTop": "20px",
                         "marginBottom": "0px",
                         "marginLeft": "auto",
                         "marginRight": "auto"
@@ -259,8 +257,8 @@
 
         <div class="ht-container">
             <div class="ht-inner">
-                <div></div>
                 <div class="filter-desc" :id="'filerCollapsePrice'">
+                    <div style="padding-top: 10px"></div>
                     <div class="prices-slider">
                         <vue-slider
                             v-bind="priceFilter"

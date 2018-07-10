@@ -166,3 +166,9 @@ Breadcrumbs::for('good', function ($trail, $good) {
 
     $trail->push($good->currentI18n->title, route('good', $good->id));
 });
+
+Breadcrumbs::for('cabinet', function ($trail) {
+    $trail->parent('home');
+
+    $trail->push(Lang::get('content.cabinet'));
+});

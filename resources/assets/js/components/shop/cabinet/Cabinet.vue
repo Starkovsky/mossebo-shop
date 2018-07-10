@@ -23,7 +23,7 @@
         computed: {
             ... mapState({
                 pages: state => state.cabinet.pages,
-                activePage: state.cabinet.pages
+                activePage: state => state.cabinet.pages
             }),
         }
     }

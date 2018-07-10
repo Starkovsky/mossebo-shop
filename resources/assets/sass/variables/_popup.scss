@@ -1,24 +1,18 @@
-#pop-up {
-
-}
-
-
-.pop-up {
-    margin-left: auto;
-    margin-right: auto;
+.popup {
     max-width: 400px;
-    position: relative;
-    .block-ui {
-        padding: 48px 32px;
+    padding: 48px 32px;
+    color: $color-text-primary;
+    text-align: left;
+
+    &__top {
         text-align: center;
     }
-    &__title {
 
-    }
     &__desc {
-
+        color: $color-text-secondary;
     }
-    &__input {
+
+    &__form {
         max-width: 250px;
         margin-top: 32px;
         margin-bottom: 32px;
@@ -26,15 +20,13 @@
         margin-right: auto;
         text-align: left;
     }
-    .mfp-close {
-        color: $color-icons !important;
-        &:hover {
-            color: $color-text-primary !important;
-        }
+
+    &__bottom {
+        margin-top: 32px;
     }
-    .button {
-        padding-left: 40px;
-        padding-right: 40px;
+
+    &__button {
+        margin: auto;
         max-width: 250px;
         width: 100%;
     }

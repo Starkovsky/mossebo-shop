@@ -5,7 +5,11 @@
 
     <div class="container">
         <h1 class="title-h1">
-            {{ $room->currentI18n->title }}
+            @if ($category)
+                {{ $category->currentI18n->title }}
+            @else
+                {{ $room->currentI18n->title }}
+            @endif
         </h1>
     </div>
 

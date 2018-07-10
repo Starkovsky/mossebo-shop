@@ -108,9 +108,9 @@
                                         >
 
                                         @if ($errors->has('email'))
-                                            <span class="invalid-feedback">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
+                                            <span class="form-error">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
                                         @endif
                                     </div>
 
@@ -123,7 +123,7 @@
                                                required
                                         >
                                         @if ($errors->has('password'))
-                                            <span class="invalid-feedback">
+                                            <span class="form-error">
                                                 <strong>{{ $errors->first('password') }}</strong>
                                             </span>
                                         @endif

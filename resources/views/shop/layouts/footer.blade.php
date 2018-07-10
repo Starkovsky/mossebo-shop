@@ -113,15 +113,15 @@
                     <div class="mt-32">
                         <div class="row justify-content-center align-items-center">
                             <div class="col-9 col-md-6">
-                                <button class="button button-light button-long js-pop-up-call">
+                                <a href="#popup-call" class="button button-light button-long js-form-popup">
                                     {{ __('layouts.footer-recall') }}
-                                </button>
+                                </a>
                             </div>
 
                             <div class="col-9 col-md-6">
-                                <button class="button button-light button-long js-pop-up-message">
+                                <a href="#popup-review" class="button button-light button-long js-form-popup">
                                     {{ __('layouts.footer-write') }}
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -285,119 +285,150 @@
     </div>
 </div>
 
-
-<!-- Modal Callback -->
-<div id="pop-up-call" class="pop-up mfp-hide animated zoomIn">
-    <div class="block-ui">
-        <form>
-            <div class="pop-up__title title-h3">
-                Обратный звонок
-            </div>
-
-            <div class="pop-up__desc">
-                Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
-            </div>
-
-            <div class="pop-up__input">
-                <div class="form-group">
-                    <label for="pop-up__call_name" class="form-label">
-                        Имя
-                    </label>
-
-                    <input
-                        id="pop-up__call_name"
-                        type="text"
-                        class="form-input"
-                        name="name"
-                        required
-                    >
+<div class="d-none">
+    <!-- Modal Callback -->
+    <div id="popup-call" class="popup animated zoomIn block-ui">
+        <form class="js-form-sender" action="{{ siteUrl('forms/callback') }}">
+            <div class="popup__top">
+                <div class="popup__title title-h3">
+                    Обратный звонок
                 </div>
 
-                <div class="form-group mt-24">
-                    <label for="pop-up__call_tel" class="form-label">
-                        Телефон
-                    </label>
-
-                    <input
-                        id="pop-up__call_tel"
-                        type="tel"
-                        class="form-input"
-                        name="tel"
-                        required
-                    >
+                <div class="popup__desc">
+                    Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
                 </div>
             </div>
 
-            <div class="mt-24">
-                <button type="submit" class="button button-primary">
-                    Отправить
-                </button>
+            <div class="popup__content">
+                <div class="popup__form">
+                    <div class="form-group js-form-group">
+                        <label for="popup-callback-name" class="form-label">
+                            Имя
+                        </label>
+
+                        <input
+                            id="popup-callback-name"
+                            type="text"
+                            class="form-input"
+                            name="name"
+                            maxlength="255"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group mt-24 js-form-group">
+                        <label for="popup-callback-phone" class="form-label">
+                            Телефон
+                        </label>
+
+                        <input
+                            id="popup-callback-phone"
+                            type="tel"
+                            class="form-input"
+                            name="phone"
+                            minlength="6"
+                            maxlength="255"
+                            required
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup__bottom">
+                <div class="popup__button">
+                    <button type="submit" class="button button-loading button-primary button-long">
+                        <span class="button-loading__content">
+                            Отправить
+                        </span>
+
+                        <svg class="button-loading__loader">
+                            <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
-</div>
 
-<!-- Modal msg-back -->
-<div id="pop-up-message" class="pop-up mfp-hide animated zoomIn">
-    <div class="block-ui">
-        <form>
-            <div class="pop-up__title title-h3">
-                Напишите нам
-            </div>
-
-            <div class="pop-up__desc">
-                Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
-            </div>
-
-            <div class="pop-up__input">
-                <div class="form-group">
-                    <label for="pop-up__message_name" class="form-label">
-                        Имя
-                    </label>
-
-                    <input
-                        id="pop-up__message_name"
-                        type="text"
-                        class="form-input"
-                        name="name"
-                        required
-                    >
+    <!-- Modal msg-back -->
+    <div id="popup-review" class="popup animated zoomIn block-ui">
+        <form class="js-form-sender" action="{{ siteUrl('forms/review') }}">
+            <div class="popup__top">
+                <div class="popup__title title-h3">
+                    Напишите нам
                 </div>
 
-                <div class="form-group mt-24">
-                    <label for="pop-up__message_tel" class="form-label">
-                        Телефон
-                    </label>
-
-                    <input
-                        id="pop-up__message_tel"
-                        type="tel"
-                        class="form-input"
-                        name="tel"
-                        required
-                    >
-                </div>
-
-                <div class="form-group mt-24">
-                    <label for="pop-up__message_message" class="form-label">
-                        Ваше сообщение
-                    </label>
-
-                    <textarea
-                        id="pop-up__message_message"
-                        rows="6"
-                        class="form-input"
-                        name="message"
-                        required
-                    ></textarea>
+                <div class="popup__desc">
+                    Заполните короткую форму и мы свяжемся с Вами в ближайшее время!
                 </div>
             </div>
 
-            <div class="mt-24">
-                <button type="submit" class="button button-primary">
-                    Отправить
-                </button>
+            <div class="popup__content">
+                <div class="popup__form">
+                    <div class="form-group js-form-group">
+                        <label for="popup-review-name" class="form-label">
+                            Имя
+                        </label>
+
+                        <input
+                            id="popup-review-name"
+                            type="text"
+                            class="form-input"
+                            name="name"
+                            maxlength="255"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group mt-24 js-form-group">
+                        <label for="popup-review-phone" class="form-label">
+                            Телефон
+                        </label>
+
+                        <input
+                            id="popup-review-phone"
+                            type="tel"
+                            class="form-input"
+                            name="phone"
+                            minlength="6"
+                            maxlength="255"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group mt-24 js-form-group">
+                        <label for="popup-review-message" class="form-label">
+                            Ваше сообщение
+                        </label>
+
+                        <textarea
+                            id="popup-review-message"
+                            rows="6"
+                            class="form-textarea"
+                            name="message"
+                            maxlength="2048"
+                            required
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup__bottom">
+                <div class="popup__button">
+                    <button type="submit" class="button button-loading button-primary button-long">
+                        <span class="button-loading__content">
+                            Отправить
+                        </span>
+
+                        <svg class="button-loading__loader">
+                            <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
+
 </div>
+
+

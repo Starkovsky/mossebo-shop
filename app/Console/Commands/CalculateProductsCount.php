@@ -1,44 +1,55 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Console\Commands;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Console\Command;
 
-use App\Models\Shop\Product;
 use App\Models\Shop\ProductCount;
-
+use App\Models\Shop\Product;
 use Categories;
-use Rooms;
 use Styles;
+use Rooms;
 
-
-class CalculateProductsCount implements ShouldQueue
+class CalculateProductsCount extends Command
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'shop:product-counts';
 
     /**
-     * Create a new job instance.
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Подсчет количества товаров в категориях, стилях и комнатах';
+
+    /**
+     * Create a new command instance.
      *
      * @return void
      */
     public function __construct()
     {
-        //
+        parent::__construct();
     }
 
     /**
-     * Execute the job.
+     * Execute the console command.
      *
-     * @return void
+     * @return mixed
      */
     public function handle()
     {
-//        $this->calculateCatalog();
-//        $this->calculateRoomCatalogCounts();
+        ProductCount::truncate();
+
+        $this->calculateCatalogCounts();
+        $this->calculateStyleCounts();
+        $this->calculateStyleCatalogCounts();
+        $this->calculateRoomCounts();
+        $this->calculateRoomCatalogCounts();
     }
 
     protected function calculateCatalogCounts()

@@ -4,9 +4,9 @@
         @click="click"
         :class="{'button-loading': true, 'is-loading': loading}"
     >
-        <div class="button-loading__content">
+        <span class="button-loading__content">
             <slot></slot>
-        </div>
+        </span>
 
         <svg class="button-loading__loader">
             <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>

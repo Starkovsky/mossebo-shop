@@ -2,23 +2,30 @@
 // Variables
 @import "variables/colors";
 @import "variables/variables";
+
+@import "bootstrap/bootstrap";
+
+//Plugins
+//@import "variables/plugins/magnific-popup";
+@import "variables/plugins/slick-slider";
+@import "variables/plugins/fancybox";
+
 @import "variables/buttons";
 @import "variables/form-el";
 @import "variables/popup";
 
 // Bootstrap
 //@import '~bootstrap/scss/bootstrap';
-@import "bootstrap/bootstrap";
+
 
 // Icons
 @import "variables/icons";
 
 //Global Styles
-@import "animations";
 @import "global";
 
 // magnific-popup
-@import "~magnific-popup/src/css/main";
+//@import "~magnific-popup/src/css/main";
 
 // Universal Blocks
 @import "u-blocks/images";
@@ -61,10 +68,6 @@
 @import "layouts/main-layout";
 @import "layouts/shop-breadcrumbs";
 
-//Plugins
-@import "variables/plugins/magnific-popup";
-@import "variables/plugins/slick-slider";
-
 //Pages
 @import "pages/about-us-page";
 @import "pages/article-page";
@@ -80,3 +83,5 @@
 
 //Auth
 @import "pages/auth";
+
+@import "animations";
