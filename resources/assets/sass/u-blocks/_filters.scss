@@ -87,9 +87,71 @@
     }
 }
 
-.filter-option:not(:first-child) {
+.filter-more {
     margin-top: 8px;
 }
+
+.filter-more-link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    color: $color-text-secondary;
+    cursor: pointer;
+
+    &__label {
+        color: currentColor;
+        border-bottom: 1px dashed transparent;
+        transition: all .3s;
+    }
+
+    &__icon {
+        margin: 0 11px 0 0;
+        width: 24px;
+        height: 24px;
+        fill: $color-icons;
+        transition: all .3s;
+    }
+
+    &__label + &__icon {
+        margin: 0 0 0 11px;
+    }
+
+    &.is-active &__icon {
+        transform: rotateZ(45deg);
+    }
+
+    &:hover &__label {
+        border-bottom-color: currentColor;
+    }
+}
+
+.filter-option {
+    &:not(:first-child) {
+        margin-top: 8px;
+    }
+
+    &__count {
+        float: right;
+        margin-left: 16px;
+        color: $color-text-secondary;
+        font-size: 12px;
+        width: 32px;
+        text-align: right;
+        transition: color .3s;
+
+        &--hidden {
+            visibility: hidden;
+        }
+    }
+
+    input:checked ~ span &__count,
+    &:hover &__count {
+        color: $color-primary;
+    }
+}
+
+
 
 .filter-desc--20 .filter-option {
     display: inline-flex;

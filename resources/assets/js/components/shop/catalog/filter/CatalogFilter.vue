@@ -2,7 +2,7 @@
     <div>
         <div :class="{'filter-name js-ht-filter': true, 'is-active': expanded}">
             <span class="filter-name__name">
-                {{ title }}
+                {{ filter.title }}
             </span>
 
             <svg class="filter-name__icon symbol-icon symbol-keyboard-down">
@@ -12,16 +12,44 @@
 
         <div class="ht-container">
             <div class="ht-inner">
-                <div :class="'filter-desc filter-desc--' + id">
-                    <template v-for="option in orderedOptions">
+                <div :class="'filter-desc filter-desc--' + filter.id">
+                    <template v-for="option in optionsToShow">
                         <catalog-filter-option
-                            :id="option.id"
                             :key="option.id"
+                            :id="option.id"
                             :title="option.title"
+                            :count="option.productCount"
                             :checked="optionIsChecked(option.id)"
                             :disabled="optionIsDisabled(option.id)"
                             @click="optionClick(option.id)"
                         ></catalog-filter-option>
+                    </template>
+
+                    <template v-if="optionsTooMuch">
+                        <template v-if="listIsOpened">
+                            <div class="filter-more">
+                                <span class="filter-more-link is-active" @click="closeList">
+                                    <svg class="filter-more-link__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-add"></use>
+                                    </svg>
+
+                                    <span class="filter-more-link__label">{{ $root.translate('Collapse') }}</span>
+                                </span>
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <div class="filter-more">
+                                <span class="filter-more-link" @click="openList">
+                                    <svg class="filter-more-link__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-add"></use>
+                                    </svg>
+
+                                    <span class="filter-more-link__label">{{ $root.translate('Show all') }}</span>
+                                </span>
+                            </div>
+                        </template>
+
                     </template>
                 </div>
             </div>
@@ -31,6 +59,7 @@
 
 <script>
     import CatalogFilterOption from './CatalogFilterOption'
+    import CatalogFilterMixin from './CatalogFilterMixin'
 
     export default {
         name: "CatalogFilter",
@@ -39,48 +68,35 @@
             CatalogFilterOption
         },
 
-        props: {
-            id: Number,
-            title: String,
-            options: Array,
-            expanded: {
-                type: Boolean,
-                default: false
-            }
-        },
+        mixins: [
+            CatalogFilterMixin
+        ],
 
         data() {
             return {
-                checkedOptions: [],
-                activeOptions: [],
-                activeOptions$: {}
+                options: this.filter.options,
+                listIsOpened: false
             }
         },
 
-        mounted() {
-            this.$nextTick(() => {
-                heightToggle('.js-ht-filter')
-            })
+        props: {
+            maxOptionsCount: {
+                type: Number,
+                default: 8
+            }
         },
 
         methods: {
+            onFilterChange() {
+                this.options = this.filter.options
+            },
+
             optionClick(optionId) {
-                if (this.checkedOptions.indexOf(optionId) === -1) {
-                    this.checkedOptions = [
-                        ... this.checkedOptions,
-                        optionId
-                    ]
-
-                }
-                else {
-                    this.checkedOptions = this.checkedOptions.filter(id => id != optionId)
-                }
-
-                this.$root.$emit('filterChanged')
+                this.$store.dispatch('catalog/setFilterValue', [this.filter.id, optionId])
             },
 
             optionIsChecked(optionId) {
-                return this.checkedOptions.indexOf(optionId) !== -1
+                return this.filter.checkedOptions.indexOf(optionId) !== -1
             },
 
             optionIsDisabled(optionId) {
@@ -88,55 +104,37 @@
                     return false
                 }
 
-                return this.activeOptions.indexOf(optionId) === -1
+                return this.filter.activeOptions.indexOf(optionId) === -1
             },
 
-            prepareActiveOptions({options = []}) {
-                options.forEach(optionId => {
-                    this.activeOptions$[optionId] = 1
-                })
+            openList() {
+                this.listIsOpened = true
             },
 
-            applyActiveOptions() {
-                this.activeOptions = Object.keys(this.activeOptions$).map(optionId => parseInt(optionId))
-                this.activeOptions$ = {}
+            closeList() {
+                this.listIsOpened = false
             },
 
-            checkProduct(product = {}) {
-                if (this.checkedOptions.length === 0) {
-                    return true
-                }
-
-                let options = product.options
-
-                if (! (options instanceof Array && options.length > 0)) {
-                    return false;
-                }
-
-                for (let i = 0; i < this.checkedOptions.length; i++) {
-                    let index = options.indexOf(this.checkedOptions[i]);
-
-                    if (index !== -1) {
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-
-            isDirty() {
-                return !!this.checkedOptions.length
-            },
-
-            clear() {
-                this.checkedOptions = []
-            }
+            clear() {}
         },
 
         computed: {
-            orderedOptions() {
-                return _.orderBy(this.options, 'position')
+            optionsLength() {
+                return Object.keys(this.options).length
+            },
+
+            optionsTooMuch() {
+                return this.optionsLength > this.maxOptionsCount && this.optionsLength - this.maxOptionsCount > 2
+            },
+
+            optionsToShow() {
+                if (this.optionsTooMuch && !this.listIsOpened) {
+                    return Object.keys(this.options).slice(0, this.maxOptionsCount).map(id => this.options[id])
+                }
+                else {
+                    return this.options
+                }
             }
-        },
+        }
     }
 </script>

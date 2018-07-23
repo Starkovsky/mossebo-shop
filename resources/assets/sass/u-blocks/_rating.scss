@@ -55,4 +55,20 @@
         height: 28px;
         background-image: url('/assets/images/icons/stars/120.png');
     }
+
+    @include media-breakpoint-up(xl) {
+        &--reviews-statistics {
+            font-size: 14px / 17px;
+        }
+
+        &--reviews-statistics &__stars {
+            margin-right: 16px;
+        }
+
+        &--reviews-statistics &__icon {
+            width: 120px;
+            height: 28px;
+            background-image: url('/assets/images/icons/stars/120.png');
+        }
+    }
 }

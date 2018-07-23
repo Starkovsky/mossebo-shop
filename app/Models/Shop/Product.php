@@ -3,13 +3,22 @@
 namespace App\Models\Shop;
 
 use App\Models\Media;
+use App\Models\Review;
+use Laravel\Scout\Searchable;
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct
 {
+    use Searchable;
+
     protected $fillable = [
         'showed'
     ];
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'item');
+    }
 
     public function prices()
     {
@@ -26,6 +35,32 @@ class Product extends BaseProduct
         return $this->hasManyThrough(
             Category::class, CategoryProduct::class,
             $this->relationFieldName, 'id', 'id', 'category_id'
+        );
+    }
+
+    public function styleRelations()
+    {
+        return $this->hasMany(StyleProduct::class, $this->relationFieldName);
+    }
+
+    public function styles()
+    {
+        return $this->hasManyThrough(
+            Style::class, StyleProduct::class,
+            $this->relationFieldName, 'id', 'id', 'style_id'
+        );
+    }
+
+    public function roomRelations()
+    {
+        return $this->hasMany(RoomProduct::class, $this->relationFieldName);
+    }
+
+    public function rooms()
+    {
+        return $this->hasManyThrough(
+            Room::class, RoomProduct::class,
+            $this->relationFieldName, 'id', 'id', 'room_id'
         );
     }
 
@@ -110,19 +145,6 @@ class Product extends BaseProduct
         return $query->first();
     }
 
-    public static function enabled()
-    {
-        $supplierTableName = config('tables.Suppliers');
-        $productTableName = config('tables.Products');
-
-        return self::select(\DB::raw("{$productTableName}.*"))
-            ->where("{$productTableName}.enabled", 1)
-            ->leftJoin("{$supplierTableName}", function($join) use($supplierTableName, $productTableName) {
-                $join->on("{$supplierTableName}.id", '=', "{$productTableName}.supplier_id")
-                    ->where("{$supplierTableName}.enabled", true);
-            });
-    }
-
     public function canBeShowed()
     {
         return
@@ -138,38 +160,5 @@ class Product extends BaseProduct
         $this->update([
             'showed' => $this->showed + 1
         ]);
-    }
-
-    public function scopeWhereStyle($query, $styleId)
-    {
-        $styleRelationsTableName = config('tables.StyleProducts');
-        $productTableName = config('tables.Products');
-
-        return $query->join($styleRelationsTableName, function($join) use($styleRelationsTableName, $productTableName, $styleId) {
-            $join->on("{$styleRelationsTableName}.product_id", '=', "{$productTableName}.id")
-                ->where("{$styleRelationsTableName}.style_id", $styleId);
-        });
-    }
-
-    public function scopeWhereRoom($query, $roomId)
-    {
-        $roomRelationsTableName = config('tables.RoomProducts');
-        $productTableName = config('tables.Products');
-
-        return $query->join($roomRelationsTableName, function($join) use($roomRelationsTableName, $productTableName, $roomId) {
-            $join->on("{$roomRelationsTableName}.product_id", '=', "{$productTableName}.id")
-                ->where("{$roomRelationsTableName}.room_id", $roomId);
-        });
-    }
-
-    public function scopeWhereCategory($query, $categoryId)
-    {
-        $categoryRelationsTableName = config('tables.CategoryProducts');
-        $productTableName = config('tables.Products');
-
-        return $query->join($categoryRelationsTableName, function($join) use($categoryRelationsTableName, $productTableName, $categoryId) {
-            $join->on("{$categoryRelationsTableName}.product_id", '=', "{$productTableName}.id")
-                ->where("{$categoryRelationsTableName}.category_id", $categoryId);
-        });
     }
 }

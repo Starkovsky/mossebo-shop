@@ -1,7 +1,7 @@
 import axios from 'axios'
 import BlankPlugin from './base/BlankPlugin'
 import Core from './core'
-import Alerty from './alerty'
+import Alerty from './Alerty'
 
 function dispatchEvent(el, eventName) {
     let myEvent
@@ -126,7 +126,7 @@ class FormField {
     }
 
     setValue(value) {
-        if (this.type === 'hidden') return
+        if (!this.ready || this.type === 'hidden') return
 
         if (this.valueType === 'value') {
             this.inputEl.value = value
@@ -173,6 +173,8 @@ class FormField {
     }
 
     reset() {
+        if (! this.ready) return
+
         this.setValue('')
 
         dispatchEvent(this.inputEl, 'focus')
@@ -219,13 +221,30 @@ export class FormInputs extends BlankPlugin {
     }
 }
 
+const defaultOptions = {
+    callbacks: {}
+}
+
 export default class FormSender extends FormInputs {
-    constructor(el) {
+    constructor(el, options) {
         super(el)
+
+        this.setOptions(options)
 
         this.url = this.el.getAttribute('action')
         this.sendInProcess = false
         this.init()
+    }
+
+    setOptions(options) {
+        this.options = {
+            ... defaultOptions,
+            ... options
+        }
+
+        Object.keys(this.options.callbacks).forEach(eventName => {
+            this.on(eventName, this.options.callbacks[eventName])
+        })
     }
 
     init() {
@@ -246,7 +265,7 @@ export default class FormSender extends FormInputs {
             .catch(thrown => {
                 if (axios.isCancel(thrown)) return
 
-                if ('response' in thrown && thrown.response.data) {
+                if (this.thrownHasHandlableData(thrown)) {
                     this.handleResponseData(thrown.response.data)
                     return
                 }
@@ -259,7 +278,16 @@ export default class FormSender extends FormInputs {
             })
     }
 
+    thrownHasHandlableData(thrown) {
+        if (! 'response' in thrown) return false
+        if (! 'data' in thrown.response) return false
+
+        return 'message' in thrown.response.data && thrown.response.data.message
+    }
+
     handleResponseData(data) {
+        this.trigger('onDone', data)
+
         if (data.status === 'error' && data.errors) {
             this.showErrors(data.errors)
         }

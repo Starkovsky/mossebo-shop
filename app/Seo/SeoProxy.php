@@ -92,7 +92,6 @@ class SeoProxy implements SeoProxyInterface
 
     public static function generate($minify = null): string
     {
-
         Twitter::setUrl(url('/'));
         OpenGraph::setUrl(url('/'));
 

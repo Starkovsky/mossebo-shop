@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Shop;
 
+use Auth;
+use SeoProxy;
 use App\Models\Shop\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
-use SeoProxy;
+use App\Http\Resources\ReviewResource;
 
 class ProductController extends Controller
 {
@@ -96,5 +98,30 @@ class ProductController extends Controller
         else {
             return abort(404);
         }
+    }
+
+    public function reviews(Product $product)
+    {
+        $user = Auth::user();
+
+        $reviews = $product->reviews()
+            ->with('user')
+            ->where('enabled', 1)
+            ->where('language_code', app()->getLocale())
+            ->where(function($query) use($user) {
+                $query->where('confirmed', 1);
+
+                if ($user) {
+                    $query->orWhere(function ($query) use($user) {
+                        $query->where('confirmed', 0)->where('user_id', $user->id);
+                    });
+                }
+            })
+            ->get();
+
+        return response()->json([
+            'status' => 'success',
+            'reviews' => ReviewResource::collection($reviews)
+        ]);
     }
 }

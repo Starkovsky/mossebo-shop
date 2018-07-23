@@ -56,9 +56,9 @@ class CheckoutController extends Controller
         $result['orderId'] = $order;
 
         Mail::send('emails.checkout.test', $result, function ($message) use($result) {
-            $message->from('shop@mossebo.market', 'Mossebo Market');
-            $message->to('vlad.starkovsky@gmail.com', 'Владислав')->subject('Заказ с сайта Mossebo.Market');
-            $message->cc($result['shipping']['data']['email'])->subject('Заказ с сайта Mossebo.market');
+            $message->from(config('mail.from.address'), config('mail.from.name'));
+            $message->to($result['shipping']['data']['email'])->subject(trans('shop.checkout.success'));
+            $message->bcc(config('mail.to.address'), config('mail.to.name'));
 
         });
 

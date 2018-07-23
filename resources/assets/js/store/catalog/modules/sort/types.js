@@ -1,0 +1,1 @@
+export const CATALOG_SET_SORT = 'CATALOG_SET_SORT'

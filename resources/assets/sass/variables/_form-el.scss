@@ -147,11 +147,10 @@
 
     &__checkmark {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: 0;
         height: 20px;
         width: 20px;
-        margin-top: -10px;
         background-color: $color-ui;
         border: 2px solid $color-border;
         border-radius: 2px;
@@ -186,5 +185,41 @@
     &.disabled &__checkmark,
     &.disabled &__value {
         background-color: $color-border;
+    }
+}
+
+.form-group-plug {
+    display: flex;
+    height: 44px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.from-radio-group {
+    display: flex;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+
+    &__label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        height: 42px;
+        color: $color-text-secondary;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    &__label ~ &__label {
+        border-left: 1px solid $color-border;
+    }
+
+    &__input {
+        display: none;
+    }
+
+    &__input:checked + &__label {
+        color: $color-text-primary;
     }
 }

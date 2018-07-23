@@ -1,5 +1,6 @@
 <script>
-    import VueSlider from 'vue-slider-component';
+    import VueSlider from 'vue-slider-component'
+    import CatalogFilterMixin from './CatalogFilterMixin'
 
     // Добавлены event клика по слайдеру
     VueSlider.methods.wrapClick = function(e) {
@@ -19,22 +20,19 @@
             VueSlider
         },
 
-        props: [
-            'name',
-            'prices'
+        mixins: [
+            CatalogFilterMixin
         ],
-
-        // todo: допилить
 
         data () {
             return {
                 priceFilter: {
-                    value: [... this.prices],
+                    value: [... this.filter.pricesRange],
                     width: 'calc(100% - 30px)',
                     height: 5,
                     dotSize: 15,
-                    min: this.prices[0],
-                    max: this.prices[1],
+                    min: this.filter.pricesRange[0],
+                    max: this.filter.pricesRange[1],
                     interval: 1,
                     disabled: false,
                     show: true,
@@ -85,90 +83,17 @@
                     processStyle: {
                         "backgroundColor": "transparent"
                     },
-                    // data: [
-                    //     '8560',
-                    //     '8960',
-                    //     '1060',
-                    //     '1160',
-                    //     '1260',
-                    //     '1360',
-                    //     '1460',
-                    //     '1560',
-                    //     '1660',
-                    //     '1760',
-                    //     '1860',
-                    //     '1960',
-                    //     '108700'
-                    // ]
                 },
 
-                filterRange: [... this.prices],
-                availableRange: [... this.prices],
-                cachedRange: [... this.prices],
-                manualRange: [... this.prices],
-                activePrices$: false
+                // Предыдущая выбранная ценаю. Для того, чтобы не запускать процесс фильтрации при выборе той же цены.
+                availableRange: [... this.filter.availableRange],
             }
         },
 
-        mounted() {
-            this.$nextTick(() => {
-                heightToggle('.js-ht-price-filter')
-            })
-        },
-
         methods: {
-            checkProduct(product = {}) {
-                let price = parseInt(product.price)
-
-                if (price < parseInt(this.filterRange[0])) {
-                    return false
-                }
-
-                if (price > parseInt(this.filterRange[1])) {
-                    return false
-                }
-
-                return true
-            },
-
-            prepareActiveOptions(product) {
-                if (! this.activePrices$) {
-                    this.activePrices$ = [
-                        product.price,
-                        product.price
-                    ]
-                }
-                else {
-                    if (product.price < this.activePrices$[0]) {
-                        this.activePrices$[0] = product.price
-                    }
-                    else if (product.price > this.activePrices$[1]) {
-                        this.activePrices$[1] = product.price
-                    }
-                }
-            },
-
-            applyActiveOptions(filterName) {
-                let prices = this.activePrices$ ? this.activePrices$ : this.prices
-
-                this.availableRange = [... prices]
-
-                if (filterName !== this.name) {
-                    this.priceFilter.value = [
-                        Math.max(prices[0], this.manualRange[0]),
-                        Math.min(prices[1], this.manualRange[1]),
-                    ]
-                }
-
-                this.activePrices$ = false
-            },
-
-            clear() {
-                this.priceFilter.value = [... this.prices]
-                this.filterRange = [... this.prices]
-                this.cachedRange = [... this.prices]
-                this.manualRange = [... this.prices]
-                this.availableRange = [... this.prices]
+            onFilterChange() {
+                this.availableRange    = [... this.filter.availableRange]
+                this.priceFilter.value = [... this.filter.selectedRange]
             },
 
             inputChange() {
@@ -189,53 +114,51 @@
             },
 
             setPriceRange(prices) {
-                if (this.cachedRange[0] !== prices[0] || this.cachedRange[1] !== prices[1]) {
-                    this.cachedRange = [... prices]
+                prices = [
+                    Math.max(this.availableRange[0], prices[0]),
+                    Math.min(this.availableRange[1], prices[1])
+                ]
 
-                    this.manualRange = [... prices]
-
-                    this.priceFilter.value = [... prices]
-
-                    this.filterRange = [
-                        Math.min(prices[0], this.manualRange[0]),
-                        Math.max(prices[1], this.manualRange[1]),
-                    ]
-
-                    this.$root.$emit('filterChanged', this.name)
+                if (prices[0] === this.filter.selectedRange[0] && prices[1] === this.filter.selectedRange[1]) {
+                    this.priceFilter.value = prices
+                    return
                 }
+
+                this.$store.dispatch('catalog/setFilterValue', ['prices', prices])
+            },
+
+            clear() {
+                this.priceFilter.value = [... this.filter.pricesRange]
+                this.availableRange    = [... this.filter.pricesRange]
             },
 
             getPercent(value) {
                 return (value / this.diff * 100).toFixed(4)
             },
-
-            isDirty() {
-                return ! _.isEqual(this.priceFilter.value, this.prices)
-            },
         },
 
         computed: {
             diff() {
-                return this.prices[1] - this.prices[0]
+                return this.filter.pricesRange[1] - this.filter.pricesRange[0]
             },
 
             emptyLeftStyle() {
                 return {
                     left: '0',
-                    width: this.getPercent(this.priceFilter.value[0] - this.prices[0]) + '%'
+                    width: this.getPercent(this.priceFilter.value[0] - this.filter.pricesRange[0]) + '%'
                 }
             },
 
             emptyRightStyle() {
                 return {
                     right: '0',
-                    width: this.getPercent(this.prices[1] - this.priceFilter.value[1]) + '%'
+                    width: this.getPercent(this.filter.pricesRange[1] - this.priceFilter.value[1]) + '%'
                 }
             },
 
             availableStyle() {
-                let leftPercent = this.getPercent(this.availableRange[0] - this.prices[0])
-                let rightPercent = this.getPercent(this.prices[1] - this.availableRange[1])
+                let leftPercent = this.getPercent(this.availableRange[0] - this.filter.pricesRange[0])
+                let rightPercent = this.getPercent(this.filter.pricesRange[1] - this.availableRange[1])
 
                 return {
                     left: `calc(${leftPercent}% - 1px)`,
@@ -248,16 +171,16 @@
 
 <template>
     <div>
-        <a class="filter-name js-ht-price-filter is-active">
+        <div :class="{'filter-name js-ht-filter': true, 'is-active': expanded}">
             Цена
             <svg class="symbol-icon symbol-keyboard-down">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
-        </a>
+        </div>
 
         <div class="ht-container">
             <div class="ht-inner">
-                <div class="filter-desc" :id="'filerCollapsePrice'">
+                <div class="filter-desc">
                     <div style="padding-top: 10px"></div>
                     <div class="prices-slider">
                         <vue-slider

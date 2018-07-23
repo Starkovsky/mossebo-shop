@@ -103,11 +103,12 @@ class RoomController extends BaseStructureController
                 return siteUrl('rooms/' . $room->slug . '/' . $resource->slug);
             },
             function($resource) use($room) {
-                return $resource
+                $row = $resource
                     ->productCounts
                     ->where('room_id', $room->id)
-                    ->first()
-                    ->count;
+                    ->first();
+
+                return $row ? $row->count : 0;
             }
         );
     }

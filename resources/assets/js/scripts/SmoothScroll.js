@@ -1,6 +1,5 @@
 // Анимированный скролл.
-
-import Core from './core'
+import BlankPlugin from './base/BlankPlugin'
 
 const eventsList = [
     'keydown',
@@ -10,27 +9,12 @@ const eventsList = [
     'touchstart'
 ]
 
-
-export default class SmoothScrollProxy {
+export class SmoothScroll extends BlankPlugin {
     constructor(elem, duration, callback) {
-        return new SmoothScroll(SmoothScroll.findEndPoint(elem) - this.getOffset(), duration, callback)
-    }
+        super()
 
-    getOffset() {
-        if (window.innerWidth < 992) {
-            return 0
-            // return document.querySelector('.js-header-mobile-fix').clientHeight
-        }
-        else {
-            return 0
-        }
-    }
-}
-
-export class SmoothScroll {
-    constructor(elem, duration, callback) {
         this.startFrom = window.pageYOffset
-        this.scrollHeight = SmoothScroll.findEndPoint(elem) - this.startFrom
+        this.scrollHeight = SmoothScroll.findEndPoint(elem)
         this.duration = duration || SmoothScroll.calculateDuration(this.scrollHeight)
 
         this.callback = callback
@@ -45,7 +29,9 @@ export class SmoothScroll {
         }
 
         if (elem instanceof Element) {
-            return elem.offsetTop
+            let coordinates = elem.getBoundingClientRect()
+
+            return coordinates.top
         }
 
         if (Number(parseFloat(elem)) === elem) {
@@ -91,26 +77,40 @@ export class SmoothScroll {
 
             if (typeof this.callback === 'function') {
                 this.callback()
-                this.callback = undefined
             }
         }
     }
 
     bindEvents() {
-        this.stopProxy = () => {
-            this.stop()
-        }
-
         eventsList.forEach(eventName => {
-            document.addEventListener(eventName, this.stopProxy, { passive: true })
+            this.bindEvent(document, eventName, this.stop, { passive: true })
         })
     }
+}
 
-    unbindEvents() {
-        eventsList.forEach(eventName => {
-            document.removeEventListener(eventName, this.stopProxy)
-        })
+export default class SmoothScrollProxy {
+    constructor(elem, duration, callback) {
+        return new SmoothScroll(SmoothScroll.findEndPoint(elem) - SmoothScrollProxy.getOffset(), duration, callback)
+    }
 
-        this.stopProxy = undefined
+    static getOffset() {
+        return document.querySelector('.js-fixed-menu').clientHeight
+    }
+
+    static scrollIsNeed(el) {
+        let top = el.getBoundingClientRect().top
+
+        return (top + el.offsetHeight < el.offsetHeight / 2)
+    }
+
+    static scrollIfItNeeds(el, duration, callback) {
+        if (SmoothScrollProxy.scrollIsNeed(el)) {
+            return new SmoothScrollProxy(el, duration, callback)
+        }
+        else {
+            if (typeof callback === 'function') {
+                callback()
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-export default class BlankPlugin {
+export default class wBlankPlugin {
     constructor() {
         this.subscribers = []
         this.eventDestroyers = []
@@ -30,6 +30,10 @@ export default class BlankPlugin {
         this.on(name, handler)
     }
 
+    once() {
+        this.one.apply(this, arguments)
+    }
+
     off(name, callback) {
         if (!this.subscribers[name]) return
 
@@ -55,7 +59,7 @@ export default class BlankPlugin {
 
         if (! this.subscribers[name]) return
 
-        this.subscribers[name].forEach(eventCallback => {
+        [...this.subscribers[name]].forEach(eventCallback => {
             eventCallback.apply(null, data)
         })
     }

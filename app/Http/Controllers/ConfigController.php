@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cities;
+use Auth;
 use App\Http\Resources\CityResource;
 
 class ConfigController extends Controller
@@ -24,6 +25,7 @@ class ConfigController extends Controller
 
         $this->__connectTranslates($config);
         $this->__connectLocations($config);
+        $this->__connectUserData($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
     }
@@ -45,6 +47,15 @@ class ConfigController extends Controller
             $config['location'] = [
                 'userCity' => $userCity->id,
                 'cities' => CityResource::collection($cities),
+            ];
+        }
+    }
+
+    protected function __connectUserData(& $config)
+    {
+        if ($user = Auth::user()) {
+            $config['user'] = [
+                'id' => $user->id
             ];
         }
     }

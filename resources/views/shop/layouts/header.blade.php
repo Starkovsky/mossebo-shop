@@ -38,21 +38,18 @@
                     <cities-select></cities-select>
                 </div>
 
-                <div class="header-float__item header-float__item--search d-none">
-                    <a href="#" class="search"
-                    >
-                        <div class="search-icon">
-                            <svg class="symbol-icon symbol-search">
-                                <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
-                            </svg>
-                        </div>
+                <div class="header-float__item header-float__item--search">
+                    <div class="search-input">
+                        <form action="{{ siteUrl('search') }}">
+                            <input type="text" class="search-input__input form-input">
 
-                        <div>
-                            <div class="search-name">
-                                Поиск
-                            </div>
-                        </div>
-                    </a>
+                            <button class="search-input__button">
+                                <svg class="search-input__icon symbol-icon symbol-search">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="header-float__item header-float__item--auth">

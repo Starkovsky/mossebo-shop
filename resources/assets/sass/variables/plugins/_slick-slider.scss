@@ -140,6 +140,7 @@
     height: 48px;
     border: 1px solid $color-border;
     border-radius: 50%;
+    background-color: transparent;
     transition: $transition-primary;
 
     .symbol-icon {

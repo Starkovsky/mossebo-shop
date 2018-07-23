@@ -39,7 +39,7 @@ class CategoryController extends ApiController
             'currentPrice',
             'oldPrice',
             'attributeOptionRelations',
-            'supplier'
+            'supplier',
         ])->where('enabled', true)->get();
 
         return $products->reduce(function ($carry, $product) {

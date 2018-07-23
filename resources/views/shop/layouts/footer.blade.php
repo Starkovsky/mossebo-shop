@@ -119,7 +119,7 @@
                             </div>
 
                             <div class="col-9 col-md-6">
-                                <a href="#popup-review" class="button button-light button-long js-form-popup">
+                                <a href="#popup-feedback" class="button button-light button-long js-form-popup">
                                     {{ __('layouts.footer-write') }}
                                 </a>
                             </div>
@@ -351,8 +351,8 @@
     </div>
 
     <!-- Modal msg-back -->
-    <div id="popup-review" class="popup animated zoomIn block-ui">
-        <form class="js-form-sender" action="{{ siteUrl('forms/review') }}">
+    <div id="popup-feedback" class="popup animated zoomIn block-ui">
+        <form class="js-form-sender" action="{{ siteUrl('forms/feedback') }}">
             <div class="popup__top">
                 <div class="popup__title title-h3">
                     Напишите нам
@@ -366,12 +366,12 @@
             <div class="popup__content">
                 <div class="popup__form">
                     <div class="form-group js-form-group">
-                        <label for="popup-review-name" class="form-label">
+                        <label for="popup-feedback-name" class="form-label">
                             Имя
                         </label>
 
                         <input
-                            id="popup-review-name"
+                            id="popup-feedback-name"
                             type="text"
                             class="form-input"
                             name="name"
@@ -381,12 +381,12 @@
                     </div>
 
                     <div class="form-group mt-24 js-form-group">
-                        <label for="popup-review-phone" class="form-label">
+                        <label for="popup-feedback-phone" class="form-label">
                             Телефон
                         </label>
 
                         <input
-                            id="popup-review-phone"
+                            id="popup-feedback-phone"
                             type="tel"
                             class="form-input"
                             name="phone"
@@ -397,12 +397,12 @@
                     </div>
 
                     <div class="form-group mt-24 js-form-group">
-                        <label for="popup-review-message" class="form-label">
+                        <label for="popup-feedback-message" class="form-label">
                             Ваше сообщение
                         </label>
 
                         <textarea
-                            id="popup-review-message"
+                            id="popup-feedback-message"
                             rows="6"
                             class="form-textarea"
                             name="message"
@@ -428,7 +428,6 @@
             </div>
         </form>
     </div>
-
 </div>
 
 

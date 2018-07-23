@@ -6,12 +6,18 @@
         @endcomponent
     @endslot
 
-# {{ $title }}
+# {!! $title !!}
 
 {{-- Content --}}
 @foreach ($content as $line)
 
+@if(is_array($line))
+@php($key = key($line))
+@component('mail::lines.' . $key, $line[$key])
+@endcomponent
+@else
 {!! $line !!}
+@endif
 @endforeach
 
     {{-- Image --}}

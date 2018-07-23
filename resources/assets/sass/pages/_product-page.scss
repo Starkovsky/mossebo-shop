@@ -244,12 +244,14 @@
     }
 
     &__pane {
-        display: none;
+        position: absolute;
+        left: -99999px;
+        top: -99999px;
         opacity: 0;
         transition: .3s;
 
         &.active {
-            display: block;
+            position: static;
         }
 
         &.show {
@@ -257,7 +259,7 @@
         }
 
         @include media-breakpoint-down(sm) {
-            display: block !important;
+            position: static;
             opacity: 1 !important;
 
             &:not(:first-child) {

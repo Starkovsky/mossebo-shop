@@ -4,6 +4,7 @@ import ShippingStore from './shipping'
 import PaymentsStore from './payments'
 import CatalogStore from './catalog'
 import CabinetStore from './cabinet'
+import ReviewsStore from './reviews'
 
 export default {
     modules: {
@@ -12,6 +13,7 @@ export default {
         shipping: ShippingStore,
         payments: PaymentsStore,
         catalog: CatalogStore,
-        cabinet: CabinetStore
+        cabinet: CabinetStore,
+        reviews: ReviewsStore
     }
 }

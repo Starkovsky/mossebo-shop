@@ -1,19 +1,8 @@
 import { mapState } from 'vuex'
 
-import CatalogProductList from './CatalogProductList'
-
 export default {
-    components: {
-        CatalogProductList
-    },
-
-    // todo: разобраться с таймаутом
-
     data() {
         return {
-            page: 1,
-            perPage: 12,
-
             moreBtn: {
                 query: '.js-more-btn',
                 eventBinded: false,
@@ -21,37 +10,45 @@ export default {
                     if (this.canAutoclickMoreBtn()) {
                         this.more()
                     }
-                }, 300),
+                }, 128),
             }
-
         }
     },
 
-    beforeDestroy() {
-        this.unbindScrollMoreEvent()
+    computed: {
+        ... mapState({
+            moreBtnIsVisible: state => {
+                return state.catalog.activeProductIndexes.length > state.catalog.pagination.productsToShow.length
+            },
+        })
+    },
 
-        if (this.productsLoading.inProcess) {
-            this.productsLoading.handler.cancel()
-        }
+    watch: {
+        paginating: 'handleEvents'
+    },
+
+    mounted() {
+        this.eventBinderDebouncer = _.debounce(this.bindScrollMoreEvent, 300)
     },
 
     methods: {
         more() {
-            this.page++
+            this.$store.dispatch('catalog/more')
+        },
 
-            this.calculateProductsToShowThrottler()
+        handleEvents() {
+            if (!this.paginating) {
+                this.eventBinderDebouncer()
+            }
         },
 
         bindScrollMoreEvent() {
-            if (this.moreBtn.eventBinded || this.productsToShowCalculateInProcess || !this.moreBtnIsVisible) return
+            if (this.moreBtn.eventBinded || !this.moreBtnIsVisible) return
 
             window.addEventListener('scroll', this.moreBtn.scrollHandler, { passive: true })
 
-            this.$nextTick(() => {
-                this.moreBtn.scrollHandler()
-            })
-
             this.moreBtn.eventBinded = true
+            this.moreBtn.scrollHandler()
         },
 
         unbindScrollMoreEvent() {
@@ -69,6 +66,7 @@ export default {
                 let coordinates = moreBtn.getBoundingClientRect()
 
                 if (coordinates.top - screenHeight - 500 < 0) {
+                    this.unbindScrollMoreEvent()
                     return true
                 }
             }
@@ -77,9 +75,7 @@ export default {
         }
     },
 
-    computed: {
-        moreBtnIsVisible() {
-            return this.productsToShow.length < this.productsThatCanBeShown.length
-        },
-    }
+    beforeDestroy() {
+        this.unbindScrollMoreEvent()
+    },
 }

@@ -1,6 +1,7 @@
 import cookie from './cookie'
+import Alerty from '../Alerty'
 
-export default {
+const Core = {
     siteUrl(url = '') {
         if (url.indexOf('http') === 0) {
             return url
@@ -29,7 +30,78 @@ export default {
         return _.get(window.mossebo, path);
     },
 
-    cookie
+    cookie,
+
+    getFancyboxConfig() {
+        return {
+            toolbar: false,
+            infobar: false,
+            arrows: false,
+            buttons: ['close'],
+            protect: false,
+
+            touch: false,
+            hash: false,
+
+            lang: this.getLang(),
+
+            autoFocus: true,
+
+            i18n: {
+                [this.getLang()]: this.translate('fancybox')
+            }
+        }
+    },
+
+    getParameterByName(name, url) {
+        url = url || window.location.href
+        name = name.replace(/[\[\]]/g, '\\$&')
+
+        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url)
+
+        if (!results) return null
+        if (!results[2]) return ''
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '))
+    },
+
+    updateQueryStringParameter(uri, key, value) {
+        let regex = new RegExp("([?&])" + key + "=.*?(&|$)", "i")
+        let separator = uri.indexOf('?') !== -1 ? "&" : "?"
+
+        value = encodeURIComponent(value)
+
+        if (uri.match(regex)) {
+            if (value) {
+                return uri.replace(regex, '$1' + key + "=" + value + '$2')
+            }
+
+            return uri.replace(regex, '')
+        }
+        else {
+            if (value) {
+                return uri + separator + key + "=" + value
+            }
+
+            return uri
+        }
+    },
+
+    history: {
+        replace(uri) {
+            window.history.replaceState({}, document.title, uri)
+        }
+    },
+
+    showMessage(message, params = {}) {
+        if (message) {
+            new Alerty({
+                message: message,
+                ... params
+            })
+        }
+    }
 }
 
-
+export default Core

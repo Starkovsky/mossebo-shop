@@ -19,6 +19,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/rooms/{slug}/{category}', 'Api\Shop\RoomController@catalog');
     Route::get('/styles/{slug}', 'Api\Shop\StyleController@products');
     Route::get('/styles/{slug}/{category}', 'Api\Shop\StyleController@catalog');
+    Route::get('/search', 'Api\Shop\SearchController@index');
 
     Route::get('/filters', 'Api\Shop\FilterController@index');
 

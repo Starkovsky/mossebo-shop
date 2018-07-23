@@ -1,7 +1,9 @@
 // Чтобы задержка между асинхронными действиями не была меньше определенного времени. (Избавление от моргания загрузки)
+import * as actionTypes from "../store/catalog/types";
+
 export default class PendingLoader {
     constructor(time) {
-        this.timeIsElapsed = false
+        this.canceled = false
 
         this.timeout = setTimeout(() => {
             if (_.isFunction(this.callback)) {
@@ -14,7 +16,7 @@ export default class PendingLoader {
     }
 
     finish(cb) {
-        if (!_.isFunction(cb)) return
+        if (!_.isFunction(cb) || this.canceled) return
 
         if (this.canFinish) {
             cb()
@@ -26,6 +28,39 @@ export default class PendingLoader {
 
     cancel() {
         clearTimeout(this.timeout)
-        this.callback = null
+        this.callback  = null
+        this.canceled  = true
+        this.canFinish = false
+    }
+}
+
+export function makeLoader(startCb, finishCb, duration) {
+    let loader
+
+    return {
+        start() {
+            if (loader) {
+                loader.cancel()
+            }
+            else if (_.isFunction(startCb)) {
+                this.loading = true
+                startCb()
+            }
+
+            loader = new PendingLoader(duration)
+        },
+
+        finish() {
+            if (loader) {
+                loader.finish(() => {
+                    this.loading = false
+                    finishCb.apply(null, arguments)
+                })
+            }
+
+            loader = null
+        },
+
+        loading: false
     }
 }

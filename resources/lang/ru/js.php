@@ -46,24 +46,42 @@ return [
     'tile' => 'Плитка',
     'list' => 'Список',
 
-
-
-
+    'ago' => 'назад',
 
     'days' => [
-        'short' => 'д'
+        'short' => 'д',
+        'declination' => [
+            'день',
+            'дня',
+            'дней',
+        ]
     ],
 
     'hours' => [
-        'short' => 'ч'
+        'short' => 'ч',
+        'declination' => [
+            'час',
+            'часа',
+            'часов',
+        ]
     ],
 
     'minutes' => [
-        'short' => 'м'
+        'short' => 'м',
+        'declination' => [
+            'минута',
+            'минуты',
+            'минут',
+        ]
     ],
 
     'seconds' => [
-        'short' => 'с'
+        'short' => 'с',
+        'declination' => [
+            'секунда',
+            'секунды',
+            'секунд',
+        ]
     ],
 
 
@@ -88,5 +106,47 @@ return [
         'DOWNLOAD' => 'Скачать',
         'SHARE' => 'Поделиться',
         'ZOOM' => 'Приблизить',
-    ]
+    ],
+
+    'filters' => [
+        'main' => [
+            'categories' => 'Категории',
+            'rooms'      => 'Комнаты',
+            'styles'     => 'Стили',
+        ],
+        'price' => 'Цена',
+        'query' => 'Поиск',
+    ],
+
+
+    'Show all' => 'Показать все',
+    'Collapse' => 'Свернуть',
+
+    'Try again' => 'Попробовать еще раз',
+    'Server connection error' => 'Произошла ошибка соединения с сервером',
+
+    'Show more' => 'Показать еще',
+
+    'Reset parameters' => 'Сбросить фильтры',
+    'Reset all parameters' => 'Сбросить все фильтры',
+
+    'Nothing found' => 'Ничего не найдено',
+
+    'Try to reset some parameters' => 'Попробуйте сбросить один или несколько фильтров',
+
+
+    'Edit' => 'Редактировать',
+    'Delete' => 'Удалить',
+
+    'Advantages' => 'Преимущества',
+    'Disadvantages' => 'Недостатки',
+    'Comment' => 'Комментарий',
+
+    'Sort by' => 'Сортировать по',
+    'Usefulness' => 'Полезности',
+    'Date' => 'Дате',
+
+    'On moderation' => 'Ожидает публикации',
+
+    'Please, sign in to post a review' => 'Войдите, чтобы оставить отзыв'
 ];

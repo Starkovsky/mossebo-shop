@@ -41,8 +41,7 @@ export default {
             if (state.ready) return
 
             dispatch('initLocalStorageExtension', new LocalStorageProxy('__shipping'))
-
-            commit(actionTypes.SHIPPING_READY)
+                .then(() => commit(actionTypes.SHIPPING_READY))
         },
 
         setValue({ state, commit, dispatch }, [label, value]) {

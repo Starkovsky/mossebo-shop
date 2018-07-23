@@ -1,57 +1,44 @@
 <template>
     <div class="catalog-filter block-ui">
-        <div class="catalog-filter-item" v-if="prices">
-            <catalog-filter-price
-                ref="filter-price"
-                name="price"
-                :prices="prices" />
+        <div class="catalog-filter-item">
+            <slot></slot>
         </div>
 
         <div v-for="(filter, index) in filters" :key="filter.id" class="catalog-filter-item">
-            <catalog-filter
-                :ref="'filter-' + filter.id"
-                :id="filter.id"
-                :title="filter.title"
-                :options="filter.options"
-                :expanded="index < 4" />
+            <template v-if="filter.id === 'prices'">
+                <catalog-filter-price
+                    :filter="filter"
+                    :expanded="true"
+                />
+            </template>
+
+            <template v-else>
+                <catalog-filter
+                    :filter="filter"
+                    :expanded="index < 4"
+                />
+            </template>
         </div>
     </div>
 </template>
 
 <script>
-    import CatalogFilter from "./CatalogFilter";
-    import CatalogFilterPrice from "./CatalogFilterPrice";
+    import { mapState } from 'vuex'
+    import CatalogFilter from "./CatalogFilter"
+    import CatalogFilterPrice from "./CatalogFilterPrice"
 
     export default {
         name: "CatalogFilterList",
 
         components: {
             CatalogFilter,
-            CatalogFilterPrice
+            CatalogFilterPrice,
         },
 
-        props: [
-            'prices',
-            'filters'
-        ],
-
-        methods: {
-            getFiltersArray() {
-                let filters = []
-
-                for (let key in this.$refs) {
-                    if (this.$refs[key] instanceof Array) {
-                        this.$refs[key].forEach(component => {
-                            filters.push(component)
-                        })
-                    }
-                    else {
-                        filters.push(this.$refs[key])
-                    }
-                }
-
-                return filters
-            },
+        computed: {
+            ... mapState({
+                filters: state => state.catalog.filters.filters
+            })
         }
     }
 </script>

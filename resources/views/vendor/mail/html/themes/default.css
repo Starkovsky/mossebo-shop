@@ -116,10 +116,6 @@ img {
     vertical-align: bottom;
 }
 
-.header__image {
-    width: 100%;
-}
-
 .row {
     margin: 0 auto;
     padding: 0;
@@ -128,6 +124,10 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 615px;
+}
+
+.row-fw.row-content {
+    width: 615px;
 }
 
 /* Footer */
@@ -188,4 +188,18 @@ img {
 
 .separator-dark {
     border-top-color: #BBBBBB;
+}
+
+.product-image {
+    width: 78px;
+    padding: 4px;
+    border: 1px solid #ecedf3;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.product-image td {
+    height: 78px;
+    vertical-align: middle;
+    text-align: center;
 }

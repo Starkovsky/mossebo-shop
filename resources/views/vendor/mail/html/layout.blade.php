@@ -67,14 +67,16 @@
                         {{ $socials }}
                     @endif
 
-                    <tr>
-                        <td>
-                            @component('mail::separator', ['color' => 'light'])
-                            @endcomponent
-                        </td>
-                    </tr>
+                    @if($footer->toHtml())
+                        <tr>
+                            <td>
+                                @component('mail::separator', ['color' => 'light'])
+                                @endcomponent
+                            </td>
+                        </tr>
 
-                    {{ $footer ?? '' }}
+                        {{ $footer }}
+                    @endif
                 </table>
             </td>
         </tr>

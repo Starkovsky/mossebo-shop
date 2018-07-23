@@ -1,13 +1,13 @@
 <template>
     <div class="catalog-product-list" v-if="!loading">
-        <div :class="{row: true, 'row--half': cardType === 'mobile' || cardType === 'list', [rowClass]: true}">
+        <div :class="{row: true, 'row--half': cardType$ === 'mobile' || cardType$ === 'list', [rowClass]: true}">
             <template v-for="(product, index) in products">
                 <catalog-banner
                     :index="index"
                     :key="index + 'banner'"
                 ></catalog-banner>
 
-                <template v-if="cardType === 'tile'">
+                <template v-if="cardType$ === 'tile'">
                     <div
                         :class="'catalog-product-list__product ' + tileCardClass"
                         :key="product.id"
@@ -19,7 +19,7 @@
                     </div>
                 </template>
 
-                <template v-if="cardType === 'list'">
+                <template v-if="cardType$ === 'list'">
                     <div :class="'catalog-product-list__product ' + listCardClass" :key="product.id">
                         <product-card-long
                             :product="product"
@@ -28,7 +28,7 @@
                     </div>
                 </template>
 
-                <template v-if="cardType === 'mobile'">
+                <template v-if="cardType$ === 'mobile'">
                     <div :class="'catalog-product-list__product ' + mobileCardClass" :key="product.id">
                         <product-card-mobile
                             :product="product"
@@ -115,16 +115,16 @@
                 }
             }
         },
+
+        computed: {
+            cardType$() {
+                if (this.$root.windowMoreThan('lg')) {
+                    return this.cardType
+                }
+                else {
+                    return 'mobile'
+                }
+            }
+        }
     }
 </script>
-
-<style lang="scss" scoped>
-    .catalog-product-enter-active {
-        transition: opacity .4s;
-    }
-
-    .catalog-product-enter,
-    .catalog-product-leave-to {
-        opacity: 0;
-    }
-</style>

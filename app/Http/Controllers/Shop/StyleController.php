@@ -103,11 +103,12 @@ class StyleController extends BaseStructureController
                 return siteUrl('styles/' . $style->slug . '/' . $resource->slug);
             },
             function($resource) use($style) {
-                return $resource
+                $row = $resource
                     ->productCounts
                     ->where('style_id', $style->id)
-                    ->first()
-                    ->count;
+                    ->first();
+
+                return $row ? $row->count : 0;
             }
         );
     }

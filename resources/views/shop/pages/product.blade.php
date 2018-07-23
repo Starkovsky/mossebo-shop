@@ -10,6 +10,14 @@
 @endsection
 
 @section('content')
+    @php
+        $images = array_map(function($image) {
+            return json_decode($image['pathes']);
+        }, $product->images->toArray());
+
+        $imagesCount = count($images);
+    @endphp
+
     {{ Breadcrumbs::render('good', $product) }}
 
     <div class="product-page">
@@ -26,16 +34,17 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="product-page__left">
-                                    @if($product->images->count() > 1)
+                                    @if ($imagesCount > 1)
                                         <div class="slider slider-product js-zoom-gallery js-product-slider">
-                                            @foreach ($product->images as $image)
+                                            @foreach ($images as $image)
                                                 <div class="slider-product__slide">
                                                     <a
-                                                        href="https://admin.mossebo.market{{ json_decode($image->pathes)->original }}"
+                                                        href="https://admin.mossebo.market{{ $image->original }}"
+                                                        data-fancybox="gallery"
                                                     >
                                                         <div
                                                             class="produt-page-image product-image bg-image"
-                                                            style="background-image: url(https://admin.mossebo.market{{ json_decode($image->pathes)->medium->srcset }})"
+                                                            style="background-image: url(https://admin.mossebo.market{{ $image->medium->srcset }})"
                                                         ></div>
                                                     </a>
                                                 </div>
@@ -43,25 +52,22 @@
                                         </div>
 
                                         <div class="slider slider-nav mt-24">
-                                            @foreach ($product->images as $image)
+                                            @foreach ($images as $image)
                                                 <div
                                                     class="slider-nav__box product-image bg-image"
-                                                    style="background-image: url(https://admin.mossebo.market{{ json_decode($image->pathes)->thumb->src }})"
+                                                    style="background-image: url(https://admin.mossebo.market{{ $image->thumb->srcset }})"
                                                 ></div>
                                             @endforeach
                                         </div>
-                                    @elseif ($product->images->count() === 1)
-                                        @php
-                                            $image = $product->images->first();
-                                        @endphp
-
-                                        <div class="js-zoom-gallery">
+                                    @elseif ($imagesCount === 1)
+                                        <div>
                                             <a
-                                                href="https://admin.mossebo.market{{ json_decode($image->pathes)->original }}"
+                                                href="https://admin.mossebo.market{{ $images[0]->original }}"
+                                                data-fancybox
                                             >
                                                 <div
                                                     class="produt-page-image product-image bg-image"
-                                                    style="background-image: url(https://admin.mossebo.market{{ json_decode($image->pathes)->medium->srcset }})"
+                                                    style="background-image: url(https://admin.mossebo.market{{ $images[0]->medium->srcset }})"
                                                 ></div>
                                             </a>
                                         </div>
@@ -202,7 +208,7 @@
 
                 <div class="col-12">
                     <div class="product-page__block product-page__info block-ui">
-                        <div class="product-tabs">
+                        <div class="product-tabs js-product-tabs">
                             <div class="product-tabs__tabs">
                                 <tabs-html
                                     :tabs="{'#characteristics': 'Описание и характеристики', '#reviews': 'Отзывы', '#instructions': 'Инструкции'}"
@@ -276,9 +282,7 @@
 
                                             <div class="product-tabs-pane__content ht-container">
                                                 <div class="product-tabs-pane__inner ht-inner">
-                                                    <div class="product-tabs-pane__under_constraction">
-                                                        Данный раздел находится в разработке
-                                                    </div>
+                                                    <reviews url="{{ siteUrl('goods/' . $product->id . '/reviews') }}"></reviews>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,5 +316,69 @@
             </div>
         </div>
 
+    </div>
+
+
+
+
+    <div class="d-none">
+        <div id="popup-one-click" class="popup animated zoomIn block-ui">
+            <form class="js-form-sender" action="{{ siteUrl('forms/one-click') }}">
+                <input type="hidden" name="id" value="{{ $product->id }}">
+
+                <div class="popup__top">
+                    <div class="popup__title title-h3">
+                        Быстрый заказ
+                    </div>
+
+                    <div class="popup__desc">
+                        Введите ваш телефон, и мы свяжемся с вами в течение нескольких минут для уточнения заказа.
+                    </div>
+                </div>
+
+                <div class="popup__content">
+                    @if($imagesCount > 1)
+                        <div class="popup__image text-center">
+                            <img
+                                src="https://admin.mossebo.market{{ $images[0]->small->src }}"
+                                srcset="https://admin.mossebo.market{{ $images[0]->small->srcset }} 2x"
+                                alt="{{ $product->currentI18n->title }}">
+                        </div>
+                    @endif
+
+                    <div class="popup__form">
+                        <div class="form-group mt-24 js-form-group">
+                            <label for="popup-one-click-phone" class="form-label">
+                                Телефон
+                            </label>
+
+                            <input
+                                id="popup-one-click-phone"
+                                type="tel"
+                                class="form-input"
+                                name="phone"
+                                minlength="6"
+                                maxlength="255"
+                                required
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup__bottom">
+                    <div class="popup__button">
+                        <button type="submit" class="button button-loading button-primary button-long">
+                            <span class="button-loading__content">
+                                Заказать
+                            </span>
+
+                            <svg class="button-loading__loader">
+                                <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

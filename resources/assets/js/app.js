@@ -16,18 +16,14 @@ Vue.use(Vuex)
 import storeSkeleton from './store'
 const store = new Vuex.Store(storeSkeleton)
 
-import VeeValidate from 'vee-validate'
-Vue.use(VeeValidate, {
-    fieldsBagName: 'formFields',
-    errorBagName: 'formErrors'
-});
-
 
 /**
  * Components
  */
 
+import Reviews from './components/reviews/Reviews'
 import Catalog from './components/shop/catalog/Catalog'
+import CatalogSearch from './components/shop/catalog/CatalogSearch'
 import ProductList from './components/shop/catalog/ProductList'
 import ProductCard from './components/shop/catalog/product-cards/ProductCard'
 import FormattedPrice from './components/shop/price/FormattedPrice'
@@ -77,8 +73,10 @@ const app = new Vue({
     el: '#app',
     store,
     components: {
+        Reviews,
         ProductSale,
         Catalog,
+        CatalogSearch,
         ProductList,
         ProductCard,
         FormattedPrice,
@@ -100,8 +98,9 @@ const app = new Vue({
 
         mossebo: window.mossebo,
     },
-    mixins: [
-    ],
+    // mixins: [
+    //
+    // ],
     methods: {
         windowLessThan(size) {
             return this.windowWidth < breakpoints[size]
@@ -123,7 +122,15 @@ const app = new Vue({
             $('[data-toggle="tooltip"]').tooltip()
         },
 
-        setMeta
+        setMeta,
+
+        isAuthorized() {
+            return !! this.userId()
+        },
+
+        userId() {
+            return Core.config('user.id')
+        }
     },
 
     computed: {
@@ -217,25 +224,6 @@ $('.slider-nav').slick({
     lazyLoad: 'ondemand',
 });
 
-// Product gallery
-$('.js-zoom-gallery').magnificPopup({
-    delegate: 'a',
-    type: 'image',
-    closeOnContentClick: false,
-    closeBtnInside: false,
-    mainClass: 'mfp-with-zoom mfp-img-mobile',
-    image: {
-        verticalFit: true,
-        titleSrc: function(item) {
-            return item.el.attr('title');
-        }
-    },
-    gallery: {
-        enabled: true
-    },
-});
-
-
 (function () {
    let $slider = $('.js-studio-work-life')
 
@@ -271,25 +259,8 @@ $('.js-zoom-gallery').magnificPopup({
 ;[].forEach.call(document.querySelectorAll('.js-form-sender'), el => new FormSender(el))
 
 
-$('.js-form-popup').fancybox({
-    toolbar: false,
-    infobar: false,
-    arrows: false,
-    buttons: ['close'],
-    protect: false,
-    // touch: {
-    //     vertical: false,
-    //     momentum: false
-    // },
+$('.js-form-popup').fancybox(
+    Core.getFancyboxConfig()
+)
 
-    touch: false,
-    hash: false,
 
-    lang: Core.getLang(),
-
-    autoFocus: true,
-
-    i18n: {
-        [Core.getLang()]: Core.translate('fancybox')
-    }
-})

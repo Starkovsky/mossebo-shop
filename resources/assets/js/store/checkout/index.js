@@ -49,28 +49,9 @@ function getStepIndex(state, identif) {
     return false
 }
 
-function scrollIsNeed() {
-    let stepsEl = document.querySelector('.js-checkout-steps')
-    if (! stepsEl) {
-        return false
-    }
-
-    let y = stepsEl.getBoundingClientRect().y
-
-    return (y + stepsEl.offsetHeight < stepsEl.offsetHeight / 2)
-}
-
 function scrollToStart(cb) {
-    if (scrollIsNeed()) {
-        new SmoothScroll('.js-checkout', 300, () => {
-            cb()
-        })
-    }
-    else {
-        cb()
-    }
+    SmoothScroll.scrollIfItNeeds(document.querySelector('.js-checkout'), null, cb)
 }
-
 
 export default {
     namespaced: true,

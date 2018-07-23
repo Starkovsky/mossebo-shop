@@ -46,7 +46,6 @@
     .mobile-catalog-btn,
     .location,
     .cart-btn,
-    .search,
     .profile,
     .cart-btn {
         margin-left: 0;
@@ -134,15 +133,16 @@
             }
 
             &--search {
+                width: 100%;
+                flex: 1;
+
                 @include media-breakpoint-down(xs) {
                     display: none;
                 }
             }
 
             &--city {
-                width: 100%;
                 padding-left: 68px;
-                flex: 1;
 
                 @include media-breakpoint-down(md) {
                     display: none;
@@ -182,36 +182,6 @@
             font-size: 12px / 14px;
             margin-top: 2px;
             color: $color-text-secondary;
-        }
-        &:hover {
-            color: $color-text-primary-2;
-            .symbol-keyboard-down {
-                fill: $color-text-primary;
-            }
-        }
-        .symbol-keyboard-down {
-            margin-left: 8px;
-        }
-    }
-
-    .search {
-        .symbol-person {
-            transition: $transition-primary;
-            fill: $color-icons;
-        }
-
-        &-icon {
-            margin-right: 8px;
-            @include media-breakpoint-down(md) {
-                margin-right: 0;
-            }
-        }
-        &-name {
-            padding-top: 1px;
-            font-size: 14px / 17px;
-            @include media-breakpoint-down(md) {
-                display: none;
-            }
         }
         &:hover {
             color: $color-text-primary-2;
@@ -337,5 +307,24 @@
     color: $color-danger;
 }
 
+.search-input {
+    display: block;
+    position: relative;
+    width: 100%;
 
+    &__button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: transparent;
+    }
 
+    &__button:hover &__icon {
+        fill: $color-text-primary;
+    }
+}

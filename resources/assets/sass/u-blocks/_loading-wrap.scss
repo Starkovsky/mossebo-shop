@@ -1,5 +1,6 @@
 .loading-wrap {
     position: relative;
+    z-index: 1;
 
     &:not(.loaded) {
         min-height: 200px;

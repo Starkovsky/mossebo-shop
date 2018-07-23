@@ -1,0 +1,44 @@
+.likes {
+    &,
+    &__item {
+        display: flex;
+        align-items: center;
+        transition: color;
+    }
+
+    &__item {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &__item + &__item {
+        margin-left: 16px;
+    }
+
+    &__number {
+        font-size: 12px / 14px;
+        margin-left: 8px;
+        color: $color-text-secondary;
+        display: flex;
+        align-items: center;
+    }
+
+    &__icon {
+        color: $color-icons;
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+    }
+
+    &__number,
+    &__icon {
+        transition: color $transition-primary;
+    }
+
+    &__item:hover &__number,
+    &__item--is-active &__number,
+    &__item:hover &__icon,
+    &__item--is-active &__icon{
+        color: $color-text-primary;
+    }
+}

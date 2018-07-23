@@ -40,12 +40,13 @@
         <div class="product-controls__buttons">
             <div class="row row--half">
                 <div class="col-sm-6 col-md-12 col-xl-6">
-                    <button
+                    <a
+                        href="#popup-one-click"
                         type="button"
-                        class="product-controls__button button button-long button-primary"
+                        class="product-controls__button button button-long button-primary js-form-popup"
                     >
                         Купить в 1 клик
-                    </button>
+                    </a>
                 </div>
 
                 <div class="col-sm-6 col-md-12 col-xl-6">
@@ -120,7 +121,6 @@
                 id: window.product.id,
                 selectable: window.product.selectable,
                 options: [],
-                a: false
             }
         },
 

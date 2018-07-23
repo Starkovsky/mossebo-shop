@@ -4,7 +4,15 @@ namespace App\Http\Controllers\Shop;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Attributes;
+use Styles;
+use Rooms;
+use Categories;
 use App\Http\Resources\AttributeResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\StyleResource;
+use App\Http\Resources\RoomResource;
 
 class DataController extends Controller
 {
@@ -124,6 +132,37 @@ class DataController extends Controller
     {
         return AttributeResource::collection(
             \Attributes::enabled(['currentI18n'])
+        );
+    }
+
+    /**
+     * Получение категорий.
+     */
+    protected static function _getCategories()
+    {
+        return CategoryResource::collection(
+            \Categories::enabled(['currentI18n'])
+        );
+    }
+
+    /**
+     * Получение стилей.
+     */
+    protected static function _getStyles()
+    {
+        return StyleResource::collection(
+            \Styles::enabled(['currentI18n'])
+        );
+    }
+
+
+    /**
+     * Получение комнат.
+     */
+    protected static function _getRooms()
+    {
+        return RoomResource::collection(
+            \Rooms::enabled(['currentI18n'])
         );
     }
 }

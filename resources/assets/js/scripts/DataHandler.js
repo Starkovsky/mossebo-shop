@@ -2,12 +2,23 @@
 
 import axios from 'axios'
 import Core from './core'
+import BlankPlugin from './base/BlankPlugin'
 import { LocalStorageProxy } from './LocalStorageProxy'
 
-export default {
-    data: {},
-    storage: new LocalStorageProxy('__data' + '::' + Core.getLang()),
-    expiredTime: 30 * 60 * 1000,
+class DataHandler extends BlankPlugin {
+    constructor() {
+        super()
+
+        this.data = {}
+        this.storage = new LocalStorageProxy('__data' + '::' + Core.getLang())
+        this.expiredTime = 30 * 60 * 1000
+        this.keysToLoad = []
+        this.keysInProcess = []
+
+        this.requestDebouncer = _.debounce(() => {
+            this.request()
+        }, 128)
+    }
 
     get(dataKeys = []) {
         this.data = {}
@@ -21,7 +32,7 @@ export default {
         }
 
         return this.getData(dataKeys)
-    },
+    }
 
     storageDataIsValid(data) {
         if (_.isObject(data) && 'expires' in data) {
@@ -29,7 +40,7 @@ export default {
         }
 
         return false
-    },
+    }
 
     getFromStorage(key) {
         let data = this.storage.get(key)
@@ -40,7 +51,7 @@ export default {
         }
 
         return false
-    },
+    }
 
     getData(dataKeys) {
         return new Promise(resolve => {
@@ -59,28 +70,58 @@ export default {
                 resolve(this.getFromServer(dataKeys))
             }
         })
-    },
+    }
 
     getFromServer(dataKeys) {
-        return new Promise((resolve) => {
-            axios.get(Core.siteUrl('data'), {
-                responseType: 'json',
-                params: {dataKeys}
+        let keys = dataKeys.reduce((acc, key) => {
+            if (this.keysInProcess.indexOf(key) === -1) {
+                acc.push(key)
+            }
+
+            return acc
+        }, [])
+
+        if (keys) {
+            this.requestDebouncer()
+        }
+
+        this.keysToLoad = [
+            ... this.keysToLoad,
+            ... keys
+        ]
+
+        return new Promise(resolve => {
+            this.one('loaded', () => {
+                resolve(this.data)
             })
-                .then(response => {
-                    let data = response.data
-
-                    this.setDataToStorage(data)
-
-                    this.data = {
-                        ... this.data,
-                        ... data
-                    }
-
-                    resolve(this.data)
-                })
         })
-    },
+    }
+
+    request() {
+        this.keysInProcess = this.keysToLoad
+        this.keysToLoad = []
+
+        axios.get(Core.siteUrl('data'), {
+            responseType: 'json',
+            params: {
+                dataKeys: this.keysInProcess
+            }
+        })
+            .then(response => {
+                let data = response.data
+
+                this.setDataToStorage(data)
+
+                this.data = {
+                    ... this.data,
+                    ... data
+                }
+
+                this.keysInProcess = []
+
+                this.trigger('loaded')
+            })
+    }
 
     setDataToStorage(data) {
         for (let key in data) {
@@ -91,16 +132,18 @@ export default {
                 this.setItemToStorage(key, data[key])
             }
         }
-    },
+    }
 
     setItemToStorage(key, data) {
         this.storage.add(key, {
             expires: Date.now() + this.expiredTime,
             value: data
         })
-    },
+    }
 
     flush() {
         this.storage.forgetAll()
     }
 }
+
+export default new DataHandler()

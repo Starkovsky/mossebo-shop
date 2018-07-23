@@ -1,4 +1,5 @@
 import BlankPlugin from './base/BlankPlugin'
+import Core from "./core";
 
 export default class Alerty extends BlankPlugin {
     constructor(content) {
@@ -91,6 +92,8 @@ export default class Alerty extends BlankPlugin {
 
             bottomEl.appendChild(buttonEl)
         })
+
+        this.els.push(bottomEl)
     }
 
     setType(type) {
@@ -107,21 +110,19 @@ export default class Alerty extends BlankPlugin {
         this.el.style.display = 'none'
         document.body.appendChild(this.el)
 
-        $.fancybox.close()
-
         $.fancybox.open(
             {
                 src: '#alerty',
             }, {
-                padding: 0,
-                scrolling: 'no',
+                ... Core.getFancyboxConfig(),
                 afterClose: this.close.bind(this)
             },
         );
     }
 
     close() {
+        $.fancybox.close()
         this.destroy()
-        document.body.removeChild(this.el)
+        this.el.parentNode.removeChild(this.el)
     }
 }

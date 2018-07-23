@@ -2,13 +2,13 @@
     max-height: 0;
     display: block !important;
     overflow: hidden;
-    transition: all .3s;
+    transition: max-height .3s;
     transform: translate3d(0, 0, 0);
 
     &--popup {
         position: absolute;
         top: 100%;
-        z-index: 9;
+        z-index: 8;
         margin: -16px -8px -8px;
         padding: 0;
         left: 4px;
@@ -32,13 +32,27 @@
         }
     }
 
-    &--right {
+    &--popup.is-active {
+        z-index: 9;
+    }
+
+    &--right,
+    &--review {
         left: auto;
         right: 4px;
 
         &:after {
             left: auto;
             right: 23px;
+        }
+    }
+
+    &--review {
+        right: -3px;
+        margin-top: 0;
+
+        @include media-breakpoint-up(md) {
+            right: -11px;
         }
     }
 }

@@ -76,12 +76,13 @@ class CatalogController extends BaseStructureController
                 return siteUrl('catalog/' . $resource->slug);
             },
             function($resource) {
-                return $resource
+                $row = $resource
                     ->productCounts
                     ->where('room_id', null)
-                    ->where('style_id', null)
-                    ->first()
-                    ->count;
+                    ->where('style_id',null)
+                    ->first();
+
+                return $row ? $row->count : 0;
             }
         );
     }

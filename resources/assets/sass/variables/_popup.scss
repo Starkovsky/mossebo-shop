@@ -23,11 +23,13 @@
 
     &__bottom {
         margin-top: 32px;
+        display: flex;
     }
 
     &__button {
         margin: auto;
         max-width: 250px;
         width: 100%;
+        text-align: center;
     }
 }

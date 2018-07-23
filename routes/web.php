@@ -27,7 +27,13 @@ Route::prefix('ru')->group(function () {
     // Категория товаров
     Route::get('/catalog/{categorySlug}', 'Shop\CatalogController@category')->name('catalog-category');
     // Карточка товара
-    Route::get('/goods/{id}', 'Shop\ProductController@index') ->name('good');
+    Route::get('/goods/{id}', 'Shop\ProductController@index')->name('good');
+
+    Route::get('/goods/{product}/reviews', 'Shop\ProductController@reviews');
+    Route::put('/goods/{product}/reviews', 'ReviewController@product');
+
+    Route::post('/reviews/{review}', 'ReviewController@edit');
+    Route::delete('/reviews/{review}', 'ReviewController@delete');
 
     /*
      * Комнаты
@@ -76,10 +82,21 @@ Route::prefix('ru')->group(function () {
     // Получение различных данных с сервера
     Route::get('/data', 'Shop\DataController@get');
 
+    // Поиск
+    Route::get('/search', 'Shop\SearchController@index');
+
 
 //    Route::get('/test', 'Controller@test');
 
     Route::post('/forms/callback', 'FormController@callback');
+    Route::post('/forms/feedback', 'FormController@feedback');
+    Route::post('/forms/one-click', 'FormController@oneClick');
+
+    /*
+     * Лайки
+     */
+
+    Route::post('/like/review/{review}', 'LikeController@review');
 });
 
 // Маршруты для Авторизации через Соцсети

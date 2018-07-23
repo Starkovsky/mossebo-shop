@@ -37,4 +37,9 @@ class ResetPassword extends BaseNotification
             ->action(trans('mail.reset-password.button'), $resetLink)
             ->footer($this->mailFooterText('mail.reset-password.footer'));
     }
+
+    public static function toMailUsing($callback)
+    {
+        static::$toMailCallback = $callback;
+    }
 }

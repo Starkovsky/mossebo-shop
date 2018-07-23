@@ -5,7 +5,7 @@
             <div class="rating__percent" :style="{width: getRatingPercent() + '%'}"></div>
         </div>
 
-        <div class="rating__reviews-num">
+        <div v-if="!hideNum" class="rating__reviews-num">
             {{ getScoresNum() }}
         </div>
     </div>
@@ -13,6 +13,7 @@
 
 <script>
     import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
+
     export default {
         name: "Rating",
 
@@ -20,14 +21,29 @@
             ClassNameWithModificators
         ],
 
+        props: {
+            rate: {
+                default() {
+                    return getRandomInt(30, 50) / 10
+                }
+            },
+
+            num: {
+                default() {
+                    return getRandomInt(10, 50)
+                }
+            },
+
+            hideNum: null
+        },
+
         methods: {
             getRatingPercent() {
-                return getRandomInt(70, 100)
+                return Math.ceil(this.rate / 5 * 100)
             },
 
             getScoresNum() {
-                let value = getRandomInt(1, 10)
-                return value + ' ' + declOfNum(value, ['отзыв', 'отзыва', 'отзывов'])
+                return this.num + ' ' + declOfNum(this.num, ['отзыв', 'отзыва', 'отзывов'])
             }
         }
     }

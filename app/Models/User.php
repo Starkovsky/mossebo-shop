@@ -6,9 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use MosseboShopCore\Models\User as BaseUser;
 use App\Support\Traits\Models\UserNotifications;
 
-class User extends BaseUser
+use Cog\Contracts\Love\Liker\Models\Liker as LikerContract;
+use Cog\Laravel\Love\Liker\Models\Traits\Liker;
+
+class User extends BaseUser implements LikerContract
 {
-    use Notifiable, UserNotifications;
+    use Liker, Notifiable, UserNotifications;
 
     /**
      * The attributes that are mass assignable.

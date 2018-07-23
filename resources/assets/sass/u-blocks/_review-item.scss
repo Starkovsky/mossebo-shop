@@ -1,0 +1,237 @@
+.review-item {
+    padding: 16px 8px;
+
+    @include media-breakpoint-up(md) {
+        padding: 32px 40px;
+    }
+
+    & + & {
+        margin-top: 32px;
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__text {
+        margin: 16px 0 24px;
+    }
+
+    &__name,
+    &__date {
+        font-size: 12px / 14px;
+        color: $color-text-secondary;
+    }
+
+    &__date {
+        margin-top: 8px;
+    }
+
+    &__likes {
+        margin-top: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+        &__text {
+            margin: 24px 0 32px;
+        }
+
+        &__date {
+            margin: 0 0 0 35px;
+        }
+
+        &__left,
+        &__bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__likes {
+            margin-top: 0;
+        }
+    }
+}
+
+
+.review-rating {
+    display: flex;
+    align-items: center;
+
+    &__rate {
+        margin-right: 16px;
+        font-size: 14px / 17px;
+        color: $color-text-secondary;
+    }
+}
+
+.review-item-menu {
+    position: relative;
+
+    &__button {
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 8px;
+        margin: -8px 0;
+        user-select: none;
+        transition: all $transition-primary;
+
+        @include media-breakpoint-up(md) {
+            margin: -8px;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: $color-icons;
+        transition: fill $transition-primary;
+        vertical-align: bottom;
+    }
+
+    &__button:hover,
+    &__button.is-active {
+        background-color: #f8f9fa;
+    }
+
+    &__button:hover &__icon,
+    &__button.is-active &__icon {
+        fill: $color-text-primary;
+    }
+
+    &__link {
+        display: block;
+        padding: 8px 16px;
+        color: $color-text-primary;
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background-color: #FAFBFC;
+        }
+    }
+}
+
+.review-content {
+    font-size: 14px / 17px;
+    color: $color-text-primary;
+
+    &__label {
+        font-weight: 500;
+        margin-bottom: 4px;
+
+        &:not(:first-child) {
+            margin-top: 16px;
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        line-height: 21px;
+    }
+}
+
+.reviews-statistics {
+    &__item {
+        padding: 18px 32px 20px;
+        display: flex;
+        align-items: center;
+
+    }
+
+    &__num {
+        margin-right: 16px;
+    }
+
+    &__item + &__item {
+        border-top: 1px solid $color-border;
+    }
+}
+
+.reviews-list-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    flex-wrap: wrap;
+
+    &__sort {
+        margin-top: 16px;
+    }
+
+    &__button,
+    &__sort {
+        width: 100%;
+
+        @include media-breakpoint-up(md) {
+            width: auto;
+            margin-top: 0;
+        }
+    }
+}
+
+.reviews-list-sort {
+    &__label {
+        white-space: nowrap;
+        margin-bottom: 8px;
+    }
+
+    @include media-breakpoint-up(md) {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &__label {
+            margin: 0 8px 0 0;
+            white-space: nowrap;
+        }
+
+        &__sort {
+            width: 150px;
+        }
+    }
+}
+
+.reviews-pallete {
+    &__wrap {
+        transition: height .3s;
+
+        &.animation-in-process {
+            overflow: hidden;
+        }
+    }
+
+    &__content {
+        width: calc(200% + 60px);
+        margin-left: -30px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__item {
+        width: 50%;
+        height: 100%;
+        padding-left: 30px;
+        transition: none;
+    }
+}
+
+@keyframes blink {
+    from,
+    to {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+.on-moderation {
+    font-size: 12px / 14px;
+    animation-duration: 3s;
+    animation-name: blink;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}

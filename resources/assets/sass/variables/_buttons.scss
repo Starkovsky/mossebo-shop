@@ -101,6 +101,10 @@
         }
     }
 
+    &__content {
+        display: inline-block;
+    }
+
     &-shadow {
         box-shadow: $shadows-primary;
         background: $color-ui;
@@ -115,6 +119,25 @@
     &-long {
         width: 100%;
         text-align: center;
+    }
+
+    &--circle-to-normal {
+        .button__icon {
+            display: none;
+        }
+
+        @include media-breakpoint-down(md) {
+            padding: 12px;
+
+            .button__icon {
+                margin: 0;
+                display: inline-block;
+            }
+
+            .button__content {
+                display: none;
+            }
+        }
     }
 }
 

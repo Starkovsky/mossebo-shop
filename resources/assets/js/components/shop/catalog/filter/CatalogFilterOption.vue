@@ -7,6 +7,11 @@
 
             title: String,
 
+            count: {
+                type: Number,
+                default: 0
+            },
+
             checked: {
                 type: Boolean,
                 default: false,
@@ -60,7 +65,16 @@
                         {
                             class: 'form-checkbox__label'
                         },
-                        [this.title]
+                        [
+                            createElement(
+                                'span',
+                                {
+                                    class: 'filter-option__count' + (this.count === 0 ? ' filter-option__count--hidden' : '')
+                                },
+                                [this.count]
+                            ),
+                            this.title,
+                        ]
                     )
                 ]
             )
