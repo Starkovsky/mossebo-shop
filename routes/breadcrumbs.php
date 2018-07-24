@@ -167,8 +167,26 @@ Breadcrumbs::for('good', function ($trail, $good) {
     $trail->push($good->currentI18n->title, route('good', $good->id));
 });
 
-Breadcrumbs::for('cabinet', function ($trail) {
+Breadcrumbs::for('lk', function ($trail) {
     $trail->parent('home');
 
-    $trail->push(Lang::get('content.cabinet'));
+    $trail->push(Lang::get('lk.title'), route('orders'));
+});
+
+Breadcrumbs::for('lk-orders', function ($trail) {
+    $trail->parent('lk');
+
+    $trail->push(Lang::get('lk.orders.title'), route('orders'));
+});
+
+Breadcrumbs::for('lk-profile', function ($trail) {
+    $trail->parent('lk');
+
+    $trail->push(Lang::get('lk.profile.title'), route('profile'));
+});
+
+Breadcrumbs::for('lk-reviews', function ($trail) {
+    $trail->parent('lk');
+
+    $trail->push(Lang::get('lk.reviews.title'), route('reviews'));
 });

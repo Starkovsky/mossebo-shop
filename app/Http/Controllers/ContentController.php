@@ -67,9 +67,4 @@ class ContentController extends Controller
     {
         return view('shop.pages.about-us');
     }
-
-    public function cabinet()
-    {
-        return view('shop.pages.cabinet');
-    }
 }

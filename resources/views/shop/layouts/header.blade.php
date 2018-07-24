@@ -63,7 +63,7 @@
 
                             @guest
                                 <div class="profile-name">
-                                    Личный кабинет
+                                    {{ __('lk.title') }}
                                 </div>
                             @else
                                 <div class="profile-name">
@@ -79,14 +79,28 @@
                         <div class="ht-container ht-container--popup ht-container--right">
                             <div class="ht-inner block-ui">
                                 @guest
-                                    <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
-                                    <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
+                                    <a href="{{ route('login') }}" class="dropdown-item">
+                                        {{ __('auth.login') }}
+                                    </a>
+                                    <a href="{{ route('register') }}" class="dropdown-item">
+                                        {{ __('auth.register') }}
+                                    </a>
                                 @else
-                                    <a href="#" class="dropdown-item">Мои заказы</a>
-                                    <a href="#" class="dropdown-item">Профиль</a>
-                                    <a href="#" class="dropdown-item">Отзывы</a>
-                                    <a href="#" class="dropdown-item">Вопросы</a>
-                                    <a href="#" class="dropdown-item gray">Помощь</a>
+                                    <a href="{{ route('orders') }}" class="dropdown-item">
+                                        {{ __('lk.orders.title') }}
+                                    </a>
+                                    <a href="{{ route('profile') }}" class="dropdown-item">
+                                        {{ __('lk.profile.title') }}
+                                    </a>
+                                    <a href="{{ route('reviews') }}" class="dropdown-item">
+                                        {{ __('lk.reviews.title') }}
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Вопросы
+                                    </a>
+                                    <a href="#" class="dropdown-item gray">
+                                        Помощь
+                                    </a>
                                     <a class="dropdown-item logout"
                                        href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
