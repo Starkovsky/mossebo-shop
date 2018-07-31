@@ -46,7 +46,7 @@
         computed: {
             ... mapState({
                 listEmpty: state => state.reviews.list.reviews.length === 0,
-                loading: state => state.reviews.list.loading,git ad
+                loading: state => state.reviews.list.loading,
                 error: state => state.reviews.list.error,
             })
         }
