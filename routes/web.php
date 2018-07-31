@@ -122,6 +122,4 @@ Route::group(['middleware' => 'web'], function () {
     });
 });
 
-Route::middleware('CheckLanguageCode')->get('{any}', function () {
-    return abort(404);
-})->where('any', '.*');
+Route::middleware('CheckLanguageCode')->get('{any}', 'ContentController@notFound')->where('any', '.*');

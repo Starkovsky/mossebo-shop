@@ -44,7 +44,7 @@ class ContentController extends Controller
             }
         }
 
-        abort(404);
+        $this->notFound();
     }
 
 
@@ -68,8 +68,8 @@ class ContentController extends Controller
         return view('shop.pages.about-us');
     }
 
-    public function cabinet()
+    public function notFound()
     {
-        return view('shop.pages.cabinet');
+        return abort(404);
     }
 }
