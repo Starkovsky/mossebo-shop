@@ -40,25 +40,19 @@
         </div>
     </main>
 
-    <main class="content-block">
+    <main class="content-block js-product-list-container">
         <div class="container">
-            <h2 class="title-h2">
-                {{ __('pages/home.product_list_popular') }}
-            </h2>
-
             <product-list
+                title="{{ __('pages/home.product_list_popular') }}"
                 :url="'{{ apiUrl('goods/popular') }}'"
             ></product-list>
         </div>
     </main>
 
-    <main class="content-block">
+    <main class="content-block js-product-list-container">
         <div class="container">
-            <h2 class="title-h2">
-                {{ __('pages/home.product_list_new') }}
-            </h2>
-
             <product-list
+                title="{{ __('pages/home.product_list_new') }}"
                 :url="'{{ apiUrl('goods/new') }}'"
             ></product-list>
         </div>

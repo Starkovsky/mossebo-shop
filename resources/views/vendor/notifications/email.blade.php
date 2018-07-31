@@ -19,7 +19,6 @@
 {!! $line !!}
 @endif
 @endforeach
-
     {{-- Image --}}
     @slot('actionImage')
         @isset($actionImage)

@@ -1,26 +1,42 @@
 <template>
     <loading :loading="loading" :no-overlay="true">
-        <catalog-product-list
-            :products="products"
-            :card-type="cardType"
-            :loading="loading"
-            tile-card-class="col-lg-4 col-xl-3"
-        ></catalog-product-list>
+        <template v-if="title && !loading">
+            <h2 class="title-h2">
+                {{ title }}
+            </h2>
+        </template>
+
+        <div class="product-list" v-if="!loading">
+            <div class="product-list__row row row--half js-products-slider">
+                <template v-for="(product, index) in products">
+                    <div
+                        class="product-list__product col-lg-3"
+                        :key="product.id"
+                    >
+                        <product-card
+                            :product="product"
+                            :no-image-loading="true"
+                        ></product-card>
+                    </div>
+                </template>
+            </div>
+        </div>
     </loading>
 </template>
 
 <script>
     import axios from 'axios'
+    import 'slick-carousel'
 
     import Loading from '../../Loading'
-    import CatalogProductList from './product-list/CatalogProductList'
+    import ProductCard from "./product-cards/ProductCard"
 
     export default {
         name: "ProductList",
 
         components: {
-            CatalogProductList,
-            Loading
+            Loading,
+            ProductCard,
         },
         data () {
             return {
@@ -31,20 +47,19 @@
         },
         props: {
             url: null,
+            title: null,
             limit: {
                 type: Number,
                 default: 8
-            }
+            },
         },
 
         mounted() {
             this.fetchProducts()
         },
 
-        computed: {
-            cardType() {
-                return this.$root.windowMoreThan('lg') ? 'tile' : 'mobile'
-            }
+        beforeDestroy() {
+            this.$root.$off('resize', this.handleResize)
         },
 
         methods: {
@@ -52,18 +67,100 @@
                 // todo: доделать обработку ошибок
                 axios.get(this.url)
                     .then(response => {
-                        this.products = response.data.products.slice(0, this.limit)
+                        this.setProducts(response.data.products)
                         this.loading = false
                     })
                     .catch(error => {
                         this.error = true
-                        console.log(error);
+                        console.log(error)
                     })
                     .finally(() => {
-                        // this.loading = false
+                        this.loading = false
                     })
+            },
+
+            setProducts(products = []) {
+                if (products.length === 0) {
+                    let containerEl = this.$el.closest('.js-product-list-container')
+
+                    if (containerEl) {
+                        containerEl.parentNode.removeChild(containerEl)
+                    }
+                }
+                else {
+                    this.products = products.slice(0, this.limit)
+
+                    this.$nextTick(() => {
+                        this.makeSlider()
+                    })
+                }
+            },
+
+            initSlider() {
+                if (this.sliderInited) return
+
+                let slider = this.$el.querySelector('.js-products-slider')
+
+                if (! slider) return
+
+                this.sliderEl$ = $(slider)
+
+                this.sliderEl$.slick({
+                    dots: true,
+                    infinite: true,
+                    speed: 300,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    nextArrow: false,
+                    prevArrow: false,
+                    variableWidth: true,
+                    centerMode: true,
+                    mobileFirst: true,
+
+                    responsive: [
+                        {
+                            breakpoint: this.$root.getBreakpoint('sm') - 1,
+                            settings: {
+                                centerMode: false,
+                            }
+                        }
+                    ]
+                });
+
+                this.sliderInited = true
+            },
+
+            destroySlider() {
+                if (!this.sliderInited) return
+
+                this.sliderEl$.slick('unslick')
+
+                this.sliderInited = false
+            },
+
+
+            handleResize() {
+                if (this.$root.windowMoreThan('lg')) {
+                    this.destroySlider()
+                }
+                else {
+                    this.initSlider()
+                }
+            },
+
+            makeSlider() {
+                this.$root.$on('resize', this.handleResize)
+
+                this.$nextTick(() => {
+                    this.handleResize()
+                })
+            },
+        },
+
+        computed: {
+            cardType() {
+                return this.$root.windowMoreThan('lg') ? 'tile' : 'mobile'
             }
         },
     }
 </script>
-

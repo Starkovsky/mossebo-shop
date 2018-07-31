@@ -33,7 +33,7 @@
 
                                     <div class="auth-socials__item">
                                         <a href="{{ url('login/facebook') }}"
-                                           class="auth-social-btn auth-social-btn--facebook"
+                                           class="auth-social-btn auth-social-btn--fb"
                                         >
                                             <div class="auth-social-btn__label">
                                                 <span class="d-none d-lg-inline d-xl-inline">Войти через&nbsp;</span>

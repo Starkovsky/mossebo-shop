@@ -11,94 +11,118 @@
 |
 */
 
-Route::redirect('/', '/ru', 301);
+Route::group(['middleware' => 'web'], function () {
+    // Маршруты для Авторизации через Соцсети
+    Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
+    Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
-Route::prefix('ru')->group(function () {
+    Route::group(['prefix' => 'ru'], function () {
+        // Маршруты Авторизации
+        Auth::routes();
+        Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-    // Маршруты Авторизации
-    Auth::routes();
+        // Главная страница
+        Route::get('/', 'ContentController@index')
+            ->name('home');
 
-    // Главная страница
-    Route::get('/', 'ContentController@index')
-        ->name('home');
+        // Каталог товаров
+        Route::get('/catalog', 'Shop\CatalogController@index')->name('catalog');
+        // Категория товаров
+        Route::get('/catalog/{categorySlug}', 'Shop\CatalogController@category')->name('catalog-category');
+        // Карточка товара
+        Route::get('/goods/{id}', 'Shop\ProductController@index')->name('good');
 
-    // Каталог товаров
-    Route::get('/catalog', 'Shop\CatalogController@index')->name('catalog');
-    // Категория товаров
-    Route::get('/catalog/{categorySlug}', 'Shop\CatalogController@category')->name('catalog-category');
-    // Карточка товара
-    Route::get('/goods/{id}', 'Shop\ProductController@index')->name('good');
+        Route::get('/goods/{product}/reviews', 'Shop\ProductController@reviews');
+        Route::put('/goods/{product}/reviews', 'ReviewController@product');
 
-    Route::get('/goods/{product}/reviews', 'Shop\ProductController@reviews');
-    Route::put('/goods/{product}/reviews', 'ReviewController@product');
+        Route::post('/reviews/{review}', 'ReviewController@edit');
+        Route::delete('/reviews/{review}', 'ReviewController@delete');
 
-    Route::post('/reviews/{review}', 'ReviewController@edit');
-    Route::delete('/reviews/{review}', 'ReviewController@delete');
+        /*
+         * Комнаты
+         */
+        Route::get('/rooms', 'Shop\RoomController@index')->name('rooms');
+        Route::get('/rooms/{slug}', 'Shop\RoomController@catalog')->name('room-catalog');
+        Route::get('/rooms/{slug}/{categorySlug}', 'Shop\RoomController@category')->name('room-category');
 
-    /*
-     * Комнаты
-     */
-    Route::get('/rooms', 'Shop\RoomController@index')->name('rooms');
-    Route::get('/rooms/{slug}', 'Shop\RoomController@catalog')->name('room-catalog');
-    Route::get('/rooms/{slug}/{categorySlug}', 'Shop\RoomController@category')->name('room-category');
+        /*
+         * Стили
+         */
+        Route::get('/styles', 'Shop\StyleController@index')->name('styles');
+        Route::get('/styles/{slug}', 'Shop\StyleController@catalog')->name('style-catalog');
+        Route::get('/styles/{slug}/{categorySlug}', 'Shop\StyleController@category')->name('style-category');
 
-    /*
-     * Стили
-     */
-    Route::get('/styles', 'Shop\StyleController@index')->name('styles');
-    Route::get('/styles/{slug}', 'Shop\StyleController@catalog')->name('style-catalog');
-    Route::get('/styles/{slug}/{categorySlug}', 'Shop\StyleController@category')->name('style-category');
+        /*
+         * Страницы
+         */
+        Route::get('/help', 'ContentController@help')->name('help');
+        Route::get('/help/{slug}', 'ContentController@helpArticle')->name('help-article');
 
-    /*
-     * Страницы
-     */
-    Route::get('/help', 'ContentController@help')->name('help');
-    Route::get('/help/{slug}', 'ContentController@helpArticle')->name('help-article');
+        Route::get('/privacy', 'ContentController@privacy')->name('privacy');
+        Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
 
-    Route::get('/privacy', 'ContentController@privacy')->name('privacy');
-    Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
-    Route::get('/cabinet', 'ContentController@cabinet')->name('cabinet');
+        // Корзина
+        Route::get('/cart', 'Shop\CartController@index')->name('cart');
+        Route::post('/cart', 'Shop\CartController@get');
+        Route::put('/cart', 'Shop\CartController@sync');
+        Route::put('/cart/{key}', 'Shop\CartController@add');
 
+        // Оформление заказа
+        Route::post('/checkout', 'Shop\CheckoutController@index');
 
-    /*
-     * Личный кабинет
-     */
-//    Route::prefix('lk')->group(function () {
-//        Route::get('/', 'Shop\HomeController@index')
-//            ->name('lk');
-//    });
+        // Получение различных данных с сервера
+        Route::get('/data', 'Shop\DataController@get');
 
-    // Корзина
-    Route::get('/cart', 'Shop\CartController@index')->name('cart');
-    Route::post('/cart', 'Shop\CartController@get');
-    Route::put('/cart', 'Shop\CartController@sync');
-    Route::put('/cart/{key}', 'Shop\CartController@add');
-
-    // Оформление заказа
-    Route::post('/checkout', 'Shop\CheckoutController@index');
-    Route::post('/checkout/email', 'Shop\CheckoutController@email');
-    Route::post('/checkout/phone', 'Shop\CheckoutController@phone');
-
-    // Получение различных данных с сервера
-    Route::get('/data', 'Shop\DataController@get');
-
-    // Поиск
-    Route::get('/search', 'Shop\SearchController@index');
+        // Поиск
+        Route::get('/search', 'Shop\SearchController@index');
 
 
 //    Route::get('/test', 'Controller@test');
 
-    Route::post('/forms/callback', 'FormController@callback');
-    Route::post('/forms/feedback', 'FormController@feedback');
-    Route::post('/forms/one-click', 'FormController@oneClick');
+        Route::post('/forms/callback', 'FormController@callback');
+        Route::post('/forms/feedback', 'FormController@feedback');
+        Route::post('/forms/one-click', 'FormController@oneClick');
 
-    /*
-     * Лайки
-     */
+        /*
+         * Лайки
+         */
+        Route::post('/like/review/{review}', 'LikeController@review');
 
-    Route::post('/like/review/{review}', 'LikeController@review');
+        /*
+         * Кабинетус
+         */
+        Route::group(['middleware' => 'ErrorIfNotAuthenticated'], function() {
+            /*
+             * История заказов
+             */
+            Route::get('/cabinet/orders', 'Cabinet\OrdersController@index')->middleware('OnlyAjax');
+
+            /*
+             * Профиль
+             */
+            Route::get('/cabinet', 'Cabinet\CabinetController@index')->name('cabinet');
+            Route::get('/cabinet/profile', 'Cabinet\ProfileController@index')->middleware('OnlyAjax');
+            Route::post('/cabinet/profile', 'Cabinet\ProfileController@save')->middleware('OnlyAjax');
+            Route::post('/cabinet/profile/password', 'Cabinet\ProfileController@password')->middleware('OnlyAjax');
+            Route::get('/cabinet/reviews', 'Cabinet\ReviewController@index')->middleware('OnlyAjax');
+
+            /*
+             * Социальные сети
+             */
+            Route::get('/cabinet/socials', 'Cabinet\SocialController@index')->middleware('OnlyAjax');
+            Route::delete('/cabinet/socials', 'Cabinet\SocialController@detach')->middleware('OnlyAjax');
+        });
+
+
+        /**
+         * Серверная валидация полей
+         */
+        Route::post('/validate/email', 'ValidationController@email');
+        Route::post('/validate/phone', 'ValidationController@phone');
+    });
 });
 
-// Маршруты для Авторизации через Соцсети
-Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
-Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
+
+Route::middleware('CheckLanguageCode')->get('{any}', function () {
+    return abort(404);
+})->where('any', '.*');

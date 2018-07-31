@@ -7,12 +7,11 @@
         <div class="product-card-mobile__image-box">
             <a class="product-card-mobile__link" :href="link">
                 <template v-if="product.image">
-                    <background-image-loader
-                        class="product-card-mobile__image product-image"
-                        :screen="true"
-                        :image="prepareImage(product.image.src)"
-                        :retina-image="prepareImage(product.image.srcset)"
-                    ></background-image-loader>
+                    <product-card-image
+                        class="product-card-mobile__image"
+                        :image="product.image"
+                        :no-image-loading="noImageLoading"
+                    ></product-card-image>
                 </template>
 
                 <template v-else>

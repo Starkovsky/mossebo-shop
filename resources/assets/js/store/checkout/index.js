@@ -1,41 +1,9 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
 import SmoothScroll from '../../scripts/SmoothScroll'
+import HistoryProxy from '../../scripts/HistoryProxy'
 
-class historyProxy {
-    constructor() {
-        this.proxy = document.createElement('a')
-        this.proxy.href = window.location.href
-
-        window.addEventListener('popstate', () => {
-            this.proxy.href = window.location.href
-        }, { passive: true })
-    }
-
-    setHash(hash) {
-        this.set('hash', hash)
-    }
-
-    getHash() {
-        return this.get('hash').replace('#', '')
-    }
-
-    get(part) {
-        return this.proxy[part]
-    }
-
-    set(part, value) {
-        this.proxy[part] = value
-
-        this.pushState()
-    }
-
-    pushState() {
-        window.history.pushState(null, null, this.proxy.href)
-    }
-}
-
-let hp = new historyProxy();
+let hp = new HistoryProxy()
 
 function getStepIndex(state, identif) {
     identif = identif.toLowerCase()

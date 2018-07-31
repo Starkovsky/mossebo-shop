@@ -55,8 +55,21 @@ class ConfigController extends Controller
     {
         if ($user = Auth::user()) {
             $config['user'] = [
-                'id' => $user->id
+                'id'         => $user->id,
+                'first_name' => $user->first_name,
+                'last_name'  => $user->last_name,
+                'phone'      => $user->phone,
+                'email'      => $user->email,
+                'city'       => $user->city,
+                'address'    => $user->address,
+                'post_code'  => $user->post_code,
             ];
+
+            foreach ($config['user'] as $key => $value) {
+                if (empty($config['user'][$key])) {
+                    unset($config['user'][$key]);
+                }
+            }
         }
     }
 }

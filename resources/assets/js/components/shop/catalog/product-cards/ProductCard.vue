@@ -8,18 +8,11 @@
            :href="link"
         >
             <div class="product-card__image-box">
-                <template v-if="product.image">
-                    <background-image-loader
-                        class="product-card__image product-image"
-                        :screen="true"
-                        :image="prepareImage(product.image.src)"
-                        :retina-image="prepareImage(product.image.srcset)"
-                    ></background-image-loader>
-                </template>
-
-                <template v-else>
-                    <div class="product-card__image bg-image product-image"></div>
-                </template>
+                <product-card-image
+                    class="product-card__image"
+                    :image="product.image"
+                    :no-image-loading="noImageLoading"
+                ></product-card-image>
             </div>
 
             <div class="product-card__name">

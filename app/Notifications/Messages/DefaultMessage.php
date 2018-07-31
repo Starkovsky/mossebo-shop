@@ -64,7 +64,7 @@ class DefaultMessage extends MailMessage
         return $this;
     }
 
-    public  function footer($footer)
+    public function footer($footer)
     {
         $this->footerText = $footer;
 
@@ -81,6 +81,28 @@ class DefaultMessage extends MailMessage
         }
 
         return $this;
+    }
+
+    public function separator()
+    {
+        $this->introLines[] = [
+            'separator' => []
+        ];
+
+        return $this;
+    }
+
+    protected function formatLine($line)
+    {
+        if ($line instanceof Htmlable) {
+            return $line;
+        }
+
+        if (is_array($line)) {
+            return $line;
+        }
+
+        return trim(implode(' ', array_map('trim', preg_split('/\\r\\n|\\r|\\n/', $line))));
     }
 
     public function toArray()

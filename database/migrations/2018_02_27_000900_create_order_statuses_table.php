@@ -13,8 +13,7 @@ class CreateOrderStatusesTable extends Migration
         Schema::create(config('tables.OrderStatuses'), function (Blueprint $table) {
             $table->engine = "InnoDB";
             $table->increments('id')->index();
-            $table->string('name');
-            $table->string('color', 64);
+            $table->string('color', 64)->nullable();
             $table->integer('position')->unsigned()->default(0);
         });
     }

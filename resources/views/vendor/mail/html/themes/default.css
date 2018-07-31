@@ -97,8 +97,6 @@ img {
 }
 
 .content {
-    word-break: break-all;
-    -ms-word-break: break-all;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     -webkit-text-size-adjust: none;
@@ -202,4 +200,51 @@ img {
     height: 78px;
     vertical-align: middle;
     text-align: center;
+}
+
+.checkout-table > tbody > tr:not(:first-child) > td {
+    border-top: 1px solid #ecedf3;
+}
+
+.checkout-table > tbody > tr > td {
+    padding: 16px 0;
+}
+
+.checkout-table td:not(:last-child) {
+    padding-right: 16px;
+}
+
+.italic {
+    font-style: italic;
+    color: #888;
+}
+
+.data-table {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+.data-table td:first-child {
+    width: 175px;
+}
+
+.data-table td:not(:last-child) {
+    padding-right: 16px;
+}
+
+.data-table tr:not(:first-child) td {
+    padding-top: 16px;
+}
+
+.sub-title {
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.sub-title:not(:first-child) {
+    margin-top: 16px;
+}
+
+.price {
+    white-space: nowrap;
 }

@@ -152,7 +152,7 @@
                 },
 
                 paymentType({payments}) {
-                    return payments.type
+                    return payments.active
                 },
 
                 shippingStepDone({shipping}) {
@@ -180,7 +180,6 @@
             cartStepDone() {
                 return !this.cartStepNotDone
             },
-
 
             recipientDataIsEmpty() {
                 for (let i = 0; i < this.recipientData.length; i++) {

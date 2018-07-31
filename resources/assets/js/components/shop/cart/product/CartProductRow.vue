@@ -13,12 +13,10 @@
             </td>
 
             <td>
-            <span class="cart-table__price">
                 <formatted-price
                     class="cart-table__price"
                     :value="product.price"
                 ></formatted-price>
-            </span>
             </td>
 
             <td>

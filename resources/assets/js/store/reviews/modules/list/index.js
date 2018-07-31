@@ -25,6 +25,12 @@ export default {
                 .then(() => dispatch('fetch'))
         },
 
+        destroy({state}) {
+            if (state.loading && _.isFunction(state.abortRequest)) {
+                state.abortRequest()
+            }
+        },
+
         reFetch({state, dispatch}) {
             if (state.loading && _.isFunction(state.abortRequest)) {
                 state.abortRequest()

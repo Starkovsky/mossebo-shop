@@ -1,4 +1,4 @@
-.help-sub-nav {
+.side-menu {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -11,10 +11,15 @@
         font-size: 16px;
         font-weight: 500;
         color: $color-text-secondary;
+        cursor: pointer;
 
         &.active, &:hover {
             color: $color-primary;
             text-decoration: none;
+        }
+
+        &.danger {
+            color: $color-danger;
         }
     }
 }

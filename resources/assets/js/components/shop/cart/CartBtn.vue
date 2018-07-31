@@ -39,7 +39,7 @@
         <div class="ht-container ht-container--popup ht-container--right" v-if="isDesktop">
             <div class="ht-inner">
                 <div :class="{'cart-popup-wrap': ! (isEmpty && !loading)}">
-                    <transition name="fade" mode="out-in">
+                    <!--<transition name="fade" mode="out-in">-->
                         <div v-if="hasError" class="cart-error block-ui">
                             <h4>Ошибка соединения с сервером</h4>
 
@@ -57,7 +57,7 @@
                             :no-overlay="true"
                         ></loading>
 
-                        <div v-else-if="isEmpty" class="cart-empty block-ui">
+                        <div v-else-if="isEmpty" class="cart-empty block-ui text-center">
                             Корзина пуста.
                         </div>
 
@@ -99,7 +99,7 @@
                             </div>
                         </loading>
 
-                    </transition>
+                    <!--</transition>-->
                 </div>
             </div>
         </div>

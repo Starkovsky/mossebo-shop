@@ -14,7 +14,14 @@
             <div class="ht-inner">
                 <div class="filter-desc">
                     <div class="form-group">
-                        <input type="text" class="form-input" v-model="query" @input="inputChange" @keydown.enter="submit">
+                        <input
+                            type="text"
+                            class="form-input"
+                            :value="stateQuery"
+                            @input="inputChange"
+                            @keydown.enter="submit"
+
+                        >
                     </div>
                 </div>
             </div>
@@ -35,32 +42,25 @@
             }
         },
 
-        data() {
-            return {
-                query: ''
-            }
-        },
-
         mounted() {
             this.$nextTick(() => {
                 heightToggle(this.$el.querySelector('.js-ht-filter'))
             })
 
-            this.debouncer = _.debounce(() => {
-                this.submit()
-            }, 1000)
-
-            this.query = this.stateQuery
+            this.updateQueryFromState()
         },
 
         methods: {
+            updateQueryFromState() {
+                this.query = this.stateQuery
+            },
 
             inputChange(e) {
-                this.debouncer(e.target.value)
+                this.$store.dispatch('catalog/setSearchQuery', e.target.value)
             },
 
             submit() {
-                this.$store.dispatch('catalog/setSearchQuery', this.query)
+                this.$store.dispatch('catalog/forceSearch')
             },
         },
 

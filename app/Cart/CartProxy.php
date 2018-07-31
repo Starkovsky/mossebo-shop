@@ -3,6 +3,7 @@
 namespace App\Cart;
 
 use Cart;
+use Cache;
 use Session;
 use App\Models\Shop\Product;
 use Illuminate\Support\Collection;
@@ -10,39 +11,76 @@ use Illuminate\Support\Collection;
 class CartProxy
 {
     protected static $sessionKey = 'cart-session';
+    protected static $cacheKey = 'cart-cache';
 
     public static function get()
     {
-        $items = static::getContent();
+        return Cache::remember(static::getCacheKey(), 5, function () {
+            $items = static::getContent();
 
-        $builded = static::addProductInfoToItems($items);
+            $checked = static::availableItems($items);
 
-        if ($items->count() !== $builded->count()) {
-            static::set($builded);
-        }
+            if ($items->count() !== $checked->count()) {
+                static::set($checked);
+            }
 
-        return $builded;
+            $ids = [];
+            $options = [];
+
+            $checked->each(function($item) use (&$ids, &$options) {
+                $ids[] = $item->id;
+                $options[$item->id] = $item->options;
+            });
+
+            $products = Product::whereIn('id', $ids)
+                ->with(['image', 'prices', 'currentI18n'])
+                ->get();
+
+            return $checked->map(function($item) use($products, $options) {
+                $product = $products->where('id', $item->id)->first();
+                $product->options = $options[$product->id];
+                $item->info = $product;
+
+                return $item;
+            });
+        });
+    }
+
+    protected static function getCacheKey()
+    {
+        return static::$cacheKey . '::' . Session::getId();
     }
 
     protected static function getContent(): Collection
     {
         return Cart::content()->map(function($item) {
+            $decoded = static::decodeKey($item->id);
+
             return (object) [
                 'key' => $item->id,
-                'qty' => $item->qty
+                'qty' => $item->qty,
+                'id'  => $decoded['id'],
+                'options' => $decoded['options'],
             ];
         });
     }
 
     public static function add($item)
     {
+        static::addToCart($item);
+
+        Cache::forget(static::getCacheKey());
+    }
+
+    protected static function addToCart($item)
+    {
         $item = (object) $item;
 
         if ((int) $item->qty <= 0) return;
 
-        $info = isset($item->info) ? $item->info : static::getProductInfo($item->key);
+        $exists = isset($item->info) ? $item->info : static::checkItem($item);
 
-        if ($info) {
+        if ($exists) {
             Cart::add([
                 'id' => $item->key,
                 'qty' => $item->qty,
@@ -61,25 +99,24 @@ class CartProxy
         Cart::destroy();
 
         foreach ($items as $item) {
-            static::add($item);
+            static::addToCart($item);
         }
 
         static::setSyncTime();
+        Cache::forget(static::getCacheKey());
     }
 
-    protected static function clear()
+    public static function clear()
     {
         Cart::destroy();
         Session::forget(static::getSessionKey('sync-time'));
+        Cache::forget(static::getCacheKey());
     }
 
-    protected static function addProductInfoToItems(Collection $cartItems): Collection
+    protected static function availableItems(Collection $cartItems): Collection
     {
         return $cartItems->reduce(function($carry, $item) {
-            $product = static::getProductInfo($item->key);
-
-            if ($product) {
-                $item->info = $product;
+            if (static::checkItem($item)) {
                 $carry->push($item);
             }
 
@@ -87,14 +124,24 @@ class CartProxy
         }, new Collection);
     }
 
-    public static function getProductInfo($key)
-    {
+    protected static function checkItem($item) {
+//        if (isset($item->id) && isset($item->options)) {
+//            $decoded = [
+//                'id' => $item->id,
+//                'options' => $item->options,
+//            ];
+//        }
+//        else {
+//            $decoded = static::decodeKey($item->key);
+//        }
+
+        return !! static::getProductByKey($item->key);
+    }
+
+    public static function getProductByKey($key) {
         $decoded = static::decodeKey($key);
 
-        $product = Product::getCartItem($decoded['id'], $decoded['options']);
-        $product->options = $decoded['options'];
-
-        return $product;
+        return Product::getCartItem($decoded['id'], $decoded['options']);
     }
 
     protected static function setSyncTime()
@@ -118,7 +165,7 @@ class CartProxy
      * @param String $key
      * @return array
      */
-    protected static function decodeKey(string $key): array
+    public static function decodeKey(string $key): array
     {
         $keyArray = explode('-', $key);
 

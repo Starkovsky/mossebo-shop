@@ -32,7 +32,7 @@ class EmailRequest extends FormRequest
         }
 
         return [
-            'email' => ['between:3,255', $rule]
+            'email' => ['between:6,255', $rule]
         ];
     }
 }

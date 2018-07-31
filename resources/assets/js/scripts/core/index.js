@@ -1,5 +1,6 @@
 import cookie from './cookie'
 import Alerty from '../Alerty'
+import setMeta from '../MetaSetter'
 
 const Core = {
     siteUrl(url = '') {
@@ -31,6 +32,8 @@ const Core = {
     },
 
     cookie,
+
+    setMeta,
 
     getFancyboxConfig() {
         return {

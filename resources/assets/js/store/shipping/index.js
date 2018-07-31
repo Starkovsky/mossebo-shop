@@ -7,22 +7,23 @@ const defaultState = {
     ready: false,
 
     data: {
-        name: '',
-        surname: '',
-        phone: '',
-        email: '',
-        city: '',
-        address: '',
-        post_code: '',
-        comment: '',
+        first_name: Core.config('user.first_name'),
+        last_name:  Core.config('user.last_name'),
+        phone:      Core.config('user.phone'),
+        email:      Core.config('user.email'),
+        city:       Core.config('user.city'),
+        address:    Core.config('user.address'),
+        post_code:  Core.config('user.post_code'),
+        comment:    '',
     },
 
+    // todo: Перенести тип
     types: {
-        free: Core.translate('shipping.types.free'),
-        express: Core.translate('shipping.types.express')
+        '1': Core.translate('shipping.types.free'),
+        '2': Core.translate('shipping.types.express')
     },
 
-    type: 'free',
+    type: '1',
 
     validated: false
 }
@@ -80,7 +81,7 @@ export default {
         },
 
         [actionTypes.SHIPPING_SET_TYPE](state, type) {
-            state.type = type
+            state.type = type.toString()
         },
 
         [actionTypes.SHIPPING_VALIDATION_SUCCESS](state) {

@@ -1,7 +1,7 @@
 import * as actionTypes from './types'
 import { LocalStorageProxy } from '../../scripts/LocalStorageProxy'
 import localStorageActionsExtension from '../localStorageActionsExtension'
-import axios from "axios/index"
+import Request from '../../scripts/Request'
 import FilterModule from './modules/filters'
 import SortModule from './modules/sort'
 import CardsModule from './modules/cards'
@@ -30,6 +30,9 @@ export default {
         activeProductIndexes: [],
         initialized: false,
         ready: false,
+
+
+        searchTimeout: null
     },
 
     actions: {
@@ -58,7 +61,7 @@ export default {
 
             Promise.all([dispatch('fetchProducts'), dispatch('filters/fetchFilters')])
                 .then(response => {
-                    dispatch('filters/makeFilters', response[0].data.products)
+                    dispatch('filters/makeFilters', response[0])
                         .then(([products, filters]) => {
                             commit(actionTypes.CATALOG_REQUEST_SUCCESS)
 
@@ -79,8 +82,19 @@ export default {
                 })
         },
 
-        fetchProducts() {
-            return axios.get('/api' + window.location.pathname)
+        fetchProducts({state}) {
+            if (state.searchRequest) {
+                state.searchRequest.abort()
+            }
+
+            return new Promise(resolve => {
+                state.searchRequest = new Request('get', '/api' + window.location.pathname + window.location.search)
+                    .success(response => {
+                        state.searchRequest = null
+                        resolve(response.data.products)
+                    })
+                    .start()
+            })
         },
 
         setProducts({commit}, products) {
@@ -127,12 +141,27 @@ export default {
             }
         },
 
-        setSearchQuery({dispatch}, value) {
+        setSearchQuery({state, dispatch}, value) {
+            clearTimeout(state.searchTimeout)
+
             dispatch('search/setQuery', value)
-                .then(dispatch('process', 'search'))
+                .then(() => new Promise(resolve => {
+                    state.searchTimeout = setTimeout(() => {
+                        resolve()
+                    }, 1000)
+                }))
+                .then(() => {
+                    dispatch('forceSearch')
+                })
         },
 
-        process({state, dispatch}, needToDo) {
+        forceSearch({state, dispatch}) {
+            clearTimeout(state.searchTimeout)
+
+            dispatch('process', 'search')
+        },
+
+        process({state, dispatch, commit}, needToDo) {
             let queue = dispatch('filteringStart')
                 .then(() => dispatch('pagination/toStart'))
 
@@ -141,10 +170,10 @@ export default {
 
             if (queueSteps.indexOf('search') !== -1) {
                 queue = queue.then(() => {
-                    return dispatch('search/search')
+                    return dispatch('fetchProducts')
                         .then(products => dispatch('filters/makeFilters', products)
                             .then(([products, filters]) => {
-                                dispatch('filters/setFilters', filters)
+                                return dispatch('filters/setFilters', filters)
                                     .then(dispatch('setProducts', products))
                                     .then(() => dispatch(
                                         'filters/calculateProductCountPerOption',
@@ -176,6 +205,11 @@ export default {
             }
 
             queue.then(() => dispatch('filteringEnd'))
+
+            queue.catch(e => {
+                console.log(e)
+                commit(actionTypes.CATALOG_REQUEST_FAILURE)
+            })
         },
 
         filteringStart({state}) {

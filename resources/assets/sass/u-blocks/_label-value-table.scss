@@ -18,5 +18,26 @@
     &__value {
         width: calc(100% - 150px);
         color: $color-text-primary;
+
+        &--italic {
+            color: $color-text-secondary;
+            font-style: italic;
+
+            &::before {
+                content: "«";
+            }
+
+            &::after {
+                content: "»";
+            }
+        }
+    }
+
+    &--long &__label {
+        width: 225px;
+    }
+
+    &--long &__value {
+        width: calc(100% - 225px);
     }
 }

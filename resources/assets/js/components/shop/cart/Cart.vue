@@ -1,13 +1,13 @@
 <template>
-    <transition-group
-        name="fade-up"
-        mode="out-in"
-        @before-enter="beforeEnter"
-        @before-leave="beforeEnter"
-        @after-leave="afterLeave"
-        class="cart-animation-wrap js-cart-wrap"
-        tag="div"
-    >
+    <!--<transition-group-->
+        <!--name="fade-up"-->
+        <!--mode="out-in"-->
+        <!--@before-enter="beforeEnter"-->
+        <!--@before-leave="beforeEnter"-->
+        <!--@after-leave="afterLeave"-->
+        <!--class="cart-animation-wrap js-cart-wrap"-->
+        <!--tag="div"-->
+    <!--&gt;-->
         <div v-if="hasError" key="error" class="cart-animation-wrap__item">
             <div :class="{'cart-error': true, 'block-ui': !$root.isDesktop}">
                 <h4>Ошибка соединения с сервером</h4>
@@ -29,8 +29,14 @@
         </div>
 
         <div v-else-if="isEmpty" key="empty" class="cart-animation-wrap__item">
-            <div :class="{'cart-empty': true, 'block-ui': !$root.isDesktop}">
+            <div :class="{'cart-empty-page text-center': true, 'block-ui': !$root.isDesktop}">
                 Корзина пуста.
+
+                <div class="cart-empty-page__button mt-32">
+                    <a :href="$root.catalogUrl" class="button button-primary">
+                        {{ $root.translate('Shop now') }}
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -120,7 +126,7 @@
             </loading>
         </div>
 
-    </transition-group>
+    <!--</transition-group>-->
 </template>
 
 <script>

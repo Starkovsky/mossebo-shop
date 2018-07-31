@@ -98,6 +98,8 @@ export default class SmoothScrollProxy {
     }
 
     static scrollIsNeed(el) {
+        if (!el) return
+
         let top = el.getBoundingClientRect().top
 
         return (top + el.offsetHeight < el.offsetHeight / 2)
