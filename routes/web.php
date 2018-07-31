@@ -63,15 +63,10 @@ Route::prefix('ru')->group(function () {
     /*
      * Личный кабинет
      */
-    Route::prefix('lk')->group(function () {
-
-//        Route::get('/', 'Shop\LKController@index')
+//    Route::prefix('lk')->group(function () {
+//        Route::get('/', 'Shop\HomeController@index')
 //            ->name('lk');
-
-        Route::get('/orders', 'Shop\LKController@orders')->name('orders');
-        Route::get('/profile', 'Shop\LKController@profile')->name('profile');
-        Route::get('/reviews', 'Shop\LKController@reviews')->name('reviews');
-    });
+//    });
 
     // Корзина
     Route::get('/cart', 'Shop\CartController@index')->name('cart');

@@ -1,11 +1,11 @@
 @extends('shop.layouts.html')
 
 @section('content')
-    {{ Breadcrumbs::render('lk-reviews') }}
+    {{ Breadcrumbs::render('cabinet') }}
 
     <div class="container">
         <h1 class="title-h1">
-            {{ __('lk.reviews.title') }}
+            {{ __('content.cabinet') }}
         </h1>
     </div>
 
