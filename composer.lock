@@ -1607,6 +1607,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.6.29",
             "source": {
                 "type": "git",
@@ -1617,6 +1618,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/acc6b5c54ab196d3358f60acc5f55d9ebaaccc02",
                 "reference": "acc6b5c54ab196d3358f60acc5f55d9ebaaccc02",
+=======
+            "version": "v5.6.28",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "40ba2ee0e61cb4bc3c9f1dab04908e6acf06b86f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/40ba2ee0e61cb4bc3c9f1dab04908e6acf06b86f",
+                "reference": "40ba2ee0e61cb4bc3c9f1dab04908e6acf06b86f",
+>>>>>>> 530be5d24b2d2df3d88b91781845e493b1b29c69
                 "shasum": ""
             },
             "require": {
@@ -1742,7 +1755,11 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2018-07-26T16:01:26+00:00"
+=======
+            "time": "2018-07-17T14:15:36+00:00"
+>>>>>>> 530be5d24b2d2df3d88b91781845e493b1b29c69
         },
         {
             "name": "laravel/scout",
