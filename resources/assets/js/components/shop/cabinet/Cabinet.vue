@@ -25,6 +25,7 @@
     import CabinetProfile from './components/CabinetProfile'
     import CabinetReviews from './components/CabinetReviews'
     import CabinetOrders from './components/CabinetOrders'
+    import { closeAllHT } from '../../../scripts/HeightToggle'
 
     export default {
         name: "Cabinet",
@@ -59,6 +60,7 @@
                     if (link.indexOf('cabinet#' + key) !== -1) {
                         e.preventDefault()
                         this.to(key)
+                        closeAllHT()
                         break
                     }
                 }

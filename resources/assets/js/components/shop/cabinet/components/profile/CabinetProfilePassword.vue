@@ -5,7 +5,7 @@
         </h3>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="form-group js-form-group">
                     <label for="profile-password" class="form-label">
                         {{ $root.translate('form.fields.password_old') }}
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="form-group js-form-group">
                     <label for="profile-password-new" class="form-label">
                         {{ $root.translate('form.fields.password_new') }}
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="form-group js-form-group">
                     <label for="profile-password-confirm" class="form-label">
                         {{ $root.translate('form.fields.password_confirm') }}

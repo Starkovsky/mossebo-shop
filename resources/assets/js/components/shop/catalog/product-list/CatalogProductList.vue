@@ -9,7 +9,7 @@
 
                 <template v-if="cardType$ === 'tile'">
                     <div
-                        :class="'catalog-product-list__product ' + tileCardClass"
+                        :class="{'catalog-product-list__product': true, [tileCardClass]: true}"
                         :key="product.id"
                         v-show="show"
                     >
@@ -20,7 +20,7 @@
                 </template>
 
                 <template v-if="cardType$ === 'list'">
-                    <div :class="'catalog-product-list__product ' + listCardClass" :key="product.id">
+                    <div :class="{'catalog-product-list__product': true, [listCardClass]: true}" :key="product.id">
                         <product-card-long
                             :product="product"
                             v-show="show"
@@ -29,7 +29,7 @@
                 </template>
 
                 <template v-if="cardType$ === 'mobile'">
-                    <div :class="'catalog-product-list__product ' + mobileCardClass" :key="product.id">
+                    <div :class="{'catalog-product-list__product col-12': true, [mobileCardClass]: true}" :key="product.id">
                         <product-card-mobile
                             :product="product"
                             v-show="show"
@@ -87,6 +87,10 @@
             listCardClass: {
                 default: 'col-12'
             },
+
+            mobileCardClass: {
+                default: 'col-12'
+            }
         },
 
         data() {

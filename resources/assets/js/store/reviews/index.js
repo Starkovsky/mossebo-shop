@@ -34,12 +34,10 @@ export default {
             return Promise.all([dispatch('list/destroy'), dispatch('form/destroy')])
         },
 
-        set({ state, commit }, [stepName, toHistory = true]) {
+        set({ state, commit }, stepName) {
             if (state.steps.indexOf(stepName) === -1) return
 
             commit(actionTypes.REVIEWS_SET_STEP, stepName)
-
-            if (!toHistory) return
         },
 
         toForm({ state, dispatch }) {

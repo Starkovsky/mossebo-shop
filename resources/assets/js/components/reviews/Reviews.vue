@@ -51,7 +51,7 @@
             'hideButton'
         ],
 
-        mounted() {
+        created() {
             this.$store.dispatch('reviews/init')
         },
 

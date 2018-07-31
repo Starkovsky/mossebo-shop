@@ -39,9 +39,15 @@
             }
         },
 
+        created() {
+            this.$store.dispatch('reviews/init')
+        },
+
         computed: {
             ... mapState({
-                listEmpty: state => state.reviews.list.reviews.length === 0
+                listEmpty: state => state.reviews.list.reviews.length === 0,
+                loading: state => state.reviews.list.loading,git ad
+                error: state => state.reviews.list.error,
             })
         }
     }
