@@ -69,6 +69,11 @@
                 default: () => 'tile'
             },
 
+            noMobileCard: {
+                type: Boolean,
+                default: false
+            },
+
             loading: Boolean,
 
             rowClass: {
@@ -82,10 +87,6 @@
             listCardClass: {
                 default: 'col-12'
             },
-
-            mobileCardClass: {
-                default: 'col-12'
-            }
         },
 
         data() {

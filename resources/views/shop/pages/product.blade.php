@@ -314,8 +314,14 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div class="col-12 mt-60 js-product-list-container">
+                <product-list
+                    title="Дополните комплект"
+                    :url="'{{ apiUrl('goods/' . $product->id . '/similar') }}'"
+                ></product-list>
+            </div>
+        </div>
     </div>
 
 
@@ -337,7 +343,7 @@
                 </div>
 
                 <div class="popup__content">
-                    @if($imagesCount > 1)
+                    @if($imagesCount > 0)
                         <div class="popup__image text-center">
                             <img
                                 src="https://admin.mossebo.market{{ $images[0]->small->src }}"

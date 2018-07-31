@@ -52,6 +52,18 @@
 
         <div class="review-item__text">
             <div class="review-content">
+                <template v-if="review.item">
+                    <div class="review-content__title">
+                        <span class="review-content__label">
+                            {{ $root.translate('Review about') }}:
+                        </span>
+
+                        <a :href="getItemLink(review.item)" class="link" target="_blank">
+                            {{ review.item.title }}
+                        </a>
+                    </div>
+                </template>
+
                 <template v-if="review.advantages">
                     <div class="review-content__label">
                         {{ $root.translate('Advantages') }}:
@@ -171,6 +183,12 @@
                         }
                     ]
                 })
+            },
+
+            getItemLink(item) {
+                if (item.type === 'good') {
+                    return Core.siteUrl('goods/' + item.id)
+                }
             }
         },
 

@@ -2,6 +2,9 @@ import * as actionTypes from './types'
 import Core from '../../scripts/core'
 import { LocalStorageProxy } from '../../scripts/LocalStorageProxy'
 import localStorageActionsExtension from '../localStorageActionsExtension'
+import HistoryProxy from '../../scripts/HistoryProxy'
+
+let hp = new HistoryProxy()
 
 export default {
     namespaced: true,
@@ -10,13 +13,13 @@ export default {
         ready: false,
 
         pages: {
-            orders: Core.translate('Orders'),
+            orders: Core.translate('My orders'),
             profile: Core.translate('Profile'),
             reviews: Core.translate('Reviews'),
-            questions: Core.translate('Questions'),
+            // questions: Core.translate('Questions'),
         },
 
-        activePage: null
+        active: 'profile'
     },
 
     actions: {
@@ -25,21 +28,21 @@ export default {
         init({ state, dispatch, commit }) {
             if (state.ready) return
 
-            let pathname = window.location.pathname.split('/')
-            let key = pathname[pathname.length - 1]
+            let hash = hp.getHash('hash')
 
-            if (key in state.pages) {
-                state.activePage = key
+            if (hash && hash in state.pages) {
+                state.active = hash
             }
 
-            dispatch('initLocalStorageExtension', new LocalStorageProxy('__cabinet'))
-
-            commit(actionTypes.CATALOG_READY)
+            dispatch('setPage', [, false])
+                .then(() => dispatch('initLocalStorageExtension', new LocalStorageProxy('__cabinet')))
+                .then(() => commit(actionTypes.CATALOG_READY))
         },
 
         setPage({ state, commit, dispatch }, key) {
             if (key in state.pages) {
                 commit(actionTypes.CATALOG_SET_PAGE, key)
+                hp.setHash(key)
             }
         }
     },
@@ -50,7 +53,7 @@ export default {
         },
 
         [actionTypes.CATALOG_SET_PAGE](state, key) {
-            state.activePage = key
+            state.active = key
         },
     },
 }

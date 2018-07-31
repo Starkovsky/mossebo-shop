@@ -1,0 +1,7 @@
+.cabinet-reviews {
+    padding: 40px 16px;
+
+    @include media-breakpoint-up(md) {
+        padding: 62px 48px;
+    }
+}

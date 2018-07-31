@@ -20,6 +20,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/styles/{slug}', 'Api\Shop\StyleController@products');
     Route::get('/styles/{slug}/{category}', 'Api\Shop\StyleController@catalog');
     Route::get('/search', 'Api\Shop\SearchController@index');
+    Route::get('/search/query', 'Api\Shop\SearchController@query');
 
     Route::get('/filters', 'Api\Shop\FilterController@index');
 
@@ -27,6 +28,7 @@ Route::prefix('ru')->group(function () {
 
     Route::get('/goods/popular', 'Api\Shop\ProductController@popular');
     Route::get('/goods/new', 'Api\Shop\ProductController@new');
+    Route::get('/goods/{product}/similar', 'Api\Shop\ProductController@similar');
 });
 
 

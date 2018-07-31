@@ -11,51 +11,65 @@ class SearchController extends ApiController
 {
     public function index(Request $request)
     {
-
-
-
-//        dd( $products = Product::with(
-//            ['attributeOptions' => function($query) {
-//                $query->with('i18n');
-//            }],
-//            ['categories' => function($query) {
-//                $query->with('i18n');
-//            }],
-//            ['styles' => function($query) {
-//                $query->with('i18n');
-//            }],
-//            ['rooms' => function($query) {
-//                $query->with('i18n');
-//            }],
-//            'i18n'
-//        )->get()->take(5));
-
-
-        $query = $request->input('query');
-
-        if (mb_strlen($query) < 3) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'query is too short'
-            ]);
-        }
+//        if (mb_strlen($query) < 3) {
+//            return response()->json([
+//                'status' => 'error',
+//                'message' => 'query is too short'
+//            ]);
+//        }
 
 //        $products = \Cache::remember('search::all' . $query, 5, function() use($query) {
 //            return static::getProducts($query);
 //        });
+        $query = $request->input('q');
 
-        $products = static::getProducts($query);
+        $ids = $this->searchIds($query);
+
+        $products = Product::with([
+            'currentI18n',
+            'image',
+            'currentPrice',
+            'oldPrice',
+            'supplier',
+
+            'attributeOptionRelations',
+
+            'styleRelations',
+            'roomRelations',
+            'categoryRelations'
+        ])->whereIn('id', $ids)->get();
 
         return [
-            'meta' => '',
-            'products' => $products
+            'status' => 'success',
+            'meta' => [
+                'title' => trans('search.title.phrase', ['phrase' => $query])
+            ],
+            'products' => ProductResource::collection($products)
         ];
     }
 
-    protected static function getProducts($query = null)
+    public function query(Request $request)
     {
-        $search = Product::search($query, function($client, $query, $params) {
+        $ids = $this->searchResultToIds(
+            $this->search($request->input('q'))->take(5)
+        );
+
+        $products = Product::with([
+            'currentI18n',
+        ])->whereIn('id', $ids)->get();
+
+        return [
+            'status' => 'success',
+            'products' => ProductResource::collection($products)
+        ];
+    }
+
+    protected function search($query)
+    {
+        return Product::search($query, function($client, $query, $params) {
             $params['body'] = [
+                'from' => 0,
+                'size' => 10000,
                 'query' => [
                     'match' => [
                         'index' => [
@@ -70,23 +84,16 @@ class SearchController extends ApiController
 
             return $client->search($params);
         })->get();
+    }
 
-        $products = Product::with([
-            'currentI18n',
-            'image',
-            'currentPrice',
-            'oldPrice',
-            'supplier',
+    protected function searchResultToIds($result)
+    {
+        return array_column($result->toArray(),'id');
+    }
 
-            'attributeOptionRelations',
-
-            'styleRelations',
-            'roomRelations',
-            'categoryRelations'
-        ])
-            ->whereIn('id', array_column($search->toArray(),'id'))->get();
-
-        return ProductResource::collection($products);
+    protected function searchIds($query)
+    {
+        return $this->searchResultToIds($this->search($query));
     }
 }
 

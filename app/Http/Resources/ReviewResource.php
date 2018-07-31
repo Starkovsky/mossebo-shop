@@ -25,6 +25,16 @@ class ReviewResource extends JsonResource
             $data['unconfirmed'] = true;
         }
 
+        if ($this->relationNotEmpty('item')) {
+            if ($this->resource->item_type === 'product') {
+                $data['item'] = [
+                    'type'  => 'good',
+                    'id'    => $this->resource->item->id,
+                    'title' => $this->resource->item->currentI18n->title
+                ];
+            }
+        }
+
         return $data;
     }
 }

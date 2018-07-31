@@ -6,11 +6,11 @@
                 @retry="retry"
             ></server-error>
 
-            <template v-if="!loading">
+            <template v-if="!error && !loading">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="reviews-list-panel">
-                            <div class="reviews-list-panel__button">
+                        <div v-if="reviews.length > 1 || !hideButton" class="reviews-list-panel">
+                            <div v-if="! hideButton" class="reviews-list-panel__button">
                                 <template v-if="$root.isAuthorized()">
                                     <template v-if="unconfirmed">
                                         <button class="button button-primary" @click="edit(unconfirmed)">
@@ -166,7 +166,8 @@
         name: 'ReviewsList',
 
         props: [
-            'url'
+            'url',
+            'hideButton'
         ],
 
         components: {

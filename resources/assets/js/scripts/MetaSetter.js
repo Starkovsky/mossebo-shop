@@ -1,4 +1,4 @@
-import setTitle from './meta/title'
+// import setTitle from './meta/title'
 import setBreadcrumbs from './meta/breadcrumbs'
 
 export default function setMeta(data) {
@@ -28,7 +28,7 @@ export default function setMeta(data) {
     })
 
     if ('title' in data) {
-        setTitle(data.title)
+        // setTitle(data.title)
         titleEl.innerHTML = data.title
     }
 

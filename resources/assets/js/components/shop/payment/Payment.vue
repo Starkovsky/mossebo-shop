@@ -6,16 +6,11 @@
 
         <div class="payment-page__content">
             <div class="payment-page__choose">
-                <div class="row">
-                    <template v-for="(title, type) in types">
-                        <div class="payment-page__option col-sm-12 col-md-6">
-                            <input type="radio" name="payment" :id="`payment-${type}`" :checked="isActive(type)" style="display: none;">
-                            <label class="huge-radio" :for="`payment-${type}`" @click="setType(type)">
-                                {{ title }}
-                            </label>
-                        </div>
-                    </template>
-                </div>
+                <payment-choose
+                    :payments="types"
+                    :active="activeType"
+                    @choose="setType"
+                ></payment-choose>
             </div>
 
             <div class="payment-page__info">
@@ -27,15 +22,16 @@
 
 <script>
     import { mapState } from 'vuex'
+    import PaymentChoose from './PaymentChoose'
 
     export default {
         name: "Payment",
 
-        methods: {
-            isActive(type) {
-                return this.activeType === type
-            },
+        components: {
+            PaymentChoose
+        },
 
+        methods: {
             setType(type) {
                 this.$store.dispatch('payments/setType', type)
             }
@@ -49,7 +45,7 @@
                         return acc
                     }, {})
                 },
-                activeType: state => state.payments.type,
+                activeType: state => state.payments.active,
             })
         }
     }

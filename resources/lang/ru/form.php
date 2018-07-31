@@ -2,10 +2,10 @@
 
 
 return [
-    'name' => '<strong>Имя:</strong> :name',
-    'phone' => '<strong>Номер телефона:</strong> :phone',
-    'message' => '<strong>Сообщение:</strong> <i>:message</i>',
-    'product' => '<strong>Товар:</strong>',
+    'name'      => '<strong>Имя:</strong> :name',
+    'phone'     => '<strong>Номер телефона:</strong> :phone',
+    'message'   => '<strong>Сообщение:</strong> <i>:message</i>',
+    'product'   => '<strong>Товар:</strong>',
 
     'callback' => [
         'success' => 'Спасибо за заявку. Менеджер свяжется с вами в ближайшее время.',

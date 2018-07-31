@@ -40,7 +40,7 @@
                             <div class="auth-socials__container">
                                 <div class="auth-socials__item">
                                     <a href="{{ url('login/vkontakte') }}"
-                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--vk cricle"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--vk"
                                     >
                                         <svg class="symbol-icon social-embed-vk">
                                             <use xlink:href="/assets/images/icons.svg#social-embed-vk"></use>
@@ -50,7 +50,7 @@
 
                                 <div class="auth-socials__item">
                                     <a href="{{ url('login/odnoklassniki') }}"
-                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--ok cricle"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--ok"
                                     >
                                         <svg class="symbol-icon social-embed-ok">
                                             <use xlink:href="/assets/images/icons.svg#social-embed-ok"></use>
@@ -60,7 +60,7 @@
 
                                 <div class="auth-socials__item">
                                     <a href="{{ url('login/facebook') }}"
-                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--facebook"
+                                       class="auth-social-btn auth-social-btn--circle auth-social-btn--fb"
                                     >
                                         <svg class="symbol-icon social-embed-fb">
                                             <use xlink:href="/assets/images/icons.svg#social-embed-fb"></use>

@@ -192,6 +192,8 @@ export class FormInputs extends BlankPlugin {
     constructor(el) {
         super()
 
+        if (! el) return null
+
         this.el = el
         this.fields = [].map.call(el.querySelectorAll('.js-form-group'), el => {
             return new FormField(el)
@@ -213,6 +215,9 @@ export class FormInputs extends BlankPlugin {
             if (field.name in errors) {
                 field.setError(errors[field.name])
             }
+            else {
+                field.hideError()
+            }
         })
     }
 
@@ -229,9 +234,11 @@ export default class FormSender extends FormInputs {
     constructor(el, options) {
         super(el)
 
+        if (! el) return null
+
         this.setOptions(options)
 
-        this.url = this.el.getAttribute('action')
+        this.url = this.el.getAttribute('action') || window.location.href
         this.sendInProcess = false
         this.init()
     }
@@ -279,7 +286,7 @@ export default class FormSender extends FormInputs {
     }
 
     thrownHasHandlableData(thrown) {
-        if (! 'response' in thrown) return false
+        if (! 'response' in thrown || ! thrown.response) return false
         if (! 'data' in thrown.response) return false
 
         return 'message' in thrown.response.data && thrown.response.data.message

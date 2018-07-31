@@ -1,12 +1,12 @@
 <template>
-    <div class="label-value-table">
+    <div :class="classNameWithModificators('label-value-table')">
         <template v-for="item in data">
             <div v-if="isVisible(item)" class="label-value-table__item">
                 <div class="label-value-table__label">
                     {{ item.label }}
                 </div>
 
-                <div class="label-value-table__value">
+                <div :class="{'label-value-table__value': true, 'label-value-table__value--italic': item.italic}">
                     {{ getValue(item) }}
                 </div>
             </div>
@@ -16,11 +16,17 @@
 </template>
 
 <script>
+    import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
+
     export default {
         name: "LabelValueTable",
 
+        mixins: [
+            ClassNameWithModificators
+        ],
+
         props: {
-            data: Array
+            data: Array,
         },
 
         methods: {

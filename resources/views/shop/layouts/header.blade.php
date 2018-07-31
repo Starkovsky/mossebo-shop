@@ -12,7 +12,6 @@
     </div>
 @endif
 
-
 <header class="header js-fixed-menu">
     <div class="header__fixer"></div>
     <div class="header__fixed js-fixed-menu-container">
@@ -39,17 +38,7 @@
                 </div>
 
                 <div class="header-float__item header-float__item--search">
-                    <div class="search-input">
-                        <form action="{{ siteUrl('search') }}">
-                            <input type="text" class="search-input__input form-input">
-
-                            <button class="search-input__button">
-                                <svg class="search-input__icon symbol-icon symbol-search">
-                                    <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
+                    <search-input></search-input>
                 </div>
 
                 <div class="header-float__item header-float__item--auth">
@@ -82,11 +71,11 @@
                                     <a class="dropdown-item" href="{{ route('login') }}">{{ __('auth.login') }}</a>
                                     <a class="dropdown-item" href="{{ route('register') }}">{{ __('auth.register') }}</a>
                                 @else
-                                    <a href="#" class="dropdown-item">Мои заказы</a>
-                                    <a href="#" class="dropdown-item">Профиль</a>
-                                    <a href="#" class="dropdown-item">Отзывы</a>
-                                    <a href="#" class="dropdown-item">Вопросы</a>
-                                    <a href="#" class="dropdown-item gray">Помощь</a>
+                                    <a href="/cabinet#orders" class="dropdown-item">Мои заказы</a>
+                                    <a href="/cabinet#profile" class="dropdown-item">Профиль</a>
+                                    <a href="/cabinet#reviews" class="dropdown-item">Отзывы</a>
+                                    {{--<a href="/cabinet#questions" class="dropdown-item">Вопросы</a>--}}
+                                    {{--<a href="/cabinet#help" class="dropdown-item gray">Помощь</a>--}}
                                     <a class="dropdown-item logout"
                                        href="{{ route('logout') }}"
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"

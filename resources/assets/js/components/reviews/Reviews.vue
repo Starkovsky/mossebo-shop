@@ -13,7 +13,10 @@
                         key="list"
                         class="reviews-pallete__item"
                     >
-                        <reviews-list :url="url"></reviews-list>
+                        <reviews-list
+                            :url="url"
+                            :hide-button="hideButton"
+                        ></reviews-list>
                     </div>
 
                     <div
@@ -44,11 +47,16 @@
         },
 
         props: [
-            'url'
+            'url',
+            'hideButton'
         ],
 
         mounted() {
             this.$store.dispatch('reviews/init')
+        },
+
+        beforeDestroy() {
+            this.$store.dispatch('reviews/destroy')
         },
 
         methods: {

@@ -16,11 +16,18 @@ Vue.use(Vuex)
 import storeSkeleton from './store'
 const store = new Vuex.Store(storeSkeleton)
 
+import VeeValidate from 'vee-validate'
+
+Vue.use(VeeValidate, {
+    fieldsBagName: 'formFields',
+    errorBagName: 'formErrors'
+})
+
 
 /**
  * Components
  */
-
+import SearchInput from './components/SearchInput'
 import Reviews from './components/reviews/Reviews'
 import Catalog from './components/shop/catalog/Catalog'
 import CatalogSearch from './components/shop/catalog/CatalogSearch'
@@ -53,8 +60,7 @@ import '@fancyapps/fancybox'
 import initFixedMenu from './scripts/FixedMenu'
 import initMainMenu from './scripts/MainMenu'
 import setMeta from './scripts/MetaSetter'
-import FormSender from "./scripts/formSender";
-
+import FormSender from "./scripts/FormSender";
 
 
 /**
@@ -91,7 +97,8 @@ const app = new Vue({
         ProductActions,
         CitiesSelect,
         HeaderBanner,
-        BackgroundImageLoader
+        BackgroundImageLoader,
+        SearchInput
     },
     data: {
         windowWidth: window.innerWidth,
@@ -103,11 +110,15 @@ const app = new Vue({
     // ],
     methods: {
         windowLessThan(size) {
-            return this.windowWidth < breakpoints[size]
+            return this.windowWidth < this.getBreakpoint(size)
         },
 
         windowMoreThan(size) {
-            return this.windowWidth >= breakpoints[size]
+            return this.windowWidth >= this.getBreakpoint(size)
+        },
+
+        getBreakpoint(size) {
+            return breakpoints[size]
         },
 
         windowBetween(from, to) {
@@ -145,6 +156,10 @@ const app = new Vue({
         isDesktop() {
             return this.windowMoreThan('lg')
         },
+
+        catalogUrl() {
+            return Core.siteUrl('/catalog')
+        }
     },
 
     created() {

@@ -2,77 +2,160 @@
 
 namespace App\Http\Controllers\Shop;
 
+use DB;
+use Auth;
+use Mail;
+use PayTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkout\CheckoutRequest;
-use App\Http\Requests\Checkout\EmailRequest;
-use App\Http\Requests\Checkout\PhoneRequest;
 
-use App\Models\Shop\OrderTemp;
 use App\Cart\CartProxy;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Shop\Product;
+use App\Models\Shop\Order;
+use App\Models\Shop\OrderProduct;
+use App\Models\Shop\OrderProductAttributeOption;
+use App\Models\Shop\AttributeOption;
+use App\Mail\Checkout as CheckoutMail;
 
 class CheckoutController extends Controller
 {
-
-    // todo: ДОПИЛИТЬ ВСЕ!!!
     public function index(CheckoutRequest $request)
     {
         $data = $request->all();
+        $user = Auth::user();
 
         $result = [
-            'cart' => [],
-            'shipping' => [
-                'data' => $data['shipping']['data'],
-                'type' => $data['shipping']['type'] === 'free' ? 'Бесплатная доставка' : 'Экспресс доставка',
-            ],
+            'language_code'    => app()->getLocale(),
+            'currency_code'    => 'RUB',
+            'order_status_id'  => 1,
+            'pay_type_id'      => $data['pay_type'],
+            'delivery_type_id' => $data['shipping']['type'],
+
+            'first_name'       => $data['shipping']['data']['first_name'],
+            'last_name'        => $data['shipping']['data']['last_name'],
+            'city'             => $data['shipping']['data']['city'],
+            'address'          => $data['shipping']['data']['address'],
+            'email'            => $data['shipping']['data']['email'],
+            'phone'            => $data['shipping']['data']['phone'],
+            'post_code'        => $data['shipping']['data']['post_code'],
+            'comment'          => $data['shipping']['data']['comment'],
+            'cart'             => []
         ];
 
-        $total = 0;
+        if ($user) {
+            $result['user_id'] = $user->id;
+        }
+
+        $ids = [];
+        $productItems = [];
+        $options = [];
 
         foreach ($data['cart'] as $key => $qty) {
-            $product = CartProxy::getProductInfo($key);
-            $price = $product->prices->where('price_type_id', 2)->first();
+            $decoded = CartProxy::decodeKey($key);
 
-            $result['cart'][] = [
-                'product' => $product,
+            $ids[] = $decoded['id'];
+            $productItems[$decoded['id']] = [
+                'options' => $decoded['options'],
                 'qty' => $qty
             ];
 
-            $total += $price->value;
+            $options = array_merge($options, $decoded['options']);
         }
 
-        $price = clone $price;
-        $price->value = $total;
+        $options = AttributeOption::whereIn('id', $options)
+            ->with('currentI18n')
+            ->get();
 
-        $result['total'] = $price->getFormatted();
+        $products = Product::whereIn('id', $ids)
+            ->with('prices', 'image', 'currentI18n')
+            ->get();
 
-        $result['payment'] = $data['payment'] === 'yandex_payment' ? 'Сервис Яндекс.Платежка.' : 'Оплата при получении.';
+        $defaultPriceType = config('shop.price.types.default');
+        $finalPriceType = $this->getUserPriceType($user);
 
-        $order = (new OrderTemp([
-            'data' => json_encode($result, JSON_UNESCAPED_UNICODE)
-        ]))->save();
+        $defaultAmount = 0;
+        $finalAmount = 0;
 
-        $result['orderId'] = $order;
+        DB::transaction(function() use(& $result, &$defaultAmount, &$finalAmount, $products, $productItems, $defaultPriceType, $finalPriceType, $options) {
+            $order = new Order($result);
 
-        Mail::send('emails.checkout.test', $result, function ($message) use($result) {
-            $message->from(config('mail.from.address'), config('mail.from.name'));
-            $message->to($result['shipping']['data']['email'])->subject(trans('shop.checkout.success'));
-            $message->bcc(config('mail.to.address'), config('mail.to.name'));
+            $order->save();
 
+            $result['id'] = $order->id;
+
+            foreach ($products as $product) {
+                $defaultPrice = $product->prices->where('price_type_id', $defaultPriceType)
+                    ->where('currency_code', $result['currency_code'])
+                    ->first();
+
+                $finalPrice = $product->prices->where('price_type_id', $finalPriceType)
+                    ->where('currency_code', $result['currency_code'])
+                    ->first();
+
+                if (! $finalPrice) {
+                    $finalPrice = $defaultPrice;
+                }
+
+                $defaultAmount += $defaultPrice->value;
+                $finalAmount += $finalPrice->value;
+
+                $result['cart'][] = [
+                    'product'       => $product,
+                    'defaultPrice'  => $defaultPrice->value,
+                    'finalPrice'    => $finalPrice->value,
+                    'quantity'      => $productItems[$product->id]['qty'],
+                    'options'       => $options->whereIn('id', $productItems[$product->id]['options'])
+                ];
+
+                $orderProduct = new OrderProduct([
+                    'order_id'      => $result['id'],
+                    'product_id'    => $product->id,
+                    'default_price' => $defaultPrice->value,
+                    'final_price'   => $finalPrice->value,
+                    'quantity'      => $productItems[$product->id]['qty'],
+                    'params'        => json_encode([
+                        'image'       => $product->image->toArray(),
+                        'currentI18n' => $product->currentI18n->toArray(),
+                        'prices'      => $product->prices->where('currency_code', $result['currency_code'])->toArray(),
+                    ], JSON_UNESCAPED_UNICODE)
+                ]);
+
+                $orderProduct->save();
+
+                foreach ($productItems[$product->id]['options'] as $optionId) {
+                    $orderProduct->options()->save(new OrderProductAttributeOption([
+                        'option_id' => $optionId,
+                    ]));
+                }
+            }
         });
 
-        return response(null, 200);
+        $result['defaultAmount'] = formatPrice($defaultAmount, $result['currency_code']);
+        $result['finalAmount'] = formatPrice($finalAmount, $result['currency_code']);
+
+        $payType = PayTypes::enabled('currentI18n')->where('id', $result['pay_type_id'])->first();
+
+        $result['pay_type'] = $payType->currentI18n->name;
+
+        Mail::to($result['email'])
+            ->bcc(config('mail.to.address'), config('mail.to.name'))
+            ->queue(new CheckoutMail($result));
+
+        CartProxy::clear();
+
+        return response([
+            'status'  => 'success',
+            'orderId' => $result['id']
+        ], 200);
     }
 
-    public function email(EmailRequest $request)
+    protected function getUserPriceType($user = null)
     {
-        return response(null, 200);
-    }
+        if ($user && isset($user->price_type_id) && $user->price_type_id) {
+            return $user->price_type_id;
+        }
 
-    public function phone(PhoneRequest $request)
-    {
-        return response(null, 200);
+        return config('shop.price.types.default');
     }
 }
 

@@ -3,14 +3,20 @@
 return [
     'form' => [
         'fields' => [
-            'name' => 'Имя',
-            'surname' => 'Фамилия',
-            'email' => 'E-mail',
-            'phone' => 'Телефон',
-            'city' => 'Город',
-            'post_code' => 'Почтовый код',
-            'address' => 'Улица, дом, квартира',
-            'comment' => 'Комментарий к заказу'
+            'name'             => 'Имя',
+            'surname'          => 'Фамилия',
+            'first_name'       => 'Имя',
+            'last_name'        => 'Фамилия',
+            'email'            => 'E-mail',
+            'phone'            => 'Телефон',
+            'city'             => 'Город',
+            'post_code'        => 'Почтовый код',
+            'address'          => 'Улица, дом, квартира',
+            'comment'          => 'Комментарий к заказу',
+            'password'         => 'Пароль',
+            'password_old'     => 'Старый пароль',
+            'password_new'     => 'Новый пароль',
+            'password_confirm' => 'Подтверждение пароля',
         ],
 
         'errors' => [
@@ -89,7 +95,6 @@ return [
 
     'Back' => 'Назад',
 
-
     'errors' => [
         'technical' => 'Техническая ошибка. Попробуйте позднее.'
     ],
@@ -118,7 +123,6 @@ return [
         'query' => 'Поиск',
     ],
 
-
     'Show all' => 'Показать все',
     'Collapse' => 'Свернуть',
 
@@ -134,7 +138,6 @@ return [
 
     'Try to reset some parameters' => 'Попробуйте сбросить один или несколько фильтров',
 
-
     'Edit' => 'Редактировать',
     'Delete' => 'Удалить',
 
@@ -148,5 +151,21 @@ return [
 
     'On moderation' => 'Ожидает публикации',
 
-    'Please, sign in to post a review' => 'Войдите, чтобы оставить отзыв'
+    'Please, sign in to post a review' => 'Войдите, чтобы оставить отзыв',
+
+    'Search' => 'Поиск',
+
+    'My orders' => 'Мои заказы',
+    'Profile'   => 'Профиль',
+    'Reviews'   => 'Отзывы',
+    'Questions' => 'Вопросы',
+
+    'Review about' => 'Отзыв о',
+
+    'You have not made any orders yet.' => 'Вы еще не сделали ни одного заказа.',
+    'Shop now' => 'Смотреть каталог',
+    'Order №' => 'Заказ №',
+    'Status' => 'Статус',
+    'Total price' => 'Итоговая цена'
 ];
+

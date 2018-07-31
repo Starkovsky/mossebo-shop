@@ -17,11 +17,7 @@
         <template v-else-if="ready">
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
-                    <catalog-filter-list>
-                        <catalog-filter-query
-                            :expanded="true"
-                        ></catalog-filter-query>
-                    </catalog-filter-list>
+                    <catalog-filter-list></catalog-filter-list>
 
                     <div v-if="filtersExists" class="catalog-filters-controls">
                         <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
@@ -36,27 +32,8 @@
 
                 <div class="col-12" v-else>
                     <div class="catalog-top-panel block-ui">
-                        <div class="catalog-top-panel__sort">
-                            <multi-select
-                                class="multiselect--in-panel"
-                                :value="multiselectActiveSortType"
-                                :options="multiselectSortOptions"
-                                :max-height="300"
-                                :placeholder="$root.translate('Sort')"
-                                :searchable="false"
-                                :hide-selected="false"
-                                :multiple="false"
-                                :allow-empty="false"
-                                @select="setSortTypeByMultiselect"
-                            >
-                                <template slot="option" slot-scope="props">
-                                    {{ props.option.title }}
-                                </template>
-
-                                <template slot="singleLabel" slot-scope="props">
-                                    {{ props.option.title }}
-                                </template>
-                            </multi-select>
+                        <div class="catalog-top-panel__search">
+                            <search-input class="search-input--spm"></search-input>
                         </div>
 
                         <div class="catalog-top-panel__filter-btn">
@@ -138,6 +115,14 @@
                                 </button-loading>
                             </template>
 
+                            <template v-else-if="!filtering && nothingFound">
+                                <div>
+                                    <h4 style="margin-bottom: 30px">
+                                        {{ $root.translate('Nothing found') }}
+                                    </h4>
+                                </div>
+                            </template>
+
                             <template v-else-if="!filtering && products.length === 0">
                                 <div>
                                     <h4 style="margin-bottom: 30px">
@@ -166,7 +151,7 @@
 <script>
     import { mapState } from 'vuex'
     import CatalogMixin from './CatalogMixin'
-    import CatalogFilterQuery from "./filter/CatalogFilterQuery"
+    import SearchInput from '../../SearchInput'
 
     export default {
         name: "CatalogSearch",
@@ -176,7 +161,7 @@
         ],
 
         components: {
-            CatalogFilterQuery
+            SearchInput
         },
 
         props: {
@@ -190,16 +175,17 @@
 
         computed: {
             ... mapState({
-                stateWorkingQuery: state => state.catalog.search.workingQuery
+                stateQuery: state => state.catalog.search.query,
+                nothingFound: state => !state.catalog.products.length
             }),
 
             queryIsShort() {
-                return this.stateWorkingQuery.length < 3
+                return this.stateQuery.length < 3
             },
 
             queryIsEmpty() {
-                return ! this.stateWorkingQuery
-            }
+                return ! this.stateQuery
+            },
         }
     }
 </script>

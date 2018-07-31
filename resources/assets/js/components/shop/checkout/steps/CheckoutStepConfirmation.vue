@@ -34,7 +34,6 @@
 <script>
     // todo: Объяснить причину блокировки кнопки пользователю
 
-    import axios from 'axios'
     import { mapState } from 'vuex'
 
     import Core from '../../../../scripts/core'
@@ -44,12 +43,18 @@
     import CheckoutStep from './CheckoutStep'
     import Confirmation from '../../confirmation/Confirmation'
     import ButtonLoading from '../../../buttons/ButtonLoading'
+    import RequestMixin from '../../../../mixins/RequestMixin'
+    import { LocalStorageProxy } from '../../../../scripts/LocalStorageProxy'
+
+    let shippingStorage = new LocalStorageProxy('__shipping')
+    let cartStorage = new LocalStorageProxy('__cart')
 
     export default {
         name: "CheckoutStepPayment",
 
         mixins: [
-            Mixin
+            Mixin,
+            RequestMixin
         ],
 
         components: {
@@ -60,16 +65,14 @@
 
         data() {
             return {
-                loading: false
+                request: '',
+                loading: false,
+                errorCounter: 0,
             }
         },
 
         methods: {
             submit() {
-                if (this.loading) return
-
-                this.loading = true
-
                 let state = this.$store.state
 
                 let data = {
@@ -81,20 +84,20 @@
                         type: state.shipping.type,
                         data: {... state.shipping.data}
                     },
-                    payment: state.payments.type
+                    pay_type: state.payments.active
                 }
 
-                axios.post(Core.siteUrl('checkout'), data)
-                    .then(response => {
-                        window.location.href = Core.siteUrl('checkout/thanks')
-                    })
-                    .catch(response => {
-                        // todo: ДОДЕЛАТЬ!
-                        alert('Ошибка. Попробуйте позднее.')
-                        window.location.reload()
-                        console.log(response)
+                this.sendRequest('post', Core.siteUrl('checkout'), data)
+                    .success(response => {
+                        shippingStorage.forgetAll()
+                        cartStorage.forgetAll()
 
-                        this.loading = false
+                        window.location.href = Core.siteUrl('checkout/thanks/' + response.data.orderId)
+                    })
+                    .fail(() => {
+                        if (++ this.errorCounter > 2) {
+                            window.location.reload()
+                        }
                     })
             }
         },
@@ -104,6 +107,7 @@
                 submitDisabled(state) {
                     return (
                         ! state.cart.ready ||
+                        state.cart.items.length === 0 ||
                         state.cart.loading ||
                         state.cart.error ||
                         ! state.cart.synchronized ||

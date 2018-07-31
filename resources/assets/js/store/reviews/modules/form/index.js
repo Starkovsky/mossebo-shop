@@ -33,6 +33,8 @@ export default {
             state.eacher = eacher(state)
         },
 
+        destroy() {},
+
         setValue({state, commit}, [name, value]) {
             if (name in state) {
                 commit(actionTypes.REVIEW_FORM_SET_VALUE, [name, value])

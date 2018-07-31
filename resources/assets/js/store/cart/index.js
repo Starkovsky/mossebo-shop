@@ -184,7 +184,7 @@ export default {
             else {
                 let localCartData = LocalCart.get()
 
-                if (!localCartData.synchronized) {
+                if (localCartData.synchronized) {
                     cartRequest = dispatch('load')
                 }
                 else {

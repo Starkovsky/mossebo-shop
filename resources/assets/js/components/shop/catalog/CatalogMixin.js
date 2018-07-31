@@ -85,7 +85,7 @@ export default {
                 window.location.reload()
             }
             else {
-                this.$store.dispatch('fetchCatalog')
+                this.$store.dispatch('catalog/fetchCatalog')
             }
         },
 

@@ -1,0 +1,22 @@
+.cabinet-profile {
+
+}
+
+.profile-forms {
+    &__title {
+        margin-bottom: 32px;
+        color: $color-text-secondary;
+    }
+
+    &__bottom-btn {
+        margin-bottom: -16px;
+        border-top: 1px solid $color-border;
+    }
+
+    &__quit-link {
+        display: block;
+        text-align: center;
+        color: $color-danger;
+        padding: 24px 16px;
+    }
+}

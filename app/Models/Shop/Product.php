@@ -123,18 +123,31 @@ class Product extends BaseProduct
             ->where('price_type_id','=', '1');
     }
 
+    public function similarRelations()
+    {
+        return $this->hasMany(SimilarProduct::class, $this->relationFieldName);
+    }
+
+    public function similar()
+    {
+        return $this->hasManyThrough(
+            Product::class, SimilarProduct::class,
+            $this->relationFieldName, 'id', 'id', 'similar_id'
+        );
+    }
+
     public static function getCartItem($id, $options = [])
     {
         $productTable = (new static)->getTable();
-        $optionsTable = (new AttributeOption())->getTable();
-        $productOptionsTable = (new ProductAttributeOption)->getTable();
 
-        $query = self::with(['image', 'prices', 'currentI18n'])
+        $query = self::enabled()
             ->select("{$productTable}.*")
-            ->where("{$productTable}.enabled", true)
             ->where("{$productTable}.id", $id);
 
         if (! empty($options)) {
+            $optionsTable = config('tables.AttributeOptions');
+            $productOptionsTable = config('tables.ProductAttributeOptions');
+
             $query->join("{$productOptionsTable}", "{$productOptionsTable}.product_id", '=', "{$productTable}.id")
                 ->join("{$optionsTable}", "{$optionsTable}.id", '=', "{$productOptionsTable}.option_id")
                 ->where("{$optionsTable}.enabled", true)

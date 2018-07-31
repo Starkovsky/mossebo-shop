@@ -70,9 +70,6 @@
     import CheckoutStepPayments from './steps/CheckoutStepPayments'
     import CheckoutStepConfirmation from './steps/CheckoutStepConfirmation'
 
-    import VeeValidate from 'vee-validate'
-    import Vue from 'vue'
-
     export default {
         name: "Checkout",
 
@@ -86,11 +83,6 @@
         },
 
         created() {
-            Vue.use(VeeValidate, {
-                fieldsBagName: 'formFields',
-                errorBagName: 'formErrors'
-            })
-
             this.$store.dispatch('checkout/init')
             this.$store.dispatch('cart/init')
             this.$store.dispatch('shipping/init')

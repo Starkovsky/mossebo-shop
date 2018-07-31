@@ -21,6 +21,8 @@ class CartRequest extends FormRequest
      *
      * @return array
      */
+
+    // todo: убрать повторяющиеся id товаров, добавить проверку необходимости выбора опций. И еще ко-во товаров проверять?
     public function rules()
     {
         return [

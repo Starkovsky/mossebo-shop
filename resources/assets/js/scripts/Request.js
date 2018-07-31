@@ -61,14 +61,11 @@ export default class Request {
             })
             .catch(error => {
                 if (axios.isCancel(error)) return
+                console.log(error)
 
                 let response = error.response || {}
 
-                if (response.status >= 500) {
-                    Core.showMessage(Core.translate('errors.technical'), {type: 'error'})
-                    return this._done('crashed')
-                }
-                else if (response.status === 404) {
+                if (response.status === 404) {
                     return this._done('404')
                 }
                 else if (response.status === 401) {
@@ -77,6 +74,10 @@ export default class Request {
                 }
                 else if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
                     this._handleResponse(response)
+                }
+                else {
+                    Core.showMessage(Core.translate('errors.technical'), {type: 'error'})
+                    return this._done('crashed')
                 }
             })
 
@@ -91,7 +92,7 @@ export default class Request {
     }
 
     _handleResponse(response) {
-        this.response = response;
+        this.response = response
 
         const data = response.data
 
@@ -107,9 +108,13 @@ export default class Request {
         }
 
         if (data.message) {
-            let status = availableMessageTypes.indexOf(data.status) !== -1 ? data.status : undefined
+            let status = availableMessageTypes.indexOf(data.status) !== -1 ? {type: data.status} : undefined
 
-            Core.showMessage(data.message, {type: status})
+            Core.showMessage(data.message, status)
+        }
+
+        if ('meta' in data) {
+            Core.setMeta(data.meta)
         }
 
         this._done(data.status)

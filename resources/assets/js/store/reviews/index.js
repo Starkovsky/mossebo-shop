@@ -4,18 +4,6 @@ import FormModule from './modules/form'
 import Request from '../../scripts/Request'
 import Core from "../../scripts/core"
 
-function getStepIndex(state, identif) {
-    identif = identif.toLowerCase()
-
-    for (let i = 0; i < state.steps.length; i++) {
-        if (state.steps[i].toLowerCase() === identif) {
-            return i
-        }
-    }
-
-    return false
-}
-
 export default {
     modules: {
         list: ListModule,
@@ -38,14 +26,20 @@ export default {
 
     actions: {
         init({ state, dispatch, commit }) {
-            Promise.all([dispatch('list/init'), dispatch('form/init')])
+            return Promise.all([dispatch('list/init'), dispatch('form/init')])
                 .then(() => commit(actionTypes.REVIEWS_READY))
         },
 
-        set({ state, commit }, stepName) {
-            if (state.steps.indexOf(stepName) !== -1) {
-                commit(actionTypes.REVIEWS_SET_STEP, stepName)
-            }
+        destroy({dispatch}) {
+            return Promise.all([dispatch('list/destroy'), dispatch('form/destroy')])
+        },
+
+        set({ state, commit }, [stepName, toHistory = true]) {
+            if (state.steps.indexOf(stepName) === -1) return
+
+            commit(actionTypes.REVIEWS_SET_STEP, stepName)
+
+            if (!toHistory) return
         },
 
         toForm({ state, dispatch }) {

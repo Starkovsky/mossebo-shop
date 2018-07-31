@@ -100,16 +100,20 @@
 <script>
     import mixin from './mixin'
     import Timer from '../../../Timer'
+    import ProductImagesHat from '../../../../mixins/ProductImagesHat'
+    import BackgroundImageLoader from '../../../imageLoaders/BackgroundImageLoader'
 
     export default {
         name: "ProductCardSale",
 
         mixins: [
-            mixin
+            mixin,
+            ProductImagesHat
         ],
 
         components: {
             Timer,
+            BackgroundImageLoader
         },
 
         props: {

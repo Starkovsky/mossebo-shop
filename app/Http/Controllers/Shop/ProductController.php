@@ -81,7 +81,6 @@ class ProductController extends Controller
             return $carry;
         }, $carry);
 
-
         // Проверка доступности товаров поставщика
         if ($product->canBeShowed()) {
             $product->show();

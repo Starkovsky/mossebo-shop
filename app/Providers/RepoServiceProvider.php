@@ -44,6 +44,30 @@ class RepoServiceProvider extends ServiceProvider
             );
         });
 
+        $this->app->singleton('delivery-types', function() {
+            return new \MosseboShopCore\Repositories\LanguageRepository(
+                \App\Models\Shop\DeliveryType::class
+            );
+        });
+
+//        $this->app->singleton('price-types', function() {
+//            return new \MosseboShopCore\Repositories\PriceTypeRepository(
+//                \App\Models\Shop\PriceType::class
+//            );
+//        });
+
+        $this->app->singleton('pay-types', function() {
+            return new \MosseboShopCore\Repositories\LanguageRepository(
+                \App\Models\Shop\PayType::class
+            );
+        });
+
+        $this->app->singleton('order-statuses', function() {
+            return new \MosseboShopCore\Repositories\LanguageRepository(
+                \App\Models\Shop\OrderStatus::class
+            );
+        });
+
         $this->app->singleton('cities', function() {
             return new \MosseboShopCore\Repositories\CityRepository(
                 \App\Models\City::class
