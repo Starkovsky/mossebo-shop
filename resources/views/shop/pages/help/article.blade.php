@@ -22,7 +22,7 @@
                     <div class="col-lg-8">
                         <div class="content-w-menu__content">
                             @foreach ($items as $item)
-                                <div class="help-article-page__item">
+                                <div class="content-w-menu__item">
                                     <div class="help-item">
                                         <h2 class="help-item__title title-h3">
                                             {{ $item->title }}

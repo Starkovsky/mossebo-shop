@@ -1,8 +1,9 @@
 <template>
     <div :class="classNameWithModificators('rating')">
         <div class="rating__stars">
-            <div class="rating__icon"></div>
-            <div class="rating__percent" :style="{width: getRatingPercent() + '%'}"></div>
+            <div class="rating__icon">
+                <div class="rating__percent" :style="{width: getRatingPercent() + '%'}"></div>
+            </div>
         </div>
 
         <div v-if="!hideNum" class="rating__reviews-num">

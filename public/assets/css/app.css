@@ -4956,8 +4956,6 @@ input:checked ~ span .filter-option__count,
   max-height: 0;
   display: block !important;
   overflow: hidden;
-  -webkit-transition: max-height .3s;
-  transition: max-height .3s;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }
@@ -6239,32 +6237,29 @@ fieldset[disabled] .multiselect {
   position: relative;
   margin-right: 8px;
   overflow: hidden;
-  background-color: #D8D8D8;
+}
+
+.rating__percent, .rating__icon {
+  background-position: 0 center;
+  background-size: 80px 18px;
+  background-repeat: no-repeat;
 }
 
 .rating__icon {
   position: relative;
-  z-index: 2;
   width: 80px;
-  height: 19px;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  height: 18px;
+  z-index: 2;
   background-image: url("/assets/images/icons/stars/80.png");
-  margin: -1px 0;
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
 }
 
 .rating__percent {
-  background-color: #fcc600;
   position: absolute;
   height: 100%;
   left: 0;
   top: 0;
   z-index: 1;
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
+  background-image: url("/assets/images/icons/stars/80--light.png");
 }
 
 .rating__reviews-num {
@@ -6274,7 +6269,17 @@ fieldset[disabled] .multiselect {
 .rating--sm .rating__icon {
   width: 56px;
   height: 14px;
+}
+
+.rating--sm .rating__icon,
+.rating--sm .rating__percent {
+  background-position: 0 center;
+  background-size: 56px 14px;
   background-image: url("/assets/images/icons/stars/56.png");
+}
+
+.rating--sm .rating__percent {
+  background-image: url("/assets/images/icons/stars/56--light.png");
 }
 
 .rating--lg {
@@ -6289,7 +6294,17 @@ fieldset[disabled] .multiselect {
 .rating--lg .rating__icon {
   width: 120px;
   height: 28px;
+}
+
+.rating--lg .rating__icon,
+.rating--lg .rating__percent {
+  background-position: 0 center;
+  background-size: 120px 28px;
   background-image: url("/assets/images/icons/stars/120.png");
+}
+
+.rating--lg .rating__percent {
+  background-image: url("/assets/images/icons/stars/120--light.png");
 }
 
 @media (min-width: 1200px) {
@@ -6303,7 +6318,15 @@ fieldset[disabled] .multiselect {
   .rating--reviews-statistics .rating__icon {
     width: 120px;
     height: 28px;
+  }
+  .rating--reviews-statistics .rating__icon,
+  .rating--reviews-statistics .rating__percent {
+    background-position: 0 center;
+    background-size: 120px 28px;
     background-image: url("/assets/images/icons/stars/120.png");
+  }
+  .rating--reviews-statistics .rating__percent {
+    background-image: url("/assets/images/icons/stars/120--light.png");
   }
 }
 
@@ -6370,6 +6393,8 @@ fieldset[disabled] .multiselect {
   width: 24px;
   float: right;
   background-color: #dfdfdf;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
   cursor: pointer;
 }
 

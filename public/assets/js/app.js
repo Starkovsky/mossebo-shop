@@ -5792,6 +5792,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -13868,12 +13869,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { class: _vm.classNameWithModificators("rating") }, [
     _c("div", { staticClass: "rating__stars" }, [
-      _c("div", { staticClass: "rating__icon" }),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "rating__percent",
-        style: { width: _vm.getRatingPercent() + "%" }
-      })
+      _c("div", { staticClass: "rating__icon" }, [
+        _c("div", {
+          staticClass: "rating__percent",
+          style: { width: _vm.getRatingPercent() + "%" }
+        })
+      ])
     ]),
     _vm._v(" "),
     !_vm.hideNum

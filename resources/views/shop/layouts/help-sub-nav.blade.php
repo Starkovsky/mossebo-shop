@@ -22,7 +22,7 @@
         </a>
     </li>
 
-    <li class="help-sub-nav__item">
+    <li class="side-menu__item">
         <a
             href="{{ route('help-article', ['slug' => 'garant']) }}"
             class="side-menu__link{{ $isArticle && $currentSlug == 'garant' ? ' active' : '' }}"

@@ -7,30 +7,30 @@
         position: relative;
         margin-right: 8px;
         overflow: hidden;
-        background-color: #D8D8D8;
+    }
+
+    &__percent,
+    &__icon {
+        background-position: 0 center;
+        background-size: 80px 18px;
+        background-repeat: no-repeat;
     }
 
     &__icon {
         position: relative;
-        z-index: 2;
         width: 80px;
-        height: 19px;
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
+        height: 18px;
+        z-index: 2;
         background-image: url('/assets/images/icons/stars/80.png');
-        margin: -1px 0;
-        transform: translate3d(0,0,0);
     }
 
     &__percent {
-        background-color: $color-primary;
         position: absolute;
         height: 100%;
         left: 0;
         top: 0;
         z-index: 1;
-        transform: translate3d(0, 0, 0);
+        background-image: url('/assets/images/icons/stars/80--light.png');
     }
 
     &__reviews-num {
@@ -40,7 +40,17 @@
     &--sm &__icon {
         width: 56px;
         height: 14px;
+    }
+
+    &--sm &__icon,
+    &--sm &__percent {
+        background-position: 0 center;
+        background-size: 56px 14px;
         background-image: url('/assets/images/icons/stars/56.png');
+    }
+
+    &--sm &__percent {
+        background-image: url('/assets/images/icons/stars/56--light.png');
     }
 
     &--lg {
@@ -54,7 +64,17 @@
     &--lg &__icon {
         width: 120px;
         height: 28px;
+    }
+
+    &--lg &__icon,
+    &--lg &__percent {
+        background-position: 0 center;
+        background-size: 120px 28px;
         background-image: url('/assets/images/icons/stars/120.png');
+    }
+
+    &--lg &__percent {
+        background-image: url('/assets/images/icons/stars/120--light.png');
     }
 
     @include media-breakpoint-up(xl) {
@@ -69,7 +89,18 @@
         &--reviews-statistics &__icon {
             width: 120px;
             height: 28px;
+        }
+
+        &--reviews-statistics &__icon,
+        &--reviews-statistics &__percent {
+            background-position: 0 center;
+            background-size: 120px 28px;
             background-image: url('/assets/images/icons/stars/120.png');
         }
+
+        &--reviews-statistics &__percent {
+            background-image: url('/assets/images/icons/stars/120--light.png');
+        }
+
     }
 }
