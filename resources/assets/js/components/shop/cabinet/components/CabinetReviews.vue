@@ -1,6 +1,6 @@
 <template>
     <div class="cabinet-reviews">
-        <template v-if="listEmpty">
+        <template v-if="noReviews">
             <div class="cabinet-reviews__empty text-center">
                 {{ $root.translate('No reviews.') }}
 
@@ -48,7 +48,11 @@
                 listEmpty: state => state.reviews.list.reviews.length === 0,
                 loading: state => state.reviews.list.loading,
                 error: state => state.reviews.list.error,
-            })
+            }),
+
+            noReviews() {
+                return this.listEmpty && !this.loading && !this.error
+            }
         }
     }
 </script>

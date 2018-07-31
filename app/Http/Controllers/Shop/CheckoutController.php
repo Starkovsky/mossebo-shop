@@ -23,14 +23,14 @@ class CheckoutController extends Controller
     {
         $data = $request->all();
         $user = Auth::user();
+        $currencyCode = 'RUB';
 
         $result = [
             'language_code'    => app()->getLocale(),
-            'currency_code'    => 'RUB',
             'order_status_id'  => 1,
             'pay_type_id'      => $data['pay_type'],
             'delivery_type_id' => $data['shipping']['type'],
-
+            'currency_code'    => $currencyCode,
             'first_name'       => $data['shipping']['data']['first_name'],
             'last_name'        => $data['shipping']['data']['last_name'],
             'city'             => $data['shipping']['data']['city'],
@@ -76,7 +76,7 @@ class CheckoutController extends Controller
         $defaultAmount = 0;
         $finalAmount = 0;
 
-        DB::transaction(function() use(& $result, &$defaultAmount, &$finalAmount, $products, $productItems, $defaultPriceType, $finalPriceType, $options) {
+        DB::transaction(function() use(& $result, &$defaultAmount, &$finalAmount, $products, $productItems, $defaultPriceType, $finalPriceType, $options, $currencyCode) {
             $order = new Order($result);
 
             $order->save();
@@ -85,11 +85,11 @@ class CheckoutController extends Controller
 
             foreach ($products as $product) {
                 $defaultPrice = $product->prices->where('price_type_id', $defaultPriceType)
-                    ->where('currency_code', $result['currency_code'])
+                    ->where('currency_code', $currencyCode)
                     ->first();
 
                 $finalPrice = $product->prices->where('price_type_id', $finalPriceType)
-                    ->where('currency_code', $result['currency_code'])
+                    ->where('currency_code', $currencyCode)
                     ->first();
 
                 if (! $finalPrice) {
@@ -112,11 +112,12 @@ class CheckoutController extends Controller
                     'product_id'    => $product->id,
                     'default_price' => $defaultPrice->value,
                     'final_price'   => $finalPrice->value,
+                    'currency_code' => $currencyCode,
                     'quantity'      => $productItems[$product->id]['qty'],
                     'params'        => json_encode([
                         'image'       => $product->image->toArray(),
                         'currentI18n' => $product->currentI18n->toArray(),
-                        'prices'      => $product->prices->where('currency_code', $result['currency_code'])->toArray(),
+                        'prices'      => $product->prices->where('currency_code', $currencyCode)->toArray(),
                     ], JSON_UNESCAPED_UNICODE)
                 ]);
 
@@ -130,8 +131,8 @@ class CheckoutController extends Controller
             }
         });
 
-        $result['defaultAmount'] = formatPrice($defaultAmount, $result['currency_code']);
-        $result['finalAmount'] = formatPrice($finalAmount, $result['currency_code']);
+        $result['defaultAmount'] = formatPrice($defaultAmount, $currencyCode);
+        $result['finalAmount'] = formatPrice($finalAmount, $currencyCode);
 
         $payType = PayTypes::enabled('currentI18n')->where('id', $result['pay_type_id'])->first();
 

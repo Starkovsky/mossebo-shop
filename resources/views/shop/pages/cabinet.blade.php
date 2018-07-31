@@ -10,8 +10,6 @@
     </div>
 
     <div class="container">
-        <cabinet
-            class="block-ui"
-        ></cabinet>
+        <cabinet></cabinet>
     </div>
 @endsection

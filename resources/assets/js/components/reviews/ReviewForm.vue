@@ -22,9 +22,13 @@
                                     value="5"
                                     required
                                     :checked="data.rate == 5"
-                                    @input="input"
                                 >
-                                <label class="rating-select__star" for="review-rating-5"></label>
+
+                                <label
+                                    class="rating-select__star"
+                                    for="review-rating-5"
+                                    @click="set('rate', 5)"
+                                ></label>
 
                                 <input
                                     class="rating-select__input"
@@ -34,9 +38,12 @@
                                     value="4"
                                     required
                                     :checked="data.rate == 4"
-                                    @input="input"
                                 >
-                                <label class="rating-select__star" for="review-rating-4"></label>
+                                <label
+                                    class="rating-select__star"
+                                    for="review-rating-4"
+                                    @click="set('rate', 4)"
+                                ></label>
 
                                 <input
                                     class="rating-select__input"
@@ -46,9 +53,12 @@
                                     value="3"
                                     required
                                     :checked="data.rate == 3"
-                                    @input="input"
                                 >
-                                <label class="rating-select__star" for="review-rating-3"></label>
+                                <label
+                                    class="rating-select__star"
+                                    for="review-rating-3"
+                                    @click="set('rate', 3)"
+                                ></label>
 
                                 <input
                                     class="rating-select__input"
@@ -58,9 +68,12 @@
                                     value="2"
                                     required
                                     :checked="data.rate == 2"
-                                    @input="input"
                                 >
-                                <label class="rating-select__star" for="review-rating-2"></label>
+                                <label
+                                    class="rating-select__star"
+                                    for="review-rating-2"
+                                    @click="set('rate', 2)"
+                                ></label>
 
                                 <input
                                     class="rating-select__input"
@@ -70,9 +83,12 @@
                                     value="1"
                                     required
                                     :checked="data.rate == 1"
-                                    @input="input"
                                 >
-                                <label class="rating-select__star" for="review-rating-1"></label>
+                                <label
+                                    class="rating-select__star"
+                                    for="review-rating-1"
+                                    @click="set('rate', 1)"
+                                ></label>
                             </div>
                         </div>
                     </div>
@@ -143,7 +159,11 @@
                                 :checked="data.usage_time === 'month'"
                                 @input="input"
                             >
-                            <label class="from-radio-group__label" for="usage-time-month">
+                            <label
+                                class="from-radio-group__label"
+                                for="usage-time-month"
+                                @click="set('usage_time', 'month')"
+                            >
                                 Месяц
                             </label>
 
@@ -154,9 +174,12 @@
                                 name="usage_time"
                                 value="half-year"
                                 :checked="data.usage_time === 'half-year'"
-                                @input="input"
                             >
-                            <label class="from-radio-group__label" for="usage-time-half-year">
+                            <label
+                                class="from-radio-group__label"
+                                for="usage-time-half-year"
+                                @click="set('usage_time', 'half-year')"
+                            >
                                 Пол года
                             </label>
 
@@ -167,9 +190,12 @@
                                 name="usage_time"
                                 value="year"
                                 :checked="data.usage_time === 'year'"
-                                @input="input"
                             >
-                            <label class="from-radio-group__label" for="usage-time-year">
+                            <label
+                                class="from-radio-group__label"
+                                for="usage-time-year"
+                                @click="set('usage_time', 'year')"
+                            >
                                 Год
                             </label>
                         </div>
@@ -239,8 +265,12 @@
         },
 
         methods: {
+            set(name, value) {
+                this.$store.dispatch('reviews/setFormValue', [name, value])
+            },
+
             input(e) {
-                this.$store.dispatch('reviews/setFormValue', [e.target.name, e.target.value])
+                this.set(e.target.name, e.target.value)
             },
 
             toList() {

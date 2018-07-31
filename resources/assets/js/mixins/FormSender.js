@@ -1,5 +1,4 @@
 import { FormInputs } from '../scripts/FormSender'
-import Request from '../scripts/Request'
 import FormValidationMixin from './FormValidation'
 import RequestMixin from '../mixins/RequestMixin'
 
@@ -67,10 +66,10 @@ export default {
         },
 
         sendForm() {
-            this.sendRequest('post', this.url, this.data$)
+            let request = this.sendRequest('post', this.url, this.data$)
                 .success(this.formSendSuccess)
                 .fail(response => {
-                    if (this.request.status !== 'crashed') {
+                    if (request.status !== 'crashed') {
                         this.setErrors(response.data.errors)
                     }
                 })

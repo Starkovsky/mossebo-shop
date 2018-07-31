@@ -17,13 +17,14 @@ function runCallback(cb) {
 
 export default class Request {
     constructor(method = 'get', url, data = {}, configParams = {}) {
-        this.status = 'crashed'
+        this.status = null
         this.callbacks = []
         this.fetchRequestCancel = false
         this.isDone = false
         this.response = null
         this.currentUrl = null
         this.started = false
+        this.canShowMessages = true
 
         let config = {
             method: method,
@@ -50,6 +51,18 @@ export default class Request {
         return this
     }
 
+    silent() {
+        this.canShowMessages = false
+
+        return this
+    }
+
+    _showMessage(message, options) {
+        if (this.canShowMessages) {
+            Core.showMessage(message, options)
+        }
+    }
+
     start() {
         if (this.started) return
         this.started = true
@@ -57,6 +70,7 @@ export default class Request {
 
         axios.request(this.config)
             .then(response => {
+                this._setStatus('success')
                 this._handleResponse(response)
             })
             .catch(error => {
@@ -66,22 +80,29 @@ export default class Request {
                 let response = error.response || {}
 
                 if (response.status === 404) {
-                    return this._done('404')
+                    this._setStatus('404')
                 }
                 else if (response.status === 401) {
-                    Core.showMessage(response.data.message, {type: 'warning'})
-                    return this._done('unauthorized')
+                    this._setStatus('unauthorized')
                 }
-                else if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
+
+                if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
                     this._handleResponse(response)
                 }
                 else {
-                    Core.showMessage(Core.translate('errors.technical'), {type: 'error'})
-                    return this._done('crashed')
+                    this._setStatus('crashed')
+                    this._showMessage(Core.translate('errors.technical'), {type: 'error'})
+                    this._done()
                 }
             })
 
         return this
+    }
+
+    _setStatus(status) {
+        if (! this.status) {
+            this.status = status
+        }
     }
 
     abort() {
@@ -107,22 +128,25 @@ export default class Request {
             return
         }
 
-        if (data.message) {
-            let status = availableMessageTypes.indexOf(data.status) !== -1 ? {type: data.status} : undefined
+        if ('status' in data) {
+            this._setStatus(data.status)
+        }
 
-            Core.showMessage(data.message, status)
+        if (data.message) {
+            let status = availableMessageTypes.indexOf(this.status) !== -1 ? {type: this.status} : undefined
+
+            this._showMessage(data.message, status)
         }
 
         if ('meta' in data) {
             Core.setMeta(data.meta)
         }
 
-        this._done(data.status)
+        this._done()
     }
 
-    _done(status = 'success') {
+    _done() {
         this.isDone = true
-        this.status = status
 
         this.callbacks.forEach(callback => {
             runCallback(callback, this.response)

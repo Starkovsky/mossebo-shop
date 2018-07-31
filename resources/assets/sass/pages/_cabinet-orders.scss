@@ -1,5 +1,5 @@
 .cabinet-orders {
-    padding: 40px 16px;
+    padding: 24px 0 0;
 
     @include media-breakpoint-up(md) {
         padding: 62px 48px;
@@ -7,43 +7,10 @@
 }
 
 .cabinet-order {
+    transform: translate3d(0,0,0);
+
     &__inner {
         border-top: 1px solid $color-border;
-    }
-
-    &__panel {
-        display: flex;
-        color: $color-text-primary;
-        cursor: pointer;
-    }
-
-    &__num,
-    &__status {
-        padding: 16px 32px;
-        height: 88px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-
-    &__status {
-        min-width: 250px;
-    }
-
-    &__num {
-        flex-grow: 1;
-        justify-content: flex-start;
-    }
-
-    &__status,
-    &__button {
-        border-left: 1px solid $color-border;
-    }
-
-    &__status-label {
-        margin-right: 8px;
-        color: $color-text-secondary;
     }
 
     &__total,
@@ -54,7 +21,7 @@
     &__total {
         display: flex;
         align-items: center;
-        padding: 60px 32px;
+        padding: 24px 16px;
     }
 
     &__prices {
@@ -62,7 +29,83 @@
     }
 
     &__data {
-        padding: 40px 32px 60px;
+        padding: 40px 32px;
+    }
+}
+
+.cabinet-order-panel {
+    display: flex;
+    color: $color-text-primary;
+    cursor: pointer;
+    flex-wrap: wrap;
+    align-items: center;
+
+    &__left {
+        width: calc(100% - 60px);
+        padding: 16px;
+    }
+
+    &__right {
+        width: 60px;
+    }
+
+    &__status {
+        margin-top: 8px;
+    }
+
+    &__status-label {
+        margin-right: 8px;
+        color: $color-text-secondary;
+    }
+
+    @include media-breakpoint-up(lg) {
+        &__total {
+            padding: 60px 32px;
+        }
+
+        &__left,
+        &__right {
+            display: flex;
+            width: auto;
+            padding: 0;
+        }
+
+        &__left {
+            flex-grow: 1;
+        }
+
+        &__num,
+        &__status {
+            padding: 16px 32px;
+            height: 88px;
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__button {
+            height: 88px;
+        }
+
+        &__status {
+            min-width: 250px;
+            margin-top: 0;
+        }
+
+        &__num {
+            flex-grow: 1;
+            justify-content: flex-start;
+        }
+
+        &__status,
+        &__button {
+            border-left: 1px solid $color-border;
+        }
+
+        &__button {
+            width: 88px;
+        }
     }
 }
 
@@ -87,8 +130,8 @@
 }
 
 .cabinet-order-button {
-    width: 88px;
-    height: 88px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,6 +144,10 @@
         fill: $color-icons;
         transition: all $transition-primary;
     }
+
+
+
+    //width: 88px;
 }
 
 .cabinet-order__panel.is-active .cabinet-order-button__icon {
@@ -192,5 +239,44 @@
         display: inline-block;
         vertical-align: bottom;
         min-width: 85px;
+    }
+}
+
+
+.order-product-item {
+    color: $color-text-primary;
+
+    & + & {
+        border-top: 1px solid $color-border;
+    }
+
+    &__top,
+    &__bottom {
+        padding: 16px;
+    }
+
+    &__top {
+        transition: opacity .3s;
+    }
+
+    &__bottom {
+        border-top: 1px solid $color-border-3;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    &__num {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    &__total {
+        text-align: center;
+        font-size: 16px / 21px;
+
+        &:last-child {
+            text-align: right;
+        }
     }
 }

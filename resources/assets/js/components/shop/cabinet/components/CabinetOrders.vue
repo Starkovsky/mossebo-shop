@@ -19,25 +19,31 @@
                         <div v-for="order in orders" class="cabinet-orders__item col-12">
                             <div class="cabinet-order block-ui" :key="order.id">
                                 <div class="cabinet-order__panel js-order-ht">
-                                    <div class="cabinet-order__num">
-                                        {{ $root.translate('Order №') }}&nbsp;{{ order.id }}
-                                    </div>
+                                    <div class="cabinet-order-panel">
+                                        <div class="cabinet-order-panel__left">
+                                            <div class="cabinet-order-panel__num">
+                                                {{ $root.translate('Order №') }}&nbsp;{{ order.id }}
+                                            </div>
 
-                                    <div v-if="order.status" class="cabinet-order__status">
-                                        <span class="cabinet-order__status-label">
-                                            {{ $root.translate('Status') }}:
-                                        </span>
+                                            <div v-if="order.status" class="cabinet-order-panel__status">
+                                                <span class="cabinet-order-panel__status-label">
+                                                    {{ $root.translate('Status') }}:
+                                                </span>
 
-                                        <span :style="{color: order.status.color || false}">
-                                            {{ order.status.name }}
-                                        </span>
-                                    </div>
+                                                        <span :style="{color: order.status.color || false}">
+                                                    {{ order.status.name }}
+                                                </span>
+                                            </div>
+                                        </div>
 
-                                    <div class="cabinet-order__button">
-                                        <div class="cabinet-order-button">
-                                            <svg class="cabinet-order-button__icon">
-                                                <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
-                                            </svg>
+                                        <div class="cabinet-order-panel__right">
+                                            <div class="cabinet-order-panel__button">
+                                                <div class="cabinet-order-button">
+                                                    <svg class="cabinet-order-button__icon">
+                                                        <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
+                                                    </svg>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -45,24 +51,34 @@
                                 <div class="cabinet-order__hidden ht-container">
                                     <div class="cabinet-order__inner ht-inner">
                                         <div class="cabinet-order__products">
-                                            <table class="order-table">
-                                                <thead>
+                                            <template v-if="$root.isDesktop">
+                                                <table class="order-table">
+                                                    <thead>
                                                     <tr>
                                                         <th>Товар</th>
                                                         <th>Цена</th>
                                                         <th>Количество</th>
                                                         <th>Сумма</th>
                                                     </tr>
-                                                </thead>
+                                                    </thead>
 
-                                                <tbody>
-                                                    <order-product-row
-                                                        v-for="product in preparedProducts(order.products)"
-                                                        :key="product.id"
-                                                        :product="product"
-                                                    ></order-product-row>
-                                                </tbody>
-                                            </table>
+                                                    <tbody>
+                                                        <order-product-row
+                                                            v-for="product in preparedProducts(order.products)"
+                                                            :key="product.id"
+                                                            :product="product"
+                                                        ></order-product-row>
+                                                    </tbody>
+                                                </table>
+                                            </template>
+
+                                            <template v-else>
+                                                <order-product-item
+                                                    v-for="product in preparedProducts(order.products)"
+                                                    :key="product.id"
+                                                    :product="product"
+                                                ></order-product-item>
+                                            </template>
                                         </div>
 
                                         <div class="cabinet-order__total">
@@ -85,7 +101,6 @@
 
                                         <div class="cabinet-order__data">
                                             <label-value-table
-                                                class-name-modificators="long"
                                                 :data="orderData(order)"
                                             ></label-value-table>
                                         </div>
@@ -106,6 +121,7 @@
     import Loading from '../../../Loading'
     import RequestMixin from '../../../../mixins/RequestMixin'
     import OrderProductRow from './orders/OrderProductRow'
+    import OrderProductItem from './orders/OrderProductItem'
     import FormattedPrice from '../../price/FormattedPrice'
     import DataHandler from '../../../../scripts/DataHandler'
     import LabelValueTable from '../../../LabelValueTable'
@@ -116,6 +132,7 @@
         components: {
             Loading,
             OrderProductRow,
+            OrderProductItem,
             FormattedPrice,
             LabelValueTable
         },
@@ -214,7 +231,7 @@
                 ].reduce((acc, key) => {
                     if (key in order) {
                         let item = {
-                            label: this.$root.translate('form.fields.' + key),
+                            label: this.$root.translate('form.fields.' + key) + ':',
                             value: order[key]
                         }
 

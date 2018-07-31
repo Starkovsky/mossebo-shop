@@ -1,32 +1,30 @@
 <template>
-    <tr>
-        <td>
+    <div class="order-product-item">
+        <div class="order-product-item__top">
             <product-short-description
                 :product="product"
             ></product-short-description>
-        </td>
+        </div>
 
-        <td>
-            <formatted-price
-                class="order-table__price"
-                :value="product.finalPrice"
-            ></formatted-price>
-        </td>
+        <div class="order-product-item__bottom">
+            <div class="order-product-item__price">
+                <formatted-price
+                    :value="product.finalPrice"
+                ></formatted-price>
+            </div>
 
-        <td>
-            <span class="order-table__qty">
+            <div class="order-product-item__num">
                 {{ product.quantity }}&nbsp;шт
-            </span>
-        </td>
+            </div>
 
-        <td>
-            <formatted-price
-                v-if="totalPrice"
-                class="order-table__price"
-                :value="totalPrice"
-            ></formatted-price>
-        </td>
-    </tr>
+            <div class="order-product-item__total">
+                <formatted-price
+                    v-if="totalPrice"
+                    :value="totalPrice"
+                ></formatted-price>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

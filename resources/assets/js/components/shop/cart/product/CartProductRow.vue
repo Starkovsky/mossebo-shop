@@ -35,12 +35,11 @@
             </td>
 
             <td>
-            <span class="cart-table__price">
                 <formatted-price
                     v-if="totalPrice"
+                    class="cart-table__price"
                     :value="totalPrice"
                 ></formatted-price>
-            </span>
             </td>
 
             <td v-if="!noControls">

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Cabinet;
 
-use App\Models\Shop\OrderStatus;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
-use Illuminate\Support\Collection;
 use PayTypes;
 use DeliveryTypes;
 use OrderStatuses;
-use App\Models\Shop\OrderProduct;
 
 class OrdersController extends Controller
 {

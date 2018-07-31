@@ -76,11 +76,13 @@ html, body {
     font-weight: 400;
     color: $color-text-secondary;
 
-    &--with-hover {
-        transition: $transition-primary;
+    @include media-breakpoint-up(lg) {
+        &--with-hover {
+            transition: $transition-primary;
 
-        &:hover {
-            box-shadow: $shadows-hover;
+            &:hover {
+                box-shadow: $shadows-hover;
+            }
         }
     }
 }

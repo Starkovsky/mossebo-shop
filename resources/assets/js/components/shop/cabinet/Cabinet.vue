@@ -1,6 +1,6 @@
 <template>
-    <div class="cabinet block-ui">
-        <div class="cabinet__tabs">
+    <div :class="{'cabinet': true, 'block-ui': hasBlockUi}">
+        <div :class="{'cabinet__tabs': true, 'block-ui': !hasBlockUi}">
             <tabs
                 :tabs="pages"
                 :active="activePage"
@@ -72,6 +72,10 @@
                 pages: state => state.cabinet.pages,
                 activePage: state => state.cabinet.active
             }),
+
+            hasBlockUi() {
+                return this.$root.windowMoreThan('md') || this.activePage !== 'orders'
+            }
         }
     }
 </script>

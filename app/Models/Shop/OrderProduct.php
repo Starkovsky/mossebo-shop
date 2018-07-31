@@ -11,6 +11,7 @@ class OrderProduct extends BaseOrderProduct
         'product_id',
         'default_price',
         'final_price',
+        'currency_code',
         'quantity',
         'params'
     ];

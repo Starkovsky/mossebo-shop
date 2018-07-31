@@ -4,6 +4,7 @@ export default {
     data() {
         return {
             loading: false,
+            error: false,
             request: null,
         }
     },
@@ -20,6 +21,7 @@ export default {
 
             return this.request = new Request(method, url, data)
                 .any(this.abortRequest)
+                .fail(() => this.error = true)
                 .start()
         },
 

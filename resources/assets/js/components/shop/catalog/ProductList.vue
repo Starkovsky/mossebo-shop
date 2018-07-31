@@ -30,21 +30,26 @@
 
     import Loading from '../../Loading'
     import ProductCard from "./product-cards/ProductCard"
+    import RequestMixin from '../../../mixins/RequestMixin'
 
     export default {
         name: "ProductList",
+
+        mixins: [
+            RequestMixin
+        ],
 
         components: {
             Loading,
             ProductCard,
         },
+
         data () {
             return {
-                error: false,
-                loading: true,
                 products: [],
             }
         },
+
         props: {
             url: null,
             title: null,
@@ -64,19 +69,9 @@
 
         methods: {
             fetchProducts() {
-                // todo: доделать обработку ошибок
-                axios.get(this.url)
-                    .then(response => {
-                        this.setProducts(response.data.products)
-                        this.loading = false
-                    })
-                    .catch(error => {
-                        this.error = true
-                        console.log(error)
-                    })
-                    .finally(() => {
-                        this.loading = false
-                    })
+                this.sendRequest('get', this.url)
+                    .success(response => this.setProducts(response.data.products))
+                    .silent()
             },
 
             setProducts(products = []) {

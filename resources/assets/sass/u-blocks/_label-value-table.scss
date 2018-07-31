@@ -1,7 +1,5 @@
 .label-value-table {
     &__item {
-        display: flex;
-        flex-wrap: wrap;
         font-size: 14px / 17px;
 
         &:not(:first-child) {
@@ -10,13 +8,12 @@
     }
 
     &__label {
-        width: 150px;
         color: $color-text-secondary;
         padding-right: 20px;
     }
 
     &__value {
-        width: calc(100% - 150px);
+        margin-top: 8px;
         color: $color-text-primary;
 
         &--italic {
@@ -33,11 +30,19 @@
         }
     }
 
-    &--long &__label {
-        width: 225px;
-    }
+    @include media-breakpoint-up(md) {
+        &__item {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    &--long &__value {
-        width: calc(100% - 225px);
+        &__label {
+            width: 225px;
+        }
+
+        &__value {
+            width: calc(100% - 225px);
+            margin-top: 0;
+        }
     }
 }

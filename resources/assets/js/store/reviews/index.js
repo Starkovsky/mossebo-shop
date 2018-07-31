@@ -62,8 +62,10 @@ export default {
         removeReview({ state, dispatch }, review) {
             dispatch('list/loading')
                 .then(() => {
-                    (new Request('delete', Core.siteUrl('reviews/' + review.id))).start()
+                    (new Request('delete', Core.siteUrl('reviews/' + review.id)))
                         .success(() => dispatch('list/reFetch'))
+                        .silent()
+                        .start()
                 })
         },
 

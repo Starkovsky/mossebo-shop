@@ -24,7 +24,6 @@
                         <loading
                             :loading="true"
                             :no-overlay="true"
-                            :class="{'block-ui': !$root.isDesktop}"
                         ></loading>
                     </div>
 

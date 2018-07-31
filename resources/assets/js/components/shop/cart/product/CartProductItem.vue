@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'cart-product-item': true, 'cart-product-item--ghost': isGhost, 'block-ui': true}">
+    <div :class="{'cart-product-item block-ui': true, 'cart-product-item--ghost': isGhost}">
         <div class="cart-product-item__top">
             <product-short-description
                 :product="product"

@@ -25,7 +25,7 @@
 
     &__head,
     &__content {
-        padding: 16px;
+        padding: 24px 16px;
 
         @include media-breakpoint-up(lg) {
             margin-left: 125px;
@@ -84,8 +84,12 @@
     }
 }
 
+
+
 .confirmation-content-wrap {
-    padding: 24px 16px 0;
+    @include media-breakpoint-up(lg) {
+        padding: 24px 16px 0;
+    }
 }
 
 .confirmation-empty {
