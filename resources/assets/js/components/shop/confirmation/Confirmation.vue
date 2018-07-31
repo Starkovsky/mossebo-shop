@@ -144,7 +144,7 @@
         computed: {
             ... mapState({
                 recipientData({shipping}) {
-                    return this.collectLabelData(['name', 'surname', 'email', 'phone'], shipping.data)
+                    return this.collectLabelData(['first_name', 'last_name', 'email', 'phone'], shipping.data)
                 },
 
                 shippingData({shipping}) {

@@ -2,7 +2,7 @@
 
 
 Breadcrumbs::for('home', function ($trail) {
-    $trail->push(Lang::get('content.home'), route('home'));
+    $trail->push(trans('content.home'), route('home'));
 });
 
 /*
@@ -10,7 +10,7 @@ Breadcrumbs::for('home', function ($trail) {
  */
 Breadcrumbs::for('catalog', function ($trail) {
     $trail->parent('home');
-    $trail->push(Lang::get('content.catalog'), route('catalog'));
+    $trail->push(trans('content.catalog'), route('catalog'));
 });
 
 Breadcrumbs::for('catalog-category', function ($trail, $category) {
@@ -23,7 +23,7 @@ Breadcrumbs::for('catalog-category', function ($trail, $category) {
  */
 Breadcrumbs::for('rooms', function ($trail) {
     $trail->parent('home');
-    $trail->push(Lang::get('content.rooms'), route('rooms'));
+    $trail->push(trans('content.rooms'), route('rooms'));
 });
 
 Breadcrumbs::for('room-catalog', function ($trail, $room, $category) {
@@ -44,7 +44,7 @@ Breadcrumbs::for('room-category', function ($trail, $room, $category) {
  */
 Breadcrumbs::for('styles', function ($trail) {
     $trail->parent('home');
-    $trail->push(Lang::get('content.styles'), route('styles'));
+    $trail->push(trans('content.styles'), route('styles'));
 });
 
 Breadcrumbs::for('style-catalog', function ($trail, $style, $category) {
@@ -76,7 +76,7 @@ Breadcrumbs::for('category-tree', function ($trail, $category, $routeName = 'cat
 Breadcrumbs::for('help', function ($trail) {
     $trail->parent('home');
 
-    $trail->push(Lang::get('content.help'), route('help'));
+    $trail->push(trans('content.help'), route('help'));
 });
 
 
