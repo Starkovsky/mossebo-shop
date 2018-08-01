@@ -68,13 +68,11 @@ class LocationController extends Controller
             return static::getMainCity();
         }
 
-        $city = false;
-
         if (isset($requestLocationData->postal_code)) {
             $code = PostCode::with('city')->where('code', $requestLocationData->postal_code)->first();
 
             if ($code && $code->relationNotEmpty('city')) {
-                $city = $code->city;
+                return $code->city;
             }
         }
 
@@ -85,7 +83,7 @@ class LocationController extends Controller
 //            );
 //        }
 
-        return $city ?: static::getMainCity();
+        return static::getMainCity();
     }
 
     /**
@@ -146,6 +144,6 @@ class LocationController extends Controller
      */
     public static function getMainCity()
     {
-        return Cities::enabled('currentI18n')->first() ?: false;
+        return City::where('sdek_code', 137)->first() ?: false;
     }
 }
