@@ -1,8 +1,8 @@
-import axios from 'axios'
 import * as actionTypes from './types'
-import LocalCart from './LocalCart'
 import Core from '../../scripts/core'
 import DataHandler from '../../scripts/DataHandler'
+import localStorageActionsExtension from '../localStorageActionsExtension'
+import Request from '../../scripts/Request'
 
 export function makeKey (id, options = []) {
     return options.sort((a, b) => a - b).reduce((acc, optionId) => {
@@ -73,6 +73,8 @@ class CartItem {
 
 function itemsToCartItems(items = []) {
     return items.map(item => {
+        if (item instanceof CartItem) return item
+
         let ci = new CartItem(item.key, item.qty)
 
         if (item.info){
@@ -106,17 +108,57 @@ export default {
     namespaced: true,
 
     state: {
-        lastSyncTime: null,
+        time: null, // время последней синхронизации
         ready: false,
         loading: false,
         error: false,
         synchronized: false,
         items: [],
         options: [],
-        abortRequest: null
+        abortRequest: null,
+        request: null
     },
 
     actions: {
+        ... localStorageActionsExtension,
+
+        refresh({ state, dispatch }) {
+            if (state.ready) {
+                return dispatch('getCartRequestType')
+                    .then(type => dispatch(type))
+            }
+
+            return dispatch('init')
+        },
+
+        init({ commit, state, dispatch }) {
+            if (state.ready || state.loading) {
+                return
+            }
+
+            state.loading = true
+
+            this.syncDebouncer = _.debounce(() => dispatch('sync'), 400)
+
+            dispatch('initLocalStorageExtension', 'cart')
+                .then(() => dispatch('getCartRequestType'))
+                .then(type => Promise.all([dispatch(type), dispatch('loadOptionsDescription')]))
+        },
+
+        getCartRequestType({state}) {
+            if (!state.time) {
+                return 'load'
+            }
+            else {
+                if (state.synchronized) {
+                    return 'load'
+                }
+                else {
+                    return 'sync'
+                }
+            }
+        },
+
         addProduct({ commit, dispatch }, [{id, options}, qty]) {
             dispatch('addItem', [makeKey(id, options), qty])
         },
@@ -157,45 +199,14 @@ export default {
             this.syncDebouncer()
         },
 
-        dirty({ state, commit, dispatch }, sync = true) {
+        dirty({ state, commit, dispatch }) {
             commit(actionTypes.CART_DIRTY)
-            dispatch('updateLocalCart')
+
+            dispatch('updateLocalStorage', ['items', 'synchronized'])
 
             if (state.loading && _.isFunction(state.abortRequest)) {
                 state.abortRequest()
             }
-        },
-
-        refresh({ state, dispatch }) {
-            dispatch('init')
-        },
-
-        init({ commit, state, dispatch }) {
-            if (state.ready || state.loading) {
-                return
-            }
-
-            this.syncDebouncer = _.debounce(() => dispatch('sync'), 400)
-            let cartRequest
-
-            if (!LocalCart.exists()) {
-                cartRequest = dispatch('load')
-            }
-            else {
-                let localCartData = LocalCart.get()
-
-                if (localCartData.synchronized) {
-                    cartRequest = dispatch('load')
-                }
-                else {
-                    state.lastSyncTime = localCartData.time
-                    state.items = itemsToCartItems(localCartData.items)
-                    cartRequest = dispatch('sync')
-                }
-            }
-
-            // todo: вынести отсюда загрузку аттрибутов в отдельное место (DataStore?)
-            Promise.all([cartRequest, dispatch('loadOptionsDescription')])
         },
 
         loadOptionsDescription({ commit }) {
@@ -217,21 +228,20 @@ export default {
         },
 
         request({ state, commit, dispatch }, config) {
+            if (state.request) {
+                state.request.abort()
+            }
+
             commit(actionTypes.CART_REQUEST_START)
 
-            return axios.request({
-                ... config,
-                cancelToken: new axios.CancelToken(c => state.abortRequest = c)
-            })
-                .then(response => {
+            state.request = new Request(config.method, config.url, config.data || null)
+                .success(response => {
                     commit(actionTypes.CART_REQUEST_SUCCESS, response)
-                    dispatch('updateLocalCart')
+                    dispatch('updateLocalStorage', ['items', 'time', 'synchronized'])
                 })
-                .catch(thrown => {
-                    if (! axios.isCancel(thrown)) {
-                        commit(actionTypes.CART_REQUEST_FAILURE)
-                    }
-                })
+                .any(() => state.request = null)
+                .silent()
+                .start()
         },
 
         load({ state, commit, dispatch }) {
@@ -246,7 +256,7 @@ export default {
                 url: Core.siteUrl('cart'),
                 method: 'put',
                 data: {
-                    time: state.lastSyncTime,
+                    time: state.time,
                     items: state.items.map(item => ({
                         key: item.key,
                         qty: item.qty
@@ -255,15 +265,21 @@ export default {
             })
         },
 
-        updateLocalCart({ state }) {
-            LocalCart.set({
-                time: state.lastSyncTime,
-                synchronized: state.synchronized,
-                items: state.items.map(item => ({
+        _lsSetCartItems: {
+            root: true,
+            handler({state}, items) {
+                state.items = itemsToCartItems(items)
+            }
+        },
+
+        _lsPrepareCartItems: {
+            root: true,
+            handler({state}) {
+                return state.items.map(item => ({
                     key: item.key,
                     qty: item.qty
-                })),
-            })
+                }))
+            }
         }
     },
 
@@ -300,7 +316,7 @@ export default {
         [actionTypes.CART_REQUEST_SUCCESS](state, response = {}) {
             let data = response.data || {}
             state.items = itemsToCartItems(data.items)
-            state.lastSyncTime = data.time
+            state.time = data.time
             state.ready = true
             state.synchronized = true
             state.loading = false

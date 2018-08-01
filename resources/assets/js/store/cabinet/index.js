@@ -1,7 +1,5 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
-import { LocalStorageProxy } from '../../scripts/LocalStorageProxy'
-import localStorageActionsExtension from '../localStorageActionsExtension'
 import HistoryProxy from '../../scripts/HistoryProxy'
 
 let hp = new HistoryProxy()
@@ -23,8 +21,6 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
-
         init({ state, dispatch, commit }) {
             if (state.ready) return
 
@@ -34,9 +30,7 @@ export default {
                 state.active = hash
             }
 
-            dispatch('setPage', [, false])
-                .then(() => dispatch('initLocalStorageExtension', new LocalStorageProxy('__cabinet')))
-                .then(() => commit(actionTypes.CATALOG_READY))
+            commit(actionTypes.CATALOG_READY)
         },
 
         setPage({ state, commit, dispatch }, key) {

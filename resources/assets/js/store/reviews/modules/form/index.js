@@ -1,6 +1,4 @@
 import * as actionTypes from './types'
-// import localStorageActionsExtension from '../../../localStorageActionsExtension'
-// import {LocalStorageProxy} from "../../../../scripts/LocalStorageProxy"
 import Request from '../../../../scripts/Request'
 
 function eacher(state) {
@@ -27,8 +25,6 @@ export default {
     },
 
     actions: {
-        // ... localStorageActionsExtension,
-
         init({state}) {
             state.eacher = eacher(state)
         },

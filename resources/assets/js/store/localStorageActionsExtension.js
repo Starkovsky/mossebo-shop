@@ -1,5 +1,19 @@
+import {LocalStorageProxy} from "../scripts/LocalStorageProxy"
+
 function isObject(obj) {
     return _.isObject(obj) && !_.isFunction(obj)
+}
+
+function isEmpty(data) {
+    if (_.isFunction(data)) {
+        return true
+    }
+
+    if (_.isObject(data)) {
+        return _.isEmpty(data)
+    }
+
+    return _.isNil(data)
 }
 
 
@@ -30,12 +44,6 @@ function flatDataToTree(data) {
 }
 
 
-/**
- * Копирование данных в state
- *
- * @param state
- * @param data
- */
 function deepCopy(state, data = {}) {
     for (let i in state) {
         if (i in data) {
@@ -58,16 +66,31 @@ function deepCopy(state, data = {}) {
  * @returns {*}
  */
 function getNotEmptyData(data) {
+    if (isEmpty(data)) {
+        return null
+    }
+
     let result
 
-    if (isObject(data)) {
+    if (_.isArray(data)) {
+        result = []
+
+        data.forEach(item => {
+            item = getNotEmptyData(item)
+
+            if (! isEmpty(item)) {
+                result.push(item)
+            }
+        })
+    }
+    else if (isObject(data)) {
         result = {}
 
         for (let i in data) {
-            let a = getNotEmptyData(data[i])
+            let item = getNotEmptyData(data[i])
 
-            if (!_.isEmpty(a)) {
-                result[i] = a
+            if (! isEmpty(item)) {
+                result[i] = item
             }
         }
     }
@@ -78,40 +101,80 @@ function getNotEmptyData(data) {
     return result
 }
 
+
+function camelize(string) {
+    return _.startCase(_.capitalize(string)).replace(/\s/g, '')
+}
+
+function getMethodName(type, namespace, dataType) {
+    return `_ls${camelize(type)}${camelize(namespace)}${camelize(dataType)}`
+}
+
 export default {
-    initLocalStorageExtension({ state, dispatch }, localStorageProxy) {
-        state.localStorageProxy = localStorageProxy
+    initLocalStorageExtension({ state, dispatch }, namespace) {
+        state.localStorageProxy = new LocalStorageProxy('__' + namespace)
         state.debouncers = {}
+        state.localStorageNamespace = namespace
 
-        dispatch('initDataFromStorage')
+        return dispatch('initDataFromStorage')
     },
 
-    updateLocalStorage({ state }, type) {
-        if (! (type in state.debouncers)) {
-            state.debouncers[type] = _.throttle(() => {
-                let data = getNotEmptyData(_.get(state, type))
-
-                if (_.isBoolean(data) || !_.isEmpty(data)) {
-                    state.localStorageProxy.add(type, data)
-                }
-                else {
-                    state.localStorageProxy.forget(type)
-                }
-            }, 300)
+    updateLocalStorage({ state, dispatch }, types) {
+        if (! _.isArray(types)) {
+            types = [types]
         }
 
-        state.debouncers[type]()
+        types.forEach(type => {
+            if (! (type in state.debouncers)) {
+                state.debouncers[type] = _.throttle(() => {
+                    dispatch('_lsGetData', type)
+                        .then(data => {
+                            if (_.isNil(data)) {
+                                state.localStorageProxy.forget(type)
+                            }
+                            else {
+                                state.localStorageProxy.add(type, data)
+                            }
+                        })
+                }, 300)
+            }
+
+            state.debouncers[type]()
+        })
     },
 
-    initDataFromStorage({state}) {
+    _lsGetData({state, dispatch}, type) {
+        let methodName = getMethodName('prepare', state.localStorageNamespace, type)
+
+        if (methodName in this._actions) {
+            return dispatch(methodName, null, {root: true})
+                    .then(data => getNotEmptyData(data))
+        }
+
+        return getNotEmptyData(_.get(state, type))
+    },
+
+    initDataFromStorage({state, dispatch}) {
         let data = state.localStorageProxy.getAll()
+        data = flatDataToTree(data)
 
-        if (!_.isEmpty(data)) {
-            deepCopy(state, flatDataToTree(data))
+        let chain = new Promise(resolve => resolve())
+
+        for (let type in data) {
+            let methodName = getMethodName('set', state.localStorageNamespace, type)
+
+            if (methodName in this._actions) {
+                chain.then(() => dispatch(methodName, data[type], {root: true}))
+            }
+            else if (type in state) {
+                deepCopy(state[type], data[type])
+            }
         }
+
+        return chain
     },
 
-    clearStorageData() {
+    clearStorageData({state}) {
         state.localStorageProxy.forgetAll()
     },
 

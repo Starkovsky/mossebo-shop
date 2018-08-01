@@ -3,11 +3,79 @@
 namespace App\Http\Controllers;
 
 use Cookie;
-use Cities;
+//use Cities;
 use Countries;
+use App\Models\City;
+use App\Models\PostCode;
 
 class LocationController extends Controller
 {
+    public function fill()
+    {
+        $cities = file_get_contents(app_path('Geo/cities.json'));
+
+        $cities = json_decode($cities, true);
+
+        $lastCity = City::orderBy('id', 'desc')->first();
+        $finded = !$lastCity;
+        $index = 0;
+
+        foreach ($cities as $cityData) {
+            if (!$finded) {
+                if ($cityData['ID'] == $lastCity->cdek_code) {
+                    $finded = true;
+                }
+
+                continue;
+            }
+
+            if (! isset($cityData['CityName']) || empty($cityData['CityName'])) {
+                continue;
+            }
+
+            if (++$index === 500) {
+                dd('stopped');
+            }
+
+            $data = [
+                'country_code' => 'Ru',
+                'name'         => $cityData['CityName'],
+                'region'       => $cityData['OblName'],
+                'enabled'      => true,
+            ];
+
+            if (isset($cityData['ID'])) {
+                $data['cdek_code'] = $cityData['ID'];
+            }
+
+            if (isset($cityData['FIAS'])) {
+                $data['fias_code'] = $cityData['FIAS'];
+            }
+
+            if (isset($cityData['KLADR'])) {
+                $data['kladr_code'] = $cityData['KLADR'];
+            }
+
+            $city = new City($data);
+
+            $city->save();
+
+            if (isset($cityData['PostCodeList']) && ! empty($cityData['PostCodeList'])) {
+                $list = explode(',', $cityData['PostCodeList']);
+
+                foreach ($list as $code) {
+                    $city->postCodes()->save(new PostCode([
+                        'code' => $code
+                    ]));
+                }
+            }
+        }
+    }
+
+
+
+
+
     /*
      * Отдает город пользователя из кукисов, или ищет по ip.
      *

@@ -1,5 +1,5 @@
 <template>
-    <div :class="classNameWithModificators('tabs')">
+    <div :class="classNameWithModificators('tabs')" v-if="tabs">
         <div
             v-for="(title, key) in tabs"
             :key="key"

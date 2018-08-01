@@ -113,6 +113,10 @@
         },
 
         methods: {
+            refresh() {
+                this.$store.dispatch('cart/refresh')
+            },
+
             setStep(stepName) {
                 this.$store.dispatch('checkout/set', stepName)
             },

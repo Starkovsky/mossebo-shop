@@ -124,6 +124,10 @@ Route::group(['middleware' => 'web'], function () {
          */
         Route::post('/validate/email', 'ValidationController@email');
         Route::post('/validate/phone', 'ValidationController@phone');
+
+
+
+        Route::get('/test', 'LocationController@fill');
     });
 });
 

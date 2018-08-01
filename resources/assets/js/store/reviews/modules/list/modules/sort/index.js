@@ -1,6 +1,5 @@
 import * as actionTypes from './types'
 import localStorageActionsExtension from '../../../../../localStorageActionsExtension'
-import {LocalStorageProxy} from "../../../../../../scripts/LocalStorageProxy"
 import Core from "../../../../../../scripts/core/index"
 
 export default {
@@ -19,7 +18,7 @@ export default {
         ... localStorageActionsExtension,
 
         init({dispatch}) {
-            return dispatch('initLocalStorageExtension', new LocalStorageProxy('__reviews::sort'))
+            return dispatch('initLocalStorageExtension', 'reviews::sort')
         },
 
         setType({state, dispatch, commit}, type) {

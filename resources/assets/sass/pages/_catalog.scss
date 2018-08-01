@@ -114,6 +114,6 @@
 
 
 
-.catalog-filters-banner {
+.catalog-filters-banner:not(:first-child) {
     margin-top: 48px;
 }

@@ -2,6 +2,7 @@ import * as actionTypes from './types'
 import Core from '../../scripts/core'
 import SmoothScroll from '../../scripts/SmoothScroll'
 import HistoryProxy from '../../scripts/HistoryProxy'
+import Request from "../../scripts/Request"
 
 let hp = new HistoryProxy()
 
@@ -56,7 +57,12 @@ export default {
         ],
 
         active: 0,
-        direction: 'forward'
+        direction: 'forward',
+
+        loading: false,
+        request: null,
+        error: false,
+        errorCounter: 0
     },
 
     actions: {
@@ -92,6 +98,8 @@ export default {
         },
 
         setByIndex({ state, commit }, [index, toHistory = true]) {
+            if (state.loading) return
+
             if (state.active !== index && index in state.steps) {
                 scrollToStart(() => {
                     commit(actionTypes.CHECKOUT_SET_STEP, index)
@@ -102,6 +110,45 @@ export default {
                 }
             }
         },
+
+        submit({state, rootState, commit, dispatch}) {
+            if (state.loading) return
+
+            commit(actionTypes.CHECKOUT_REQUEST_START)
+
+            let data = {
+                cart: rootState.cart.items.reduce((acc, item) => {
+                    acc[item.key] = item.qty
+                    return acc
+                }, {}),
+                shipping: {
+                    type: rootState.shipping.type,
+                    data: {... rootState.shipping.data}
+                },
+                pay_type: rootState.payments.active
+            }
+
+            state.request =
+                new Request('post', Core.siteUrl('checkout'), data)
+                    .success(response => {
+                        dispatch('shipping/clearStorageData', null, {root:true})
+                            .then(() => dispatch('cart/clearStorageData', null, {root:true}))
+                            .then(() => {
+                                window.location.href = Core.siteUrl('checkout/thanks/' + response.data.orderId)
+
+                                commit(actionTypes.CHECKOUT_REQUEST_SUCCESS)
+                            })
+                    })
+                    .fail(() => {
+                        if (++ state.errorCounter > 2) {
+                            window.location.reload()
+                        }
+                        else {
+                            commit(actionTypes.CHECKOUT_REQUEST_FAIL)
+                        }
+                    })
+                    .start()
+        }
     },
 
     mutations: {
@@ -119,6 +166,20 @@ export default {
 
             state.active = newActiveIndex
         },
+
+        [actionTypes.CHECKOUT_REQUEST_START](state) {
+            state.loading = true
+            state.error = false
+        },
+
+        [actionTypes.CHECKOUT_REQUEST_SUCCESS](state) {
+            state.loading = false
+        },
+
+        [actionTypes.CHECKOUT_REQUEST_FAIL](state) {
+            state.loading = false
+            state.error = true
+        }
     },
 
     getters: {
