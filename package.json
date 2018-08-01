@@ -11,8 +11,7 @@
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.1.1",
-        "browser-sync": "^2.24.5",
+        "browser-sync": "^2.24.6",
         "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^5.2.0",
         "ilyabirman-likely": "^2.3.1",
@@ -23,12 +22,12 @@
         "popper.js": "^1.14.3",
         "slick-carousel": "^1.8.1",
         "vue": "^2.5.7",
-        "vue-slider-component": "^2.7.2"
+        "vue-slider-component": "^2.7.5"
     },
     "dependencies": {
         "@fancyapps/fancybox": "^3.3.5",
         "babel-polyfill": "^6.26.0",
-        "fancybox": "^3.0.0",
+        "fancybox": "^3.0.1",
         "postcss-cssnext": "^3.1.0",
         "postcss-custom-media": "^6.0.0",
         "postcss-short-font-size": "^4.0.0",

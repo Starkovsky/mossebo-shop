@@ -273,11 +273,11 @@
             <div class="col-md-5 footer-bottom__links">
                 <div class="row">
                     <div class="col-lg-6">
-                        <a href="#" class="footer-link">Правила пользования</a>
+                        <a href="{{ route('use_policy') }}" class="footer-link">Правила пользования</a>
                     </div>
 
                     <div class="col-lg-6">
-                        <a href="{{ route('privacy') }}" class="footer-link">Политика конфиденциальности</a>
+                        <a href="{{ route('privat_policy') }}" class="footer-link">Политика конфиденциальности</a>
                     </div>
                 </div>
             </div>

@@ -61,6 +61,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/privacy', 'ContentController@privacy')->name('privacy');
         Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
 
+
+        Route::get('/privat-policy', 'ContentController@privat_policy')->name('privat_policy');
+        Route::get('/use-policy', 'ContentController@use_policy')->name('use_policy');
+
+
         // Корзина
         Route::get('/cart', 'Shop\CartController@index')->name('cart');
         Route::post('/cart', 'Shop\CartController@get');

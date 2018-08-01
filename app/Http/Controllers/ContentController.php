@@ -72,4 +72,27 @@ class ContentController extends Controller
     {
         return abort(404);
     }
+
+
+    /**
+     * Выводит страницу Политика конфедициальности
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privat_policy()
+    {
+        return view('shop.pages.help.privat-policy');
+    }
+
+
+    /**
+     * Выводит страницу Инструкция по пользованию сайтом
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function use_policy()
+    {
+        return view('shop.pages.help.use-policy');
+    }
+
 }
