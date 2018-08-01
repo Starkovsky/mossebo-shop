@@ -1,6 +1,5 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
-import { LocalStorageProxy } from '../../scripts/LocalStorageProxy'
 import localStorageActionsExtension from '../localStorageActionsExtension'
 
 const defaultState = {
@@ -36,9 +35,8 @@ export default {
         init({ state, dispatch, commit }) {
             if (state.ready) return
 
-            dispatch('initLocalStorageExtension', new LocalStorageProxy('__payment'))
-
-            commit(actionTypes.PAYMENTS_READY)
+            dispatch('initLocalStorageExtension', 'payment')
+                .then(() => commit(actionTypes.PAYMENTS_READY))
         },
 
         setType({ state, commit, dispatch }, type) {

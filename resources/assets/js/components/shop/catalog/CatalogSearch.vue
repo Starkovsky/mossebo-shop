@@ -17,13 +17,15 @@
         <template v-else-if="ready">
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
-                    <catalog-filter-list></catalog-filter-list>
+                    <template v-if="filtersExists">
+                        <catalog-filter-list></catalog-filter-list>
 
-                    <div v-if="filtersExists" class="catalog-filters-controls">
-                        <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
-                            {{ $root.translate('Reset parameters') }}
-                        </button>
-                    </div>
+                        <div class="catalog-filters-controls">
+                            <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                                {{ $root.translate('Reset parameters') }}
+                            </button>
+                        </div>
+                    </template>
 
                     <div class="catalog-filters-banner" v-if="! loading">
                         <banner-random></banner-random>

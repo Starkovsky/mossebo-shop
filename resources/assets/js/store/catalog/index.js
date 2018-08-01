@@ -1,5 +1,4 @@
 import * as actionTypes from './types'
-import { LocalStorageProxy } from '../../scripts/LocalStorageProxy'
 import localStorageActionsExtension from '../localStorageActionsExtension'
 import Request from '../../scripts/Request'
 import FilterModule from './modules/filters'
@@ -31,7 +30,6 @@ export default {
         initialized: false,
         ready: false,
 
-
         searchTimeout: null
     },
 
@@ -43,11 +41,11 @@ export default {
 
             filterTypes = filterTypes || ['query', 'prices', 'categories', 'styles', 'rooms', 'attributes']
 
-            dispatch('initLocalStorageExtension', new LocalStorageProxy('__catalog'))
-                .then(dispatch('pagination/init'))
-                .then(dispatch('search/init'))
-                .then(dispatch('filters/setTypes', filterTypes))
-                .then(dispatch('fetchCatalog'))
+            dispatch('initLocalStorageExtension', 'catalog')
+                .then(() => dispatch('pagination/init'))
+                .then(() => dispatch('search/init'))
+                .then(() => dispatch('filters/setTypes', filterTypes))
+                .then(() => dispatch('fetchCatalog'))
 
             state.filteringPendingLoader = makeLoader(
                 () => commit(actionTypes.CATALOG_FILTERING_START),
@@ -66,13 +64,13 @@ export default {
                             commit(actionTypes.CATALOG_REQUEST_SUCCESS)
 
                             dispatch('filters/setFilters', filters)
-                                .then(dispatch('setProducts', products))
+                                .then(() => dispatch('setProducts', products))
                                 .then(() => dispatch(
                                     'filters/calculateProductCountPerOption',
                                     state.products
                                 ))
-                                .then(dispatch('process', 'filter'))
-                                .then(commit(actionTypes.CATALOG_READY))
+                                .then(() => dispatch('process', 'filter'))
+                                .then(() => commit(actionTypes.CATALOG_READY))
                         })
                 })
                 .catch((error) => {
@@ -108,8 +106,7 @@ export default {
         setCardType({ state, commit, dispatch }, type) {
             if (! state.filtering) {
                 dispatch('cards/setType', type)
-                    .then(dispatch('updateLocalStorage', 'sort.active'))
-                    .then(dispatch('process', 'paginate'))
+                    .then(() => dispatch('process', 'paginate'))
             }
         },
 
@@ -130,14 +127,15 @@ export default {
         setSortType({state, dispatch}, type) {
             if (! state.filtering) {
                 dispatch('sort/setType', type)
-                    .then(dispatch('process', 'sort'))
+                    .then(() => dispatch('updateLocalStorage', 'sort.active'))
+                    .then(() => dispatch('process', 'sort'))
             }
         },
 
         more({state, dispatch}) {
             if (! state.filtering) {
                 dispatch('pagination/more')
-                    .then(dispatch('pagination/paginate'))
+                    .then(() => dispatch('pagination/paginate'))
             }
         },
 
@@ -150,9 +148,7 @@ export default {
                         resolve()
                     }, 1000)
                 }))
-                .then(() => {
-                    dispatch('forceSearch')
-                })
+                .then(() => dispatch('forceSearch'))
         },
 
         forceSearch({state, dispatch}) {
@@ -174,7 +170,7 @@ export default {
                         .then(products => dispatch('filters/makeFilters', products)
                             .then(([products, filters]) => {
                                 return dispatch('filters/setFilters', filters)
-                                    .then(dispatch('setProducts', products))
+                                    .then(() => dispatch('setProducts', products))
                                     .then(() => dispatch(
                                         'filters/calculateProductCountPerOption',
                                         state.products
