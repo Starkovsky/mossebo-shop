@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Cities;
 use Auth;
 use App\Http\Resources\CityResource;
+use Illuminate\Support\Collection;
 
 class ConfigController extends Controller
 {
@@ -24,7 +25,7 @@ class ConfigController extends Controller
         ];
 
         $this->__connectTranslates($config);
-//        $this->__connectLocations($config);
+        $this->__connectLocations($config);
         $this->__connectUserData($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
@@ -39,16 +40,16 @@ class ConfigController extends Controller
 
     protected function __connectLocations(& $config)
     {
-        $cities = Cities::enabled('currentI18n');
+//        $cities = Cities::enabled('currentI18n');
 
-        if ($cities->count() > 0) {
+//        if ($cities->count() > 0) {
             $userCity = LocationController::getUserCity();
 
             $config['location'] = [
                 'userCity' => $userCity->id,
-                'cities' => CityResource::collection($cities),
+                'cities' => CityResource::collection(new Collection([$userCity])),
             ];
-        }
+//        }
     }
 
     protected function __connectUserData(& $config)
