@@ -3,7 +3,7 @@
 import axios from 'axios'
 import Core from './core'
 import BlankPlugin from './base/BlankPlugin'
-import { LocalStorageProxy } from './LocalStorageProxy'
+import { LocalStorageProxy } from './storage/LocalStorageProxy'
 
 class DataHandler extends BlankPlugin {
     constructor() {

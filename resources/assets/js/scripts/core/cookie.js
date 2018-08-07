@@ -13,14 +13,14 @@ function setCookie(name, value, options) {
 
     if (typeof expires == "number" && expires) {
         let d = new Date()
-        d.setTime(d.getTime() + expires * 1000);
+        d.setTime(d.getTime() + expires * 1000)
         expires = options.expires = d
     }
     if (expires && expires.toUTCString) {
         options.expires = expires.toUTCString()
     }
 
-    value = encodeURIComponent(value);
+    value = encodeURIComponent(value)
 
     let updatedCookie = name + "=" + value
 
@@ -54,7 +54,7 @@ export default {
 
         setCookie(name, value, {
             expires: time,
-            domain: '.mossebo-shop.test',
+            domain: '.' + window.location.hostname,
             path: '/',
         })
     },

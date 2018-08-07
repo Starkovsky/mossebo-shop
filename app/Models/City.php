@@ -9,12 +9,10 @@ class City extends BaseCity
     protected $fillable = [
         'lat',
         'lon',
-        'country_code',
+        'region_id',
         'name',
-        'region',
-        'cdek_code',
-        'fias_code',
-        'kladr_code',
+        'short_name',
+        'postal_code',
         'enabled',
     ];
 
@@ -23,8 +21,8 @@ class City extends BaseCity
         return $this->hasOne(Country::class, 'code', 'country_code');
     }
 
-    public function postCodes()
+    public function region()
     {
-        return $this->hasMany(PostCode::class, 'city_id', 'id');
+        return $this->hasOne(Region::class, 'id', 'region_id');
     }
 }

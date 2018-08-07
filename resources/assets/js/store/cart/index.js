@@ -1,7 +1,7 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
 import DataHandler from '../../scripts/DataHandler'
-import localStorageActionsExtension from '../localStorageActionsExtension'
+import storageActionsExtension from '../storageActionsExtension'
 import Request from '../../scripts/Request'
 
 export function makeKey (id, options = []) {
@@ -120,7 +120,7 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
+        ... storageActionsExtension,
 
         refresh({ state, dispatch }) {
             if (state.ready) {
@@ -140,7 +140,7 @@ export default {
 
             this.syncDebouncer = _.debounce(() => dispatch('sync'), 400)
 
-            dispatch('initLocalStorageExtension', 'cart')
+            dispatch('initStorageExtension', 'cart')
                 .then(() => dispatch('getCartRequestType'))
                 .then(type => Promise.all([dispatch(type), dispatch('loadOptionsDescription')]))
         },
@@ -202,7 +202,7 @@ export default {
         dirty({ state, commit, dispatch }) {
             commit(actionTypes.CART_DIRTY)
 
-            dispatch('updateLocalStorage', ['items', 'synchronized'])
+            dispatch('updateStorage', ['items', 'synchronized'])
 
             if (state.loading && _.isFunction(state.abortRequest)) {
                 state.abortRequest()
@@ -237,7 +237,7 @@ export default {
             state.request = new Request(config.method, config.url, config.data || null)
                 .success(response => {
                     commit(actionTypes.CART_REQUEST_SUCCESS, response)
-                    dispatch('updateLocalStorage', ['items', 'time', 'synchronized'])
+                    dispatch('updateStorage', ['items', 'time', 'synchronized'])
                 })
                 .any(() => state.request = null)
                 .silent()
@@ -265,14 +265,14 @@ export default {
             })
         },
 
-        _lsSetCartItems: {
+        _sSetCartItems: {
             root: true,
             handler({state}, items) {
                 state.items = itemsToCartItems(items)
             }
         },
 
-        _lsPrepareCartItems: {
+        _sPrepareCartItems: {
             root: true,
             handler({state}) {
                 return state.items.map(item => ({

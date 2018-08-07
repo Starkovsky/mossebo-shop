@@ -39,14 +39,16 @@
         </div>
 
         <div class="search-input__result">
-            <a
-                class="search-input__link"
-                v-for="item in result"
-                :href="getUrl(item)"
-                :key="item.id"
-            >
+            <div class="search-result">
+                <a
+                    class="search-result__link"
+                    v-for="item in result"
+                    :href="getUrl(item)"
+                    :key="item.id"
+                >
                     {{ item.name }}
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -55,18 +57,20 @@
     import { mapState } from 'vuex'
 
     import Core from '../scripts/core'
-    import Request from '../scripts/Request'
+    import RequestMixin from '../mixins/RequestMixin'
     import Loading from './Loading'
 
     export default {
         name: 'SearchInput',
 
+        mixins: [
+            RequestMixin
+        ],
+
         data() {
             return {
                 query: '',
                 result: [],
-                request: null,
-                loading: false,
                 inFocus: false
             }
         },
@@ -105,19 +109,16 @@
 
         methods: {
             fetchQueryResult() {
-                this.abort()
+                this.abortRequest()
                 if (this.query === '') return
 
-                this.loading = true
-
-                this.request = new Request('get', Core.apiUrl('search/query'), {
+                this.sendRequest('get', Core.apiUrl('search/query'), {
                     q: this.query
                 })
+                    .silent()
                     .success(response => {
                         this.result = response.data.products || []
                     })
-                    .any(() => this.abort())
-                    .start()
             },
 
             input(e) {
@@ -150,15 +151,6 @@
 
             getUrl(item) {
                 return Core.siteUrl('goods/' + item.id)
-            },
-
-            abort() {
-                if (this.request) {
-                    this.request.abort()
-                }
-
-                this.loading = false
-                this.request = null
             },
 
             isSearchPage() {

@@ -84,7 +84,12 @@
         <div class="overlay">
             <div class="container">
                 <h3 class="title-h2">Наша продукция в реальных интерьерах</h3>
-                <a href="https://www.instagram.com/remont.design/" target="_blank" class="button button-instagram">
+                <a
+                    href="{{ settings('public-social-instagram') }}"
+                    target="_blank"
+                    class="button button-instagram"
+                    rel="nofollow noreferrer noopener"
+                >
                     Instagram
                     <svg class="symbol-icon symbol-arrow-forward">
                         <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
@@ -112,6 +117,4 @@
             </div>
         </div>
     </div>
-
-
 @endsection

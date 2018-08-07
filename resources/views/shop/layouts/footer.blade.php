@@ -15,7 +15,7 @@
                         <div class="social-links__container">
                             <div class="social-links__item">
                                 <a
-                                    href="https://www.instagram.com/remont.design/"
+                                    href="{{ settings('public-social-instagram') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -28,7 +28,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://vk.com/design_mossebo"
+                                    href="{{ settings('public-social-vkontakte') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -41,7 +41,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://www.facebook.com/mossebodesign/"
+                                    href="{{ settings('public-social-facebook') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -54,7 +54,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://ok.ru/mossebodesign"
+                                    href="{{ settings('public-social-odnoklassniki') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -67,7 +67,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://zen.yandex.ru/id/594cd65e8e557d52357758b2"
+                                    href="{{ settings('public-social-zen') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -80,7 +80,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://ru.pinterest.com/mossebo0752/"
+                                    href="{{ settings('public-social-pinterest') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"
@@ -93,7 +93,7 @@
 
                             <div class="social-links__item">
                                 <a
-                                    href="https://www.youtube.com/channel/UCmoIMunKnQwi0ui_G9W0Wmw"
+                                    href="{{ settings('public-social-youtube') }}"
                                     class="social-links__link"
                                     target="_blank"
                                     rel="nofollow noreferrer noopener"

@@ -29,6 +29,7 @@ Route::prefix('ru')->group(function () {
     Route::get('/goods/popular', 'Api\Shop\ProductController@popular');
     Route::get('/goods/new', 'Api\Shop\ProductController@new');
     Route::get('/goods/{product}/similar', 'Api\Shop\ProductController@similar');
+    Route::get('/goods/{product}/related', 'Api\Shop\ProductController@related');
 });
 
 

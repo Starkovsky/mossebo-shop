@@ -1,0 +1,62 @@
+.city-popup {
+    padding: 24px 16px;
+    width: 400px;
+
+    &__head {
+        position: relative;
+        padding-right: 24px;
+    }
+
+    &__title {
+        font-size: 18px / 24px;
+        color: $color-text-primary;
+    }
+
+    &__close {
+        position: absolute;
+        width: 24px;
+        height: 100%;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &__close-icon {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__content {
+        margin-top: 16px;
+    }
+}
+
+.form-group--city-search {
+    .form-label {
+        padding-left: 0;
+    }
+
+    .input-group {
+        width: 100%;
+    }
+
+    .form-input {
+        text-align: left;
+        border: none;
+    }
+
+    .button {
+        margin-left: -44px;
+        position: relative;
+        z-index: 10;
+    }
+}
+
+.select-city-confirm {
+    &__controls {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+    }
+}

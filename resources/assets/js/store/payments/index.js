@@ -1,6 +1,6 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
-import localStorageActionsExtension from '../localStorageActionsExtension'
+import storageActionsExtension from '../storageActionsExtension'
 
 const defaultState = {
     ready: false,
@@ -30,19 +30,19 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
+        ... storageActionsExtension,
 
         init({ state, dispatch, commit }) {
             if (state.ready) return
 
-            dispatch('initLocalStorageExtension', 'payment')
+            dispatch('initStorageExtension', 'payment')
                 .then(() => commit(actionTypes.PAYMENTS_READY))
         },
 
         setType({ state, commit, dispatch }, type) {
             if (type in state.types) {
                 commit(actionTypes.PAYMENTS_SET_TYPE, type)
-                dispatch('updateLocalStorage', 'type')
+                dispatch('updateStorage', 'type')
             }
         }
     },

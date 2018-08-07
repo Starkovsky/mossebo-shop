@@ -1,8 +1,9 @@
 .ht-container {
     max-height: 0;
     display: block !important;
-    overflow: hidden;
     //transition: max-height .3s;
+    opacity: 0;
+    visibility: hidden;
     transform: translate3d(0, 0, 0);
 
     &--popup {
@@ -28,8 +29,17 @@
         & .ht-inner {
             margin: 8px;
             background-color: $color-ui;
-            overflow: hidden;
+            //overflow: hidden;
         }
+    }
+
+    &--popup {
+        transition: opacity .3s;
+    }
+
+    &.is-active {
+        opacity: 1;
+        visibility: visible;
     }
 
     &--popup.is-active {

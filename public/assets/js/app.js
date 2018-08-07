@@ -5201,98 +5201,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CitiesSelect.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'CitiesSelect',
-
-    data: function data() {
-        return {
-            currentCityId: __WEBPACK_IMPORTED_MODULE_0__scripts_core__["a" /* default */].config('location.userCity'),
-            cities: __WEBPACK_IMPORTED_MODULE_0__scripts_core__["a" /* default */].config('location.cities'),
-            btn: null
-        };
-    },
-    mounted: function mounted() {
-        this.btn = this.$el.querySelector('.js-ht');
-
-        heightToggle(this.btn, {
-            bindCloseEvents: true
-        });
-    },
-    beforeDestroy: function beforeDestroy() {
-        this.btn.heightToggle.destroy();
-    },
-
-
-    methods: {
-        setCity: function setCity(cityId) {
-            __WEBPACK_IMPORTED_MODULE_0__scripts_core__["a" /* default */].cookie.set('city', this.currentCityId = cityId);
-            this.btn.heightToggle.close();
-        }
-    },
-
-    computed: {
-        currentCity: function currentCity() {
-            var _this = this;
-
-            return this.cities.find(function (city) {
-                return city.id === _this.currentCityId;
-            });
-        }
-    }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/HeaderBanner.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5960,11 +5868,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_Request__ = __webpack_require__("./resources/assets/js/scripts/Request.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_RequestMixin__ = __webpack_require__("./resources/assets/js/mixins/RequestMixin.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Loading__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
 //
 //
 //
@@ -6028,12 +5938,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'SearchInput',
 
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_RequestMixin__["a" /* default */]],
+
     data: function data() {
         return {
             query: '',
             result: [],
-            request: null,
-            loading: false,
             inFocus: false
         };
     },
@@ -6076,18 +5986,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         fetchQueryResult: function fetchQueryResult() {
             var _this2 = this;
 
-            this.abort();
+            this.abortRequest();
             if (this.query === '') return;
 
-            this.loading = true;
-
-            this.request = new __WEBPACK_IMPORTED_MODULE_2__scripts_Request__["a" /* default */]('get', __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].apiUrl('search/query'), {
+            this.sendRequest('get', __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].apiUrl('search/query'), {
                 q: this.query
-            }).success(function (response) {
+            }).silent().success(function (response) {
                 _this2.result = response.data.products || [];
-            }).any(function () {
-                return _this2.abort();
-            }).start();
+            });
         },
         input: function input(e) {
             if (this.isSearchPage()) {
@@ -6114,14 +6020,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
         getUrl: function getUrl(item) {
             return __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].siteUrl('goods/' + item.id);
-        },
-        abort: function abort() {
-            if (this.request) {
-                this.request.abort();
-            }
-
-            this.loading = false;
-            this.request = null;
         },
         isSearchPage: function isSearchPage() {
             return window.location.href.indexOf(__WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].siteUrl('search')) === 0;
@@ -6794,6 +6692,488 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$emit('click');
         }
     }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CitiesSelect.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopupSearch__ = __webpack_require__("./resources/assets/js/components/city-select/CityPopupSearch.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopupSearch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CityPopupSearch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CityPopupConfirm__ = __webpack_require__("./resources/assets/js/components/city-select/CityPopupConfirm.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CityPopupConfirm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CityPopupConfirm__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'CitiesSelect',
+
+    components: {
+        CityPopupSearch: __WEBPACK_IMPORTED_MODULE_1__CityPopupSearch___default.a,
+        CityPopupConfirm: __WEBPACK_IMPORTED_MODULE_2__CityPopupConfirm___default.a
+    },
+
+    watch: {
+        ready: 'init'
+    },
+
+    beforeCreate: function beforeCreate() {
+        this.$store.dispatch('city/init');
+    },
+    beforeDestroy: function beforeDestroy() {
+        if (this.btn) {
+            this.btn.heightToggle.destroy();
+        }
+    },
+
+
+    methods: {
+        init: function init() {
+            var _this = this;
+
+            this.$nextTick(function () {
+                _this.btn = _this.$el.querySelector('.js-ht');
+
+                heightToggle(_this.btn, {
+                    bindCloseEvents: true,
+                    isOpened: !_this.selected
+                });
+            });
+        },
+        setCity: function setCity(city) {
+            this.$store.dispatch('city/setCity', city);
+            this.btn.heightToggle.close();
+        },
+        close: function close() {
+            this.btn.heightToggle.close();
+        }
+    },
+
+    computed: _extends({
+        selectedCity: function selectedCity() {
+            return true;
+        }
+    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])({
+        ready: function ready(state) {
+            return state.city.ready;
+        },
+        cityName: function cityName(state) {
+            return state.city.name;
+        },
+        selected: function selected(state) {
+            return state.city.selected;
+        }
+    }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopup.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'CityPopup',
+
+    props: ['title', 'close']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopupConfirm.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopup__ = __webpack_require__("./resources/assets/js/components/city-select/CityPopup.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CityPopup__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'CityPopupConfirm',
+
+    props: ['close'],
+
+    components: {
+        CityPopup: __WEBPACK_IMPORTED_MODULE_1__CityPopup___default.a
+    },
+
+    methods: {
+        confirm: function confirm() {
+            this.$store.dispatch('city/confirmCity');
+            this.close();
+        }
+    },
+
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])({
+        cityName: function cityName(state) {
+            return state.city.name;
+        }
+    }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopupSearch.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopup__ = __webpack_require__("./resources/assets/js/components/city-select/CityPopup.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CityPopup___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CityPopup__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_RequestMixin__ = __webpack_require__("./resources/assets/js/mixins/RequestMixin.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'CityPopupConfirm',
+
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_RequestMixin__["a" /* default */]],
+
+    components: {
+        CityPopup: __WEBPACK_IMPORTED_MODULE_1__CityPopup___default.a
+    },
+
+    props: ['close'],
+
+    data: function data() {
+        return {
+            results: [],
+            inFocus: false,
+            hovered: 0,
+            city: null
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        var input = this.$el.querySelector('input');
+
+        this.clickHandler = function (e) {
+            if (input.contains(e.target)) {
+                if (!_this.inFocus) {
+                    _this.inFocus = true;
+                }
+            } else {
+                if (_this.inFocus) {
+                    _this.inFocus = false;
+                }
+            }
+        };
+
+        this.searchDebouncer = _.debounce(this.search, 300);
+
+        window.addEventListener('click', this.clickHandler, { passive: true });
+    },
+    beforeDestroy: function beforeDestroy() {
+        window.removeEventListener('click', this.clickHandler);
+    },
+
+
+    methods: {
+        setCity: function setCity(city) {
+            this.city = city;
+        },
+        submitCity: function submitCity() {
+            if (this.city) {
+                this.$store.dispatch('city/setCity', this.city);
+                this.close();
+            }
+        },
+        input: function input(e) {
+            this.$store.dispatch('city/setQuery', e.target.value);
+            this.city = null;
+            this.searchDebouncer();
+        },
+        keyDown: function keyDown(e) {
+            var code = e.keyCode || e.which;
+
+            if (code === 38) {
+                e.preventDefault();
+                this.hoverPrev();
+            }
+
+            if (code === 40) {
+                e.preventDefault();
+                this.hoverNext();
+            }
+
+            if (code === 13) {
+                this.submitCity();
+            }
+        },
+        hoverPrev: function hoverPrev() {
+            var index = this.hovered - 1;
+
+            if (index < 0) {
+                index = this.results.length - 1;
+            }
+
+            this.setHover(index);
+        },
+        hoverNext: function hoverNext() {
+            var index = this.hovered + 1;
+
+            if (this.results.length - 1 < index) {
+                index = 0;
+            }
+
+            this.setHover(index);
+        },
+        setHover: function setHover(index) {
+            this.hovered = Math.max(0, index);
+
+            if (this.results.length && this.hovered in this.results) {
+                this.setCity(this.results[this.hovered]);
+            }
+        },
+        search: function search() {
+            var _this2 = this;
+
+            if (this.query !== '') {
+                this.sendRequest('get', __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].siteUrl('location'), {
+                    q: this.query
+                }).success(function (response) {
+                    _this2.results = response.data.cities;
+                    _this2.hovered = 0;
+                }).silent();
+            }
+        },
+        cityName: function cityName(city) {
+            var _this3 = this;
+
+            var name = [city.name];
+
+            if (city.region) {
+                name.push(city.region);
+            }
+
+            name = name.join(', ');
+
+            if (!this.query) {
+                return name;
+            }
+
+            var lowerQuery = _.toLower(this.query);
+            var lowerCity = _.toLower(name);
+
+            var pos = -1;
+            var positions = [];
+
+            while ((pos = lowerCity.indexOf(lowerQuery, pos + 1)) != -1) {
+                positions.push(pos);
+            }
+
+            return positions.reverse().reduce(function (acc, position) {
+                acc = acc.slice(0, position) + '<span>' + acc.slice(position, position + _this3.query.length) + '</span>' + acc.slice(position + _this3.query.length);
+
+                return acc;
+            }, name);
+        }
+    },
+
+    computed: _extends({
+        isOpened: function isOpened() {
+            return this.inFocus && this.results.length > 0;
+        }
+    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])({
+        query: function query(state) {
+            return state.city.query;
+        }
+    }))
 });
 
 /***/ }),
@@ -16009,106 +16389,6 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-488738dc\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CitiesSelect.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "ht-popup-wrap" }, [
-    _c(
-      "a",
-      { staticClass: "location js-ht", attrs: { href: "javascript:void(0);" } },
-      [
-        _c("div", { staticClass: "location-icon" }, [
-          _c("svg", { staticClass: "symbol-icon symbol-location" }, [
-            _c("use", {
-              attrs: {
-                "xlink:href": "/assets/images/icons.svg#symbol-location"
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", [
-          _c("div", { staticClass: "location-name" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.currentCity.name) +
-                "\n            "
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "location-phone" }, [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.currentCity.phone) +
-                "\n            "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("svg", { staticClass: "symbol-icon symbol-keyboard-down" }, [
-          _c("use", {
-            attrs: {
-              "xlink:href": "/assets/images/icons.svg#symbol-keyboard-down"
-            }
-          })
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "ht-container ht-container--popup ht-container--right" },
-      [
-        _c(
-          "div",
-          { staticClass: "ht-inner block-ui" },
-          [
-            _vm._l(_vm.cities, function(city) {
-              return [
-                _c(
-                  "a",
-                  {
-                    staticClass: "dropdown-item",
-                    attrs: { href: "javascript:void(0);" },
-                    on: {
-                      click: function($event) {
-                        _vm.setCity(city.id)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(city.name) +
-                        "\n                "
-                    )
-                  ]
-                )
-              ]
-            })
-          ],
-          2
-        )
-      ]
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-488738dc", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-4a5524c4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/ServerError.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18537,6 +18817,72 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7480c0f2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopupConfirm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "city-popup",
+    { attrs: { title: "Ваш город " + _vm.cityName + "?", close: _vm.close } },
+    [
+      _c("div", { staticClass: "select-city-confirm" }, [
+        _c("div", { staticClass: "select-city-confirm__text" }, [
+          _vm._v(
+            "\n            Lorem ipsum dolor sit amet, consectetur adipisicing elit.\n            At debitis delectus dignissimos.\n        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "select-city-confirm__controls" }, [
+          _c("div", { staticClass: "select-city-confirm__button" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button button-primary",
+                on: { click: _vm.confirm }
+              },
+              [
+                _c("span", { staticClass: "button__content" }, [
+                  _vm._v("\n                        Да\n                    ")
+                ]),
+                _vm._v(" "),
+                _c("svg", { staticClass: "button__icon button__icon--right" }, [
+                  _c("use", {
+                    attrs: {
+                      "xlink:href": "/assets/images/icons.svg#symbol-check"
+                    }
+                  })
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "select-city-confirm__button" }, [
+            _c("button", { staticClass: "button button-light" }, [
+              _vm._v(
+                "\n                    Нет, выбрать другой\n                "
+              )
+            ])
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7480c0f2", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-74fbd9e4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20104,6 +20450,198 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd00c79e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopupSearch.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "city-popup",
+    { attrs: { title: "Укажите свой город", close: _vm.close } },
+    [
+      _c("div", { staticClass: "city-popup-search" }, [
+        _c("div", { staticClass: "form-group form-group--city-search" }, [
+          _c(
+            "label",
+            {
+              staticClass: "form-label",
+              attrs: { for: "city-popup-search-input" }
+            },
+            [_vm._v("\n                Введите название города:\n            ")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c(
+              "div",
+              { class: { "search-input": true, "is-opened": _vm.isOpened } },
+              [
+                _c("input", {
+                  staticClass: "search-input__input form-input",
+                  attrs: {
+                    type: "text",
+                    id: "city-popup-search-input",
+                    placeholder: _vm.$root.translate("Search"),
+                    autocomplete: "off"
+                  },
+                  domProps: { value: _vm.city ? _vm.city.name : _vm.query },
+                  on: { input: _vm.input, keydown: _vm.keyDown }
+                }),
+                _vm._v(" "),
+                _vm.loading
+                  ? _c("div", { staticClass: "search-input__loading" }, [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "search-input__loading-icon",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            viewBox: "0 0 100 100",
+                            "enable-background": "new 0 0 0 0",
+                            "xml:space": "preserve"
+                          }
+                        },
+                        [
+                          _c(
+                            "circle",
+                            {
+                              attrs: {
+                                stroke: "none",
+                                cx: "12%",
+                                cy: "50%",
+                                r: "12%"
+                              }
+                            },
+                            [
+                              _c("animate", {
+                                attrs: {
+                                  attributeName: "opacity",
+                                  dur: "1s",
+                                  values: "0;1;0",
+                                  repeatCount: "indefinite",
+                                  begin: "0.1"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "circle",
+                            {
+                              attrs: {
+                                stroke: "none",
+                                cx: "50%",
+                                cy: "50%",
+                                r: "12%"
+                              }
+                            },
+                            [
+                              _c("animate", {
+                                attrs: {
+                                  attributeName: "opacity",
+                                  dur: "1s",
+                                  values: "0;1;0",
+                                  repeatCount: "indefinite",
+                                  begin: "0.2"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "circle",
+                            {
+                              attrs: {
+                                stroke: "none",
+                                cx: "88%",
+                                cy: "50%",
+                                r: "12%"
+                              }
+                            },
+                            [
+                              _c("animate", {
+                                attrs: {
+                                  attributeName: "opacity",
+                                  dur: "1s",
+                                  values: "0;1;0",
+                                  repeatCount: "indefinite",
+                                  begin: "0.3"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "search-input__result" }, [
+                  _vm.results.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "search-result" },
+                        [
+                          _vm._l(_vm.results, function(city, index) {
+                            return [
+                              _c("span", {
+                                class: {
+                                  "search-result__link": true,
+                                  "is-hovered": index === _vm.hovered
+                                },
+                                domProps: {
+                                  innerHTML: _vm._s(_vm.cityName(city))
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.setCity(city)
+                                  },
+                                  mouseover: function($event) {
+                                    _vm.setHover(index)
+                                  }
+                                }
+                              })
+                            ]
+                          })
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                class: {
+                  "button input-group-append": true,
+                  "button-primary": !!_vm.city,
+                  "button-light": !_vm.city
+                },
+                attrs: { disabled: !_vm.city },
+                on: { click: _vm.submitCity }
+              },
+              [_vm._v("\n                    Ок\n                ")]
+            )
+          ])
+        ])
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bd00c79e", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-c2679138\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/catalog/product-cards/ProductCardSale.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21191,6 +21729,102 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb1186a6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CitiesSelect.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.ready
+    ? _c("div", { staticClass: "ht-popup-wrap" }, [
+        _c(
+          "a",
+          {
+            staticClass: "location js-ht",
+            attrs: { href: "javascript:void(0);" }
+          },
+          [
+            _c("div", { staticClass: "location-icon" }, [
+              _c("svg", { staticClass: "symbol-icon symbol-location" }, [
+                _c("use", {
+                  attrs: {
+                    "xlink:href": "/assets/images/icons.svg#symbol-location"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("div", { staticClass: "location-name" }, [
+                _vm._v(
+                  "\n                " + _vm._s(_vm.cityName) + "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "location-phone" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.$root.config("main-phone")) +
+                    "\n            "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("svg", { staticClass: "symbol-icon symbol-keyboard-down" }, [
+              _c("use", {
+                attrs: {
+                  "xlink:href": "/assets/images/icons.svg#symbol-keyboard-down"
+                }
+              })
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "ht-container ht-container--popup ht-container--right ht-container--cities"
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "ht-inner" },
+              [
+                !_vm.selected
+                  ? [
+                      _c("city-popup-confirm", {
+                        staticClass: "block-ui",
+                        attrs: { close: _vm.close }
+                      })
+                    ]
+                  : [
+                      _c("city-popup-search", {
+                        staticClass: "block-ui",
+                        attrs: { close: _vm.close }
+                      })
+                    ]
+              ],
+              2
+            )
+          ]
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-eb1186a6", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb17b11a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/catalog/product-cards/components/ProductCardImage.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21723,21 +22357,27 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "search-input__result" },
-        _vm._l(_vm.result, function(item) {
-          return _c(
-            "a",
-            {
-              key: item.id,
-              staticClass: "search-input__link",
-              attrs: { href: _vm.getUrl(item) }
-            },
-            [_vm._v("\n                " + _vm._s(item.name) + "\n        ")]
-          )
-        })
-      )
+      _c("div", { staticClass: "search-input__result" }, [
+        _c(
+          "div",
+          { staticClass: "search-result" },
+          _vm._l(_vm.result, function(item) {
+            return _c(
+              "a",
+              {
+                key: item.id,
+                staticClass: "search-result__link",
+                attrs: { href: _vm.getUrl(item) }
+              },
+              [
+                _vm._v(
+                  "\n                " + _vm._s(item.name) + "\n            "
+                )
+              ]
+            )
+          })
+        )
+      ])
     ]
   )
 }
@@ -21748,6 +22388,47 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-fa6524ca", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-fd5041ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopup.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "city-popup" }, [
+    _c("div", { staticClass: "city-popup__head" }, [
+      _c("div", { staticClass: "city-popup__title" }, [
+        _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "city-popup__close", on: { close: _vm.close } },
+        [
+          _c("svg", { staticClass: "city-popup__close-icon symbol-icon" }, [
+            _c("use", {
+              attrs: { "xlink:href": "/assets/images/icons.svg#symbol-close" }
+            })
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "city-popup__content" }, [_vm._t("default")], 2)
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-fd5041ae", module.exports)
   }
 }
 
@@ -21816,8 +22497,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_shop_product_ProductActions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_shop_product_ProductActions__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_shop_sale_ProductSale__ = __webpack_require__("./resources/assets/js/components/shop/sale/ProductSale.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_shop_sale_ProductSale___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_shop_sale_ProductSale__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_CitiesSelect__ = __webpack_require__("./resources/assets/js/components/CitiesSelect.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_CitiesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_CitiesSelect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_city_select_CitiesSelect__ = __webpack_require__("./resources/assets/js/components/city-select/CitiesSelect.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_city_select_CitiesSelect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_city_select_CitiesSelect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_HeaderBanner__ = __webpack_require__("./resources/assets/js/components/HeaderBanner.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_HeaderBanner___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_25__components_HeaderBanner__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_imageLoaders_BackgroundImageLoader__ = __webpack_require__("./resources/assets/js/components/imageLoaders/BackgroundImageLoader.vue");
@@ -21924,7 +22605,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
         TabsHtml: __WEBPACK_IMPORTED_MODULE_20__components_TabsHtml___default.a,
         Rating: __WEBPACK_IMPORTED_MODULE_21__components_Rating___default.a,
         ProductActions: __WEBPACK_IMPORTED_MODULE_22__components_shop_product_ProductActions___default.a,
-        CitiesSelect: __WEBPACK_IMPORTED_MODULE_24__components_CitiesSelect___default.a,
+        CitiesSelect: __WEBPACK_IMPORTED_MODULE_24__components_city_select_CitiesSelect___default.a,
         HeaderBanner: __WEBPACK_IMPORTED_MODULE_25__components_HeaderBanner___default.a,
         BackgroundImageLoader: __WEBPACK_IMPORTED_MODULE_26__components_imageLoaders_BackgroundImageLoader___default.a,
         SearchInput: __WEBPACK_IMPORTED_MODULE_7__components_SearchInput___default.a
@@ -21952,6 +22633,9 @@ var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
         },
         translate: function translate() {
             return __WEBPACK_IMPORTED_MODULE_27__scripts_core__["a" /* default */].translate.apply(null, arguments);
+        },
+        config: function config() {
+            return __WEBPACK_IMPORTED_MODULE_27__scripts_core__["a" /* default */].config.apply(null, arguments);
         },
         initTooltips: function initTooltips() {
             $('[data-toggle="tooltip"]').tooltip();
@@ -23149,54 +23833,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/CitiesSelect.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
-/* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/CitiesSelect.vue")
-/* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-488738dc\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/CitiesSelect.vue")
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/CitiesSelect.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-488738dc", Component.options)
-  } else {
-    hotAPI.reload("data-v-488738dc", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/HeaderBanner.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24057,6 +24693,198 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-3dc6dbf5", Component.options)
   } else {
     hotAPI.reload("data-v-3dc6dbf5", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/city-select/CitiesSelect.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CitiesSelect.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-eb1186a6\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CitiesSelect.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/city-select/CitiesSelect.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-eb1186a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-eb1186a6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/city-select/CityPopup.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopup.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-fd5041ae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopup.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/city-select/CityPopup.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-fd5041ae", Component.options)
+  } else {
+    hotAPI.reload("data-v-fd5041ae", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/city-select/CityPopupConfirm.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopupConfirm.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7480c0f2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopupConfirm.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/city-select/CityPopupConfirm.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7480c0f2", Component.options)
+  } else {
+    hotAPI.reload("data-v-7480c0f2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/city-select/CityPopupSearch.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/city-select/CityPopupSearch.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd00c79e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/city-select/CityPopupSearch.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/city-select/CityPopupSearch.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bd00c79e", Component.options)
+  } else {
+    hotAPI.reload("data-v-bd00c79e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -27842,7 +28670,7 @@ var Alerty = function (_BlankPlugin) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_BlankPlugin__ = __webpack_require__("./resources/assets/js/scripts/base/BlankPlugin.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocalStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/LocalStorageProxy.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__storage_LocalStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/storage/LocalStorageProxy.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -27871,7 +28699,7 @@ var DataHandler = function (_BlankPlugin) {
         var _this = _possibleConstructorReturn(this, (DataHandler.__proto__ || Object.getPrototypeOf(DataHandler)).call(this));
 
         _this.data = {};
-        _this.storage = new __WEBPACK_IMPORTED_MODULE_3__LocalStorageProxy__["a" /* LocalStorageProxy */]('__data' + '::' + __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].getLang());
+        _this.storage = new __WEBPACK_IMPORTED_MODULE_3__storage_LocalStorageProxy__["a" /* LocalStorageProxy */]('__data' + '::' + __WEBPACK_IMPORTED_MODULE_1__core__["a" /* default */].getLang());
         _this.expiredTime = 30 * 60 * 1000;
         _this.keysToLoad = [];
         _this.keysInProcess = [];
@@ -28977,188 +29805,6 @@ var HistoryProxy = function () {
 
 /***/ }),
 
-/***/ "./resources/assets/js/scripts/LocalStorageProxy.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalStorageProxy; });
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// Прослойка между localStorage и app.
-
-// Класс, который можно использовать для хранения данных с определенным пространством имен.
-var LocalStorageProxy = function () {
-    function LocalStorageProxy() {
-        var namespace = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-        _classCallCheck(this, LocalStorageProxy);
-
-        this.__data = {};
-        this.__available = 'localStorage' in window && window['localStorage'] !== null;
-        this.__namespace = namespace;
-    }
-
-    _createClass(LocalStorageProxy, [{
-        key: 'isAvailable',
-        value: function isAvailable() {
-            return this.__available;
-        }
-    }, {
-        key: 'prepareKey',
-        value: function prepareKey(key) {
-            if (this.__namespace) {
-                if (key.indexOf(this.__namespace + '::') === 0) {
-                    return key;
-                }
-
-                return this.__namespace + '::' + key;
-            }
-
-            return key;
-        }
-    }, {
-        key: 'keyToShort',
-        value: function keyToShort(key) {
-            if (this.__namespace) {
-                return key.replace(this.__namespace + '::', '');
-            }
-
-            return key;
-        }
-    }, {
-        key: 'add',
-        value: function add(key, data) {
-            key = this.prepareKey(key);
-
-            this.__data[key] = data;
-
-            if (!this.isAvailable()) return;
-            if (typeof data === 'function') return;
-
-            if (typeof data !== 'string') {
-                data = JSON.stringify(data);
-            }
-
-            localStorage.setItem(key, data);
-        }
-    }, {
-        key: 'get',
-        value: function get(key) {
-            key = this.prepareKey(key);
-
-            if (key in this.__data) {
-                var _data = this.__data[key];
-
-                if (typeof _data !== 'string') {
-                    try {
-                        _data = JSON.parse(JSON.stringify(this.__data[key]));
-                    } catch (e) {
-                        delete this.__data[key];
-                        return this.get(key);
-                    }
-                }
-
-                return _data;
-            }
-
-            if (!this.isAvailable()) return;
-
-            var data = localStorage.getItem(key);
-
-            try {
-                data = JSON.parse(data);
-            } catch (e) {}
-
-            this.__data[key] = data;
-
-            return data;
-        }
-    }, {
-        key: 'getAllKeys',
-        value: function getAllKeys() {
-            var _this = this;
-
-            var keys = Object.keys(localStorage).filter(function (key) {
-                return localStorage.hasOwnProperty(key);
-            });
-
-            if (this.__namespace) {
-                keys = keys.filter(function (key) {
-                    return key.indexOf(_this.__namespace) === 0;
-                });
-            }
-
-            return keys;
-        }
-    }, {
-        key: 'getAll',
-        value: function getAll() {
-            var _this2 = this;
-
-            return this.getAllKeys().reduce(function (acc, key) {
-                acc[_this2.keyToShort(key)] = _this2.get(key);
-
-                return acc;
-            }, {});
-        }
-    }, {
-        key: 'has',
-        value: function has(key) {
-            return this.prepareKey(key) in localStorage;
-        }
-    }, {
-        key: 'remember',
-        value: function remember(key, getDataFunc, callback) {
-            var _this3 = this;
-
-            if (!_.isFunction(callback)) return;
-            key = this.prepareKey(key);
-
-            data = this.get(key);
-
-            if (data) {
-                callback(data);
-            } else {
-                try {
-                    getDataFunc(function (data) {
-                        _this3.add(key, data);
-                        callback(data);
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        }
-    }, {
-        key: 'forget',
-        value: function forget(key) {
-            if (!this.isAvailable()) return;
-
-            localStorage.removeItem(this.prepareKey(key));
-        }
-    }, {
-        key: 'forgetAll',
-        value: function forgetAll() {
-            var _this4 = this;
-
-            this.getAllKeys().forEach(function (key) {
-                return _this4.forget(key);
-            });
-        }
-    }]);
-
-    return LocalStorageProxy;
-}();
-
-// По-умолчанию без пространства имен.
-var defaultProxy = new LocalStorageProxy();
-
-/* unused harmony default export */ var _unused_webpack_default_export = (defaultProxy);
-
-/***/ }),
-
 /***/ "./resources/assets/js/scripts/MainMenu.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -30190,7 +30836,7 @@ function deleteCookie(name) {
 
         setCookie(name, value, {
             expires: time,
-            domain: '.mossebo-shop.test',
+            domain: '.' + window.location.hostname,
             path: '/'
         });
     },
@@ -30934,6 +31580,477 @@ function buildNewBreadcrumbs(data) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/scripts/storage/BaseStorage.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var BaseStorage = function () {
+    function BaseStorage() {
+        _classCallCheck(this, BaseStorage);
+    }
+
+    _createClass(BaseStorage, [{
+        key: 'prepareIncomingData',
+        value: function prepareIncomingData(data) {
+            if (typeof data === 'function') return null;
+
+            if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
+                return JSON.stringify(data);
+            }
+
+            return data;
+        }
+    }, {
+        key: 'prepareOutgoingData',
+        value: function prepareOutgoingData(data) {
+            try {
+                return JSON.parse(data);
+            } catch (e) {
+                return data;
+            }
+        }
+    }]);
+
+    return BaseStorage;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (BaseStorage);
+
+/***/ }),
+
+/***/ "./resources/assets/js/scripts/storage/BaseStorageProxy.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// Класс, который можно использовать для хранения данных с определенным пространством имен.
+var BaseStorageProxy = function () {
+    function BaseStorageProxy(storage) {
+        var namespace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+        _classCallCheck(this, BaseStorageProxy);
+
+        this.__data = {};
+        this.__storage = storage;
+        this.__namespace = namespace;
+    }
+
+    _createClass(BaseStorageProxy, [{
+        key: 'prepareKey',
+        value: function prepareKey(key) {
+            if (this.__namespace) {
+                if (key.indexOf(this.__namespace + '::') === 0) {
+                    return key;
+                }
+
+                return this.__namespace + '::' + key;
+            }
+
+            return key;
+        }
+    }, {
+        key: 'keyToShort',
+        value: function keyToShort(key) {
+            if (this.__namespace) {
+                return key.replace(this.__namespace + '::', '');
+            }
+
+            return key;
+        }
+    }, {
+        key: 'add',
+        value: function add(key, data) {
+            key = this.prepareKey(key);
+
+            this.__data[key] = data;
+
+            this.__storage.set(key, data);
+        }
+    }, {
+        key: 'get',
+        value: function get(key) {
+            key = this.prepareKey(key);
+
+            if (key in this.__data) {
+                if (_typeof(this.__data[key]) === 'object') {
+                    try {
+                        return JSON.parse(JSON.stringify(this.__data[key]));
+                    } catch (e) {
+                        delete this.__data[key];
+                        return this.get(key);
+                    }
+                }
+            }
+
+            this.__data[key] = this.__storage.get(key);
+
+            return this.__data[key];
+        }
+    }, {
+        key: 'getAllKeys',
+        value: function getAllKeys() {
+            var _this = this;
+
+            var keys = this.__storage.getKeys();
+
+            if (this.__namespace) {
+                keys = keys.filter(function (key) {
+                    return key.indexOf(_this.__namespace) === 0;
+                });
+            }
+
+            return keys;
+        }
+    }, {
+        key: 'getAll',
+        value: function getAll() {
+            var _this2 = this;
+
+            return this.getAllKeys().reduce(function (acc, key) {
+                acc[_this2.keyToShort(key)] = _this2.get(key);
+
+                return acc;
+            }, {});
+        }
+    }, {
+        key: 'has',
+        value: function has(key) {
+            return this.__storage.has(this.prepareKey(key));
+        }
+    }, {
+        key: 'remember',
+        value: function remember(key, getDataFunc, callback) {
+            var _this3 = this;
+
+            if (!_.isFunction(callback)) return;
+            key = this.prepareKey(key);
+
+            data = this.get(key);
+
+            if (data) {
+                callback(data);
+            } else {
+                try {
+                    getDataFunc(function (data) {
+                        _this3.add(key, data);
+                        callback(data);
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+        }
+    }, {
+        key: 'forget',
+        value: function forget(key) {
+            this.__storage.remove(this.prepareKey(key));
+        }
+    }, {
+        key: 'forgetAll',
+        value: function forgetAll() {
+            var _this4 = this;
+
+            this.getAllKeys().forEach(function (key) {
+                return _this4.forget(key);
+            });
+        }
+    }]);
+
+    return BaseStorageProxy;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (BaseStorageProxy);
+
+/***/ }),
+
+/***/ "./resources/assets/js/scripts/storage/CookieStorage.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseStorage__ = __webpack_require__("./resources/assets/js/scripts/storage/BaseStorage.js");
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+function setCookie(name, value, options) {
+    options = options || {};
+
+    var expires = options.expires;
+
+    if (typeof expires === "number" && expires) {
+        var d = new Date();
+        d.setTime(d.getTime() + expires * 1000);
+        expires = options.expires = d;
+    }
+    if (expires && expires.toUTCString) {
+        options.expires = expires.toUTCString();
+    }
+
+    value = encodeURIComponent(value);
+
+    var updatedCookie = name + "=" + value;
+
+    for (var propName in options) {
+        updatedCookie += "; " + propName;
+        var propValue = options[propName];
+
+        if (propValue !== true) {
+            updatedCookie += "=" + propValue;
+        }
+    }
+
+    document.cookie = updatedCookie;
+}
+
+var CookieStorage = function (_BaseStorage) {
+    _inherits(CookieStorage, _BaseStorage);
+
+    function CookieStorage() {
+        _classCallCheck(this, CookieStorage);
+
+        return _possibleConstructorReturn(this, (CookieStorage.__proto__ || Object.getPrototypeOf(CookieStorage)).apply(this, arguments));
+    }
+
+    _createClass(CookieStorage, [{
+        key: "set",
+        value: function set(key, data) {
+            var time = new Date();
+            time.setDate(time.getDate() + 21);
+
+            setCookie(key, this.prepareIncomingData(data), {
+                expires: time,
+                domain: '.' + window.location.hostname,
+                path: '/'
+            });
+        }
+    }, {
+        key: "get",
+        value: function get(key) {
+            var data = this.getAllData();
+
+            if (key in data) {
+                return this.prepareOutgoingData(data[key]);
+            }
+
+            return null;
+        }
+    }, {
+        key: "remove",
+        value: function remove(key) {
+            setCookie(key, "", {
+                expires: -1
+            });
+        }
+    }, {
+        key: "has",
+        value: function has(key) {
+            return key in this.getAllData();
+        }
+    }, {
+        key: "getKeys",
+        value: function getKeys() {
+            return Object.keys(this.getAllData());
+        }
+    }, {
+        key: "getAllData",
+        value: function getAllData() {
+            return document.cookie.split('; ').reduce(function (acc, current) {
+                var _current$split = current.split('='),
+                    _current$split2 = _slicedToArray(_current$split, 2),
+                    name = _current$split2[0],
+                    value = _current$split2[1];
+
+                acc[name] = value;
+
+                return acc;
+            }, {});
+        }
+    }]);
+
+    return CookieStorage;
+}(__WEBPACK_IMPORTED_MODULE_0__BaseStorage__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (CookieStorage);
+
+/***/ }),
+
+/***/ "./resources/assets/js/scripts/storage/CookieStorageProxy.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CookieStorageProxy; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/storage/BaseStorageProxy.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CookieStorage__ = __webpack_require__("./resources/assets/js/scripts/storage/CookieStorage.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Прослойка между Cookie и app.
+
+
+
+var CookieStorageProxy = function (_BaseStorageProxy) {
+    _inherits(CookieStorageProxy, _BaseStorageProxy);
+
+    function CookieStorageProxy(namespace) {
+        _classCallCheck(this, CookieStorageProxy);
+
+        return _possibleConstructorReturn(this, (CookieStorageProxy.__proto__ || Object.getPrototypeOf(CookieStorageProxy)).call(this, new __WEBPACK_IMPORTED_MODULE_1__CookieStorage__["a" /* default */](), namespace));
+    }
+
+    return CookieStorageProxy;
+}(__WEBPACK_IMPORTED_MODULE_0__BaseStorageProxy__["a" /* default */]);
+
+// По-умолчанию без пространства имен.
+var defaultProxy = new CookieStorageProxy();
+
+/* unused harmony default export */ var _unused_webpack_default_export = (defaultProxy);
+
+/***/ }),
+
+/***/ "./resources/assets/js/scripts/storage/LocalStorage.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseStorage__ = __webpack_require__("./resources/assets/js/scripts/storage/BaseStorage.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var LocalStorage = function (_BaseStorage) {
+    _inherits(LocalStorage, _BaseStorage);
+
+    function LocalStorage() {
+        _classCallCheck(this, LocalStorage);
+
+        var _this = _possibleConstructorReturn(this, (LocalStorage.__proto__ || Object.getPrototypeOf(LocalStorage)).call(this));
+
+        _this.__available = 'localStorage' in window && window['localStorage'] !== null;
+
+        if (!_this.__available) {
+            console.warn('Local storage unavailable.');
+        }
+        return _this;
+    }
+
+    _createClass(LocalStorage, [{
+        key: 'isAvailable',
+        value: function isAvailable() {
+            return this.__available;
+        }
+    }, {
+        key: 'set',
+        value: function set(key, data) {
+            if (this.isAvailable()) {
+                localStorage.setItem(key, this.prepareIncomingData(data));
+            }
+        }
+    }, {
+        key: 'get',
+        value: function get(key) {
+            if (!this.isAvailable()) return null;
+
+            return this.prepareOutgoingData(localStorage.getItem(key));
+        }
+    }, {
+        key: 'remove',
+        value: function remove(key) {
+            if (this.isAvailable()) {
+                localStorage.removeItem(key);
+            }
+        }
+    }, {
+        key: 'has',
+        value: function has(key) {
+            if (this.isAvailable()) {
+                return key in localStorage;
+            }
+
+            return false;
+        }
+    }, {
+        key: 'getKeys',
+        value: function getKeys() {
+            if (this.isAvailable()) {
+                return Object.keys(localStorage).filter(function (key) {
+                    return localStorage.hasOwnProperty(key);
+                });
+            }
+
+            return [];
+        }
+    }]);
+
+    return LocalStorage;
+}(__WEBPACK_IMPORTED_MODULE_0__BaseStorage__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (LocalStorage);
+
+/***/ }),
+
+/***/ "./resources/assets/js/scripts/storage/LocalStorageProxy.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalStorageProxy; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BaseStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/storage/BaseStorageProxy.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__LocalStorage__ = __webpack_require__("./resources/assets/js/scripts/storage/LocalStorage.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Прослойка между localStorage и app.
+
+
+
+var LocalStorageProxy = function (_BaseStorageProxy) {
+    _inherits(LocalStorageProxy, _BaseStorageProxy);
+
+    function LocalStorageProxy(namespace) {
+        _classCallCheck(this, LocalStorageProxy);
+
+        return _possibleConstructorReturn(this, (LocalStorageProxy.__proto__ || Object.getPrototypeOf(LocalStorageProxy)).call(this, new __WEBPACK_IMPORTED_MODULE_1__LocalStorage__["a" /* default */](), namespace));
+    }
+
+    return LocalStorageProxy;
+}(__WEBPACK_IMPORTED_MODULE_0__BaseStorageProxy__["a" /* default */]);
+
+// По-умолчанию без пространства имен.
+var defaultProxy = new LocalStorageProxy();
+
+/* unused harmony default export */ var _unused_webpack_default_export = (defaultProxy);
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/cabinet/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31023,7 +32140,7 @@ var CATALOG_READY = 'CATALOG_READY';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/cart/types.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_DataHandler__ = __webpack_require__("./resources/assets/js/scripts/DataHandler.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__localStorageActionsExtension__ = __webpack_require__("./resources/assets/js/store/localStorageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scripts_Request__ = __webpack_require__("./resources/assets/js/scripts/Request.js");
 var _mutations;
 
@@ -31179,7 +32296,7 @@ function operateItem(items, method, key, qty) {
         request: null
     },
 
-    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_3__localStorageActionsExtension__["a" /* default */], {
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_3__storageActionsExtension__["a" /* default */], {
         refresh: function refresh(_ref) {
             var state = _ref.state,
                 dispatch = _ref.dispatch;
@@ -31207,7 +32324,7 @@ function operateItem(items, method, key, qty) {
                 return dispatch('sync');
             }, 400);
 
-            dispatch('initLocalStorageExtension', 'cart').then(function () {
+            dispatch('initStorageExtension', 'cart').then(function () {
                 return dispatch('getCartRequestType');
             }).then(function (type) {
                 return Promise.all([dispatch(type), dispatch('loadOptionsDescription')]);
@@ -31301,7 +32418,7 @@ function operateItem(items, method, key, qty) {
 
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["c" /* CART_DIRTY */]);
 
-            dispatch('updateLocalStorage', ['items', 'synchronized']);
+            dispatch('updateStorage', ['items', 'synchronized']);
 
             if (state.loading && _.isFunction(state.abortRequest)) {
                 state.abortRequest();
@@ -31340,7 +32457,7 @@ function operateItem(items, method, key, qty) {
 
             state.request = new __WEBPACK_IMPORTED_MODULE_4__scripts_Request__["a" /* default */](config.method, config.url, config.data || null).success(function (response) {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["h" /* CART_REQUEST_SUCCESS */], response);
-                dispatch('updateLocalStorage', ['items', 'time', 'synchronized']);
+                dispatch('updateStorage', ['items', 'time', 'synchronized']);
             }).any(function () {
                 return state.request = null;
             }).silent().start();
@@ -31375,7 +32492,7 @@ function operateItem(items, method, key, qty) {
         },
 
 
-        _lsSetCartItems: {
+        _sSetCartItems: {
             root: true,
             handler: function handler(_ref22, items) {
                 var state = _ref22.state;
@@ -31384,7 +32501,7 @@ function operateItem(items, method, key, qty) {
             }
         },
 
-        _lsPrepareCartItems: {
+        _sPrepareCartItems: {
             root: true,
             handler: function handler(_ref23) {
                 var state = _ref23.state;
@@ -31525,7 +32642,7 @@ var CART_SET_OPTION_DESCRIPTIONS = 'CART_SET_OPTION_DESCRIPTIONS';
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/catalog/types.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__localStorageActionsExtension__ = __webpack_require__("./resources/assets/js/store/localStorageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_Request__ = __webpack_require__("./resources/assets/js/scripts/Request.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_filters__ = __webpack_require__("./resources/assets/js/store/catalog/modules/filters/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_sort__ = __webpack_require__("./resources/assets/js/store/catalog/modules/sort/index.js");
@@ -31576,7 +32693,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         searchTimeout: null
     },
 
-    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_1__localStorageActionsExtension__["a" /* default */], {
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__["a" /* default */], {
         init: function init(_ref, filterTypes) {
             var state = _ref.state,
                 dispatch = _ref.dispatch,
@@ -31586,7 +32703,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             filterTypes = filterTypes || ['query', 'prices', 'categories', 'styles', 'rooms', 'attributes'];
 
-            dispatch('initLocalStorageExtension', 'catalog').then(function () {
+            dispatch('initStorageExtension', 'catalog').then(function () {
                 return dispatch('pagination/init');
             }).then(function () {
                 return dispatch('search/init');
@@ -31694,7 +32811,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             if (!state.filtering) {
                 dispatch('sort/setType', type).then(function () {
-                    return dispatch('updateLocalStorage', 'sort.active');
+                    return dispatch('updateStorage', 'sort.active');
                 }).then(function () {
                     return dispatch('process', 'sort');
                 });
@@ -33258,6 +34375,113 @@ var CHECKOUT_REQUEST_FAIL = 'CHECKOUT_REQUEST_FAIL';
 
 /***/ }),
 
+/***/ "./resources/assets/js/store/city/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/city/types.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_storage_CookieStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/storage/CookieStorageProxy.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
+var _mutations;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    namespaced: true,
+
+    state: {
+        ready: false,
+        id: null,
+        name: null,
+        selected: false,
+        query: ''
+    },
+
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__["a" /* default */], {
+        init: function init(_ref) {
+            var state = _ref.state,
+                dispatch = _ref.dispatch,
+                commit = _ref.commit;
+
+            if (state.ready) return;
+
+            dispatch('initStorageExtension', 'city').then(function () {
+                // todo: бред какой-то
+                if (!state.id || state.id === __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.id')) {
+                    state.id = __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.id');
+                    state.name = __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.name');
+                }
+
+                commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* CITY_READY */]);
+            });
+        },
+        setCity: function setCity(_ref2, city) {
+            var state = _ref2.state,
+                commit = _ref2.commit,
+                dispatch = _ref2.dispatch;
+
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["c" /* CITY_SET */], city);
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["d" /* CITY_SET_QUERY */], '');
+            dispatch('updateStorage', ['id', 'selected']);
+        },
+        setQuery: function setQuery(_ref3, query) {
+            var state = _ref3.state,
+                commit = _ref3.commit;
+
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["d" /* CITY_SET_QUERY */], query);
+        },
+        confirmCity: function confirmCity(_ref4) {
+            var state = _ref4.state,
+                commit = _ref4.commit,
+                dispatch = _ref4.dispatch;
+
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* CITY_CONFIRM */]);
+            dispatch('updateStorage', ['id', 'selected']);
+        },
+        setStorageProxy: function setStorageProxy(_ref5) {
+            var state = _ref5.state;
+
+            state.storageProxy = new __WEBPACK_IMPORTED_MODULE_2__scripts_storage_CookieStorageProxy__["a" /* CookieStorageProxy */]('__' + state.storageNamespace);
+        }
+    }),
+
+    mutations: (_mutations = {}, _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["b" /* CITY_READY */], function (state) {
+        state.ready = true;
+    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["c" /* CITY_SET */], function (state, city) {
+        state.id = city.id;
+        state.name = city.name;
+    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["a" /* CITY_CONFIRM */], function (state) {
+        state.selected = true;
+    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["d" /* CITY_SET_QUERY */], function (state, query) {
+        state.query = query;
+    }), _mutations)
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/city/types.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CITY_READY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CITY_SET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CITY_CONFIRM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CITY_SET_QUERY; });
+var CITY_READY = 'CITY_READY';
+var CITY_SET = 'CITY_SET';
+var CITY_CONFIRM = 'CITY_CONFIRM';
+var CITY_SET_QUERY = 'CITY_SET_QUERY';
+
+/***/ }),
+
 /***/ "./resources/assets/js/store/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33269,6 +34493,8 @@ var CHECKOUT_REQUEST_FAIL = 'CHECKOUT_REQUEST_FAIL';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__catalog__ = __webpack_require__("./resources/assets/js/store/catalog/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__cabinet__ = __webpack_require__("./resources/assets/js/store/cabinet/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__reviews__ = __webpack_require__("./resources/assets/js/store/reviews/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__city__ = __webpack_require__("./resources/assets/js/store/city/index.js");
+
 
 
 
@@ -33285,215 +34511,8 @@ var CHECKOUT_REQUEST_FAIL = 'CHECKOUT_REQUEST_FAIL';
         payments: __WEBPACK_IMPORTED_MODULE_3__payments__["a" /* default */],
         catalog: __WEBPACK_IMPORTED_MODULE_4__catalog__["a" /* default */],
         cabinet: __WEBPACK_IMPORTED_MODULE_5__cabinet__["a" /* default */],
-        reviews: __WEBPACK_IMPORTED_MODULE_6__reviews__["a" /* default */]
-    }
-});
-
-/***/ }),
-
-/***/ "./resources/assets/js/store/localStorageActionsExtension.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_LocalStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/LocalStorageProxy.js");
-
-
-function isObject(obj) {
-    return _.isObject(obj) && !_.isFunction(obj);
-}
-
-function isEmpty(data) {
-    if (_.isFunction(data)) {
-        return true;
-    }
-
-    if (_.isObject(data)) {
-        return _.isEmpty(data);
-    }
-
-    return _.isNil(data);
-}
-
-/**
- * Преобразование вида
- *
- * data = {
- *     'key1.key2': value
- * }
- *
- * в
- *
- * data = {
- *     key1: {
- *         key2: value
- *     }
- * }
- *
- * @param data
- * @returns {{}}
- */
-function flatDataToTree(data) {
-    return Object.keys(data).reduce(function (acc, key) {
-        _.set(acc, key, data[key]);
-
-        return acc;
-    }, {});
-}
-
-function deepCopy(state) {
-    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    for (var i in state) {
-        if (i in data) {
-            if (isObject(state[i])) {
-                if (isObject(data[i])) {
-                    deepCopy(state[i], data[i]);
-                }
-            } else {
-                state[i] = data[i];
-            }
-        }
-    }
-}
-
-/**
- * Получение не пустых данных (удаление пустых строк, объектов и т.д.), чтобы не захламлять localStorage
- *
- * @param data
- * @returns {*}
- */
-function getNotEmptyData(data) {
-    if (isEmpty(data)) {
-        return null;
-    }
-
-    var result = void 0;
-
-    if (_.isArray(data)) {
-        result = [];
-
-        data.forEach(function (item) {
-            item = getNotEmptyData(item);
-
-            if (!isEmpty(item)) {
-                result.push(item);
-            }
-        });
-    } else if (isObject(data)) {
-        result = {};
-
-        for (var i in data) {
-            var item = getNotEmptyData(data[i]);
-
-            if (!isEmpty(item)) {
-                result[i] = item;
-            }
-        }
-    } else {
-        result = data;
-    }
-
-    return result;
-}
-
-function camelize(string) {
-    return _.startCase(_.capitalize(string)).replace(/\s/g, '');
-}
-
-function getMethodName(type, namespace, dataType) {
-    return '_ls' + camelize(type) + camelize(namespace) + camelize(dataType);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    initLocalStorageExtension: function initLocalStorageExtension(_ref, namespace) {
-        var state = _ref.state,
-            dispatch = _ref.dispatch;
-
-        state.localStorageProxy = new __WEBPACK_IMPORTED_MODULE_0__scripts_LocalStorageProxy__["a" /* LocalStorageProxy */]('__' + namespace);
-        state.debouncers = {};
-        state.localStorageNamespace = namespace;
-
-        return dispatch('initDataFromStorage');
-    },
-    updateLocalStorage: function updateLocalStorage(_ref2, types) {
-        var state = _ref2.state,
-            dispatch = _ref2.dispatch;
-
-        if (!_.isArray(types)) {
-            types = [types];
-        }
-
-        types.forEach(function (type) {
-            if (!(type in state.debouncers)) {
-                state.debouncers[type] = _.throttle(function () {
-                    dispatch('_lsGetData', type).then(function (data) {
-                        if (_.isNil(data)) {
-                            state.localStorageProxy.forget(type);
-                        } else {
-                            state.localStorageProxy.add(type, data);
-                        }
-                    });
-                }, 300);
-            }
-
-            state.debouncers[type]();
-        });
-    },
-    _lsGetData: function _lsGetData(_ref3, type) {
-        var state = _ref3.state,
-            dispatch = _ref3.dispatch;
-
-        var methodName = getMethodName('prepare', state.localStorageNamespace, type);
-
-        if (methodName in this._actions) {
-            return dispatch(methodName, null, { root: true }).then(function (data) {
-                return getNotEmptyData(data);
-            });
-        }
-
-        return getNotEmptyData(_.get(state, type));
-    },
-    initDataFromStorage: function initDataFromStorage(_ref4) {
-        var _this = this;
-
-        var state = _ref4.state,
-            dispatch = _ref4.dispatch;
-
-        var data = state.localStorageProxy.getAll();
-        data = flatDataToTree(data);
-
-        var chain = new Promise(function (resolve) {
-            return resolve();
-        });
-
-        var _loop = function _loop(type) {
-            var methodName = getMethodName('set', state.localStorageNamespace, type);
-
-            if (methodName in _this._actions) {
-                chain.then(function () {
-                    return dispatch(methodName, data[type], { root: true });
-                });
-            } else if (type in state) {
-                deepCopy(state[type], data[type]);
-            }
-        };
-
-        for (var type in data) {
-            _loop(type);
-        }
-
-        return chain;
-    },
-    clearStorageData: function clearStorageData(_ref5) {
-        var state = _ref5.state;
-
-        state.localStorageProxy.forgetAll();
-    },
-    destroyLocalStorageInstance: function destroyLocalStorageInstance(_ref6) {
-        var state = _ref6.state;
-
-        state.localStorageProxy = undefined;
-        state.debouncers = undefined;
+        reviews: __WEBPACK_IMPORTED_MODULE_6__reviews__["a" /* default */],
+        city: __WEBPACK_IMPORTED_MODULE_7__city__["a" /* default */]
     }
 });
 
@@ -33505,7 +34524,7 @@ function getMethodName(type, namespace, dataType) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/payments/types.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__localStorageActionsExtension__ = __webpack_require__("./resources/assets/js/store/localStorageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 var _mutations;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -33541,7 +34560,7 @@ var defaultState = {
 
     state: _extends({}, defaultState),
 
-    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_2__localStorageActionsExtension__["a" /* default */], {
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_2__storageActionsExtension__["a" /* default */], {
         init: function init(_ref) {
             var state = _ref.state,
                 dispatch = _ref.dispatch,
@@ -33549,7 +34568,7 @@ var defaultState = {
 
             if (state.ready) return;
 
-            dispatch('initLocalStorageExtension', 'payment').then(function () {
+            dispatch('initStorageExtension', 'payment').then(function () {
                 return commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* PAYMENTS_READY */]);
             });
         },
@@ -33560,7 +34579,7 @@ var defaultState = {
 
             if (type in state.types) {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* PAYMENTS_SET_TYPE */], type);
-                dispatch('updateLocalStorage', 'type');
+                dispatch('updateStorage', 'type');
             }
         }
     }),
@@ -34034,7 +35053,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/reviews/modules/list/modules/sort/types.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__localStorageActionsExtension__ = __webpack_require__("./resources/assets/js/store/localStorageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_core_index__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -34056,11 +35075,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         active: 'useful'
     },
 
-    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_1__localStorageActionsExtension__["a" /* default */], {
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_1__storageActionsExtension__["a" /* default */], {
         init: function init(_ref) {
             var dispatch = _ref.dispatch;
 
-            return dispatch('initLocalStorageExtension', 'reviews::sort');
+            return dispatch('initStorageExtension', 'reviews::sort');
         },
         setType: function setType(_ref2, type) {
             var state = _ref2.state,
@@ -34069,7 +35088,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             if (type in state.types && type !== state.active) {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* REVIEWS_SORT_SET_TYPE */], type);
-                return dispatch('updateLocalStorage', 'active');
+                return dispatch('updateStorage', 'active');
             }
         }
     }),
@@ -34128,7 +35147,7 @@ var REVIEWS_SET_FORM_REVIEW = 'REVIEWS_SET_FORM_REVIEW';
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/shipping/types.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__localStorageActionsExtension__ = __webpack_require__("./resources/assets/js/store/localStorageActionsExtension.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 var _mutations;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -34171,7 +35190,7 @@ var defaultState = {
 
     state: _extends({}, defaultState),
 
-    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_2__localStorageActionsExtension__["a" /* default */], {
+    actions: _extends({}, __WEBPACK_IMPORTED_MODULE_2__storageActionsExtension__["a" /* default */], {
         init: function init(_ref) {
             var state = _ref.state,
                 dispatch = _ref.dispatch,
@@ -34179,7 +35198,7 @@ var defaultState = {
 
             if (state.ready) return;
 
-            dispatch('initLocalStorageExtension', 'shipping').then(function () {
+            dispatch('initStorageExtension', 'shipping').then(function () {
                 return commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* SHIPPING_READY */]);
             });
         },
@@ -34194,7 +35213,7 @@ var defaultState = {
 
             if (label in state.data) {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["c" /* SHIPPING_SET_VALUE */], [label, value]);
-                dispatch('updateLocalStorage', 'data');
+                dispatch('updateStorage', 'data');
             }
         },
         setType: function setType(_ref5, type) {
@@ -34204,7 +35223,7 @@ var defaultState = {
 
             if (type in state.types) {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* SHIPPING_SET_TYPE */], type);
-                dispatch('updateLocalStorage', 'type');
+                dispatch('updateStorage', 'type');
             }
         },
         validation: function validation(_ref6, result) {
@@ -34217,7 +35236,7 @@ var defaultState = {
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["d" /* SHIPPING_VALIDATION_FAILURE */]);
             }
 
-            dispatch('updateLocalStorage', 'validated');
+            dispatch('updateStorage', 'validated');
         }
     }),
 
@@ -34255,6 +35274,221 @@ var SHIPPING_SET_TYPE = 'SHIPPING_SET_TYPE';
 
 var SHIPPING_VALIDATION_SUCCESS = 'SHIPPING_VALIDATION_SUCCESS';
 var SHIPPING_VALIDATION_FAILURE = 'SHIPPING_VALIDATION_FAILURE';
+
+/***/ }),
+
+/***/ "./resources/assets/js/store/storageActionsExtension.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_storage_LocalStorageProxy__ = __webpack_require__("./resources/assets/js/scripts/storage/LocalStorageProxy.js");
+
+
+function isObject(obj) {
+    return _.isObject(obj) && !_.isFunction(obj);
+}
+
+function isEmpty(data) {
+    if (_.isFunction(data)) {
+        return true;
+    }
+
+    if (_.isObject(data)) {
+        return _.isEmpty(data);
+    }
+
+    return _.isNil(data);
+}
+
+/**
+ * Преобразование вида
+ *
+ * data = {
+ *     'key1.key2': value
+ * }
+ *
+ * в
+ *
+ * data = {
+ *     key1: {
+ *         key2: value
+ *     }
+ * }
+ *
+ * @param data
+ * @returns {{}}
+ */
+function flatDataToTree(data) {
+    return Object.keys(data).reduce(function (acc, key) {
+        _.set(acc, key, data[key]);
+
+        return acc;
+    }, {});
+}
+
+function deepCopy(state) {
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var key = arguments[2];
+
+    if (key in state && key in data) {
+        if (isObject(state[key])) {
+            if (isObject(data[key])) {
+                for (var i in state[key]) {
+                    deepCopy(state[key], data[key], i);
+                }
+            }
+        } else {
+            state[key] = data[key];
+        }
+    }
+}
+
+/**
+ * Получение не пустых данных (удаление пустых строк, объектов и т.д.), чтобы не захламлять localStorage
+ *
+ * @param data
+ * @returns {*}
+ */
+function getNotEmptyData(data) {
+    if (isEmpty(data)) {
+        return null;
+    }
+
+    var result = void 0;
+
+    if (_.isArray(data)) {
+        result = [];
+
+        data.forEach(function (item) {
+            item = getNotEmptyData(item);
+
+            if (!isEmpty(item)) {
+                result.push(item);
+            }
+        });
+    } else if (isObject(data)) {
+        result = {};
+
+        for (var i in data) {
+            var item = getNotEmptyData(data[i]);
+
+            if (!isEmpty(item)) {
+                result[i] = item;
+            }
+        }
+    } else {
+        result = data;
+    }
+
+    return result;
+}
+
+function camelize(string) {
+    return _.startCase(_.capitalize(string)).replace(/\s/g, '');
+}
+
+function getMethodName(type, namespace, dataType) {
+    return '_l' + camelize(type) + camelize(namespace) + camelize(dataType);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    initStorageExtension: function initStorageExtension(_ref, namespace) {
+        var state = _ref.state,
+            dispatch = _ref.dispatch;
+
+        state.debouncers = {};
+        state.storageNamespace = namespace;
+
+        return dispatch('setStorageProxy').then(function () {
+            return dispatch('initDataFromStorage');
+        });
+    },
+    setStorageProxy: function setStorageProxy(_ref2) {
+        var state = _ref2.state;
+
+        state.storageProxy = new __WEBPACK_IMPORTED_MODULE_0__scripts_storage_LocalStorageProxy__["a" /* LocalStorageProxy */]('__' + state.storageNamespace);
+    },
+    updateStorage: function updateStorage(_ref3, types) {
+        var state = _ref3.state,
+            dispatch = _ref3.dispatch;
+
+        if (!_.isArray(types)) {
+            types = [types];
+        }
+
+        types.forEach(function (type) {
+            if (!(type in state.debouncers)) {
+                state.debouncers[type] = _.throttle(function () {
+                    dispatch('_sGetData', type).then(function (data) {
+                        if (_.isNil(data)) {
+                            state.storageProxy.forget(type);
+                        } else {
+                            state.storageProxy.add(type, data);
+                        }
+                    });
+                }, 300);
+            }
+
+            state.debouncers[type]();
+        });
+    },
+    _sGetData: function _sGetData(_ref4, type) {
+        var state = _ref4.state,
+            dispatch = _ref4.dispatch;
+
+        var methodName = getMethodName('prepare', state.storageNamespace, type);
+
+        if (methodName in this._actions) {
+            return dispatch(methodName, null, { root: true }).then(function (data) {
+                return getNotEmptyData(data);
+            });
+        }
+
+        return getNotEmptyData(_.get(state, type));
+    },
+    initDataFromStorage: function initDataFromStorage(_ref5) {
+        var _this = this;
+
+        var state = _ref5.state,
+            dispatch = _ref5.dispatch;
+
+        var data = state.storageProxy.getAll();
+        data = flatDataToTree(data);
+
+        var chain = new Promise(function (resolve) {
+            return resolve();
+        });
+
+        var _loop = function _loop(type) {
+            var methodName = getMethodName('set', state.storageNamespace, type);
+
+            if (methodName in _this._actions) {
+                chain.then(function () {
+                    return dispatch(methodName, data[type], { root: true });
+                });
+            } else if (type in state) {
+                deepCopy(state, data, type);
+            }
+        };
+
+        for (var type in data) {
+            _loop(type);
+        }
+
+        return chain;
+    },
+    clearStorageData: function clearStorageData(_ref6) {
+        var state = _ref6.state;
+
+        state.storageProxy.forgetAll();
+    },
+    destroyStorageInstance: function destroyStorageInstance(_ref7) {
+        var state = _ref7.state;
+
+        state.storageProxy = undefined;
+        state.debouncers = undefined;
+    }
+});
 
 /***/ }),
 

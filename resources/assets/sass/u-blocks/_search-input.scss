@@ -1,0 +1,93 @@
+.search-input {
+    display: block;
+    position: relative;
+    width: 100%;
+    z-index: 7;
+    border-radius: $border-radius;
+    border: 1px solid $color-border;
+
+
+    &__loading,
+    &__button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+    }
+
+    &__button {
+        cursor: pointer;
+    }
+
+    &__loading {
+        right: 44px;
+        padding: 0 8px;
+    }
+
+    &__loading-icon {
+        fill: $color-primary;
+        width: 100%;
+    }
+
+    &__button:hover &__icon {
+        fill: $color-text-primary;
+    }
+
+    &__result {
+        position: absolute;
+        top: 100%;
+        left: -1px;
+        width: calc(100% + 2px);
+        border: 1px solid $color-border;
+        border-top: none;
+        border-radius: 0 0 $border-radius $border-radius;
+        background-color: $color-ui;
+        display: none;
+    }
+
+    &__input {
+        border: none;
+        padding-right: 88px;
+        transition: none;
+    }
+
+    &.is-opened {
+        border-radius: $border-radius $border-radius 0 0;
+        border-bottom: none;
+    }
+
+    &.is-opened &__result {
+        display: block;
+    }
+
+    &--spm {
+        border: none;
+    }
+
+    &--spm &__input {
+        height: 56px;
+    }
+}
+
+.search-result {
+    &__link {
+        display: block;
+        padding: 8px 16px;
+        font-size: 12px / 16px;
+        cursor: pointer;
+
+        &.is-hovered,
+        &:hover {
+            background-color: #FAFBFC;
+        }
+
+        & span {
+            color: $color-text-primary;
+        }
+    }
+}

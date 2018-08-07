@@ -123,16 +123,16 @@ class Product extends BaseProduct
             ->where('price_type_id','=', '1');
     }
 
-    public function similarRelations()
+    public function relatedRelations()
     {
-        return $this->hasMany(SimilarProduct::class, $this->relationFieldName);
+        return $this->hasMany(RelatedProduct::class, $this->relationFieldName);
     }
 
-    public function similar()
+    public function related()
     {
         return $this->hasManyThrough(
-            Product::class, SimilarProduct::class,
-            $this->relationFieldName, 'id', 'id', 'similar_id'
+            Product::class, RelatedProduct::class,
+            $this->relationFieldName, 'id', 'id', 'related_id'
         );
     }
 

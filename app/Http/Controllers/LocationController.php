@@ -5,10 +5,136 @@ namespace App\Http\Controllers;
 use Cookie;
 use Countries;
 use App\Models\City;
-use App\Models\PostCode;
+use App\Models\Region;
+use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+    public function search(Request $request)
+    {
+        return response()->json([
+            'cities' => [
+                [
+                    'id' => 1,
+                    'name' => 'Санкт-Петербург'
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Москва'
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'Выборг',
+                    'region' => 'Ленинградская обл'
+                ],
+                [
+                    'id' => 1,
+                    'name' => 'Санкт-Петербург'
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Москва'
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'Выборг',
+                    'region' => 'Ленинградская обл'
+                ],
+                [
+                    'id' => 1,
+                    'name' => 'Санкт-Петербург'
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Москва'
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'Выборг',
+                    'region' => 'Ленинградская обл'
+                ],
+            ]
+        ], 200);
+    }
+
+    public function test()
+    {
+        ini_set("memory_limit","2048M");
+        ini_set('max_execution_time', 1200);
+
+//        dd(Region::where('id', 1327)->first()->toArray());
+//
+//
+//        $cities = City::get();
+//
+//        $list = [];
+//
+//        foreach ($cities as $city) {
+//            $key = $city->name . $city->postal_code . $city->region_id;
+//
+//            if (! isset($list[$key])) {
+//                $list[$key] = [];
+//            }
+//
+//            $list[$key][] = $city->toArray();
+//        }
+//
+//        unset($cities);
+//
+//        $total = [];
+//
+//        foreach($list as $item) {
+//            if (count($item) > 1) {
+//                $total[] = $item;
+//            }
+//        }
+//
+//        dd($total);
+
+
+        $path = app_path('Geo');
+        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
+
+        $regions = Region::get();
+
+        foreach ($files as $file) {
+            $cities = file_get_contents($path . '/' . $file);
+            $cities = json_decode($cities, true);
+
+            $cities = array_filter($cities, function ($city) {
+                return $city['CURRSTATUS'] == 0;
+            });
+
+            $empty = [];
+
+            foreach ($cities as $city) {
+                if ($city['AOLEVEL'] == 6) {
+                    $parent = $regions
+                        ->where('region_code', $city['REGIONCODE'])
+                        ->where('area_code', $city['AREACODE'])
+                        ->first();
+
+                    if (!$parent) {
+                        $empty[] = $city;
+                    }
+                    else {
+                        $city = new City([
+                            'region_id' => $parent->id,
+                            'name' => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
+                            'short_name' => $city['SHORTNAME'],
+                            'postal_code' => empty($city['POSTALCODE']) ? '' : $city['POSTALCODE'],
+
+                            'parent_id' => $parent->id,
+                            'enabled' => 1,
+                        ]);
+
+                        $city->save();
+                    }
+                }
+            }
+        }
+    }
+
     /*
      * Отдает город пользователя из кукисов, или ищет по ip.
      *
@@ -69,10 +195,10 @@ class LocationController extends Controller
         }
 
         if (isset($requestLocationData->postal_code)) {
-            $code = PostCode::with('city')->where('code', $requestLocationData->postal_code)->first();
+            $city = City::where('postal_code', $requestLocationData->postal_code)->first();
 
-            if ($code && $code->relationNotEmpty('city')) {
-                return $code->city;
+            if ($city) {
+                return $city;
             }
         }
 
@@ -144,6 +270,6 @@ class LocationController extends Controller
      */
     public static function getMainCity()
     {
-        return City::where('sdek_code', 137)->first() ?: false;
+        return City::first() ?: false;
     }
 }

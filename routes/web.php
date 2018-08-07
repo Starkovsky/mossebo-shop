@@ -17,6 +17,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
     Route::group(['prefix' => 'ru'], function () {
+        Route::get('/test', 'LocationController@test');
+
+
         // Маршруты Авторизации
         Auth::routes();
         Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -124,6 +127,13 @@ Route::group(['middleware' => 'web'], function () {
          */
         Route::post('/validate/email', 'ValidationController@email');
         Route::post('/validate/phone', 'ValidationController@phone');
+
+
+        /**
+         * Поиск города
+         */
+
+        Route::get('/location', 'LocationController@search');
     });
 });
 

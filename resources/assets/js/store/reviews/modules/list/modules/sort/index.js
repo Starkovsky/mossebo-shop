@@ -1,5 +1,5 @@
 import * as actionTypes from './types'
-import localStorageActionsExtension from '../../../../../localStorageActionsExtension'
+import storageActionsExtension from '../../../../../storageActionsExtension'
 import Core from "../../../../../../scripts/core/index"
 
 export default {
@@ -15,16 +15,16 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
+        ... storageActionsExtension,
 
         init({dispatch}) {
-            return dispatch('initLocalStorageExtension', 'reviews::sort')
+            return dispatch('initStorageExtension', 'reviews::sort')
         },
 
         setType({state, dispatch, commit}, type) {
             if (type in state.types && type !== state.active) {
                 commit(actionTypes.REVIEWS_SORT_SET_TYPE, type)
-                return dispatch('updateLocalStorage', 'active')
+                return dispatch('updateStorage', 'active')
             }
         }
     },

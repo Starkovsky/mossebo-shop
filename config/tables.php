@@ -22,6 +22,8 @@ return [
     'CitiesI18n' => 'cities_i18n',
     'PostCodes' => 'post_codes',
 
+    'Regions' => 'regions',
+
     'Languages' => 'languages',
 
     'Currencies' => 'shop_currencies',
@@ -49,12 +51,11 @@ return [
 
     'ProductCounts' => 'shop_product_counts',
 
-    'SimilarProducts' => 'shop_similar_products',
+    'RelatedProducts' => 'shop_related_products',
 
   // 'ProductsFields' => 'shop_product_fields',
   // 'ProductsFieldsI18' => 'shop_product_fields_i18',
   // 'ProductsFieldsData' => 'shop_product_fields_data',
-  // 'ProductsSimilar' => 'shop_product_similar',
 
     'Suppliers' => 'shop_suppliers',
     'SuppliersI18n' => 'shop_suppliers_i18n',

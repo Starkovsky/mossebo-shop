@@ -25,7 +25,7 @@ class ConfigController extends Controller
         ];
 
         $this->__connectTranslates($config);
-//        $this->__connectLocations($config);
+        $this->__connectLocations($config);
         $this->__connectUserData($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
@@ -40,16 +40,14 @@ class ConfigController extends Controller
 
     protected function __connectLocations(& $config)
     {
-//        $cities = Cities::enabled('currentI18n');
+        $userCity = LocationController::getUserCity();
 
-//        if ($cities->count() > 0) {
-            $userCity = LocationController::getUserCity();
-
-            $config['location'] = [
-                'userCity' => $userCity->id,
-                'cities' => CityResource::collection(new Collection([$userCity])),
-            ];
-//        }
+        $config['location'] = [
+            'city' => [
+                'id' => $userCity->id,
+                'name' => $userCity->name,
+            ]
+        ];
     }
 
     protected function __connectUserData(& $config)

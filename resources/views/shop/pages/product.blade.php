@@ -317,8 +317,15 @@
 
             <div class="col-12 mt-60 js-product-list-container">
                 <product-list
-                    title="Дополните комплект"
+                    title="Похожие товары"
                     :url="'{{ apiUrl('goods/' . $product->id . '/similar') }}'"
+                ></product-list>
+            </div>
+
+            <div class="col-12 mt-60 js-product-list-container">
+                <product-list
+                    title="Дополните комплект"
+                    :url="'{{ apiUrl('goods/' . $product->id . '/related') }}'"
                 ></product-list>
             </div>
         </div>

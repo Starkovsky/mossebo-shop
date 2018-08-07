@@ -48,7 +48,7 @@ import Rating from './components/Rating'
 import ProductActions from './components/shop/product/ProductActions'
 import ProductSale from './components/shop/sale/ProductSale'
 
-import CitiesSelect from './components/CitiesSelect'
+import CitiesSelect from './components/city-select/CitiesSelect'
 import HeaderBanner from './components/HeaderBanner'
 import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoader'
 
@@ -127,6 +127,10 @@ const app = new Vue({
 
         translate() {
             return Core.translate.apply(null, arguments)
+        },
+
+        config() {
+            return Core.config.apply(null, arguments)
         },
 
         initTooltips() {

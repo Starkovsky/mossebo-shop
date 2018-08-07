@@ -5,6 +5,7 @@ import PaymentsStore from './payments'
 import CatalogStore from './catalog'
 import CabinetStore from './cabinet'
 import ReviewsStore from './reviews'
+import CityStore from './city'
 
 export default {
     modules: {
@@ -14,6 +15,7 @@ export default {
         payments: PaymentsStore,
         catalog: CatalogStore,
         cabinet: CabinetStore,
-        reviews: ReviewsStore
+        reviews: ReviewsStore,
+        city: CityStore
     }
 }

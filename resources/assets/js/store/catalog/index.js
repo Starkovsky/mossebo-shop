@@ -1,5 +1,5 @@
 import * as actionTypes from './types'
-import localStorageActionsExtension from '../localStorageActionsExtension'
+import storageActionsExtension from '../storageActionsExtension'
 import Request from '../../scripts/Request'
 import FilterModule from './modules/filters'
 import SortModule from './modules/sort'
@@ -34,14 +34,14 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
+        ... storageActionsExtension,
 
         init({ state, dispatch, commit }, filterTypes) {
             if (state.ready) return
 
             filterTypes = filterTypes || ['query', 'prices', 'categories', 'styles', 'rooms', 'attributes']
 
-            dispatch('initLocalStorageExtension', 'catalog')
+            dispatch('initStorageExtension', 'catalog')
                 .then(() => dispatch('pagination/init'))
                 .then(() => dispatch('search/init'))
                 .then(() => dispatch('filters/setTypes', filterTypes))
@@ -127,7 +127,7 @@ export default {
         setSortType({state, dispatch}, type) {
             if (! state.filtering) {
                 dispatch('sort/setType', type)
-                    .then(() => dispatch('updateLocalStorage', 'sort.active'))
+                    .then(() => dispatch('updateStorage', 'sort.active'))
                     .then(() => dispatch('process', 'sort'))
             }
         },

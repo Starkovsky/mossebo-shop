@@ -1,6 +1,6 @@
 import * as actionTypes from './types'
 import Core from '../../scripts/core'
-import localStorageActionsExtension from '../localStorageActionsExtension'
+import storageActionsExtension from '../storageActionsExtension'
 
 const defaultState = {
     ready: false,
@@ -35,26 +35,26 @@ export default {
     },
 
     actions: {
-        ... localStorageActionsExtension,
+        ... storageActionsExtension,
 
         init({ state, dispatch, commit }) {
             if (state.ready) return
 
-            dispatch('initLocalStorageExtension', 'shipping')
+            dispatch('initStorageExtension', 'shipping')
                 .then(() => commit(actionTypes.SHIPPING_READY))
         },
 
         setValue({ state, commit, dispatch }, [label, value]) {
             if (label in state.data) {
                 commit(actionTypes.SHIPPING_SET_VALUE, [label, value])
-                dispatch('updateLocalStorage', 'data')
+                dispatch('updateStorage', 'data')
             }
         },
 
         setType({ state, commit, dispatch }, type) {
             if (type in state.types) {
                 commit(actionTypes.SHIPPING_SET_TYPE, type)
-                dispatch('updateLocalStorage', 'type')
+                dispatch('updateStorage', 'type')
             }
         },
 
@@ -66,7 +66,7 @@ export default {
                 commit(actionTypes.SHIPPING_VALIDATION_FAILURE)
             }
 
-            dispatch('updateLocalStorage', 'validated')
+            dispatch('updateStorage', 'validated')
         }
     },
 
