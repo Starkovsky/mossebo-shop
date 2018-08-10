@@ -167,6 +167,7 @@ class Product extends BaseProduct
 
     public function show()
     {
+        $this->disableSearchSyncing();
         $this->update([
             'showed' => $this->showed + 1
         ]);

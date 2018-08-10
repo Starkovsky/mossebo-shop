@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use MosseboShopCore\Models\City as BaseCity;
-use Laravel\Scout\Searchable;
 
 class City extends BaseCity
 {
-    use Searchable;
-
     protected $fillable = [
         'lat',
         'lon',
