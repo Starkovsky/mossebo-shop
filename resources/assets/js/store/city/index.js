@@ -22,10 +22,11 @@ export default {
 
             dispatch('initStorageExtension', 'city')
                 .then(() => {
-                    // todo: бред какой-то
-                    if (!state.id || state.id === Core.config('location.city.id')) {
-                        state.id = Core.config('location.city.id')
-                        state.name = Core.config('location.city.name')
+                    let currentCity =  Core.config('location.city')
+
+                    if (typeof currentCity === 'object' && 'id' in currentCity && 'name' in currentCity) {
+                        state.id = currentCity.id
+                        state.name = currentCity.name
                     }
 
                     commit(actionTypes.CITY_READY)

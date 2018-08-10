@@ -132,7 +132,7 @@ return [
         'city' => 'St Petersburg',
         'state' => 'SPE',
         'state_name' => 'St.-Petersburg',
-        'postal_code' => '191011',
+        'postal_code' => '190000',
         'lat' => 59.9321,
         'lon' => -30.1968,
         'timezone' => 'Europe/Moscow',

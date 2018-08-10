@@ -4,6 +4,7 @@
     //transition: max-height .3s;
     opacity: 0;
     visibility: hidden;
+    overflow: hidden;
     transform: translate3d(0, 0, 0);
 
     &--popup {
@@ -40,6 +41,7 @@
     &.is-active {
         opacity: 1;
         visibility: visible;
+        overflow: visible;
     }
 
     &--popup.is-active {

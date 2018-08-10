@@ -5031,6 +5031,7 @@ input:checked ~ span .filter-option__count,
   display: block !important;
   opacity: 0;
   visibility: hidden;
+  overflow: hidden;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }
@@ -5070,6 +5071,7 @@ input:checked ~ span .filter-option__count,
 .ht-container.is-active {
   opacity: 1;
   visibility: visible;
+  overflow: visible;
 }
 
 .ht-container--popup.is-active {
@@ -10546,6 +10548,8 @@ a.structure-card:hover .structure-card__name {
   .product-tabs-pane__content {
     -webkit-transition: none;
     transition: none;
+    opacity: 1;
+    visibility: visible;
     max-height: none !important;
   }
 }

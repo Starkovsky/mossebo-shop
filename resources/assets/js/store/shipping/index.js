@@ -6,13 +6,13 @@ const defaultState = {
     ready: false,
 
     data: {
-        first_name: Core.config('user.first_name'),
-        last_name:  Core.config('user.last_name'),
-        phone:      Core.config('user.phone'),
-        email:      Core.config('user.email'),
-        city:       Core.config('user.city'),
-        address:    Core.config('user.address'),
-        post_code:  Core.config('user.post_code'),
+        first_name: Core.config('user.first_name') || '',
+        last_name:  Core.config('user.last_name') || '',
+        phone:      Core.config('user.phone') || '',
+        email:      Core.config('user.email') || '',
+        city:       Core.config('user.city') || '',
+        address:    Core.config('user.address') || '',
+        post_code:  Core.config('user.post_code') || '',
         comment:    '',
     },
 

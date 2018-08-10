@@ -42,12 +42,14 @@ class ConfigController extends Controller
     {
         $userCity = LocationController::getUserCity();
 
-        $config['location'] = [
-            'city' => [
-                'id' => $userCity->id,
-                'name' => $userCity->name,
-            ]
-        ];
+        if ($userCity) {
+            $config['location'] = [
+                'city' => [
+                    'id' => $userCity->id,
+                    'name' => $userCity->name,
+                ]
+            ];
+        }
     }
 
     protected function __connectUserData(& $config)

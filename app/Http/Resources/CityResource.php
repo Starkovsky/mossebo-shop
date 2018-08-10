@@ -10,10 +10,23 @@ class CityResource extends JsonResource
 {
     public function toArray($request)
     {
-        return [
+        $data = [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'phone' => Settings::get('notify-help-phone'),
         ];
+
+        if ($this->relationNotEmpty('region')) {
+            $regionName = [];
+
+            $regionName[] = $this->region->name . ' ' . $this->region->short_name;
+
+            foreach ($this->region->ancestors as $ancestor) {
+                $regionName[] = $ancestor->name . ' ' . $ancestor->short_name;
+            }
+
+            $data['region'] = implode(', ', $regionName);
+        }
+
+        return $data;
     }
 }

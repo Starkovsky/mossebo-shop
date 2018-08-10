@@ -1,7 +1,7 @@
 <template>
     <city-popup
         title="Укажите свой город"
-        :close="close"
+        @close="close"
     >
 
         <div class="city-popup-search">
@@ -51,7 +51,7 @@
                                 <template v-for="(city, index) in results">
                                     <span
                                         :class="{'search-result__link': true, 'is-hovered': index === hovered}"
-                                        @click="setCity(city)"
+                                        @click="setCity(index)"
                                         @mouseover="setHover(index)"
                                         v-html="cityName(city)"
                                     ></span>
@@ -126,14 +126,18 @@
         },
 
         methods: {
-            setCity(city) {
-                this.city = city
+            setCity(index) {
+                if (this.results.length && index in this.results) {
+                    this.city = this.results[index]
+                }
             },
 
             submitCity() {
                 if (this.city) {
                     this.$store.dispatch('city/setCity', this.city)
                     this.close()
+                    this.results = []
+                    this.city = null
                 }
             },
 
@@ -148,12 +152,12 @@
 
                 if (code === 38) {
                     e.preventDefault()
-                    this.hoverPrev()
+                    this.selectPrevCity()
                 }
 
                 if (code === 40) {
                     e.preventDefault()
-                    this.hoverNext()
+                    this.selectNextCity()
                 }
 
                 if (code === 13) {
@@ -161,7 +165,7 @@
                 }
             },
 
-            hoverPrev() {
+            selectPrevCity() {
                 let index = this.hovered - 1
 
                 if (index < 0) {
@@ -169,9 +173,10 @@
                 }
 
                 this.setHover(index)
+                this.setCity(this.hovered)
             },
 
-            hoverNext() {
+            selectNextCity() {
                 let index = this.hovered + 1
 
                 if (this.results.length - 1 < index) {
@@ -179,19 +184,16 @@
                 }
 
                 this.setHover(index)
+                this.setCity(this.hovered)
             },
 
             setHover(index) {
                 this.hovered = Math.max(0, index)
-
-                if (this.results.length && this.hovered in this.results) {
-                    this.setCity(this.results[this.hovered])
-                }
             },
 
             search() {
                 if (this.query !== '') {
-                    this.sendRequest('get', Core.siteUrl('location'), {
+                    this.sendRequest('get', Core.apiUrl('location/search'), {
                         q: this.query
                     })
                         .success(response => {

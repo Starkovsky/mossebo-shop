@@ -312,6 +312,8 @@
 
         @include media-breakpoint-up(md) {
             transition: none;
+            opacity: 1;
+            visibility: visible;
             max-height: none !important;
         }
 

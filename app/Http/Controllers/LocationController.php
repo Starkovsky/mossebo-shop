@@ -2,138 +2,138 @@
 
 namespace App\Http\Controllers;
 
+
 use Cookie;
 use Countries;
 use App\Models\City;
 use App\Models\Region;
+use App\Models\NewRegion;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function search(Request $request)
-    {
-        return response()->json([
-            'cities' => [
-                [
-                    'id' => 1,
-                    'name' => 'Санкт-Петербург'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Москва'
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Выборг',
-                    'region' => 'Ленинградская обл'
-                ],
-                [
-                    'id' => 1,
-                    'name' => 'Санкт-Петербург'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Москва'
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Выборг',
-                    'region' => 'Ленинградская обл'
-                ],
-                [
-                    'id' => 1,
-                    'name' => 'Санкт-Петербург'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Москва'
-                ],
-                [
-                    'id' => 3,
-                    'name' => 'Выборг',
-                    'region' => 'Ленинградская обл'
-                ],
-            ]
-        ], 200);
-    }
+    protected static $cityIdCookieKey = '__city::id';
 
-    public function test()
-    {
-        ini_set("memory_limit","2048M");
-        ini_set('max_execution_time', 1200);
-
-//        dd(Region::where('id', 1327)->first()->toArray());
+//    public function test()
+//    {
+////        dd(array_column(City::select(\DB::raw('DISTINCT(short_name)'))->get()->toArray(), 'short_name'));
+//
+//        ini_set("memory_limit","2048M");
+//        ini_set('max_execution_time', 3000);
 //
 //
-//        $cities = City::get();
+////        $this->saveRegions();
+//    }
 //
-//        $list = [];
+//    protected function saveRegions()
+//    {
+//        $path = app_path('Geo');
+//        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
 //
-//        foreach ($cities as $city) {
-//            $key = $city->name . $city->postal_code . $city->region_id;
+////        $regions = Region::get();
 //
-//            if (! isset($list[$key])) {
-//                $list[$key] = [];
+//        foreach ($files as $file) {
+//            $cities = file_get_contents($path . '/' . $file);
+//            $cities = json_decode($cities, true);
+//
+//            $cities = array_filter($cities, function ($city) {
+//                return $city['CURRSTATUS'] == 0;
+//            });
+//
+//            foreach ($cities as $city) {
+//                if ($city['AOLEVEL'] == 1) {
+////                    $exist = $regions->where('region_code', $city['REGIONCODE'])
+////                        ->where('area_code', $city['AREACODE'])
+////                        ->exists();
+////
+////                    if ($exist) {
+////                        continue;
+////                    }
+//
+//                    $region = new Region([
+//                        'country_code' => 'Ru',
+//                        'name' => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
+//                        'short_name' => $city['SHORTNAME'],
+//                        'region_code' => $city['REGIONCODE'],
+//                        'area_code' => $city['AREACODE'],
+//
+//                        'parent_id' => 0,
+//                        'enabled' => 1,
+//                    ]);
+//
+//                    $region->save();
+//                }
 //            }
 //
-//            $list[$key][] = $city->toArray();
-//        }
+////            $regions = Region::get();
 //
-//        unset($cities);
+//            foreach ($cities as $city) {
+//                if ($region->region_code !== $city['REGIONCODE']) {
+//                    dd($city);
+//                }
 //
-//        $total = [];
+//                if ($city['AOLEVEL'] == 3) {
+//                    $city = new Region([
+//                        'country_code' => 'Ru',
+//                        'name' => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
+//                        'short_name' => $city['SHORTNAME'],
+//                        'region_code' => $city['REGIONCODE'],
+//                        'area_code' => $city['AREACODE'],
 //
-//        foreach($list as $item) {
-//            if (count($item) > 1) {
-//                $total[] = $item;
+//                        'parent_id' => $region->id,
+//                        'enabled' => 1,
+//                    ]);
+//
+//                    $city->save();
+//                }
 //            }
 //        }
+//    }
 //
-//        dd($total);
+//    protected function saveCities()
+//    {
+//        $path = app_path('Geo');
+//        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
+//
+//        $regions = Region::get();
+//
+//        foreach ($files as $file) {
+//            $cities = file_get_contents($path . '/' . $file);
+//            $cities = json_decode($cities, true);
+//
+//            $cities = array_filter($cities, function ($city) {
+//                return $city['CURRSTATUS'] == 0;
+//            });
+//
+//            foreach ($cities as $city) {
+//                if ($city['AOLEVEL'] != 4 && $city['AOLEVEL'] != 6 ) {
+//                    continue;
+//                }
+//
+//                if (!in_array($city['SHORTNAME'], ["п/ст", "с", "п", "высел", "у", "дп", "рп", "х", "гп", "с/мо", "кп", "г", "г.", "д", "аал", "ст-ца", "с/п", "снт", "м", "заимка", "нп", "пгт", "арбан", "городок", "аул", "массив", "сл", "починок"])) {
+//                    continue;
+//                }
+//
+//                $parent = $regions
+//                    ->where('region_code', $city['REGIONCODE'])
+//                    ->where('area_code', $city['AREACODE'])
+//                    ->first();
+//
+//                $city = new City([
+//                    'region_id' => $parent->id,
+//                    'name' => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
+//                    'short_name' => str_replace('г.', 'г', $city['SHORTNAME']),
+//                    'postal_code' => empty($city['POSTALCODE']) ? '' : $city['POSTALCODE'],
+//
+//                    'parent_id' => $parent->id,
+//                    'enabled' => 1,
+//                ]);
+//
+//                $city->save();
+//            }
+//        }
+//    }
 
-
-        $path = app_path('Geo');
-        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
-
-        $regions = Region::get();
-
-        foreach ($files as $file) {
-            $cities = file_get_contents($path . '/' . $file);
-            $cities = json_decode($cities, true);
-
-            $cities = array_filter($cities, function ($city) {
-                return $city['CURRSTATUS'] == 0;
-            });
-
-            $empty = [];
-
-            foreach ($cities as $city) {
-                if ($city['AOLEVEL'] == 6) {
-                    $parent = $regions
-                        ->where('region_code', $city['REGIONCODE'])
-                        ->where('area_code', $city['AREACODE'])
-                        ->first();
-
-                    if (!$parent) {
-                        $empty[] = $city;
-                    }
-                    else {
-                        $city = new City([
-                            'region_id' => $parent->id,
-                            'name' => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
-                            'short_name' => $city['SHORTNAME'],
-                            'postal_code' => empty($city['POSTALCODE']) ? '' : $city['POSTALCODE'],
-
-                            'parent_id' => $parent->id,
-                            'enabled' => 1,
-                        ]);
-
-                        $city->save();
-                    }
-                }
-            }
-        }
-    }
 
     /*
      * Отдает город пользователя из кукисов, или ищет по ip.
@@ -150,10 +150,12 @@ class LocationController extends Controller
 
         $city = static::findUserCity();
 
-        Cookie::queue(
+        if ($city) {
+            Cookie::queue(
             // Разрешаем использовать эту куку в js флагом $httpOnly
-            Cookie::make('city', $city->id, 60, null, null, null, $httpOnly = false)
-        );
+                static::$cityIdCookieKey, $city->id, 60, null, null, false, false
+            );
+        }
 
         return $city;
     }
@@ -165,7 +167,7 @@ class LocationController extends Controller
      */
     public static function getUserCityFromCookies()
     {
-        $cityId = Cookie::get('city');
+        $cityId = Cookie::get(static::$cityIdCookieKey);
 
         $city = City::where('id', $cityId)->first();
 
@@ -270,6 +272,6 @@ class LocationController extends Controller
      */
     public static function getMainCity()
     {
-        return City::first() ?: false;
+        return City::where('id', config('location.default_city_id'))->first() ?: false;
     }
 }

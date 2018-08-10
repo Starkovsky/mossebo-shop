@@ -4,13 +4,10 @@ namespace App\Models\Shop;
 
 use App\Models\Media;
 use App\Models\Review;
-use Laravel\Scout\Searchable;
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
 
 class Product extends BaseProduct
 {
-    use Searchable;
-
     protected $fillable = [
         'showed'
     ];

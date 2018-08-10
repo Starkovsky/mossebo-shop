@@ -6753,6 +6753,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -6765,6 +6766,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         CityPopupSearch: __WEBPACK_IMPORTED_MODULE_1__CityPopupSearch___default.a,
         CityPopupConfirm: __WEBPACK_IMPORTED_MODULE_2__CityPopupConfirm___default.a
     },
+
+    data: function data() {
+        return {
+            rejected: false
+        };
+    },
+
 
     watch: {
         ready: 'init'
@@ -6792,6 +6800,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     isOpened: !_this.selected
                 });
             });
+        },
+        reject: function reject() {
+            this.rejected = true;
         },
         setCity: function setCity(city) {
             this.$store.dispatch('city/setCity', city);
@@ -6850,7 +6861,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'CityPopup',
 
-    props: ['title', 'close']
+    props: ['title'],
+
+    methods: {
+        close: function close() {
+            this.$emit('close');
+        }
+    }
 });
 
 /***/ }),
@@ -6916,6 +6933,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         confirm: function confirm() {
             this.$store.dispatch('city/confirmCity');
             this.close();
+        },
+        reject: function reject() {
+            this.$emit('reject');
         }
     },
 
@@ -7064,13 +7084,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
     methods: {
-        setCity: function setCity(city) {
-            this.city = city;
+        setCity: function setCity(index) {
+            if (this.results.length && index in this.results) {
+                this.city = this.results[index];
+            }
         },
         submitCity: function submitCity() {
             if (this.city) {
                 this.$store.dispatch('city/setCity', this.city);
                 this.close();
+                this.results = [];
+                this.city = null;
             }
         },
         input: function input(e) {
@@ -7083,19 +7107,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
             if (code === 38) {
                 e.preventDefault();
-                this.hoverPrev();
+                this.selectPrevCity();
             }
 
             if (code === 40) {
                 e.preventDefault();
-                this.hoverNext();
+                this.selectNextCity();
             }
 
             if (code === 13) {
                 this.submitCity();
             }
         },
-        hoverPrev: function hoverPrev() {
+        selectPrevCity: function selectPrevCity() {
             var index = this.hovered - 1;
 
             if (index < 0) {
@@ -7103,8 +7127,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
 
             this.setHover(index);
+            this.setCity(this.hovered);
         },
-        hoverNext: function hoverNext() {
+        selectNextCity: function selectNextCity() {
             var index = this.hovered + 1;
 
             if (this.results.length - 1 < index) {
@@ -7112,19 +7137,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
 
             this.setHover(index);
+            this.setCity(this.hovered);
         },
         setHover: function setHover(index) {
             this.hovered = Math.max(0, index);
-
-            if (this.results.length && this.hovered in this.results) {
-                this.setCity(this.results[this.hovered]);
-            }
         },
         search: function search() {
             var _this2 = this;
 
             if (this.query !== '') {
-                this.sendRequest('get', __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].siteUrl('location'), {
+                this.sendRequest('get', __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].apiUrl('location/search'), {
                     q: this.query
                 }).success(function (response) {
                     _this2.results = response.data.cities;
@@ -18826,7 +18848,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "city-popup",
-    { attrs: { title: "Ваш город " + _vm.cityName + "?", close: _vm.close } },
+    {
+      attrs: { title: "Ваш город " + _vm.cityName + "?" },
+      on: { close: _vm.close }
+    },
     [
       _c("div", { staticClass: "select-city-confirm" }, [
         _c("div", { staticClass: "select-city-confirm__text" }, [
@@ -18860,11 +18885,15 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "select-city-confirm__button" }, [
-            _c("button", { staticClass: "button button-light" }, [
-              _vm._v(
-                "\n                    Нет, выбрать другой\n                "
-              )
-            ])
+            _c(
+              "button",
+              { staticClass: "button button-light", on: { click: _vm.reject } },
+              [
+                _vm._v(
+                  "\n                    Нет, выбрать другой\n                "
+                )
+              ]
+            )
           ])
         ])
       ])
@@ -20459,7 +20488,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "city-popup",
-    { attrs: { title: "Укажите свой город", close: _vm.close } },
+    { attrs: { title: "Укажите свой город" }, on: { close: _vm.close } },
     [
       _c("div", { staticClass: "city-popup-search" }, [
         _c("div", { staticClass: "form-group form-group--city-search" }, [
@@ -20594,7 +20623,7 @@ var render = function() {
                                 },
                                 on: {
                                   click: function($event) {
-                                    _vm.setCity(city)
+                                    _vm.setCity(index)
                                   },
                                   mouseover: function($event) {
                                     _vm.setHover(index)
@@ -21792,11 +21821,12 @@ var render = function() {
               "div",
               { staticClass: "ht-inner" },
               [
-                !_vm.selected
+                !_vm.selected && !_vm.rejected
                   ? [
                       _c("city-popup-confirm", {
                         staticClass: "block-ui",
-                        attrs: { close: _vm.close }
+                        attrs: { close: _vm.close },
+                        on: { reject: _vm.reject }
                       })
                     ]
                   : [
@@ -22408,7 +22438,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "city-popup__close", on: { close: _vm.close } },
+        { staticClass: "city-popup__close", on: { click: _vm.close } },
         [
           _c("svg", { staticClass: "city-popup__close-icon symbol-icon" }, [
             _c("use", {
@@ -29663,6 +29693,10 @@ Plugin.prototype.windowClick = function (e) {
 
     var el = e.target;
 
+    if (!el || !document.body.contains(el)) {
+        return;
+    }
+
     if (_.els.trigger.contains(el)) {
         _.toggle();
         _.handleEvent(e);
@@ -34385,6 +34419,8 @@ var CHECKOUT_REQUEST_FAIL = 'CHECKOUT_REQUEST_FAIL';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 var _mutations;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -34414,10 +34450,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             if (state.ready) return;
 
             dispatch('initStorageExtension', 'city').then(function () {
-                // todo: бред какой-то
-                if (!state.id || state.id === __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.id')) {
-                    state.id = __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.id');
-                    state.name = __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city.name');
+                var currentCity = __WEBPACK_IMPORTED_MODULE_3__scripts_core__["a" /* default */].config('location.city');
+
+                if ((typeof currentCity === 'undefined' ? 'undefined' : _typeof(currentCity)) === 'object' && 'id' in currentCity && 'name' in currentCity) {
+                    state.id = currentCity.id;
+                    state.name = currentCity.name;
                 }
 
                 commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* CITY_READY */]);
@@ -35164,13 +35201,13 @@ var defaultState = {
     ready: false,
 
     data: {
-        first_name: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.first_name'),
-        last_name: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.last_name'),
-        phone: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.phone'),
-        email: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.email'),
-        city: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.city'),
-        address: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.address'),
-        post_code: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.post_code'),
+        first_name: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.first_name') || '',
+        last_name: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.last_name') || '',
+        phone: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.phone') || '',
+        email: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.email') || '',
+        city: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.city') || '',
+        address: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.address') || '',
+        post_code: __WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].config('user.post_code') || '',
         comment: ''
     },
 

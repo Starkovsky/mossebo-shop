@@ -25,9 +25,10 @@
 
         <div class="ht-container ht-container--popup ht-container--right ht-container--cities">
             <div class="ht-inner">
-                <template v-if="! selected">
+                <template v-if="! selected && ! rejected">
                     <city-popup-confirm
                         :close="close"
+                        @reject="reject"
                         class="block-ui"
                     ></city-popup-confirm>
                 </template>
@@ -56,6 +57,12 @@
             CityPopupConfirm
         },
 
+        data() {
+            return {
+                rejected: false,
+            }
+        },
+
         watch: {
             ready: 'init'
         },
@@ -80,6 +87,10 @@
                         isOpened: !this.selected
                     })
                 })
+            },
+
+            reject() {
+                this.rejected = true
             },
 
             setCity(city) {

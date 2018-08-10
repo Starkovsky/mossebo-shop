@@ -5,7 +5,7 @@
                 {{ title }}
             </div>
 
-            <div @close="close" class="city-popup__close">
+            <div @click="close" class="city-popup__close">
                 <svg class="city-popup__close-icon symbol-icon">
                     <use xlink:href="/assets/images/icons.svg#symbol-close"></use>
                 </svg>
@@ -24,7 +24,12 @@
 
         props: [
             'title',
-            'close'
         ],
+
+        methods: {
+            close() {
+                this.$emit('close')
+            }
+        }
     }
 </script>

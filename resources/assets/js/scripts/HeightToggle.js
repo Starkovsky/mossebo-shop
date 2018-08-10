@@ -231,6 +231,10 @@ Plugin.prototype.windowClick = function (e) {
 
     var el = e.target;
 
+    if (!el || !document.body.contains(el)) {
+        return
+    }
+
     if (_.els.trigger.contains(el)) {
         _.toggle()
         _.handleEvent(e)

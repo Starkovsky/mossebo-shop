@@ -22,6 +22,8 @@ Route::prefix('ru')->group(function () {
     Route::get('/search', 'Api\Shop\SearchController@index');
     Route::get('/search/query', 'Api\Shop\SearchController@query');
 
+    Route::get('/location/search', 'Api\LocationController@index');
+
     Route::get('/filters', 'Api\Shop\FilterController@index');
 
     Route::get('/sale', 'Api\Shop\SaleController@random');

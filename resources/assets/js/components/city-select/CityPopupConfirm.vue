@@ -1,7 +1,7 @@
 <template>
     <city-popup
         :title="'Ваш город ' + cityName + '?'"
-        :close="close"
+        @close="close"
     >
         <div class="select-city-confirm">
             <div class="select-city-confirm__text">
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="select-city-confirm__button">
-                    <button class="button button-light">
+                    <button @click="reject" class="button button-light">
                         Нет, выбрать другой
                     </button>
                 </div>
@@ -51,7 +51,11 @@
             confirm() {
                 this.$store.dispatch('city/confirmCity')
                 this.close()
-            }
+            },
+
+            reject() {
+                this.$emit('reject')
+            },
         },
 
         computed: {
