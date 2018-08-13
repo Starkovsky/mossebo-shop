@@ -35,7 +35,15 @@
                             @endif
                         @endforeach
                     @endforeach
+                    <param name="Описание" code="description">{{ $product->current_i18n->description }}</param>
                     <param name="Артикул" code="article">{{ $product->id }}</param>
+                    <param name="Вес" code="weight">{{ $product->weight / 1000 }}</param>
+                    <dimensions>{{ $product->length / 10 }}/{{ $product->width / 10 }}/{{ $product->height / 10 }}</dimensions>
+                    @foreach($suppliers as $supplier)
+                        @if($product->supplier_id == $supplier->id)
+                            <vendor>{{ $supplier->name }}</vendor>
+                        @endif
+                    @endforeach
                 </offer>
             @endforeach
         </offers>
