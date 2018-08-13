@@ -38,25 +38,6 @@
                     <param name="Артикул" code="article">{{ $product->id }}</param>
                 </offer>
             @endforeach
-            <offer id="115" productId="43" quantity="16">
-                <url>http://testbitrix.test/catalog/shelves/rack_2_sectional/</url>
-                <price>14000.00</price>
-                <purchasePrice>13200.00</purchasePrice>
-                <categoryId>3</categoryId>
-                <picture>http://testbitrix.test/upload/iblock/d2b/d2b25cbdc1f76b8b1672f5e8d1ec6589.JPG</picture>
-                <name>Стеллаж 2-х секционный</name>
-                <xmlId>82</xmlId>
-                <productName>Стеллаж 2-х секционный</productName>
-                <param name="Артикул" code="article">789789</param>
-                <param name="Размер" code="size">двухъярусный</param>
-                <param name="Цвет" code="color">белый</param>
-                <vendor>Abagure</vendor>
-                <param name="Вес" code="weight">50 кг</param>
-                <unit code="pcs" name="Штука" sym="шт." />
-                <vatRate>18</vatRate>
-                <dimensions>100/50.8/150</dimensions>
-                <barcode>012485ab</barcode>
-            </offer>
         </offers>
     </shop>
 </yml_catalog>
