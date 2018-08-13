@@ -29,7 +29,7 @@
                     @foreach($product->attributes as $attribute)
                         @foreach($product->attribute_options as $attribute_option)
                             @if($attribute_option->attribute_id == $attribute->id)
-                                <param name="{{ $attribute->current_i18n->title }}" code="size">
+                                <param name="{{ $attribute->current_i18n->title }}" code="atrr{{$attribute->id}}">
                                     {{ $attribute_option->current_i18n->value }}
                                 </param>
                             @endif
