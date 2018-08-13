@@ -15,7 +15,7 @@
             @foreach($products as $product)
                 <offer id="{{ $product->id }}" productId="{{ $product->id }}" quantity="9999">
                     <url>https://mossebo.market/ru/goods/{{ $product->id }}</url>
-                    <purchasePrice>{{ $product->current_price->value / 100 }}</purchasePrice>
+                    <price>{{ $product->current_price->value / 100 }}</price>
                     @foreach($product->categories as $product_cat)
                         <categoryId>{{ $product_cat->id }}</categoryId>
                     @endforeach
