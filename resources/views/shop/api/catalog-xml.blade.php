@@ -13,7 +13,7 @@
         </categories>
         <offers>
             @foreach($products as $product)
-                <offer id="{{ $product->id }}" productId="{{ $product->id }}">
+                <offer id="{{ $product->id }}" productId="{{ $product->id }}" quantity="99999999">
                     <url>https://mossebo.market/ru/goods/{{ $product->id }}</url>
                     <purchasePrice>{{ $product->current_price->value / 100 }}</purchasePrice>
                     @foreach($product->categories as $product_cat)
@@ -37,7 +37,7 @@
                     @endforeach
                     <param name="Описание" code="description">{{ $product->current_i18n->description }}</param>
                     <param name="Артикул" code="article">{{ $product->id }}</param>
-                    <param name="Вес" code="weight">{{ $product->weight / 1000 }}</param>
+                    <param name="Вес" code="weight">{{ $product->weight / 1000 }} кг</param>
                     <dimensions>{{ $product->length / 10 }}/{{ $product->width / 10 }}/{{ $product->height / 10 }}</dimensions>
                     @foreach($suppliers as $supplier)
                         @if($product->supplier_id == $supplier->id)
