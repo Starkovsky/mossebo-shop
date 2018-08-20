@@ -117,4 +117,22 @@
             </div>
         </div>
     </div>
+
+    <div class="social-group">
+        <div class="container">
+            <div class="title-h2">Узнавай об акциях и находи промокоды в наших соцсетях!</div>
+            <div class="row">
+                <div class="col-md-6 col-xl-4">
+                    <!-- VK Widget -->
+                    <div id="vk_groups"></div>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmossebodesign%2F&width=340&height=222&small_header=false&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=2082740105281448" width="340" height="222" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
+                <div class="col-md-6 col-xl-4">
+                    <div id="ok_group_widget"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

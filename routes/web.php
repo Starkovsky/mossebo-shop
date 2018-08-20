@@ -19,7 +19,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'ru'], function () {
         Route::get('/test', 'LocationController@test');
 
-
         // Маршруты Авторизации
         Auth::routes();
         Route::get('logout', 'Auth\LoginController@logout')->name('logout');

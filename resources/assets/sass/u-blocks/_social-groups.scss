@@ -1,0 +1,15 @@
+.social-group {
+    padding-top: 48px;
+    padding-bottom: 0px;
+    .title-h2 {
+        max-width: 550px;
+    }
+    #vk_groups, iframe {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100% !important;
+        max-width: 340px !important;
+        display: block !important;
+    }
+}
+

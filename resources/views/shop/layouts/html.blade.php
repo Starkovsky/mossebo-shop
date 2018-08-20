@@ -32,7 +32,10 @@
 
 @yield('scripts')
 
+@include('shop.chunks.popup-action')
+
 @include('shop.layouts.metrika')
+
 
 </body>
 </html>
