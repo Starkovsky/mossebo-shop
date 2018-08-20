@@ -7,8 +7,8 @@ use Cookie;
 use Countries;
 use App\Models\City;
 use App\Models\Region;
-use App\Models\NewRegion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class LocationController extends Controller
 {

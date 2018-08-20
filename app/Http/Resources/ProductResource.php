@@ -45,11 +45,11 @@ class ProductResource extends JsonResource
         }
 
         if ($this->relationNotEmpty('currentPrice')) {
-            $data['price'] = $this->currentPrice->getValue();
+            $data['price'] = $this->currentPrice->value;
         }
 
         if ($this->relationNotEmpty('oldPrice')) {
-            $data['old_price'] = $this->oldPrice->getValue();
+            $data['old_price'] = $this->oldPrice->value;
         }
 
         if ($this->relationNotEmpty('attributeOptionRelations')) {

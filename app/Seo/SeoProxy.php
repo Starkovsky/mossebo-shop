@@ -33,7 +33,7 @@ class SeoProxy implements SeoProxyInterface
 
     public static function setMetaFromI18nModel(BaseModel $modelObj): void
     {
-        if ($modelObj->relationEmpty('currentI18n')) {
+        if ($modelObj->relationIsEmpty('currentI18n')) {
             return;
         }
 

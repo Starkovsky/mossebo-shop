@@ -82,17 +82,17 @@
                                     </div>
 
                                     <div class="product-page__price">
-                                        <formatted-price :value="{{ $product->currentPrice->getValue() }}"></formatted-price>
+                                        <formatted-price :value="{{ $product->currentPrice->value }}"></formatted-price>
                                     </div>
 
                                     @if(isset($product->oldPrice))
                                         <div class="product-page__oldprice">
-                                            <formatted-price :value="{{ $product->oldPrice->getValue() }}"></formatted-price>
+                                            <formatted-price :value="{{ $product->oldPrice->value }}"></formatted-price>
                                         </div>
                                         <div class="product-page__economy">
                                             Вы сэкономите:
                                             <formatted-price
-                                                :value="{{ $product->oldPrice->getValue() - $product->currentPrice->getValue() }}"
+                                                :value="{{ $product->oldPrice->value - $product->currentPrice->value }}"
                                             >
                                             </formatted-price>
                                         </div>

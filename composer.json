@@ -13,7 +13,6 @@
         "doctrine/dbal": "^2.7",
         "fideloper/proxy": "^4.0",
         "geoip2/geoip2": "^2.9",
-        "gloudemans/shoppingcart": "^2.5",
         "jhaoda/socialite-odnoklassniki": "^3.0",
         "kalnoy/nestedset": "^4.3",
         "laravel/framework": "5.6.*",

@@ -4,7 +4,7 @@
             <input
                 type="text"
                 class="search-input__input form-input"
-                :placeholder="$root.translate('Search')"
+                :placeholder="placeholder$"
                 :value="query"
                 @input="input"
             >
@@ -17,25 +17,7 @@
         </form>
 
         <div class="search-input__loading" v-if="loading">
-            <svg
-                class="search-input__loading-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 100 100"
-                enable-background="new 0 0 0 0"
-                xml:space="preserve"
-            >
-                <circle stroke="none" cx="12%" cy="50%" r="12%">
-                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.1"/>
-                </circle>
-
-                <circle stroke="none" cx="50%" cy="50%" r="12%">
-                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.2"/>
-                </circle>
-
-                <circle stroke="none" cx="88%" cy="50%" r="12%">
-                    <animate attributeName="opacity" dur="1s" values="0;1;0" repeatCount="indefinite" begin="0.3"/>
-                </circle>
-            </svg>
+            <loading-icon class="search-input__loading-icon"></loading-icon>
         </div>
 
         <div class="search-input__result">
@@ -58,7 +40,7 @@
 
     import Core from '../scripts/core'
     import RequestMixin from '../mixins/RequestMixin'
-    import Loading from './Loading'
+    import LoadingIcon from './LoadingIcon'
 
     export default {
         name: 'SearchInput',
@@ -67,11 +49,16 @@
             RequestMixin
         ],
 
+        props: [
+            'placeholder'
+        ],
+
         data() {
             return {
                 query: '',
                 result: [],
-                inFocus: false
+                inFocus: false,
+                placeholder$: this.placeholder || this.$root.translate('Search')
             }
         },
 
@@ -80,7 +67,7 @@
         },
 
         components: {
-            Loading
+            LoadingIcon
         },
 
         mounted() {

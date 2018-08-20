@@ -5,7 +5,8 @@
 
         &.has-error {
             & .form-input,
-            & .form-textarea {
+            & .form-textarea
+            & .form-input-group {
                 border-color: $color-danger;
             }
         }
@@ -224,4 +225,59 @@
     &__input:checked + &__label {
         color: $color-text-primary;
     }
+}
+
+.form-input-group {
+    position: relative;
+    border: 1px solid $color-border;
+
+    & .form-input {
+        border: none;
+    }
+}
+
+.form-input-loading,
+.form-input-clear {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
+    padding: 0 12px;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity $transition-primary;
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        vertical-align: bottom;
+        fill: $color-primary;
+    }
+}
+
+.form-input-clear {
+    opacity: 0;
+    visibility: hidden;
+
+    &__icon {
+        fill: $color-icons;
+        transition: .3s;
+    }
+
+    &:hover &__icon {
+        fill: $color-text-primary;
+    }
+}
+
+.form-input-clear + .form-input {
+    padding-right: 48px;
+}
+
+.form-group--filled .form-input-clear {
+    opacity: 1;
+    visibility: visible;
 }

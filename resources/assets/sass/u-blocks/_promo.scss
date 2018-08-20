@@ -1,0 +1,62 @@
+.promo-form {
+    width: 420px;
+    max-width: 100%;
+    margin: auto;
+
+    &__label {
+        font-size: 14px / 17px;
+        margin-bottom: 8px;
+        color: $color-text-secondary;
+    }
+
+    &__links {
+        margin-top: 32px;
+    }
+
+    &__link {
+        white-space: nowrap;
+
+        & .link {
+            line-height: 24px;
+            display: inline-block;
+        }
+    }
+}
+
+
+.promo-input {
+    display: flex;
+    max-width: 375px;
+
+    &__group {
+        border-right: none;
+    }
+
+    &__input {
+        width: 250px;
+        text-overflow: ellipsis;
+    }
+
+    &__side {
+        width: calc(100% - 250px);
+        border-radius: 0 $border-radius $border-radius 0;
+        overflow: hidden;
+    }
+
+    &__success {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $color-success;
+    }
+
+    &__submit {
+        padding: 12px 4px;
+    }
+
+    &__success-icon {
+        width: 24px;
+        height: 24px;
+        fill: #fff;
+    }
+}

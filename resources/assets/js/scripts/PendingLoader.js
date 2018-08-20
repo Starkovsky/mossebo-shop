@@ -34,7 +34,7 @@ export default class PendingLoader {
     }
 }
 
-export function makeLoader(startCb, finishCb, duration) {
+export function makeLoader(startCb, finishCb, duration = 300) {
     let loader
 
     return {

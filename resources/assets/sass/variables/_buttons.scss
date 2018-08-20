@@ -81,11 +81,6 @@
         }
     }
 
-    &:disabled {
-        cursor: not-allowed;
-        pointer-events: none;
-    }
-
     &__icon {
         width: 24px;
         height: 24px;
@@ -138,6 +133,14 @@
                 display: none;
             }
         }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: transparent;
+        color: $color-text-secondary-2;
+        border-color: $color-border;
+        box-shadow: none;
     }
 }
 

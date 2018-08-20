@@ -157,3 +157,29 @@
         transform: translate3d(0, 50%, 0);
     }
 }
+
+
+
+@keyframes blink {
+    from, to {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+.loading-blink {
+    animation: blink 1s linear infinite;
+    animation-delay: .1s;
+
+    &--2 {
+        animation-delay: .2s;
+    }
+
+    &--3 {
+        animation-delay: .3s;
+    }
+}

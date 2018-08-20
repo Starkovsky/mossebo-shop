@@ -20,24 +20,4 @@ class Price extends BasePrice
     {
         return $this->belongsTo(Currency::class, 'currency_code', 'code');
     }
-
-    public static function formatPrice($value, $currencyCode)
-    {
-        $price = new static;
-
-        $price->value = $value;
-        $price->currency_code = $currencyCode;
-
-        return $price->getFormatted();
-    }
-
-    public static function getPriceValue($value, $currencyCode)
-    {
-        $price = new static;
-
-        $price->value = $value;
-        $price->currency_code = $currencyCode;
-
-        return $price->getValue();
-    }
 }

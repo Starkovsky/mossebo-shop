@@ -30,6 +30,10 @@
     &__content {
         margin-top: 16px;
     }
+
+    .button:disabled {
+        background-color: $color-ui;
+    }
 }
 
 .form-group--city-search {

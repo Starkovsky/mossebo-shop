@@ -1,10 +1,12 @@
-.link {
+.link,
+.icon-link {
     color: $color-link;
     cursor: pointer;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     margin-bottom: -1px;
     transition: border-color .3s ease-out;
+    vertical-align: bottom;
 
     &:hover {
         border-bottom-color: currentColor;
@@ -23,9 +25,9 @@
     }
 }
 
-
+.icon-link,
 .back-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     cursor: pointer;
     user-select: none;

@@ -74,6 +74,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/cart', 'Shop\CartController@get');
         Route::put('/cart', 'Shop\CartController@sync');
         Route::put('/cart/{key}', 'Shop\CartController@add');
+        Route::post('/cart/promo', 'Shop\CartController@promo');
 
         // Оформление заказа
         Route::post('/checkout', 'Shop\CheckoutController@index');

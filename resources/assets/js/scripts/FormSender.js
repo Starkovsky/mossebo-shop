@@ -2,52 +2,51 @@ import axios from 'axios'
 import BlankPlugin from './base/BlankPlugin'
 import Core from './core'
 import Alerty from './Alerty'
+import { dispatchEvent } from './functions'
 
-function dispatchEvent(el, eventName) {
-    let myEvent
 
-    if (typeof CustomEvent === 'undefined') {
-        myEvent = document.createEvent(eventName);
-        myEvent.initCustomEvent(eventName, false, true);
+function getInputGroupElClasslist(el) {
+    let groupEl = el.closest('.form-group')
+
+    if (groupEl) {
+        return groupEl.classList
     }
     else {
-        myEvent = new CustomEvent(eventName, {
-            bubbles: false,
-            cancelable: true
-        });
+        return {
+            add() {},
+            remove() {},
+        }
     }
-
-    el.dispatchEvent(myEvent);
 }
 
 function onInputFocus( ev ) {
-    ev.target.parentNode.classList.add('form-input--focus')
+    getInputGroupElClasslist(ev.target).add('form-group--focus')
 }
 
 function onInputBlur( ev ) {
     if (ev.target.value.trim() === '') {
-        ev.target.parentNode.classList.remove('form-input--filled')
+        getInputGroupElClasslist(ev.target).remove('form-group--filled')
     }
 
-    ev.target.parentNode.classList.remove('form-input--focus')
+    getInputGroupElClasslist(ev.target).remove('form-group--focus')
 }
 
 function onInputChange( ev ) {
     if (ev.target.value.trim() === '') {
-        ev.target.parentNode.classList.remove('form-input--filled')
+        getInputGroupElClasslist(ev.target).remove('form-group--filled')
     }
     else {
-        ev.target.parentNode.classList.add('form-input--filled')
+        getInputGroupElClasslist(ev.target).add('form-group--filled')
     }
 
-    ev.target.parentNode.classList.add('form-input--focus')
+    getInputGroupElClasslist(ev.target).add('form-group--focus')
 }
 
 export function inputFillCheck(querySelector) {
     [].slice.call(document.querySelectorAll( querySelector )).forEach(function(inputEl) {
         inputEl.addEventListener('focus', onInputFocus, {passive: true});
         inputEl.addEventListener('blur', onInputBlur, {passive: true});
-        inputEl.addEventListener('change', onInputChange, {passive: true});
+        inputEl.addEventListener('input', onInputChange, {passive: true});
 
         onInputChange({target:inputEl});
     });
@@ -82,7 +81,7 @@ class FormField {
     bindEvents() {
         this.inputEl.addEventListener('focus', onInputFocus, {passive: true})
         this.inputEl.addEventListener('blur', onInputBlur, {passive: true})
-        this.inputEl.addEventListener('change', onInputChange, {passive: true})
+        this.inputEl.addEventListener('input', onInputChange, {passive: true})
 
         onInputChange({
             target: this.inputEl
@@ -92,7 +91,7 @@ class FormField {
     unbindEvents() {
         this.inputEl.removeEventListener('focus', onInputFocus)
         this.inputEl.removeEventListener('blur', onInputBlur)
-        this.inputEl.removeEventListener('change', onInputChange)
+        this.inputEl.removeEventListener('input', onInputChange)
     }
 
     setType(type) {

@@ -19,8 +19,8 @@ class OrderProductResource extends JsonResource
         $data = [
             'id'           => $this->resource->product_id,
             'title'        => $params->currentI18n->title,
-            'defaultPrice' => getPriceValue($this->resource->default_price, $this->resource->currency_code),
-            'finalPrice'   => getPriceValue($this->resource->final_price, $this->resource->currency_code),
+            'defaultPrice' => $this->resource->default_price,
+            'finalPrice'   => $this->resource->final_price,
             'quantity'     => $this->resource->quantity
         ];
 

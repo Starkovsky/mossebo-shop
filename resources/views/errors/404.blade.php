@@ -3,33 +3,52 @@
 @section('content')
     <div class="container">
         <div class="error-404 block-ui">
-            <div class="error-404__row row">
-                <div class="col-md-4">
-                    <div class="error-404__code">
-                        404
-                    </div>
+            <div class="error-404__info">
+                <h1 class="error-404__title title-h1">
+                    {{ __('content.404.title') }}
+                </h1>
+
+                <div class="error-404__image-wrap">
+                    <img class="error-404__image" src="/assets/images/404.png" alt="{{ __('content.404.title') }}">
                 </div>
 
-                <div class="col-md-8">
-                    <h1 class="error-404__title title-h1">
-                        {{ __('content.404.title') }}
+                <div class="error-404__text">
 
-                    </h1>
-
-                    <div class="error-404__text">
+                    <div class="article">
                         <p>
-                            {{ __('content.404.message') }}
+                            Приносим извинения, страница не существовала или была удалена.
+                        </p>
+
+                        <p>
+                            Возможно вам помогут эти ссылки:
                         </p>
                     </div>
 
-                    <div class="error-404__button">
-                        <a href="{{ siteUrl() }}" class="button button-primary button-icon">
-                            <svg class="button__icon button__icon--left">
-                                <use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use>
-                            </svg>
+                </div>
+            </div>
 
-                            {{ __('content.404.homepage') }}
+            <div class="error-404__controls">
+                <div class="row justify-content-center">
+                    <div class="error-404__control">
+                        <a href="{{ siteUrl('/catalog') }}" class="button button-primary button-long">
+                            Выбрать товар
                         </a>
+                    </div>
+
+                    @php
+                        // доделать бейджик с количеством существующих акций
+                    @endphp
+
+                    <div class="error-404__control">
+                        <a href="{{ siteUrl('/#') }}" class="button button-primary button-long">
+                            Скидки и акции
+                        </a>
+                    </div>
+
+                    <div class="error-404__control error-404__control--search">
+                        <search-input
+                            placeholder="Найти подходящий товар"
+                        ></search-input>
                     </div>
                 </div>
             </div>

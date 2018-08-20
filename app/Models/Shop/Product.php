@@ -5,8 +5,9 @@ namespace App\Models\Shop;
 use App\Models\Media;
 use App\Models\Review;
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
+use MosseboShopCore\Contracts\Shop\Cart\CartProductData;
 
-class Product extends BaseProduct
+class Product extends BaseProduct implements CartProductData
 {
     protected $fillable = [
         'showed'
@@ -138,8 +139,8 @@ class Product extends BaseProduct
         $productTable = (new static)->getTable();
 
         $query = self::enabled()
-            ->select("{$productTable}.*")
-            ->where("{$productTable}.id", $id);
+            ->where("{$productTable}.id", $id)
+            ->with('image', 'i18n', 'prices');
 
         if (! empty($options)) {
             $optionsTable = config('tables.AttributeOptions');
@@ -155,21 +156,91 @@ class Product extends BaseProduct
         return $query->first();
     }
 
-    public function canBeShowed()
+    public function canBeShowed(): bool
     {
-        return
-            $this->enabled &&
-            $this->currentPrice &&
-            $this->currentI18n &&
-            ($this->image || $this->images) &&
-            $this->supplier->enabled;
+        if (! $this->enabled) {
+            return false;
+        }
+
+        if ($this->relationIsEmpty('prices') && $this->relationIsEmpty('currentPrice')) {
+            return false;
+        }
+
+        if ($this->relationIsEmpty('image') && $this->relationIsEmpty('images')) {
+            return false;
+        }
+
+        if (isset($this['supplier_enabled'])) {
+            if (! $this->supplier_enabled) {
+                return false;
+            }
+        }
+        else {
+            if (!$this->supplier->enabled) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function show()
     {
         $this->disableSearchSyncing();
+
         $this->update([
             'showed' => $this->showed + 1
         ]);
+    }
+
+    public function getImage(): ?array
+    {
+        if ($this->relationIsEmpty('image')) {
+            return null;
+        }
+
+        return json_decode($this->image->pathes, true);
+    }
+
+    public function getI18nTitles(): ?array
+    {
+        if ($this->relationIsEmpty('i18n')) {
+            return null;
+        }
+
+        return $this->i18n->reduce(function($carry, $item) {
+            dd($item);
+            $carry[$item->currency_code] = $item->title;
+
+            return $carry;
+        }, []);
+    }
+
+    public function getPrices(): ?array
+    {
+        if ($this->relationIsEmpty('prices')) {
+            return null;
+        }
+
+        return $this->prices->map(function($item) {
+            return [
+                'currency_code' => $item->currency_code,
+                'price_type_id' => $item->price_type_id,
+                'value'         => $item->value,
+            ];
+        })->toArray();
+    }
+
+    public function getOptions(): array
+    {
+        if ($this->relationNotEmpty('attributeOptionRelations')) {
+            return array_column($this->attributeOptionRelations, 'option_id');
+        }
+
+        if ($this->relationNotEmpty('attributeOptions')) {
+            return array_column($this->attributeOptions, 'id');
+        }
+
+        return array_column($this->attributeOptionRelations()->get()->toArray(), 'option_id');
     }
 }

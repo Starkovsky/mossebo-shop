@@ -44,10 +44,11 @@
         left: -1px;
         width: calc(100% + 2px);
         border: 1px solid $color-border;
-        border-top: none;
         border-radius: 0 0 $border-radius $border-radius;
         background-color: $color-ui;
         display: none;
+        max-height: 240px;
+        overflow: auto;
     }
 
     &__input {
@@ -58,7 +59,6 @@
 
     &.is-opened {
         border-radius: $border-radius $border-radius 0 0;
-        border-bottom: none;
     }
 
     &.is-opened &__result {

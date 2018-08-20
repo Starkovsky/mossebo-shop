@@ -1,0 +1,1 @@
+export const CART_PROMO_SET = 'CART_PROMO_SET'

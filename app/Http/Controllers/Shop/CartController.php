@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CartResource;
+use App\Http\Resources\Cart\CartResource;
 use App\Http\Requests\CartRequest;
-use App\Cart\CartProxy;
+use App\Models\Shop\Promo\PromoCode;
+use App\Http\Resources\PromoCodeResource;
+
+use App\Http\Requests\PromoCodeRequest;
+use Cart;
 
 
 class CartController extends Controller
@@ -22,20 +26,20 @@ class CartController extends Controller
 
     public function sync(CartRequest $request)
     {
-        try {
-            CartProxy::set($request->input('items'), $request->input('time'));
+        $lastUpdatedTime = Cart::getUpdatedAt();
+
+        if ($request->input('time') > $lastUpdatedTime) {
+            Cart::clear();
         }
-        catch(\Exception $e) {}
+
+        Cart::setMany($request->input('items'));
 
         return $this->_makeResponse();
     }
 
     public function add(CartRequest $request, $key)
     {
-        CartProxy::add([
-            'key' => $key,
-            'qty' => $request->input('qty') ?: 1
-        ]);
+        Cart::add($key, $request->input('qty') ?: 1);
 
         return $this->_makeResponse();
     }
@@ -44,8 +48,19 @@ class CartController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'items' => CartResource::collection(CartProxy::get()),
-            'time' => CartProxy::getSyncTime()
+            'cart'   => new CartResource(Cart::get()),
+            'time'   => Cart::getUpdatedAt()
+        ]);
+    }
+
+    public function promo(PromoCodeRequest $request)
+    {
+        $promoCode = PromoCode::where('name', $request->input('promo_code'))->first();
+        Cart::setPromoCode($promoCode);
+
+        return response()->json([
+            'status' => 'success',
+            'promo-code' => new PromoCodeResource($promoCode)
         ]);
     }
 }

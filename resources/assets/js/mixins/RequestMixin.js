@@ -19,7 +19,14 @@ export default {
 
             this.loading = true
 
-            return this.request = new Request(method, url, data)
+            this.request = new Request(method, url, data).start()
+            this.hanleRequest()
+
+            return this.request
+        },
+
+        hanleRequest() {
+            this.request
                 .any(this.abortRequest)
                 .fail(() => this.error = true)
                 .start()

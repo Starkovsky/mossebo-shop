@@ -1,6 +1,7 @@
 import { FormInputs } from '../scripts/FormSender'
 import FormValidationMixin from './FormValidation'
 import RequestMixin from '../mixins/RequestMixin'
+import { makeLoader } from '../scripts/PendingLoader'
 
 export default {
     name: 'FormSender',
@@ -18,6 +19,11 @@ export default {
         return {
             data$: {},
             clearOnDone: false,
+            loader: makeLoader(
+                () => this.sendForm(),
+                () => this.abortRequest(),
+                1000
+            )
         }
     },
 
@@ -25,14 +31,6 @@ export default {
         this.defaultData = {
             ... this.data$
         }
-    },
-
-    mounted() {
-        this.initFormInputs()
-    },
-
-    beforeDestroy() {
-        this.destroyFormInputs()
     },
 
     methods: {
@@ -45,7 +43,7 @@ export default {
             this.$validator.validateAll()
                 .then(result => {
                     if (result) {
-                        this.sendForm()
+                        this.loader.start()
                     }
                     else {
                         this.loading = false
@@ -66,13 +64,30 @@ export default {
         },
 
         sendForm() {
-            let request = this.sendRequest('post', this.url, this.data$)
+            this.sendRequest(this.getMethod(), this.getUrl(), this.getData())
                 .success(this.formSendSuccess)
-                .fail(response => {
-                    if (request.status !== 'crashed') {
-                        this.setErrors(response.data.errors)
-                    }
-                })
+        },
+
+        hanleRequest() {
+            this.request.fail(response => {
+                this.error = true
+                if (this.request.status !== 'crashed') {
+                    this.setErrors(response.data.errors)
+                }
+            })
+            .any(() => this.loader.finish())
+        },
+
+        getMethod() {
+            return 'post'
+        },
+
+        getUrl() {
+            return this.url
+        },
+
+        getData() {
+            return this.data$
         },
 
         initFormInputs() {

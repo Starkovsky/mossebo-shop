@@ -48,17 +48,25 @@
                     </div>
 
                     <template v-if="$root.isDesktop">
-                        <div class="cart-page__total">
-                            <div class="cart-total">
-                                <span class="cart-total__label">
-                                    Предварительная цена:
-                                </span>
+                        <div class="cart-page__summary">
+                            <div class="cart-summary">
+                                <div class="cart-summary__promo">
+                                    <promo-form></promo-form>
+                                </div>
 
-                                <span class="cart-total__value">
-                                    <formatted-price
-                                        :value="totalPrice"
-                                    ></formatted-price>
-                                </span>
+                                <div class="cart-summary__total">
+                                    <div class="cart-total">
+                                        <span class="cart-total__label">
+                                            Предварительная цена:
+                                        </span>
+
+                                        <span class="cart-total__value">
+                                            <formatted-price
+                                                :value="totalPrice"
+                                            ></formatted-price>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -130,10 +138,15 @@
 </template>
 
 <script>
+    import PromoForm from './PromoForm'
     import Mixin from './mixin'
 
     export default {
         name: "Cart",
+
+        components: {
+            PromoForm
+        },
 
         mixins: [
             Mixin
