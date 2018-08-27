@@ -13,6 +13,7 @@ use App\Http\Resources\AttributeResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\StyleResource;
 use App\Http\Resources\RoomResource;
+use App\Http\Resources\BadgeTypeResource;
 
 class DataController extends Controller
 {
@@ -155,7 +156,6 @@ class DataController extends Controller
         );
     }
 
-
     /**
      * Получение комнат.
      */
@@ -163,6 +163,16 @@ class DataController extends Controller
     {
         return RoomResource::collection(
             \Rooms::enabled(['currentI18n'])
+        );
+    }
+
+    /**
+     * Получение комнат.
+     */
+    protected static function _getBadgeTypes()
+    {
+        return BadgeTypeResource::collection(
+            \BadgeTypes::getCollection(['currentI18n'])
         );
     }
 }

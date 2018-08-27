@@ -279,7 +279,7 @@
             }
         }
 
-        .badge {
+        .cart-badge {
             position: absolute;
             left: 28px;
             top: 15px;
@@ -297,7 +297,7 @@
             }
         }
 
-        &--with-products .badge {
+        &--with-products .cart-badge {
             transform: translate3d(0, 0, 0);
             opacity: 1;
         }

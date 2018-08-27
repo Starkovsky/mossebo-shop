@@ -2,7 +2,7 @@
     <div class="ht-popup-wrap">
         <a class="cart-btn js-cart-btn" :href="btnLink">
             <div class="cart-btn-icon">
-                <div class="badge js-badge" v-show="!isEmpty">
+                <div class="cart-badge js-cart-badge" v-show="!isEmpty">
                     {{ productsShortQuantity }}
                 </div>
 
@@ -25,7 +25,7 @@
 
                     <span class="prices">
                         <formatted-price
-                            :value="productsPrice"
+                            :value="amount"
                         ></formatted-price>
                     </span>
                 </div>
@@ -80,7 +80,7 @@
 
                                             <span class="cart-total__value">
                                                 <formatted-price
-                                                    :value="productsPrice"
+                                                    :value="amount"
                                                 ></formatted-price>
                                             </span>
                                         </div>
@@ -140,7 +140,7 @@
             this.btn = this.$el.querySelector('.js-cart-btn')
             this.checkHT()
 
-            let badgeEl = this.$el.querySelector('.js-badge')
+            let badgeEl = this.$el.querySelector('.js-cart-badge')
             let debouncer = _.debounce(() => {
                 badgeEl.classList.remove('bounce')
             }, 1000)

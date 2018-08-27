@@ -1,55 +1,61 @@
 .review-item {
-    padding: 16px 8px;
+    position: relative;
+    padding: 16px 16px 24px;
 
     @include media-breakpoint-up(md) {
-        padding: 32px 40px;
+        padding: 24px 24px 32px;
     }
 
     & + & {
         margin-top: 32px;
     }
 
-    &__top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    &__text {
-        margin: 16px 0 24px;
-    }
-
-    &__name,
-    &__date {
-        font-size: 12px / 14px;
-        color: $color-text-secondary;
+    &__name {
+        margin-top: 24px;
+        font-size: 18px / 24px;
+        color: $color-text-primary;
     }
 
     &__date {
         margin-top: 8px;
+        font-size: 12px / 17px;
+        color: $color-text-secondary;
     }
 
     &__likes {
+        margin-top: 32px;
+    }
+
+    &__menu {
+        position: absolute;
+        top: 20px;
+        right: 16px;
+    }
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__right {
         margin-top: 16px;
     }
 
     @include media-breakpoint-up(md) {
-        &__text {
-            margin: 24px 0 32px;
-        }
-
-        &__date {
-            margin: 0 0 0 35px;
-        }
-
-        &__left,
         &__bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        &__likes {
+        &__menu {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+        }
+
+        &__right {
             margin-top: 0;
         }
     }
@@ -115,20 +121,24 @@
 }
 
 .review-content {
-    font-size: 14px / 17px;
+    font-size: 14px / 22px;
     color: $color-text-primary;
 
     &__label {
         font-weight: 500;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
 
         &:not(:first-child) {
-            margin-top: 16px;
+            margin-top: 24px;
         }
     }
 
     @include media-breakpoint-up(md) {
-        line-height: 21px;
+        line-height: 26px;
+
+        &__label {
+            margin-bottom: 4px;
+        }
     }
 }
 
@@ -146,78 +156,6 @@
 
     &__item + &__item {
         border-top: 1px solid $color-border;
-    }
-}
-
-.reviews-list-panel {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &:not(:last-child) {
-        margin-bottom: 24px;
-    }
-
-    flex-wrap: wrap;
-
-    &__sort {
-        margin-top: 16px;
-    }
-
-    &__button,
-    &__sort {
-        width: 100%;
-
-        @include media-breakpoint-up(md) {
-            width: auto;
-            margin-top: 0;
-        }
-    }
-}
-
-.reviews-list-sort {
-    &__label {
-        white-space: nowrap;
-        margin-bottom: 8px;
-    }
-
-    @include media-breakpoint-up(md) {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-
-        &__label {
-            margin: 0 8px 0 0;
-            white-space: nowrap;
-        }
-
-        &__sort {
-            width: 150px;
-        }
-    }
-}
-
-.reviews-pallete {
-    &__wrap {
-        transition: height .3s;
-
-        &.animation-in-process {
-            overflow: hidden;
-        }
-    }
-
-    &__content {
-        width: calc(200% + 60px);
-        margin-left: -30px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    &__item {
-        width: 50%;
-        height: 100%;
-        padding-left: 30px;
-        transition: none;
     }
 }
 

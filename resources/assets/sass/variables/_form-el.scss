@@ -5,10 +5,27 @@
 
         &.has-error {
             & .form-input,
-            & .form-textarea
+            & .form-textarea,
             & .form-input-group {
                 border-color: $color-danger;
+                background-color: #FBEAE5;
             }
+
+            & .form-error {
+                max-height: 34px;
+                margin-top: 8px;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        &-group--review-inline {
+            display: flex;
+            align-items: center;
+        }
+
+        &-group--review-inline &-label {
+            margin: 0 16px 0 0;
         }
     }
 
@@ -71,7 +88,7 @@
 
     &-textarea {
         resize: none;
-        min-height: 90px;
+        min-height: 110px;
     }
 
     &-label {
@@ -91,35 +108,44 @@
         color: $color-danger;
     }
 
+    //&-error {
+    //    position: absolute;
+    //    color: $color-danger;
+    //    font-size: 17px;
+    //    font-weight: 700;
+    //
+    //    bottom: 10px;
+    //    right: 8px;
+    //    width: 24px;
+    //    height: 24px;
+    //
+    //    border-radius: 50%;
+    //    border: 1px solid currentColor;
+    //    display: flex;
+    //    align-items: center;
+    //    justify-content: center;
+    //    opacity: 0;
+    //    transition: opacity .3s;
+    //
+    //    &::before {
+    //        content: '!';
+    //    }
+    //}
+
     &-error {
-        position: absolute;
+        font-size: 14px / 17px;
         color: $color-danger;
-        font-size: 17px;
-        font-weight: 700;
-
-        bottom: 10px;
-        right: 8px;
-        width: 24px;
-        height: 24px;
-
-        border-radius: 50%;
-        border: 1px solid currentColor;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity .3s;
-
-        &::before {
-            content: '!';
-        }
+        display: block;
+        max-height: 0;
+        transition: .3s;
+        transform: translate3d(0,0,0);
+        overflow: hidden;
     }
 
     &-group.has-error &-error {
         opacity: 1;
     }
 }
-
 
 .form-checkbox {
     display: block;
@@ -209,9 +235,15 @@
         justify-content: center;
         flex-grow: 1;
         height: 42px;
+        padding: 0 8px;
         color: $color-text-secondary;
         user-select: none;
         cursor: pointer;
+        white-space: nowrap;
+
+        @include media-breakpoint-up(sm) {
+            padding: 0 24px;
+        }
     }
 
     &__label ~ &__label {
@@ -230,6 +262,7 @@
 .form-input-group {
     position: relative;
     border: 1px solid $color-border;
+    border-radius: $border-radius;
 
     & .form-input {
         border: none;
@@ -280,4 +313,8 @@
 .form-group--filled .form-input-clear {
     opacity: 1;
     visibility: visible;
+}
+
+.form-group.has-error .form-input-clear__icon {
+    fill: $color-danger;
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Shop;
 
+use Illuminate\Support\Collection;
+
 use Auth;
 use SeoProxy;
+use BadgeTypes;
 use App\Models\Shop\Product;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Collection;
 use App\Http\Resources\ReviewResource;
 
 class ProductController extends Controller
@@ -31,6 +33,7 @@ class ProductController extends Controller
     {
         $product = Product::with(
             'currentI18n',
+            'badges',
             'images',
             'currentPrice',
             'oldPrice',
@@ -40,6 +43,10 @@ class ProductController extends Controller
         )
             ->where('enabled','=',true)
             ->findOrFail($id);
+
+        if (! $product->canBeShowed()) {
+            return abort(404);
+        }
 
         $attributesIds = array_column($product->attributeRelations->toArray(), 'attribute_id');
         $optionsIds = array_column($product->attributeOptions->toArray(), 'id');
@@ -81,22 +88,31 @@ class ProductController extends Controller
             return $carry;
         }, $carry);
 
+        $badgeTypes = BadgeTypes::getCollection('currentI18n');
+
+        $badges = $product->badges->reduce(function($acc, $item) use($badgeTypes) {
+            $badge = $badgeTypes->where('id', $item->badge_type_id)->first();
+
+            if ($badge) {
+                $acc->push($badge);
+            }
+
+            return $acc;
+        }, new Collection);
+
         // Проверка доступности товаров поставщика
-        if ($product->canBeShowed()) {
-            $product->show();
 
-            SeoProxy::setMetaFromI18nModel($product);
-            SeoProxy::setImageFromModel($product, 'oneHalf');
+        $product->show();
 
-            return view('shop.pages.product', [
-                'product' => $product,
-                'attributes' => $carry['all'],
-                'selectable' => json_encode($carry['selectable'], JSON_UNESCAPED_UNICODE)
-            ]);
-        }
-        else {
-            return abort(404);
-        }
+        SeoProxy::setMetaFromI18nModel($product);
+        SeoProxy::setImageFromModel($product, 'oneHalf');
+
+        return view('shop.pages.product', [
+            'product' => $product,
+            'badges'  => $badges,
+            'attributes' => $carry['all'],
+            'selectable' => json_encode($carry['selectable'], JSON_UNESCAPED_UNICODE)
+        ]);
     }
 
     public function reviews(Product $product)
@@ -104,7 +120,7 @@ class ProductController extends Controller
         $user = Auth::user();
 
         $reviews = $product->reviews()
-            ->with('user')
+            ->with('user', 'likesCounter', 'dislikesCounter', 'likes', 'dislikes')
             ->where('enabled', 1)
             ->where('language_code', app()->getLocale())
             ->where(function($query) use($user) {

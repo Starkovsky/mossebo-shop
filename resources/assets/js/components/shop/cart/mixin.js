@@ -71,20 +71,16 @@ export default {
     computed: {
         ... mapGetters({
             productsQuantity: 'cart/quantity',
-            isEmpty: 'cart/isEmpty'
+            isEmpty: 'cart/isEmpty',
+            amount: 'cart/amount',
+            total: 'cart/total',
+            promoDiscount: 'cart/promoDiscount',
         }),
 
         ... mapState({
             loading: state => state.cart.loading,
             hasError: state => state.cart.error,
             isReady: state => state.cart.ready,
-            productsPrice: (state, getters) => {
-                return getters['cart/products'].reduce((acc, product) => {
-                    acc += product.quantity * product.price
-
-                    return acc
-                }, 0)
-            }
         }),
 
         shippingPrice() {
@@ -92,7 +88,7 @@ export default {
         },
 
         totalPrice() {
-            return this.productsPrice + this.shippingPrice
+            return this.total + this.shippingPrice
         },
     }
 }

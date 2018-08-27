@@ -15,14 +15,18 @@ export default {
         reviews: [],
         loading: false,
         error: false,
-        abortRequest: false
+        abortRequest: false,
+        ready: false,
     },
 
     actions: {
-        init({state, dispatch}, url) {
+        init({state, dispatch, commit}, url) {
+            if (state.ready || state.loading) return
+
             return dispatch('sort/init')
                 .then(() => dispatch('setUrl', url))
                 .then(() => dispatch('fetch'))
+                .then(() => commit(actionTypes.REVIEWS_LIST_READY))
         },
 
         destroy({state}) {
@@ -120,5 +124,9 @@ export default {
         [actionTypes.REVIEWS_LIST_All](state) {
             state.all = true
         },
+
+        [actionTypes.REVIEWS_LIST_READY](state) {
+            state.ready = true
+        }
     }
 }

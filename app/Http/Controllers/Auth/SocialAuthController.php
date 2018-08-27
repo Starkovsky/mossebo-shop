@@ -27,8 +27,6 @@ class SocialAuthController extends Controller
      */
     public function redirect($provider = false)
     {
-        Session::put('auth.socials.intended', URL::previous());
-
         try {
             return Socialite::driver($provider)->redirect();
         }
@@ -81,13 +79,13 @@ class SocialAuthController extends Controller
                 ]);
             }
 
-            return $this->intended(siteUrl('cabinet'));
+            return $this->redirectToReferer(siteUrl('cabinet'));
         }
 
         if ($socialProvider) {
             auth()->login($socialProvider->user);
 
-            return redirect()->intended('/');
+            return $this->redirectToReferer();
         }
 
         return view('auth.register', [
@@ -96,14 +94,14 @@ class SocialAuthController extends Controller
         ]);
     }
 
-    public function intended($path = '/', $status = 302, $headers = [], $secure = null)
+    protected function redirectToReferer($default = '/')
     {
-        $saved = Session::pull('auth.socials.intended');
+        $path = \Session::pull('login-referer');
 
-        if ($saved && strpos($saved, $this->request->root()) === 0) {
-            $path = $saved;
+        if (! $path) {
+            $path = $default;
         }
 
-        return redirect()->to($path, $status, $headers, $secure);
+        return redirect($path);
     }
 }

@@ -9,7 +9,7 @@ use PayTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkout\CheckoutRequest;
 
-use App\Cart\CartProxy;
+use Cart;
 use App\Models\Shop\Product;
 use App\Models\Shop\Order;
 use App\Models\Shop\OrderProduct;
@@ -51,7 +51,7 @@ class CheckoutController extends Controller
         $options = [];
 
         foreach ($data['cart'] as $key => $qty) {
-            $decoded = CartProxy::decodeKey($key);
+            $decoded = Cart::decodeKey($key);
 
             $ids[] = $decoded['id'];
             $productItems[$decoded['id']] = [
@@ -110,9 +110,9 @@ class CheckoutController extends Controller
                 $orderProduct = new OrderProduct([
                     'order_id'      => $result['id'],
                     'product_id'    => $product->id,
+                    'currency_code' => $currencyCode,
                     'default_price' => $defaultPrice->value,
                     'final_price'   => $finalPrice->value,
-                    'currency_code' => $currencyCode,
                     'quantity'      => $productItems[$product->id]['qty'],
                     'params'        => json_encode([
                         'image'       => $product->image->toArray(),
@@ -142,7 +142,7 @@ class CheckoutController extends Controller
             ->bcc(config('mail.to.address'), config('mail.to.name'))
             ->queue(new CheckoutMail($result));
 
-        CartProxy::clear();
+        Cart::clear()->save();
 
         return response([
             'status'  => 'success',

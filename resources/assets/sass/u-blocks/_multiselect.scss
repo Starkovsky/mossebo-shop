@@ -113,6 +113,7 @@ fieldset[disabled] .multiselect {
     box-sizing: border-box;
     margin-bottom: 8px;
     vertical-align: top;
+    white-space: nowrap;
 }
 
 //.multiselect__input::-webkit-input-placeholder {
@@ -361,15 +362,15 @@ fieldset[disabled] .multiselect {
 //}
 
 .multiselect--disabled {
-    background: #ededed;
     pointer-events: none;
 }
 
+.multiselect--disabled,
+.multiselect--disabled .multiselect__tags,
+.multiselect--disabled .multiselect__single,
 .multiselect--disabled .multiselect__current,
-.multiselect--disabled .multiselect__select,
-.multiselect__option--disabled {
-    background: #ededed;
-    color: #a6a6a6;
+.multiselect--disabled .multiselect__select {
+    background-color: transparent;
 }
 
 .multiselect__option--disabled {

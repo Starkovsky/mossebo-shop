@@ -11,7 +11,6 @@ use Cog\Laravel\Love\Liker\Models\Traits\Liker;
 
 use App\Models\Shop\Order;
 use App\Models\Shop\Promo\PromoUse;
-use Shop;
 
 
 class User extends BaseUser implements LikerContract
@@ -54,10 +53,5 @@ class User extends BaseUser implements LikerContract
     public function promoCodeUses()
     {
         return $this->hasMany(PromoUse::class, $this->relationFieldName, 'id');
-    }
-
-    public function getPriceTypeId(): int
-    {
-        return Shop::getDefaultPriceTypeId();
     }
 }

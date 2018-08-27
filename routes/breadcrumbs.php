@@ -104,9 +104,7 @@ Breadcrumbs::for('good-referer', function ($trail, $good) {
 
     if ($referer) {
         $route = app('router')->getRoutes()->match(
-            app('request')->create(
-                request()->server('HTTP_REFERER')
-            )
+            app('request')->create($referer)
         );
 
         if (isset($route->parameters['slug'])) {

@@ -32,11 +32,13 @@ class SearchController extends ApiController
             'oldPrice',
             'supplier',
 
+            'badges',
+
             'attributeOptionRelations',
 
             'styleRelations',
             'roomRelations',
-            'categoryRelations'
+            'categoryRelations',
         ])->whereIn('id', $ids)->get();
 
         return [

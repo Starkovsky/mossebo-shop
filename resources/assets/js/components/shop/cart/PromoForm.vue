@@ -5,66 +5,56 @@
         </div>
 
         <div class="promo-form__input">
-            <div class="form-group promo-input js-form-group">
-                <div class="promo-input__group form-input-group">
-                    <div @click="clear" class="form-input-clear">
-                        <svg class="form-input-clear__icon">
-                            <use xlink:href="/assets/images/icons.svg#symbol-close"></use>
-                        </svg>
+            <div class="form-group js-form-group">
+                <div class="promo-input">
+                    <div>
+                        <div class="promo-input__group form-input-group">
+                            <input
+                                :value="query"
+                                @input="input"
+                                name="promo_code"
+                                class="promo-input__input form-input js-promo-input"
+                                type="text"
+                                :disabled="codeAccepted"
+                            >
+                        </div>
                     </div>
 
-                    <input
-                        v-model="query"
-                        class="promo-input__input form-input js-promo-input"
-                        type="text">
+                    <div class="promo-input__side">
+                        <template v-if="codeAccepted && !hasError">
+                            <div @click="clear" class="promo-input__submit button button-primary">
+                                Сбросить
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <button-loading
+                                :loading="loading"
+                                :disabled="queryIsEmpty"
+                                type="submit"
+                                class="promo-input__submit button button-primary"
+                            >
+                                Применить
+                            </button-loading>
+                        </template>
+                    </div>
                 </div>
-
-                <template v-if="codeAccepted">
-                    <div class="promo-input__success promo-input__side">
-                        <svg class="promo-input__success-icon">
-                            <use xlink:href="/assets/images/icons.svg#symbol-check"></use>
-                        </svg>
-                    </div>
-                </template>
-
-                <template v-else>
-                    <button-loading
-                        :loading="loading"
-                        :disabled="queryIsEmpty"
-                        type="submit"
-                        class="promo-input__submit promo-input__side button button-primary"
-                    >
-                        Применить
-                    </button-loading>
-                </template>
 
                 <div class="form-error"></div>
-            </div>
-        </div>
-
-        <div class="promo-form__links">
-            <div class="row row--half">
-                <div class="promo-form__link">
-                    <a href="#" class="icon-link" target="_blank">
-                        <svg class="icon-link__icon">
-                            <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
-                        </svg>
-
-                        Найти другие промокоды
-                    </a>
-                </div>
-
-                <div class="promo-form__link">
-                    <a href="#" class="link" target="_blank">
-                        Как получить скидку?
-                    </a>
-                </div>
             </div>
         </div>
     </form>
 </template>
 
 <script>
+
+    // <div @click="clear" class="form-input-clear">
+    //     <svg class="form-input-clear__icon">
+    //         <use xlink:href="/assets/images/icons.svg#symbol-close"></use>
+    //     </svg>
+    // </div>
+
+    import { mapState, mapGetters } from 'vuex'
     import Core from '../../../scripts/core'
     import FormSenderMixin from '../../../mixins/FormSender'
     import ButtonLoading from '../../buttons/ButtonLoading'
@@ -83,8 +73,11 @@
         data() {
             return {
                 query: '',
-                codeAccepted: false
             }
+        },
+
+        created() {
+            this.query = this.name
         },
 
         mounted() {
@@ -102,19 +95,45 @@
                 }
             },
 
+            input(e) {
+                this.query = e.target.value.toUpperCase()
+            },
+
             clear() {
+                this.inputEl.disabled = false
+
                 this.$nextTick(() => {
                     this.inputEl.focus()
                     this.inputEl.setSelectionRange(0, this.inputEl.value.length, 'none')
                     document.execCommand('delete')
+                    this.$store.dispatch('cart/promo/clear')
                 })
-            }
+            },
+
+            hanleRequest() {
+                FormSenderMixin.methods.hanleRequest.call(this)
+                    .success(response => {
+                        this.$store.dispatch('cart/applyPromoCode', response.data.promoCode)
+                    })
+                    .fail(() => {
+                        this.$store.dispatch('cart/promo/clear')
+                    })
+            },
         },
 
         computed: {
             queryIsEmpty() {
                 return !this.query
-            }
+            },
+
+            ... mapState({
+                name: state => state.cart.promo.name,
+                hasError: state => state.cart.promo.hasError,
+            }),
+
+            ... mapGetters({
+                codeAccepted: 'cart/promo/accepted'
+            }),
         }
     }
 </script>

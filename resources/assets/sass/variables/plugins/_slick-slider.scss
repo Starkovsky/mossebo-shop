@@ -168,10 +168,6 @@
 .slider-product {
     white-space: nowrap;
 
-    &:not(.slick-initialized) {
-        overflow: hidden;
-    }
-
     &__slide {
         vertical-align: bottom;
         display: inline-block;
@@ -221,7 +217,6 @@
         padding: 0 5px;
 
         .slider-nav__box {
-            display: block !important;
             border: 1px solid $color-border;
         }
     }
@@ -229,4 +224,12 @@
     @include media-breakpoint-up(lg) {
         display: block;
     }
+}
+
+.slider__slide:not(:first-child) {
+    display: none;
+}
+
+.slick-initialized .slider__slide {
+    display: block;
 }

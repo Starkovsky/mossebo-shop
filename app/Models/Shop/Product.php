@@ -4,6 +4,7 @@ namespace App\Models\Shop;
 
 use App\Models\Media;
 use App\Models\Review;
+use App\Models\Shop\Badge\Badge;
 use MosseboShopCore\Models\Shop\Product as BaseProduct;
 use MosseboShopCore\Contracts\Shop\Cart\CartProductData;
 
@@ -134,6 +135,11 @@ class Product extends BaseProduct implements CartProductData
         );
     }
 
+    public function badges()
+    {
+        return $this->morphMany(Badge::class, 'item');
+    }
+
     public static function getCartItem($id, $options = [])
     {
         $productTable = (new static)->getTable();
@@ -184,6 +190,7 @@ class Product extends BaseProduct implements CartProductData
         return true;
     }
 
+
     public function show()
     {
         $this->disableSearchSyncing();
@@ -209,8 +216,7 @@ class Product extends BaseProduct implements CartProductData
         }
 
         return $this->i18n->reduce(function($carry, $item) {
-            dd($item);
-            $carry[$item->currency_code] = $item->title;
+            $carry[$item->language_code] = $item->title;
 
             return $carry;
         }, []);

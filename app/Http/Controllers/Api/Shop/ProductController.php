@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers\Api\Shop;
 
+use Illuminate\Http\Request;
+
+use Cache;
+use App\Models\Shop\Product;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\ProductResource;
 use App\Models\Shop\AttributeOption;
-use Cache;
-use App\Models\Shop\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends ApiController
 {
     public function popular()
     {
         $products = Cache::remember('products::popular', 5, function () {
-            $products = Product::enabled()->with(
-                'currentI18n',
-                'image',
-                'currentPrice',
-                'oldPrice',
-                'attributeOptionRelations'
-            )
-                ->where('is_popular', 1)
-                ->inRandomOrder()
+            $products = $this->byBadge(1)
+                ->with(
+                    'currentI18n',
+                    'image',
+                    'currentPrice',
+                    'oldPrice',
+//                    'attributeOptionRelations',
+                    'badges'
+                )
+                ->orderBy('updated_at', 'desc')
                 ->take(8)
                 ->get();
 
@@ -37,15 +39,16 @@ class ProductController extends ApiController
     public function new()
     {
         $products = Cache::remember('products::new', 5, function () {
-            $products = Product::enabled()->with(
-                'currentI18n',
-                'image',
-                'currentPrice',
-                'oldPrice',
-                'attributeOptionRelations'
-            )
-                ->where('is_new', 1)
-                ->inRandomOrder()
+            $products = $this->byBadge(6)
+                ->with(
+                    'currentI18n',
+                    'image',
+                    'currentPrice',
+                    'oldPrice',
+//                    'attributeOptionRelations',
+                    'badges'
+                )
+                ->orderBy('updated_at', 'desc')
                 ->take(8)
                 ->get();
 
@@ -55,6 +58,20 @@ class ProductController extends ApiController
         return response()->json([
             'products' => $products
         ]);
+    }
+
+    protected function byBadge($badgeTypeId)
+    {
+        $badgeTableName = config('tables.Badges');
+        $productTableName = config('tables.Products');
+
+        return Product::enabled()
+            ->where("{$badgeTableName}.badge_type_id", $badgeTypeId)
+            ->groupBy("{$productTableName}.id")
+            ->join("{$badgeTableName}", function($join) use($badgeTableName, $productTableName) {
+                $join->on("{$badgeTableName}.item_id", '=', "{$productTableName}.id")
+                    ->where("{$badgeTableName}.item_type", 'product');
+            });
     }
 
     public function related(Product $product)
@@ -75,7 +92,7 @@ class ProductController extends ApiController
         return array_column($product->relatedRelations->toArray(), 'related_id');
     }
 
-    protected function getAdditionalProductsResource($query)
+    protected function getAdditionalProductsResource($query, $limit = 4)
     {
         $products = $query->with(
             'currentI18n',
@@ -85,7 +102,7 @@ class ProductController extends ApiController
             'attributeOptionRelations'
         )
             ->inRandomOrder()
-            ->take(4)
+            ->take($limit)
             ->get();
 
         return ProductResource::collection($products);

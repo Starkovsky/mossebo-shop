@@ -14,9 +14,19 @@ class PromoCodeResource extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->resource->relationIsEmpty('currentI18n')) {
+            $i18n = $this->resource->currentI18n()->first();
+        }
+        else {
+            $i18n = $this->resource->currentI18n;
+        }
+
         $data = [
-            'name'    => $this->resource->name,
-            'percent' => $this->resource->percent,
+            'id'          => $this->resource->id,
+            'name'        => $this->resource->name,
+            'percent'     => $this->resource->percent,
+            'title'       => $i18n->title,
+            'description' => $i18n->description,
         ];
 
         if ($this->resource->amount) {

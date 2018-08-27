@@ -80,6 +80,10 @@ class ProductResource extends JsonResource
             $data['rooms'] = array_column($this->rooms->toArray(), 'id');
         }
 
+        if ($this->relationNotEmpty('badges')) {
+            $data['badges'] = array_column($this->badges->toArray(), 'badge_type_id');
+        }
+
         return $data;
     }
 }

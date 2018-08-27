@@ -141,13 +141,13 @@ return [
     'Edit' => 'Редактировать',
     'Delete' => 'Удалить',
 
-    'Advantages' => 'Преимущества',
+    'Advantages' => 'Достоинства',
     'Disadvantages' => 'Недостатки',
     'Comment' => 'Комментарий',
 
     'Sort by' => 'Сортировать по',
-    'Usefulness' => 'Полезности',
-    'Date' => 'Дате',
+    'Usefulness' => 'Сначала полезные',
+    'Date' => 'Сначала новые',
 
     'On moderation' => 'Ожидает публикации',
 
@@ -160,7 +160,7 @@ return [
     'Reviews'   => 'Отзывы',
     'Questions' => 'Вопросы',
 
-    'Review about' => 'Отзыв о',
+    'Review about' => 'Отзыв на',
 
     'You have not made any orders yet.' => 'Вы еще не сделали ни одного заказа.',
     'Shop now' => 'Смотреть каталог',

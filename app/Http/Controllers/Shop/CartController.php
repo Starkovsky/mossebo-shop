@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Shop;
 
+use Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cart\CartResource;
 use App\Http\Requests\CartRequest;
-use App\Models\Shop\Promo\PromoCode;
 use App\Http\Resources\PromoCodeResource;
 
 use App\Http\Requests\PromoCodeRequest;
-use Cart;
+use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode;
 
 
 class CartController extends Controller
@@ -55,12 +55,15 @@ class CartController extends Controller
 
     public function promo(PromoCodeRequest $request)
     {
-        $promoCode = PromoCode::where('name', $request->input('promo_code'))->first();
+        $promoCode = app()->makeWith(PromoCode::class, [
+            'codeName' => $request->input('promo_code')
+        ]);
+
         Cart::setPromoCode($promoCode);
 
         return response()->json([
             'status' => 'success',
-            'promo-code' => new PromoCodeResource($promoCode)
+            'promoCode' => new PromoCodeResource($promoCode)
         ]);
     }
 }

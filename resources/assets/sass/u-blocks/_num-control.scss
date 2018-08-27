@@ -96,8 +96,8 @@
     &--product &__input {
         border: none;
 
-        &:hover svg {
-            fill: #fff;
+        & svg {
+            fill: $color-text-primary;
         }
     }
 

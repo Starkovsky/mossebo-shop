@@ -50,7 +50,7 @@ window.formatDate = function (time) {
             let num = Math.floor(diff / timePieces[keys[i - 1]])
             let phraze = declOfNum(num, Core.translate(keys[i - 1] + '.declination'))
 
-            return `${result} (${num} ${phraze} ${Core.translate('ago')})`
+            return `${result} (${num}&nbsp;${phraze}&nbsp;${Core.translate('ago')})`
         }
     }
 

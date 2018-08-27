@@ -13,7 +13,7 @@ class FormRequest extends BaseFormRequest
         return true;
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function collectErrorMessages(Validator $validator)
     {
         if ($validator->fails()) {
             $errors = [];
@@ -23,9 +23,14 @@ class FormRequest extends BaseFormRequest
             }
         }
 
+        return $errors;
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
         throw new HttpResponseException(response()->json([
             'status' => 'error',
-            'errors' => $errors,
+            'errors' => $this->collectErrorMessages($validator),
         ], 422));
     }
 }

@@ -54,6 +54,30 @@
                                     <promo-form></promo-form>
                                 </div>
 
+                                <div class="cart-summary__center">
+                                    <div class="cart-summary__intermediate">
+                                        <div class="cart-summary__row">
+                                            <span class="cart-summary__label">
+                                                {{ amountLabel }}:
+                                            </span>
+
+                                            <span class="cart-summary__value">
+                                                <formatted-price :value="amount"></formatted-price>
+                                            </span>
+                                        </div>
+
+                                        <div v-if="promoDiscount" class="cart-summary__row">
+                                            <span class="cart-summary__label">
+                                                Скидка по промокоду:
+                                            </span>
+
+                                            <span class="cart-summary__value cart-summary__value--green">
+                                                <formatted-price :value="promoDiscount"></formatted-price>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="cart-summary__total">
                                     <div class="cart-total">
                                         <span class="cart-total__label">
@@ -65,6 +89,49 @@
                                                 :value="totalPrice"
                                             ></formatted-price>
                                         </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="promoExist" class="cart-page__promo-info">
+                                <div class="promo-info">
+
+                                    <div v-if="promoAccepted" class="promo-info__status promo-info__status--success">
+                                        промокод применен
+                                    </div>
+
+                                    <div v-else class="promo-info__status promo-info__status--error">
+                                        не выполнены условия
+                                    </div>
+
+                                    <div class="promo-info__title">
+                                        {{ promoTitle }}
+                                    </div>
+
+                                    <div class="promo-info__text">
+                                        {{ promoDescription }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cart-page__promo-links">
+                                <div class="promo-links">
+                                    <div class="row row--half">
+                                        <div class="promo-links__link">
+                                            <a href="#" class="icon-link" target="_blank">
+                                                <svg class="icon-link__icon">
+                                                    <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
+                                                </svg>
+
+                                                Найти другие промокоды
+                                            </a>
+                                        </div>
+
+                                        <div class="promo-links__link">
+                                            <a href="#" class="link" target="_blank">
+                                                Как получить скидку?
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +157,7 @@
 
                                     <td>
                                         <formatted-price
-                                            :value="productsPrice"
+                                            :value="amount"
                                         ></formatted-price>
                                     </td>
                                 </tr>
@@ -138,6 +205,7 @@
 </template>
 
 <script>
+    import { mapGetters, mapState } from 'vuex'
     import PromoForm from './PromoForm'
     import Mixin from './mixin'
 
@@ -180,5 +248,21 @@
                 })
             },
         },
+
+        computed: {
+            amountLabel() {
+                return this.productsQuantity + ' ' + declOfNum(this.productsQuantity, ['товар', 'товара', 'товаров']) + ' на сумму'
+            },
+
+            ... mapGetters({
+                promoExist: 'cart/promo/exist',
+                promoAccepted: 'cart/promo/accepted',
+            }),
+
+            ... mapState({
+                promoTitle: state => state.cart.promo.title,
+                promoDescription: state => state.cart.promo.description,
+            })
+        }
     }
 </script>

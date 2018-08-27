@@ -11,3 +11,4 @@ class Currency extends BaseCurrency
         return $this->hasMany(Price::class, 'currency_code');
     }
 }
+

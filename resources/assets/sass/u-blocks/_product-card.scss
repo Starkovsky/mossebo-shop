@@ -2,8 +2,15 @@
 .product-card-long,
 .product-card-mobile,
 .product-card-sale {
-    padding: 24px;
+    padding: 24px 16px;
     position: relative;
+
+    &__badges {
+        position: absolute;
+        top: 19px;
+        left: 16px;
+        z-index: 1;
+    }
 
     &__link {
         display: block;
@@ -68,6 +75,12 @@
 
 .product-card {
     min-height: 420px;
+
+    &__name,
+    &__info {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
 
     &__actions {
         margin-bottom: 8px;

@@ -26,21 +26,7 @@ class CartResource extends JsonResource
         if (! is_null($promoCode)) {
             $data['promoCode'] = new PromoCodeResource($promoCode);
         }
+
+        return $data;
     }
 }
-
-
-/***
- *  key: '100120',
-    qty: 2,
-    info: {
-        id: '100120',
-        title: 'Светильник подвесной Twister 30',
-        image: {
-            src: '/uploads/media/product/658/responsive-images/5afad84bf39a8928923862___thumb_80_80.jpg',
-            srcset: '/uploads/media/product/658/responsive-images/5afad84bf39a8928923862___thumb_160_160.jpg',
-        },
-        price: '5500',
-        category: 'Освещение',
-    }
- */

@@ -15,7 +15,7 @@ class ReviewController extends Controller
             'reviews' => ReviewResource::collection(
                 Review::enabled()
                     ->where('user_id', Auth::user()->id)
-                    ->with(['item'])
+                    ->with(['item', 'likesCounter', 'dislikesCounter', 'likes', 'dislikes'])
                     ->get()
             )
         ], 200);

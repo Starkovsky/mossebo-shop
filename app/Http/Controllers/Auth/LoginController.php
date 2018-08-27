@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,50 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm()
+    {
+        \Session::put('login-referer', URL::previous());
+
+        return view('auth.login');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $referer = \Session::pull('login-referer');
+
+        if ($referer) {
+            return redirect($referer);
+        }
+    }
+
+    protected function loggedOut()
+    {
+        if ($referer = $this->getReferer()) {
+            $url = $referer;
+        }
+        else {
+            $url = '/';
+        }
+
+        return redirect()->intended($url);
+    }
+
+    protected function getReferer()
+    {
+        $referer = URL::previous();
+
+        if ($referer) {
+            $route = app('router')->getRoutes()->match(
+                app('request')->create($referer)
+            );
+
+            if ($route) {
+                return $referer;
+            }
+        }
+
+        return false;
     }
 }

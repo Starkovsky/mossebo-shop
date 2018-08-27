@@ -17,8 +17,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
 
     Route::group(['prefix' => 'ru'], function () {
-        Route::get('/test', 'LocationController@test');
-
+//        Route::get('/test', 'LocationController@test');
 
         // Маршруты Авторизации
         Auth::routes();

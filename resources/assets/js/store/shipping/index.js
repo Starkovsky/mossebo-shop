@@ -2,46 +2,56 @@ import * as actionTypes from './types'
 import Core from '../../scripts/core'
 import storageActionsExtension from '../storageActionsExtension'
 
-const defaultState = {
-    ready: false,
-
-    data: {
-        first_name: Core.config('user.first_name') || '',
-        last_name:  Core.config('user.last_name') || '',
-        phone:      Core.config('user.phone') || '',
-        email:      Core.config('user.email') || '',
-        city:       Core.config('user.city') || '',
-        address:    Core.config('user.address') || '',
-        post_code:  Core.config('user.post_code') || '',
-        comment:    '',
-    },
-
-    // todo: Перенести тип
-    types: {
-        '1': Core.translate('shipping.types.free'),
-        '2': Core.translate('shipping.types.express')
-    },
-
-    type: '1',
-
-    validated: false
-}
-
 export default {
     namespaced: true,
 
     state: {
-        ... defaultState,
+        ready: false,
+
+        data: {
+            first_name: Core.config('user.first_name') || '',
+            last_name:  Core.config('user.last_name') || '',
+            phone:      Core.config('user.phone') || '',
+            email:      Core.config('user.email') || '',
+            city:       '',
+            address:    Core.config('user.address') || '',
+            post_code:  Core.config('user.post_code') || '',
+            comment:    '',
+        },
+
+        // todo: Перенести тип
+        types: {
+            '1': Core.translate('shipping.types.free'),
+            '2': Core.translate('shipping.types.express')
+        },
+
+        type: '1',
+
+        validated: false
     },
 
     actions: {
         ... storageActionsExtension,
 
-        init({ state, dispatch, commit }) {
+        init({ state, rootState, dispatch, commit }) {
             if (state.ready) return
 
             dispatch('initStorageExtension', 'shipping')
-                .then(() => commit(actionTypes.SHIPPING_READY))
+                .then(() => {
+                    let city = state.data.city
+
+                    if (! city) {
+                        city = rootState.city.name
+                    }
+
+                    if (! city) {
+                        city = Core.config('user.city')
+                    }
+
+                    state.data.city = city
+
+                    commit(actionTypes.SHIPPING_READY)
+                })
         },
 
         setValue({ state, commit, dispatch }, [label, value]) {

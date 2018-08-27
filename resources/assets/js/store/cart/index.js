@@ -4,6 +4,8 @@ import DataHandler from '../../scripts/DataHandler'
 import storageActionsExtension from '../storageActionsExtension'
 import Request from '../../scripts/Request'
 
+import PromoModule from './modules/promo'
+
 export function makeKey (id, options = []) {
     return options.sort((a, b) => a - b).reduce((acc, optionId) => {
         return acc + '-' + optionId
@@ -106,6 +108,10 @@ function operateItem(items, method, key, qty) {
 
 export default {
     namespaced: true,
+
+    modules: {
+        promo: PromoModule
+    },
 
     state: {
         time: null, // время последней синхронизации
@@ -236,8 +242,20 @@ export default {
 
             state.request = new Request(config.method, config.url, config.data || null)
                 .success(response => {
-                    commit(actionTypes.CART_REQUEST_SUCCESS, response)
-                    dispatch('updateStorage', ['items', 'time', 'synchronized'])
+                    let data = response.data
+
+                    commit(actionTypes.CART_REQUEST_SUCCESS, data)
+
+                    let queue
+
+                    if ('promoCode' in data.cart) {
+                        queue = dispatch('applyPromoCode', data.cart.promoCode)
+                    }
+                    else {
+                        queue = dispatch('clearPromoCode')
+                    }
+
+                    queue.then(() => dispatch('updateStorage', ['items', 'time', 'synchronized']))
                 })
                 .any(() => state.request = null)
                 .silent()
@@ -263,6 +281,18 @@ export default {
                     }))
                 },
             })
+        },
+
+        applyPromoCode({ state, dispatch }, promoCode) {
+            return dispatch('promo/apply', promoCode)
+        },
+
+        errorPromoCode({ state, dispatch }, promoCode) {
+            return dispatch('promo/error', promoCode)
+        },
+
+        clearPromoCode({ state, dispatch }) {
+            return dispatch('promo/clear')
         },
 
         _sSetCartItems: {
@@ -313,9 +343,8 @@ export default {
             state.ready = true
         },
 
-        [actionTypes.CART_REQUEST_SUCCESS](state, response = {}) {
-            let data = response.data || {}
-            state.items = itemsToCartItems(data.items)
+        [actionTypes.CART_REQUEST_SUCCESS](state, data = {}) {
+            state.items = itemsToCartItems(data.cart.products)
             state.time = data.time
             state.ready = true
             state.synchronized = true
@@ -363,6 +392,34 @@ export default {
 
                 return product
             })
+        },
+
+        promoDiscount(state, getters) {
+            let discountValue = 0
+
+            if (getters['promo/type'] === 'amount') {
+                discountValue = getters.amount * state.promo.percent / 100
+
+                discountValue = Math.min(state.promo.amount, discountValue)
+            }
+
+            if (getters['promo/type'] === 'percent') {
+                discountValue = getters.amount * state.promo.percent / 100
+            }
+
+            return discountValue
+        },
+
+        amount(state, getters) {
+            return getters.products.reduce((acc, product) => {
+                acc += product.quantity * product.price
+
+                return acc
+            }, 0)
+        },
+
+        total(state, getters) {
+            return getters.amount - getters.promoDiscount
         },
 
         quantity(state) {

@@ -21,11 +21,14 @@ export default {
         formReview: null,
 
         active: 'list',
-        direction: 'forward'
+        direction: 'forward',
+        ready: false
     },
 
     actions: {
         init({ state, dispatch, commit }) {
+            if (state.ready) return
+
             return Promise.all([dispatch('list/init'), dispatch('form/init')])
                 .then(() => commit(actionTypes.REVIEWS_READY))
         },

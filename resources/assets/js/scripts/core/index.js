@@ -31,6 +31,12 @@ const Core = {
         return _.get(window.mossebo, path);
     },
 
+    canUsePromo() {
+        let user = this.config('user');
+
+        return ! (user && user.promoDisabled)
+    },
+
     cookie,
 
     setMeta,

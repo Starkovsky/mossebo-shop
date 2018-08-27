@@ -1,5 +1,11 @@
 <template>
     <div :class="{'product-card-long block-ui block-ui--with-hover': true, 'link-is-hovered': linkIsHovered}">
+        <div v-if="product.badges" class="product-card-long__badges">
+            <badges
+                :badges="product.badges"
+            ></badges>
+        </div>
+
         <div class="product-card-long__actions text-right">
             <product-actions></product-actions>
         </div>

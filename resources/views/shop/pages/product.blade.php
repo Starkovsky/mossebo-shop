@@ -37,7 +37,7 @@
                                     @if ($imagesCount > 1)
                                         <div class="slider slider-product js-zoom-gallery js-product-slider">
                                             @foreach ($images as $image)
-                                                <div class="slider-product__slide">
+                                                <div class="slider__slide slider-product__slide">
                                                     <a
                                                         href="https://admin.mossebo.market{{ $image->original }}"
                                                         data-fancybox="gallery"
@@ -54,7 +54,7 @@
                                         <div class="slider slider-nav mt-24">
                                             @foreach ($images as $image)
                                                 <div
-                                                    class="slider-nav__box product-image bg-image"
+                                                    class="slider__slide slider-nav__box product-image bg-image"
                                                     style="background-image: url(https://admin.mossebo.market{{ $image->thumb->srcset }})"
                                                 ></div>
                                             @endforeach
@@ -81,23 +81,49 @@
                                         <product-actions></product-actions>
                                     </div>
 
-                                    <div class="product-page__price">
-                                        <formatted-price :value="{{ $product->currentPrice->value }}"></formatted-price>
+                                    <div class="product-page__prices">
+                                        <div class="product-page__price">
+                                            <formatted-price :value="{{ $product->currentPrice->value }}"></formatted-price>
+                                        </div>
+
+                                        @if(isset($product->oldPrice))
+                                            <div class="product-page__oldprice">
+                                                <formatted-price :value="{{ $product->oldPrice->value }}"></formatted-price>
+                                            </div>
+                                            <div class="product-page__saving">
+                                                Вы сэкономите:
+                                                <formatted-price
+                                                    :value="{{ $product->oldPrice->value - $product->currentPrice->value }}"
+                                                >
+                                                </formatted-price>
+                                            </div>
+                                        @endif
                                     </div>
 
-                                    @if(isset($product->oldPrice))
-                                        <div class="product-page__oldprice">
-                                            <formatted-price :value="{{ $product->oldPrice->value }}"></formatted-price>
+                                    @if($badges->count() > 0)
+                                        <div class="product-page__badges">
+                                            <div class="badges">
+                                                <div class="badges__container">
+                                                    @foreach($badges as $badge)
+                                                        <div class="badges__item">
+                                                            <div class="badge" style="background-color: {{ $badge->color }}">
+                                                                <div class="badge__content">
+                                                                    <svg class="badge__icon">
+                                                                        <use xlink:href="/vendor/images/badges.svg#{{ $badge->icon }}"></use>
+                                                                    </svg>
+
+                                                                    @if($badge->currentI18n->title)
+                                                                        <div class="badge__text">
+                                                                            {{ $badge->currentI18n->title }}
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="product-page__economy">
-                                            Вы сэкономите:
-                                            <formatted-price
-                                                :value="{{ $product->oldPrice->value - $product->currentPrice->value }}"
-                                            >
-                                            </formatted-price>
-                                        </div>
-                                    @else
-                                        <div class="product-page__economy"></div>
                                     @endif
 
                                     <div class="product-page__stars">
@@ -211,7 +237,7 @@
                         <div class="product-tabs js-product-tabs">
                             <div class="product-tabs__tabs">
                                 <tabs-html
-                                    :tabs="{'#characteristics': 'Описание и характеристики', '#reviews': 'Отзывы', '#instructions': 'Инструкции'}"
+                                    :tabs="{'#characteristics': 'Описание и характеристики', '#instructions': 'Инструкции'}"
                                     :class-name-modificators="['center', 'xl', 'underline']"
                                 ></tabs-html>
                             </div>
@@ -270,24 +296,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="reviews">
-                                        <div class="product-tabs-pane">
-                                            <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Отзывы
-
-                                                <svg class="product-tabs-pane__chevron">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
-                                                </svg>
-                                            </div>
-
-                                            <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__inner ht-inner">
-                                                    <reviews url="{{ siteUrl('goods/' . $product->id . '/reviews') }}"></reviews>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="product-tabs__pane tab-pane block-ui fade" id="instructions">
                                         <div class="product-tabs-pane">
                                             <div class="product-tabs-pane__trigger js-ht-product-info">
@@ -313,6 +321,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-12 mt-60">
+                <h2 class="title-h2">
+                    Отзывы покупателей
+                </h2>
+
+                <reviews
+                    url="{{ siteUrl('goods/' . $product->id . '/reviews') }}"
+                    title="{{ $product->currentI18n->title }}"
+                ></reviews>
             </div>
 
             <div class="col-12 mt-60 js-product-list-container">

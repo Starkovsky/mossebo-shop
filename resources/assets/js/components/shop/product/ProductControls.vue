@@ -37,22 +37,24 @@
             </div>
         </div>
 
+        <div v-else></div>
+
         <div class="product-controls__buttons">
             <div class="row row--half">
-                <div class="col-sm-6 col-md-12 col-xl-6">
+                <div class="col-sm-12 col-md-6 col-lg-12 col-xl-6">
                     <a
                         href="#popup-one-click"
                         type="button"
-                        class="product-controls__button button button-long button-primary js-form-popup"
+                        class="product-controls__button button button-long button-dark js-form-popup"
                     >
                         Купить в 1 клик
                     </a>
                 </div>
 
-                <div class="col-sm-6 col-md-12 col-xl-6">
+                <div class="col-sm-12 col-md-6 col-lg-12 col-xl-6">
                     <template v-if="quantity === 0">
                         <button-loading
-                            class="product-controls__button button button-long button-dark"
+                            class="product-controls__button button button-long button-primary"
                             :loading="loading"
                             @click="addToCart"
                         >
@@ -63,7 +65,7 @@
                     <template v-else>
                         <button-loading
                             tag="div"
-                            class="product-controls__button product-controls__button--num button button-long button-dark"
+                            class="product-controls__button product-controls__button--num button button-long button-primary"
                             :loading="loading"
                         >
                             <num-control
@@ -79,24 +81,24 @@
             </div>
         </div>
 
-        <div class="product-page__socials">
-            <div class="product-socials">
-                <div class="product-socials__label">
-                    Расскажите друзьям:
-                </div>
+        <!--<div class="product-page__socials">-->
+            <!--<div class="product-socials">-->
+                <!--<div class="product-socials__label">-->
+                    <!--Расскажите друзьям:-->
+                <!--</div>-->
 
-                <div class="product-socials__socials">
-                    <div
-                        class="uSocial-Share"
-                        data-pid="7dcb3e6a17ce539277db2193d1b2a7da"
-                        data-type="share"
-                        data-options="round,style1,default,absolute,horizontal,size32,counter0"
-                        data-social="vk,ok,fb,pinterest,twi,telegram"
-                        data-mobile="vi,wa,sms"
-                    ></div>
-                </div>
-            </div>
-        </div>
+                <!--<div class="product-socials__socials">-->
+                    <!--<div-->
+                        <!--class="uSocial-Share"-->
+                        <!--data-pid="7dcb3e6a17ce539277db2193d1b2a7da"-->
+                        <!--data-type="share"-->
+                        <!--data-options="round,style1,default,absolute,horizontal,size32,counter0"-->
+                        <!--data-social="vk,ok,fb,pinterest,twi,telegram"-->
+                        <!--data-mobile="vi,wa,sms"-->
+                    <!--&gt;</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </template>
 
@@ -128,7 +130,7 @@
         },
 
         mounted() {
-            this.initSocials()
+            // this.initSocials()
             heightToggle('.js-ht-product-info')
         },
 

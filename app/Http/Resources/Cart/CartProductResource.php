@@ -17,17 +17,17 @@ class CartProductResource extends JsonResource
     public function toArray($request)
     {
         $data = [
-            'key'     => $this->resource->getKey(),
-            'id'      => $this->resource->getProductId(),
-            'qty'     => $this->resource->getQuantity(),
-            'options' => $this->resource->getOptions(),
-            'added'   => $this->resource->getAddedAtTimestamp(),
-            'updated' => $this->resource->getUpdatedAtTimestamp(),
-            'info'    => []
+            'key'  => $this->resource->getKey(),
+            'qty'  => $this->resource->getQuantity(),
+            'info' => [
+                'id'      => $this->resource->getProductId(),
+                'options' => $this->resource->getOptions(),
+                'added'   => $this->resource->getAddedAtTimestamp(),
+                'updated' => $this->resource->getUpdatedAtTimestamp(),
+            ]
         ];
 
-        $this->setPrice($data);
-
+        $this->setPrice($data['info']);
         $this->setTitle($data['info']);
         $this->setImage($data['info']);
 
@@ -45,15 +45,17 @@ class CartProductResource extends JsonResource
             $priceTypeId = $user->getPriceTypeId();
         }
 
-        $data['price'] = $this->resource->getFinalPrice(
+        $price = $this->resource->getFinalPrice(
             $priceTypeId,
             Shop::getCurrentCurrencyCode()
         );
+
+        $data['price'] = $price->getValue();
     }
 
     protected function setTitle(& $data)
     {
-        $title = $this->resource->getTitle($lang);
+        $title = $this->resource->getTitle(app()->getLocale());
 
         if (empty($title)) {
             // todo: подгрузить заголовок из модели

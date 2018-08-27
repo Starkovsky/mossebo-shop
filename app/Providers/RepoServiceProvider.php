@@ -85,5 +85,11 @@ class RepoServiceProvider extends ServiceProvider
                 \App\Models\Settings::class
             );
         });
+
+        $this->app->singleton('badge-types', function() {
+            return new \MosseboShopCore\Repositories\BadgeTypeRepository(
+                \App\Models\Shop\Badge\BadgeType::class
+            );
+        });
     }
 }

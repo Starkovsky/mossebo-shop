@@ -15,6 +15,7 @@ export default {
     state: {
         ready: false,
 
+        title: '',
         rate: '',
         advantages: '',
         disadvantages: '',
@@ -25,8 +26,11 @@ export default {
     },
 
     actions: {
-        init({state}) {
+        init({state, commit}) {
+            if (state.ready || state.loading) return
             state.eacher = eacher(state)
+
+            commit(actionTypes.REVIEW_FORM_READY)
         },
 
         destroy() {},
@@ -72,6 +76,13 @@ export default {
 
         [actionTypes.REVIEW_FORM_EDIT_REVIEW](state, review) {
             state.eacher(key => state[key] = review[key] || '')
+
+            if (review.item && review.item.title) {
+                state.title = review.item.title
+            }
+            else {
+                state.title = ''
+            }
         },
 
         [actionTypes.REVIEW_FORM_REQUEST_START](state) {
@@ -87,6 +98,10 @@ export default {
         [actionTypes.REVIEW_FORM_REQUEST_FAIL](state) {
             state.loading = false
             state.error = true
+        },
+
+        [actionTypes.REVIEW_FORM_READY](state) {
+            state.ready = true
         }
     }
 }

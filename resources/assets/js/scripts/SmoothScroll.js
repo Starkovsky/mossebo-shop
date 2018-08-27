@@ -102,17 +102,21 @@ export default class SmoothScrollProxy {
 
         let top = el.getBoundingClientRect().top
 
-        return (top + el.offsetHeight < el.offsetHeight / 2)
+        return (top < 0 || (top > window.outerHeight / 2))
     }
 
     static scrollIfItNeeds(el, duration, callback) {
         if (SmoothScrollProxy.scrollIsNeed(el)) {
-            return new SmoothScrollProxy(el, duration, callback)
+            return SmoothScrollProxy.scroll(el, duration, callback)
         }
         else {
             if (typeof callback === 'function') {
                 callback()
             }
         }
+    }
+
+    static scroll(el, duration, callback) {
+        return new SmoothScrollProxy(el, duration, callback)
     }
 }

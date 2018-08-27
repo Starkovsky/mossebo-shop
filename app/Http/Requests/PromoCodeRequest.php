@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Cart\CartProxy;
-use App\Cart\Promo\PromoCode;
+use Cart;
+use App\Shop\Cart\Promo\PromoCode;
+use App\Http\Resources\PromoCodeResource;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PromoCodeRequest extends FormRequest
 {
@@ -36,10 +39,32 @@ class PromoCodeRequest extends FormRequest
             return $fail('Действие промокода истекло.');
         }
 
-        $validator = $this->promoCode->validate(CartProxy::getInstance());
+        $validator = $this->promoCode->validate(Cart::get());
 
         if ($validator->hasError()) {
             return $fail($validator->getErrorMessage());
         }
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if ($validator->fails()) {
+            $errors = [];
+
+            foreach ($validator->errors()->messages() as $fieldName => $messages) {
+                $errors[$fieldName] = $messages[0];
+            }
+        }
+
+        $responseData = [
+            'status' => 'error',
+            'errors' => $this->collectErrorMessages($validator),
+        ];
+
+        if (! $this->promoCode->notExist()) {
+            $responseData['promoCode'] = new PromoCodeResource($this->promoCode);
+        }
+
+        throw new HttpResponseException(response()->json($responseData, 422));
     }
 }

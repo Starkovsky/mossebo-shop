@@ -160,9 +160,11 @@ class FormField {
 
         this.el.classList.add('has-error')
 
-        this.errorEl.setAttribute('data-original-title', text)
-
+        // this.errorEl.setAttribute('data-original-title', text)
+        //
         this.inputEl.addEventListener('input', this.hideError.bind(this), {passive: true, once: true})
+
+        this.errorEl.innerHTML = text
     }
 
     hideError() {

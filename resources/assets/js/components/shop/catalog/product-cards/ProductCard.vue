@@ -1,5 +1,11 @@
 <template>
     <div class="product-card block-ui block-ui--with-hover">
+        <div v-if="product.badges" class="product-card__badges">
+            <badges
+                :badges="product.badges"
+            ></badges>
+        </div>
+
         <div class="product-card__actions text-right">
             <product-actions></product-actions>
         </div>
@@ -20,26 +26,28 @@
             </div>
         </a>
 
-        <div class="product-card__reviews">
-            <rating></rating>
-        </div>
+        <div class="product-card__info">
+            <div class="product-card__reviews">
+                <rating></rating>
+            </div>
 
-        <div class="product-card__price">
-            <formatted-price
-                :value="product.price"
-            ></formatted-price>
-        </div>
+            <div class="product-card__price">
+                <formatted-price
+                    :value="product.price"
+                ></formatted-price>
+            </div>
 
-        <div class="product-card__old-price">
-            <formatted-price
-                :value="product.old_price"
-            ></formatted-price>
-        </div>
+            <div class="product-card__old-price">
+                <formatted-price
+                    :value="product.old_price"
+                ></formatted-price>
+            </div>
 
-        <div class="product-card__buttons">
-            <a :href="link" class="button button-light">
-                Подробнее
-            </a>
+            <div class="product-card__buttons">
+                <a :href="link" class="button button-light">
+                    Подробнее
+                </a>
+            </div>
         </div>
     </div>
 </template>

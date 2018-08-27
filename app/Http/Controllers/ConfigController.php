@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Cities;
 use Auth;
-use App\Http\Resources\CityResource;
+use Shop;
+use App\Http\Resources\PromoCodeResource;
 use Illuminate\Support\Collection;
 
 class ConfigController extends Controller
@@ -27,6 +27,7 @@ class ConfigController extends Controller
         $this->__connectTranslates($config);
         $this->__connectLocations($config);
         $this->__connectUserData($config);
+        $this->__connectDefaultPromo($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
     }
@@ -54,23 +55,36 @@ class ConfigController extends Controller
 
     protected function __connectUserData(& $config)
     {
-        if ($user = Auth::user()) {
-            $config['user'] = [
-                'id'         => $user->id,
-                'first_name' => $user->first_name,
-                'last_name'  => $user->last_name,
-                'phone'      => $user->phone,
-                'email'      => $user->email,
-                'city'       => $user->city,
-                'address'    => $user->address,
-                'post_code'  => $user->post_code,
-            ];
+        $user = Auth::user();
 
-            foreach ($config['user'] as $key => $value) {
-                if (empty($config['user'][$key])) {
-                    unset($config['user'][$key]);
-                }
+        if (! $user) return;
+
+        $config['user'] = [
+            'id'         => $user->id,
+            'first_name' => $user->first_name,
+            'last_name'  => $user->last_name,
+            'phone'      => $user->phone,
+            'email'      => $user->email,
+            'city'       => $user->city,
+            'address'    => $user->address,
+            'post_code'  => $user->post_code,
+        ];
+
+        foreach ($config['user'] as $key => $value) {
+            if (empty($config['user'][$key])) {
+                unset($config['user'][$key]);
             }
+        }
+
+        if ($user->getPriceTypeId() !== Shop::getDefaultPriceTypeId()) {
+            $user['promoDisabled'] = true;
+        }
+    }
+
+    protected function __connectDefaultPromo(& $config)
+    {
+        if ($promoCode = Shop::getDefaultPromoCode()) {
+            $config['default_promo'] = new PromoCodeResource($promoCode);
         }
     }
 }
