@@ -2,7 +2,7 @@ $instagram-slider--height: 600px;
 
 .instagram-slider {
     height: $instagram-slider--height;
-    margin: -32px 0 -64px;
+    margin: 0;
     @include media-breakpoint-down(md) {
         display: none;
     }

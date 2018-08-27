@@ -32,6 +32,9 @@ Route::prefix('ru')->group(function () {
     Route::get('/goods/new', 'Api\Shop\ProductController@new');
     Route::get('/goods/{product}/similar', 'Api\Shop\ProductController@similar');
     Route::get('/goods/{product}/related', 'Api\Shop\ProductController@related');
+
+    // Каталог для RetailCRM
+    Route::get('/catalog.xml', 'Api\Shop\RetailCRMController@catalog');
 });
 
 
