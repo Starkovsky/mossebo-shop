@@ -66,7 +66,7 @@
                                             </span>
                                         </div>
 
-                                        <div v-if="promoDiscount" class="cart-summary__row">
+                                        <div v-if="promoAccepted && promoDiscount" class="cart-summary__row">
                                             <span class="cart-summary__label">
                                                 Скидка по промокоду:
                                             </span>

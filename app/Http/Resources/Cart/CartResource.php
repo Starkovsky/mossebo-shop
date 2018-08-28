@@ -25,6 +25,15 @@ class CartResource extends JsonResource
 
         if (! is_null($promoCode)) {
             $data['promoCode'] = new PromoCodeResource($promoCode);
+            $data['promoCode']->setStatus('confirmed');
+            return $data;
+        }
+
+        $lastPromoCodeInfo = $this->resource->getLastPromoCodeInfo();
+
+        if (! is_null($lastPromoCodeInfo)) {
+            $data['promoCode'] = new PromoCodeResource($lastPromoCodeInfo['code']);
+            $data['promoCode']->setStatus('denied');
         }
 
         return $data;

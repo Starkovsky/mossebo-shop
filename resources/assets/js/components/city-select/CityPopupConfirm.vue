@@ -12,13 +12,13 @@
             <div class="select-city-confirm__controls">
                 <div class="select-city-confirm__button">
                     <button @click="confirm" class="button button-primary">
+                        <svg class="button__icon button__icon--left">
+                            <use xlink:href="/assets/images/icons.svg#symbol-check"></use>
+                        </svg>
+
                         <span class="button__content">
                             Да
                         </span>
-
-                        <svg class="button__icon button__icon--right">
-                            <use xlink:href="/assets/images/icons.svg#symbol-check"></use>
-                        </svg>
                     </button>
                 </div>
 

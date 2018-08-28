@@ -47,7 +47,6 @@
 </template>
 
 <script>
-
     // <div @click="clear" class="form-input-clear">
     //     <svg class="form-input-clear__icon">
     //         <use xlink:href="/assets/images/icons.svg#symbol-close"></use>
@@ -113,7 +112,7 @@
             hanleRequest() {
                 FormSenderMixin.methods.hanleRequest.call(this)
                     .success(response => {
-                        this.$store.dispatch('cart/applyPromoCode', response.data.promoCode)
+                        this.$store.dispatch('cart/setCart', response.data)
                     })
                     .fail(() => {
                         this.$store.dispatch('cart/promo/clear')

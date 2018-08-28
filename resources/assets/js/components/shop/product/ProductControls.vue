@@ -1,6 +1,8 @@
 <template>
-    <div class="product-controls">
-        <div v-if="selectable.length" class="product-controls__attributes">
+    <div class="product-page__info">
+        <slot></slot>
+
+        <div v-if="selectable.length" class="product-page__attributes">
             <div class="product-controls-attributes">
                 <div class="row">
                     <template v-for="attribute in selectable">
@@ -37,68 +39,55 @@
             </div>
         </div>
 
-        <div v-else></div>
-
-        <div class="product-controls__buttons">
-            <div class="row row--half">
-                <div class="col-sm-12 col-md-6 col-lg-12 col-xl-6">
-                    <a
-                        href="#popup-one-click"
-                        type="button"
-                        class="product-controls__button button button-long button-dark js-form-popup"
-                    >
-                        Купить в 1 клик
-                    </a>
-                </div>
-
-                <div class="col-sm-12 col-md-6 col-lg-12 col-xl-6">
-                    <template v-if="quantity === 0">
-                        <button-loading
-                            class="product-controls__button button button-long button-primary"
-                            :loading="loading"
-                            @click="addToCart"
+        <div class="product-page__buttons">
+            <div class="product-page__fw">
+                <div class="row row--half">
+                    <div class="col-sm-12 col-md-5 col-lg-12 col-xl-5">
+                        <a
+                            href="#popup-one-click"
+                            type="button"
+                            class="product-page__button button button-long button-dark js-form-popup"
                         >
-                            Добавить в корзину
-                        </button-loading>
-                    </template>
+                            Купить в 1 клик
+                        </a>
+                    </div>
 
-                    <template v-else>
-                        <button-loading
-                            tag="div"
-                            class="product-controls__button product-controls__button--num button button-long button-primary"
-                            :loading="loading"
-                        >
-                            <num-control
-                                :number="quantity"
-                                @update:number="setQty"
-                                :min="1"
-                                :max="99"
-                                :classNameModificators="['large', 'product']"
-                            ></num-control>
-                        </button-loading>
-                    </template>
+                    <div class="col-sm-12 col-md-7 col-lg-12 col-xl-7">
+                        <template v-if="quantity === 0">
+                            <button-loading
+                                class="product-page__button button button-icon button-long button-primary"
+                                :loading="loading"
+                                @click="addToCart"
+                            >
+                                <svg class="button__icon button__icon--left">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-cart-add"></use>
+                                </svg>
+
+                                <span class="button__content">
+                                    Добавить в корзину
+                                </span>
+                            </button-loading>
+                        </template>
+
+                        <template v-else>
+                            <button-loading
+                                tag="div"
+                                class="product-page__button product-page__button--num button button-long button-primary"
+                                :loading="loading"
+                            >
+                                <num-control
+                                    :number="quantity"
+                                    @update:number="setQty"
+                                    :min="1"
+                                    :max="99"
+                                    :classNameModificators="['large', 'product']"
+                                ></num-control>
+                            </button-loading>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!--<div class="product-page__socials">-->
-            <!--<div class="product-socials">-->
-                <!--<div class="product-socials__label">-->
-                    <!--Расскажите друзьям:-->
-                <!--</div>-->
-
-                <!--<div class="product-socials__socials">-->
-                    <!--<div-->
-                        <!--class="uSocial-Share"-->
-                        <!--data-pid="7dcb3e6a17ce539277db2193d1b2a7da"-->
-                        <!--data-type="share"-->
-                        <!--data-options="round,style1,default,absolute,horizontal,size32,counter0"-->
-                        <!--data-social="vk,ok,fb,pinterest,twi,telegram"-->
-                        <!--data-mobile="vi,wa,sms"-->
-                    <!--&gt;</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
 </template>
 

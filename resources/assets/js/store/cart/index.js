@@ -181,28 +181,36 @@ export default {
             commit(actionTypes.CART_ADD_ITEM, keyQtyArr)
 
             dispatch('dirty')
-            dispatch('add', keyQtyArr)
+                .then(() => {
+                    dispatch('add', keyQtyArr)
+                })
         },
 
         updateItem({ commit, dispatch }, keyQtyArr) {
             commit(actionTypes.CART_UPDATE_ITEM, keyQtyArr)
 
             dispatch('dirty')
-            this.syncDebouncer()
+                .then(() => {
+                    this.syncDebouncer()
+                })
         },
 
         removeItem({ commit, dispatch }, key) {
             commit(actionTypes.CART_REMOVE_ITEM, key)
 
             dispatch('dirty')
-            this.syncDebouncer()
+                .then(() => {
+                    this.syncDebouncer()
+                })
         },
 
         clear({ commit, dispatch }) {
             commit(actionTypes.CART_CLEAR)
 
             dispatch('dirty')
-            this.syncDebouncer()
+                .then(() => {
+                    this.syncDebouncer()
+                })
         },
 
         dirty({ state, commit, dispatch }) {
@@ -241,22 +249,7 @@ export default {
             commit(actionTypes.CART_REQUEST_START)
 
             state.request = new Request(config.method, config.url, config.data || null)
-                .success(response => {
-                    let data = response.data
-
-                    commit(actionTypes.CART_REQUEST_SUCCESS, data)
-
-                    let queue
-
-                    if ('promoCode' in data.cart) {
-                        queue = dispatch('applyPromoCode', data.cart.promoCode)
-                    }
-                    else {
-                        queue = dispatch('clearPromoCode')
-                    }
-
-                    queue.then(() => dispatch('updateStorage', ['items', 'time', 'synchronized']))
-                })
+                .success(response => dispatch('setCart', response.data))
                 .any(() => state.request = null)
                 .silent()
                 .start()
@@ -283,12 +276,25 @@ export default {
             })
         },
 
-        applyPromoCode({ state, dispatch }, promoCode) {
-            return dispatch('promo/apply', promoCode)
+        setCart({commit, dispatch}, data = {}) {
+            commit(actionTypes.CART_REQUEST_SUCCESS, data)
+
+            let queue
+
+            if ('promoCode' in data.cart) {
+                queue = dispatch('setPromoCode', data.cart.promoCode)
+            }
+            else {
+                queue = dispatch('clearPromoCode')
+            }
+
+            queue.then(() => dispatch('updateStorage', ['items', 'time', 'synchronized']))
+
+            return queue
         },
 
-        errorPromoCode({ state, dispatch }, promoCode) {
-            return dispatch('promo/error', promoCode)
+        setPromoCode({ state, dispatch }, promoCode) {
+            return dispatch('promo/set', promoCode)
         },
 
         clearPromoCode({ state, dispatch }) {
@@ -396,6 +402,10 @@ export default {
 
         promoDiscount(state, getters) {
             let discountValue = 0
+
+            if (! getters['promo/accepted']) {
+                return discountValue
+            }
 
             if (getters['promo/type'] === 'amount') {
                 discountValue = getters.amount * state.promo.percent / 100

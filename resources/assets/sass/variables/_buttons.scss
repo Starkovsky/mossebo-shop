@@ -8,9 +8,9 @@
     border: 1px solid transparent;
     border-radius: 30px;
     transition: $transition-primary;
-    padding: 12px 32px;
+    padding: 11px 32px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 14px / 24px;
     &:hover {
         text-decoration: none;
         cursor: pointer;
@@ -30,7 +30,7 @@
         &:not(:disabled):hover {
             border: 1px solid $color-primary;
             background: $color-primary;
-            color: $color-ui;
+            color: $color-text-primary;
             .symbol-icon {
                 fill: $color-ui;
             }

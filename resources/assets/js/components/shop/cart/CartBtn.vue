@@ -73,12 +73,12 @@
 
                                 <div class="cart-popup__panel">
                                     <div class="cart-popup__total">
-                                        <div class="cart-total">
-                                            <span class="cart-total__label">
+                                        <div class="cart-popup-total">
+                                            <span class="cart-popup-total__label">
                                                 Итого:
                                             </span>
 
-                                            <span class="cart-total__value">
+                                            <span class="cart-popup-total__value">
                                                 <formatted-price
                                                     :value="amount"
                                                 ></formatted-price>

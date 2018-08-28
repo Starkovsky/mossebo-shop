@@ -10690,7 +10690,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 
-
 // <div @click="clear" class="form-input-clear">
 //     <svg class="form-input-clear__icon">
 //         <use xlink:href="/assets/images/icons.svg#symbol-close"></use>
@@ -10752,7 +10751,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_2__mixins_FormSender__["a" /* default */].methods.hanleRequest.call(this).success(function (response) {
-                _this2.$store.dispatch('cart/applyPromoCode', response.data.promoCode);
+                _this2.$store.dispatch('cart/setCart', response.data);
             }).fail(function () {
                 _this2.$store.dispatch('cart/promo/clear');
             });
@@ -13974,17 +13973,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -15706,7 +15694,7 @@ var render = function() {
                                         ]
                                       ),
                                       _vm._v(" "),
-                                      _vm.promoDiscount
+                                      _vm.promoAccepted && _vm.promoDiscount
                                         ? _c(
                                             "div",
                                             {
@@ -19283,13 +19271,13 @@ var render = function() {
                                         [
                                           _c(
                                             "div",
-                                            { staticClass: "cart-total" },
+                                            { staticClass: "cart-popup-total" },
                                             [
                                               _c(
                                                 "span",
                                                 {
                                                   staticClass:
-                                                    "cart-total__label"
+                                                    "cart-popup-total__label"
                                                 },
                                                 [
                                                   _vm._v(
@@ -19302,7 +19290,7 @@ var render = function() {
                                                 "span",
                                                 {
                                                   staticClass:
-                                                    "cart-total__value"
+                                                    "cart-popup-total__value"
                                                 },
                                                 [
                                                   _c("formatted-price", {
@@ -20391,16 +20379,16 @@ var render = function() {
                 on: { click: _vm.confirm }
               },
               [
-                _c("span", { staticClass: "button__content" }, [
-                  _vm._v("\n                        Да\n                    ")
-                ]),
-                _vm._v(" "),
-                _c("svg", { staticClass: "button__icon button__icon--right" }, [
+                _c("svg", { staticClass: "button__icon button__icon--left" }, [
                   _c("use", {
                     attrs: {
                       "xlink:href": "/assets/images/icons.svg#symbol-check"
                     }
                   })
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "button__content" }, [
+                  _vm._v("\n                        Да\n                    ")
                 ])
               ]
             )
@@ -22589,173 +22577,201 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "product-controls" }, [
-    _vm.selectable.length
-      ? _c("div", { staticClass: "product-controls__attributes" }, [
-          _c("div", { staticClass: "product-controls-attributes" }, [
+  return _c(
+    "div",
+    { staticClass: "product-page__info" },
+    [
+      _vm._t("default"),
+      _vm._v(" "),
+      _vm.selectable.length
+        ? _c("div", { staticClass: "product-page__attributes" }, [
+            _c("div", { staticClass: "product-controls-attributes" }, [
+              _c(
+                "div",
+                { staticClass: "row" },
+                [
+                  _vm._l(_vm.selectable, function(attribute) {
+                    return [
+                      _c(
+                        "div",
+                        { staticClass: "col-12 col-sm-6 col-lg-6" },
+                        [
+                          _c("multi-select", {
+                            class: { "has-error": attribute.error },
+                            attrs: {
+                              options: attribute.options,
+                              "max-height": 300,
+                              placeholder: attribute.title,
+                              searchable: false,
+                              "hide-selected": false,
+                              multiple: false,
+                              "allow-empty": true
+                            },
+                            on: {
+                              select: function($event) {
+                                _vm.select(attribute)
+                              },
+                              remove: function($event) {
+                                _vm.select(attribute)
+                              }
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "option",
+                                fn: function(props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        class:
+                                          "attribute-option attribute-option--" +
+                                          props.option.id
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(props.option.title) +
+                                            "\n                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              },
+                              {
+                                key: "singleLabel",
+                                fn: function(props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      {
+                                        class:
+                                          "attribute-option attribute-option--" +
+                                          props.option.id
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(props.option.title) +
+                                            "\n                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: attribute.value,
+                              callback: function($$v) {
+                                _vm.$set(attribute, "value", $$v)
+                              },
+                              expression: "attribute.value"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "product-page__buttons" }, [
+        _c("div", { staticClass: "product-page__fw" }, [
+          _c("div", { staticClass: "row row--half" }, [
+            _vm._m(0),
+            _vm._v(" "),
             _c(
               "div",
-              { staticClass: "row" },
+              { staticClass: "col-sm-12 col-md-7 col-lg-12 col-xl-7" },
               [
-                _vm._l(_vm.selectable, function(attribute) {
-                  return [
-                    _c(
-                      "div",
-                      { staticClass: "col-12 col-sm-6 col-lg-6" },
-                      [
-                        _c("multi-select", {
-                          class: { "has-error": attribute.error },
-                          attrs: {
-                            options: attribute.options,
-                            "max-height": 300,
-                            placeholder: attribute.title,
-                            searchable: false,
-                            "hide-selected": false,
-                            multiple: false,
-                            "allow-empty": true
-                          },
-                          on: {
-                            select: function($event) {
-                              _vm.select(attribute)
+                _vm.quantity === 0
+                  ? [
+                      _c(
+                        "button-loading",
+                        {
+                          staticClass:
+                            "product-page__button button button-icon button-long button-primary",
+                          attrs: { loading: _vm.loading },
+                          on: { click: _vm.addToCart }
+                        },
+                        [
+                          _c(
+                            "svg",
+                            { staticClass: "button__icon button__icon--left" },
+                            [
+                              _c("use", {
+                                attrs: {
+                                  "xlink:href":
+                                    "/assets/images/icons.svg#symbol-cart-add"
+                                }
+                              })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "button__content" }, [
+                            _vm._v(
+                              "\n                                Добавить в корзину\n                            "
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  : [
+                      _c(
+                        "button-loading",
+                        {
+                          staticClass:
+                            "product-page__button product-page__button--num button button-long button-primary",
+                          attrs: { tag: "div", loading: _vm.loading }
+                        },
+                        [
+                          _c("num-control", {
+                            attrs: {
+                              number: _vm.quantity,
+                              min: 1,
+                              max: 99,
+                              classNameModificators: ["large", "product"]
                             },
-                            remove: function($event) {
-                              _vm.select(attribute)
-                            }
-                          },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "option",
-                              fn: function(props) {
-                                return [
-                                  _c(
-                                    "div",
-                                    {
-                                      class:
-                                        "attribute-option attribute-option--" +
-                                        props.option.id
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(props.option.title) +
-                                          "\n                                "
-                                      )
-                                    ]
-                                  )
-                                ]
-                              }
-                            },
-                            {
-                              key: "singleLabel",
-                              fn: function(props) {
-                                return [
-                                  _c(
-                                    "div",
-                                    {
-                                      class:
-                                        "attribute-option attribute-option--" +
-                                        props.option.id
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(props.option.title) +
-                                          "\n                                "
-                                      )
-                                    ]
-                                  )
-                                ]
-                              }
-                            }
-                          ]),
-                          model: {
-                            value: attribute.value,
-                            callback: function($$v) {
-                              _vm.$set(attribute, "value", $$v)
-                            },
-                            expression: "attribute.value"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]
-                })
+                            on: { "update:number": _vm.setQty }
+                          })
+                        ],
+                        1
+                      )
+                    ]
               ],
               2
             )
           ])
         ])
-      : _c("div"),
-    _vm._v(" "),
-    _c("div", { staticClass: "product-controls__buttons" }, [
-      _c("div", { staticClass: "row row--half" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-sm-12 col-md-6 col-lg-12 col-xl-6" },
-          [
-            _vm.quantity === 0
-              ? [
-                  _c(
-                    "button-loading",
-                    {
-                      staticClass:
-                        "product-controls__button button button-long button-primary",
-                      attrs: { loading: _vm.loading },
-                      on: { click: _vm.addToCart }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Добавить в корзину\n                    "
-                      )
-                    ]
-                  )
-                ]
-              : [
-                  _c(
-                    "button-loading",
-                    {
-                      staticClass:
-                        "product-controls__button product-controls__button--num button button-long button-primary",
-                      attrs: { tag: "div", loading: _vm.loading }
-                    },
-                    [
-                      _c("num-control", {
-                        attrs: {
-                          number: _vm.quantity,
-                          min: 1,
-                          max: 99,
-                          classNameModificators: ["large", "product"]
-                        },
-                        on: { "update:number": _vm.setQty }
-                      })
-                    ],
-                    1
-                  )
-                ]
-          ],
-          2
-        )
       ])
-    ])
-  ])
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-12 col-md-6 col-lg-12 col-xl-6" }, [
+    return _c("div", { staticClass: "col-sm-12 col-md-5 col-lg-12 col-xl-5" }, [
       _c(
         "a",
         {
           staticClass:
-            "product-controls__button button button-long button-dark js-form-popup",
+            "product-page__button button button-long button-dark js-form-popup",
           attrs: { href: "#popup-one-click", type: "button" }
         },
-        [_vm._v("\n                    Купить в 1 клик\n                ")]
+        [
+          _vm._v(
+            "\n                        Купить в 1 клик\n                    "
+          )
+        ]
       )
     ])
   }
@@ -33923,35 +33939,45 @@ function operateItem(items, method, key, qty) {
 
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* CART_ADD_ITEM */], keyQtyArr);
 
-            dispatch('dirty');
-            dispatch('add', keyQtyArr);
+            dispatch('dirty').then(function () {
+                dispatch('add', keyQtyArr);
+            });
         },
         updateItem: function updateItem(_ref13, keyQtyArr) {
+            var _this = this;
+
             var commit = _ref13.commit,
                 dispatch = _ref13.dispatch;
 
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["j" /* CART_UPDATE_ITEM */], keyQtyArr);
 
-            dispatch('dirty');
-            this.syncDebouncer();
+            dispatch('dirty').then(function () {
+                _this.syncDebouncer();
+            });
         },
         removeItem: function removeItem(_ref14, key) {
+            var _this2 = this;
+
             var commit = _ref14.commit,
                 dispatch = _ref14.dispatch;
 
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["e" /* CART_REMOVE_ITEM */], key);
 
-            dispatch('dirty');
-            this.syncDebouncer();
+            dispatch('dirty').then(function () {
+                _this2.syncDebouncer();
+            });
         },
         clear: function clear(_ref15) {
+            var _this3 = this;
+
             var commit = _ref15.commit,
                 dispatch = _ref15.dispatch;
 
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_CLEAR */]);
 
-            dispatch('dirty');
-            this.syncDebouncer();
+            dispatch('dirty').then(function () {
+                _this3.syncDebouncer();
+            });
         },
         dirty: function dirty(_ref16) {
             var state = _ref16.state,
@@ -33998,21 +34024,7 @@ function operateItem(items, method, key, qty) {
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["g" /* CART_REQUEST_START */]);
 
             state.request = new __WEBPACK_IMPORTED_MODULE_4__scripts_Request__["a" /* default */](config.method, config.url, config.data || null).success(function (response) {
-                var data = response.data;
-
-                commit(__WEBPACK_IMPORTED_MODULE_0__types__["h" /* CART_REQUEST_SUCCESS */], data);
-
-                var queue = void 0;
-
-                if ('promoCode' in data.cart) {
-                    queue = dispatch('applyPromoCode', data.cart.promoCode);
-                } else {
-                    queue = dispatch('clearPromoCode');
-                }
-
-                queue.then(function () {
-                    return dispatch('updateStorage', ['items', 'time', 'synchronized']);
-                });
+                return dispatch('setCart', response.data);
             }).any(function () {
                 return state.request = null;
             }).silent().start();
@@ -34045,17 +34057,32 @@ function operateItem(items, method, key, qty) {
                 }
             });
         },
-        applyPromoCode: function applyPromoCode(_ref22, promoCode) {
-            var state = _ref22.state,
+        setCart: function setCart(_ref22) {
+            var commit = _ref22.commit,
                 dispatch = _ref22.dispatch;
+            var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-            return dispatch('promo/apply', promoCode);
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["h" /* CART_REQUEST_SUCCESS */], data);
+
+            var queue = void 0;
+
+            if ('promoCode' in data.cart) {
+                queue = dispatch('setPromoCode', data.cart.promoCode);
+            } else {
+                queue = dispatch('clearPromoCode');
+            }
+
+            queue.then(function () {
+                return dispatch('updateStorage', ['items', 'time', 'synchronized']);
+            });
+
+            return queue;
         },
-        errorPromoCode: function errorPromoCode(_ref23, promoCode) {
+        setPromoCode: function setPromoCode(_ref23, promoCode) {
             var state = _ref23.state,
                 dispatch = _ref23.dispatch;
 
-            return dispatch('promo/error', promoCode);
+            return dispatch('promo/set', promoCode);
         },
         clearPromoCode: function clearPromoCode(_ref24) {
             var state = _ref24.state,
@@ -34165,6 +34192,10 @@ function operateItem(items, method, key, qty) {
         promoDiscount: function promoDiscount(state, getters) {
             var discountValue = 0;
 
+            if (!getters['promo/accepted']) {
+                return discountValue;
+            }
+
             if (getters['promo/type'] === 'amount') {
                 discountValue = getters.amount * state.promo.percent / 100;
 
@@ -34237,6 +34268,10 @@ function setPromo(state, promoCode) {
             state[i] = defaultState[i];
         }
     }
+
+    if ('status' in promoCode) {
+        state.hasError = promoCode.status === 'denied';
+    }
 }
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -34248,35 +34283,24 @@ function setPromo(state, promoCode) {
     }),
 
     actions: {
-        apply: function apply(_ref, promoCode) {
+        set: function set(_ref, promoCode) {
             var state = _ref.state,
                 commit = _ref.commit;
 
             if (__WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].canUsePromo()) {
-                return commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* CART_PROMO_APPLY */], promoCode);
+                return commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_PROMO_SET */], promoCode);
             }
         },
-        error: function error(_ref2, promoCode) {
-            var state = _ref2.state,
-                commit = _ref2.commit;
+        clear: function clear(_ref2) {
+            var commit = _ref2.commit;
 
-            if (__WEBPACK_IMPORTED_MODULE_1__scripts_core__["a" /* default */].canUsePromo()) {
-                return commit(__WEBPACK_IMPORTED_MODULE_0__types__["c" /* CART_PROMO_ERROR */], promoCode);
-            }
-        },
-        clear: function clear(_ref3) {
-            var commit = _ref3.commit;
-
-            commit(__WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_PROMO_CLEAR */]);
+            commit(__WEBPACK_IMPORTED_MODULE_0__types__["a" /* CART_PROMO_CLEAR */]);
         }
     },
 
-    mutations: (_mutations = {}, _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["a" /* CART_PROMO_APPLY */], function (state, promoCode) {
+    mutations: (_mutations = {}, _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_PROMO_SET */], function (state, promoCode) {
         setPromo(state, promoCode);
-    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["c" /* CART_PROMO_ERROR */], function (state, promoCode) {
-        setPromo(state, promoCode);
-        state.hasError = true;
-    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_PROMO_CLEAR */], function (state) {
+    }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["a" /* CART_PROMO_CLEAR */], function (state) {
         for (var i in defaultState) {
             state[i] = defaultState[i];
         }
@@ -34301,11 +34325,9 @@ function setPromo(state, promoCode) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CART_PROMO_APPLY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CART_PROMO_ERROR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CART_PROMO_CLEAR; });
-var CART_PROMO_APPLY = 'CART_PROMO_APPLY';
-var CART_PROMO_ERROR = 'CART_PROMO_ERROR';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CART_PROMO_SET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CART_PROMO_CLEAR; });
+var CART_PROMO_SET = 'CART_PROMO_SET';
 var CART_PROMO_CLEAR = 'CART_PROMO_CLEAR';
 
 /***/ }),

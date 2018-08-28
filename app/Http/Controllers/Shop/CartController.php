@@ -11,7 +11,6 @@ use App\Http\Resources\PromoCodeResource;
 use App\Http\Requests\PromoCodeRequest;
 use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode;
 
-
 class CartController extends Controller
 {
     public function index()
@@ -28,11 +27,10 @@ class CartController extends Controller
     {
         $lastUpdatedTime = Cart::getUpdatedAt();
 
-        if ($request->input('time') > $lastUpdatedTime) {
-            Cart::clear();
+        if ($request->input('time') >= $lastUpdatedTime) {
+            Cart::clearProducts();
+            Cart::setMany($request->input('items'));
         }
-
-        Cart::setMany($request->input('items'));
 
         return $this->_makeResponse();
     }
@@ -46,11 +44,21 @@ class CartController extends Controller
 
     protected function _makeResponse()
     {
-        return response()->json([
+        $cart = Cart::get();
+
+        $data = [
             'status' => 'success',
-            'cart'   => new CartResource(Cart::get()),
+            'cart'   => new CartResource($cart),
             'time'   => Cart::getUpdatedAt()
-        ]);
+        ];
+
+        if ($lastPromo = $cart->getLastPromoCodeInfo()) {
+            $data['errors'] = [
+                'promo_code' => $lastPromo['error']
+            ];
+        }
+
+        return response()->json($data);
     }
 
     public function promo(PromoCodeRequest $request)
@@ -61,9 +69,9 @@ class CartController extends Controller
 
         Cart::setPromoCode($promoCode);
 
-        return response()->json([
-            'status' => 'success',
-            'promoCode' => new PromoCodeResource($promoCode)
-        ]);
+        $promoCodeResource = new PromoCodeResource($promoCode);
+        $promoCodeResource->setStatus('confirmed');
+
+        return $this->_makeResponse();
     }
 }

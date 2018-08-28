@@ -77,155 +77,153 @@
 
                             <div class="col-lg-6 product-page__border">
                                 <div class="product-page__right">
-                                    <div class="product-page__actions text-right">
-                                        <product-actions></product-actions>
-                                    </div>
-
-                                    <div class="product-page__prices">
-                                        <div class="product-page__price">
-                                            <formatted-price :value="{{ $product->currentPrice->value }}"></formatted-price>
+                                    <product-controls>
+                                        <div class="product-page__actions text-right">
+                                            <product-actions></product-actions>
                                         </div>
 
-                                        @if(isset($product->oldPrice))
-                                            <div class="product-page__oldprice">
-                                                <formatted-price :value="{{ $product->oldPrice->value }}"></formatted-price>
+                                        <div class="product-page__prices">
+                                            <div class="product-page__price">
+                                                <formatted-price :value="{{ $product->currentPrice->value }}"></formatted-price>
                                             </div>
-                                            <div class="product-page__saving">
-                                                Вы сэкономите:
-                                                <formatted-price
-                                                    :value="{{ $product->oldPrice->value - $product->currentPrice->value }}"
-                                                >
-                                                </formatted-price>
-                                            </div>
-                                        @endif
-                                    </div>
 
-                                    @if($badges->count() > 0)
-                                        <div class="product-page__badges">
-                                            <div class="badges">
-                                                <div class="badges__container">
-                                                    @foreach($badges as $badge)
-                                                        <div class="badges__item">
-                                                            <div class="badge" style="background-color: {{ $badge->color }}">
-                                                                <div class="badge__content">
-                                                                    <svg class="badge__icon">
-                                                                        <use xlink:href="/vendor/images/badges.svg#{{ $badge->icon }}"></use>
-                                                                    </svg>
+                                            @if(isset($product->oldPrice))
+                                                <div class="product-page__oldprice">
+                                                    <formatted-price :value="{{ $product->oldPrice->value }}"></formatted-price>
+                                                </div>
+                                                <div class="product-page__saving">
+                                                    Вы сэкономите:
+                                                    <formatted-price
+                                                        :value="{{ $product->oldPrice->value - $product->currentPrice->value }}"
+                                                    >
+                                                    </formatted-price>
+                                                </div>
+                                            @endif
+                                        </div>
 
-                                                                    @if($badge->currentI18n->title)
-                                                                        <div class="badge__text">
-                                                                            {{ $badge->currentI18n->title }}
-                                                                        </div>
-                                                                    @endif
+                                        @if($badges->count() > 0)
+                                            <div class="product-page__badges">
+                                                <div class="badges">
+                                                    <div class="badges__container">
+                                                        @foreach($badges as $badge)
+                                                            <div class="badges__item">
+                                                                <div class="badge" style="background-color: {{ $badge->color }}">
+                                                                    <div class="badge__content">
+                                                                        <svg class="badge__icon">
+                                                                            <use xlink:href="/vendor/images/badges.svg#{{ $badge->icon }}"></use>
+                                                                        </svg>
+
+                                                                        @if($badge->currentI18n->title)
+                                                                            <div class="badge__text">
+                                                                                {{ $badge->currentI18n->title }}
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="product-page__stars">
+                                            <rating
+                                                class-name-modificators="lg"
+                                            ></rating>
+                                        </div>
+
+                                        <div class="product-page__params">
+                                            <div class="row row--no-v">
+                                                <div class="product-page__param">
+                                                    <div class="product-param">
+                                                        Артикул:
+                                                        <span class="product-param__value">
+                                                            {{ $product->id }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-page__param">
+                                                    <div class="product-param">
+                                                        Наличие:
+                                                        <span class="product-param__value">
+                                                            Под заказ
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-page__param">
+                                                    <div class="product-param">
+                                                        Срок поставки:
+                                                        <span class="product-param__value">
+                                                            14 дней
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-page__sizes">
+                                            <div class="row row--no-padding">
+                                                <div class="col-6 col-sm-3 col-md-6 col-lg-3">
+                                                    <div class="product-page__size">
+                                                        <div class="product-size">
+                                                            <svg class="product-size__icon">
+                                                                <use xlink:href="/assets/images/icons.svg#symbol-width"></use>
+                                                            </svg>
+
+                                                            <span class="product-size__value">
+                                                                {{ $product->width/10 }} см
+                                                            </span>
                                                         </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="product-page__stars">
-                                        <rating
-                                            class-name-modificators="lg"
-                                        ></rating>
-                                    </div>
-
-                                    <div class="product-page__params">
-                                        <div class="row row--no-v">
-                                            <div class="product-page__param">
-                                                <div class="product-param">
-                                                    Артикул:
-                                                    <span class="product-param__value">
-                                                        {{ $product->id }}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="product-page__param">
-                                                <div class="product-param">
-                                                    Наличие:
-                                                    <span class="product-param__value">
-                                                        Под заказ
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="product-page__param">
-                                                <div class="product-param">
-                                                    Срок поставки:
-                                                    <span class="product-param__value">
-                                                        14 дней
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="product-page__sizes">
-                                        <div class="row row--no-padding">
-                                            <div class="col-6 col-sm-3 col-md-6 col-lg-3">
-                                                <div class="product-page__size">
-                                                    <div class="product-size">
-                                                        <svg class="product-size__icon">
-                                                            <use xlink:href="/assets/images/icons.svg#symbol-width"></use>
-                                                        </svg>
-
-                                                        <span class="product-size__value">
-                                                            {{ $product->width/10 }} см
-                                                        </span>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-6 col-sm-3 col-md-6 col-lg-3">
-                                                <div class="product-page__size">
-                                                    <div class="product-size">
-                                                        <svg class="product-size__icon">
-                                                            <use xlink:href="/assets/images/icons.svg#symbol-height"></use>
-                                                        </svg>
+                                                <div class="col-6 col-sm-3 col-md-6 col-lg-3">
+                                                    <div class="product-page__size">
+                                                        <div class="product-size">
+                                                            <svg class="product-size__icon">
+                                                                <use xlink:href="/assets/images/icons.svg#symbol-height"></use>
+                                                            </svg>
 
-                                                        <span class="product-size__value">
-                                                            {{ $product->height/10 }} см
-                                                        </span>
+                                                            <span class="product-size__value">
+                                                                {{ $product->height/10 }} см
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-6 col-sm-3 col-md-6 col-lg-3">
-                                                <div class="product-page__size">
-                                                    <div class="product-size">
-                                                        <svg class="product-size__icon">
-                                                            <use xlink:href="/assets/images/icons.svg#symbol-length"></use>
-                                                        </svg>
+                                                <div class="col-6 col-sm-3 col-md-6 col-lg-3">
+                                                    <div class="product-page__size">
+                                                        <div class="product-size">
+                                                            <svg class="product-size__icon">
+                                                                <use xlink:href="/assets/images/icons.svg#symbol-length"></use>
+                                                            </svg>
 
-                                                        <span class="product-size__value">
-                                                            {{ $product->length/10 }} см
-                                                        </span>
+                                                            <span class="product-size__value">
+                                                                {{ $product->length/10 }} см
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-6 col-sm-3 col-md-6 col-lg-3">
-                                                <div class="product-page__size">
-                                                    <div class="product-size">
-                                                        <svg class="product-size__icon">
-                                                            <use xlink:href="/assets/images/icons.svg#symbol-weight"></use>
-                                                        </svg>
+                                                <div class="col-6 col-sm-3 col-md-6 col-lg-3">
+                                                    <div class="product-page__size">
+                                                        <div class="product-size">
+                                                            <svg class="product-size__icon">
+                                                                <use xlink:href="/assets/images/icons.svg#symbol-weight"></use>
+                                                            </svg>
 
-                                                        <span class="product-size__value">
-                                                            {{ $product->weight/1000 }} кг
-                                                        </span>
+                                                            <span class="product-size__value">
+                                                                {{ $product->weight/1000 }} кг
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="product-page__controls">
-                                        <product-controls></product-controls>
-                                    </div>
+                                    </product-controls>
                                 </div>
                             </div>
                         </div>

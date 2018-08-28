@@ -6,6 +6,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PromoCodeResource extends JsonResource
 {
+    protected $status = null;
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -31,6 +37,10 @@ class PromoCodeResource extends JsonResource
 
         if ($this->resource->amount) {
             $data['amount'] = $this->resource->amount;
+        }
+
+        if (! is_null($this->status)) {
+            $data['status'] = $this->status;
         }
 
         return $data;

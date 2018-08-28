@@ -63,6 +63,7 @@ class PromoCodeRequest extends FormRequest
 
         if (! $this->promoCode->notExist()) {
             $responseData['promoCode'] = new PromoCodeResource($this->promoCode);
+            $responseData['promoCode']->setStatus('denied');
         }
 
         throw new HttpResponseException(response()->json($responseData, 422));

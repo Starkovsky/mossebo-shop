@@ -21,6 +21,10 @@ function setPromo(state, promoCode) {
             state[i] = defaultState[i]
         }
     }
+
+    if ('status' in promoCode) {
+        state.hasError = promoCode.status === 'denied'
+    }
 }
 
 export default {
@@ -33,15 +37,9 @@ export default {
     },
 
     actions: {
-        apply({ state, commit }, promoCode) {
+        set({ state, commit }, promoCode) {
             if (Core.canUsePromo()) {
-                return commit(actionTypes.CART_PROMO_APPLY, promoCode)
-            }
-        },
-
-        error({ state, commit }, promoCode) {
-            if (Core.canUsePromo()) {
-                return commit(actionTypes.CART_PROMO_ERROR, promoCode)
+                return commit(actionTypes.CART_PROMO_SET, promoCode)
             }
         },
 
@@ -51,13 +49,8 @@ export default {
     },
 
     mutations: {
-        [actionTypes.CART_PROMO_APPLY](state, promoCode) {
+        [actionTypes.CART_PROMO_SET](state, promoCode) {
             setPromo(state, promoCode)
-        },
-
-        [actionTypes.CART_PROMO_ERROR](state, promoCode) {
-            setPromo(state, promoCode)
-            state.hasError = true
         },
 
         [actionTypes.CART_PROMO_CLEAR](state) {
