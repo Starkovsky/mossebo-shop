@@ -45,6 +45,20 @@
                 </tr>
             @endforeach
 
+            @isset($promo)
+                <tr>
+                    <td colspan="3" style="text-align: right; padding-right: 16px">
+                        {{ trans('shop.checkout.mail.promo') }}:
+                    </td>
+
+                    <td style="text-align: right">
+                        <span class="price">
+                            {{ $promo }}
+                        </span>
+                    </td>
+                </tr>
+            @endisset
+
             <tr>
                 <td colspan="3" style="text-align: right; padding-right: 16px">
                     <strong>{{ trans('shop.checkout.total') }}:</strong>

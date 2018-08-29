@@ -8882,101 +8882,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Loading__ = __webpack_require__("./resources/assets/js/components/Loading.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Loading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Loading__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_RequestMixin__ = __webpack_require__("./resources/assets/js/mixins/RequestMixin.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__orders_OrderProductRow__ = __webpack_require__("./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__orders_OrderProductRow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__orders_OrderProductRow__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__orders_OrderProductItem__ = __webpack_require__("./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__orders_OrderProductItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__orders_OrderProductItem__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__price_FormattedPrice__ = __webpack_require__("./resources/assets/js/components/shop/price/FormattedPrice.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__price_FormattedPrice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__price_FormattedPrice__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scripts_DataHandler__ = __webpack_require__("./resources/assets/js/scripts/DataHandler.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LabelValueTable__ = __webpack_require__("./resources/assets/js/components/LabelValueTable.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LabelValueTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__LabelValueTable__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_DataHandler__ = __webpack_require__("./resources/assets/js/scripts/DataHandler.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__orders_CabinetOrder__ = __webpack_require__("./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__orders_CabinetOrder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__orders_CabinetOrder__);
 //
 //
 //
@@ -9016,18 +8924,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "CabinetOrders",
 
     components: {
         Loading: __WEBPACK_IMPORTED_MODULE_0__Loading___default.a,
-        OrderProductRow: __WEBPACK_IMPORTED_MODULE_2__orders_OrderProductRow___default.a,
-        OrderProductItem: __WEBPACK_IMPORTED_MODULE_3__orders_OrderProductItem___default.a,
-        FormattedPrice: __WEBPACK_IMPORTED_MODULE_4__price_FormattedPrice___default.a,
-        LabelValueTable: __WEBPACK_IMPORTED_MODULE_6__LabelValueTable___default.a
+        CabinetOrder: __WEBPACK_IMPORTED_MODULE_3__orders_CabinetOrder___default.a
     },
 
     mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_RequestMixin__["a" /* default */]],
@@ -9049,7 +8951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.loading = true;
 
-            __WEBPACK_IMPORTED_MODULE_5__scripts_DataHandler__["a" /* default */].get('attributes').then(function (_ref) {
+            __WEBPACK_IMPORTED_MODULE_2__scripts_DataHandler__["a" /* default */].get('attributes').then(function (_ref) {
                 var attributes = _ref.attributes;
 
                 _this.setOptions(attributes);
@@ -9071,7 +8973,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.sendRequest('get', 'cabinet/orders').success(function (response) {
-                _this2.orders = response.data.orders;
+                _this2.setOrders(response.data.orders);
+
                 _this2.$nextTick(function () {
                     _this2.initHt();
                 });
@@ -9080,56 +8983,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         initHt: function initHt() {
             window.heightToggle('.js-order-ht');
         },
-        orderTotal: function orderTotal(priceName, order) {
-            return order.products.reduce(function (acc, product) {
-                acc += parseFloat(product[priceName]);
-
-                return acc;
-            }, 0);
-        },
-        preparedProducts: function preparedProducts(products) {
+        setOrders: function setOrders(orders) {
             var _this3 = this;
 
-            if (_.isEmpty(this.options)) {
-                return;
+            if (!_.isEmpty(this.options)) {
+                orders.forEach(function (order) {
+                    _this3.prepareProducts(order.products);
+                });
             }
 
+            this.orders = orders;
+        },
+        prepareProducts: function prepareProducts(products) {
+            var _this4 = this;
+
             products.forEach(function (product) {
+                product.key = product.id;
+
                 if (_.isEmpty(product.options)) return;
 
                 product.attributes = [];
 
                 product.options.forEach(function (optionId) {
-                    if (optionId in _this3.options) {
-                        product.attributes.push(_this3.options[optionId]);
+                    if (optionId in _this4.options) {
+                        product.attributes.push(_this4.options[optionId]);
+                        product.key += '-' + optionId;
                     }
                 });
 
                 product.attributes = product.attributes.join(', ');
             });
-
-            return products;
-        },
-        orderData: function orderData(order) {
-            var _this4 = this;
-
-            return ['first_name', 'last_name', 'phone', 'email', 'post_code', 'city', 'address', 'comment'].reduce(function (acc, key) {
-                if (key in order) {
-                    var item = {
-                        label: _this4.$root.translate('form.fields.' + key) + ':',
-                        value: order[key]
-                    };
-
-                    if (key === 'comment') {
-                        item.onEmpty = 'hide';
-                        item.italic = true;
-                    }
-
-                    acc.push(item);
-                }
-
-                return acc;
-            }, []);
         }
     }
 });
@@ -9420,15 +9303,20 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription__ = __webpack_require__("./resources/assets/js/components/shop/ProductShortDescription.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProductShortDescription__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__ = __webpack_require__("./resources/assets/js/scripts/shop/Cart.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice__ = __webpack_require__("./resources/assets/js/components/shop/price/FormattedPrice.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CabinetOrderProductRow__ = __webpack_require__("./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CabinetOrderProductRow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CabinetOrderProductRow__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CabinetOrderProductItem__ = __webpack_require__("./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CabinetOrderProductItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__CabinetOrderProductItem__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LabelValueTable__ = __webpack_require__("./resources/assets/js/components/LabelValueTable.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__LabelValueTable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__LabelValueTable__);
 //
 //
 //
@@ -9458,32 +9346,218 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "OrderProductRow",
+    name: 'CabinetOrder',
 
     components: {
-        ProductShortDescription: __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription___default.a,
-        FormattedPrice: __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice___default.a
+        FormattedPrice: __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice___default.a,
+        CabinetOrderProductRow: __WEBPACK_IMPORTED_MODULE_2__CabinetOrderProductRow___default.a,
+        CabinetOrderProductItem: __WEBPACK_IMPORTED_MODULE_3__CabinetOrderProductItem___default.a,
+        LabelValueTable: __WEBPACK_IMPORTED_MODULE_4__LabelValueTable___default.a
     },
 
-    props: {
-        product: Object
+    props: ['order'],
+
+    data: function data() {
+        return {
+            data: this.getOrderData(),
+            cart: this.getCart()
+        };
     },
 
-    computed: {
-        totalPrice: function totalPrice() {
-            return this.product.quantity * this.product.finalPrice;
+
+    methods: {
+        getCart: function getCart() {
+            var cart = new __WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__["b" /* default */]();
+
+            this.order.products.forEach(function (product) {
+                product.key = Object(__WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__["c" /* makeKey */])(product.info.id, product.info.options);
+            });
+
+            cart.setProducts(this.order.products);
+
+            if (this.order.promo) {
+                cart.setPromo(new __WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__["a" /* PromoCode */](this.order.promo.amount, this.order.promo.percent));
+            }
+
+            return cart;
+        },
+        getOrderData: function getOrderData() {
+            var _this = this;
+
+            return ['first_name', 'last_name', 'phone', 'email', 'post_code', 'city', 'address', 'comment'].reduce(function (acc, key) {
+                if (key in _this.order) {
+                    var item = {
+                        label: _this.$root.translate('form.fields.' + key) + ':',
+                        value: _this.order[key]
+                    };
+
+                    if (key === 'comment') {
+                        item.onEmpty = 'hide';
+                        item.italic = true;
+                    }
+
+                    acc.push(item);
+                }
+
+                return acc;
+            }, []);
         }
     }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription__ = __webpack_require__("./resources/assets/js/components/shop/ProductShortDescription.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProductShortDescription__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice__ = __webpack_require__("./resources/assets/js/components/shop/price/FormattedPrice.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "CabinetOrderProductRow",
+
+    components: {
+        ProductShortDescription: __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription___default.a,
+        FormattedPrice: __WEBPACK_IMPORTED_MODULE_1__price_FormattedPrice___default.a
+    },
+
+    props: {
+        product: Object
+    },
+
+    computed: {
+        totalPrice: function totalPrice() {
+            return this.product.quantity * this.product.price;
+        }
+    }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9528,7 +9602,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "OrderProductRow",
+    name: "CabinetOrderProductRow",
 
     components: {
         ProductShortDescription: __WEBPACK_IMPORTED_MODULE_0__ProductShortDescription___default.a,
@@ -9541,7 +9615,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         totalPrice: function totalPrice() {
-            return this.product.quantity * this.product.finalPrice;
+            return this.product.quantity * this.product.price;
         }
     }
 });
@@ -13877,7 +13951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NumControl___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__NumControl__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__buttons_ButtonLoading__ = __webpack_require__("./resources/assets/js/components/buttons/ButtonLoading.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__buttons_ButtonLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__buttons_ButtonLoading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_cart_index__ = __webpack_require__("./resources/assets/js/store/cart/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scripts_shop_Cart__ = __webpack_require__("./resources/assets/js/scripts/shop/Cart.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -14005,18 +14079,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     computed: _extends({
         key: function key() {
-            return Object(__WEBPACK_IMPORTED_MODULE_4__store_cart_index__["b" /* makeKey */])(this.id, this.options);
+            return Object(__WEBPACK_IMPORTED_MODULE_4__scripts_shop_Cart__["c" /* makeKey */])(this.id, this.options);
         }
     }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])({
         quantity: function quantity(state) {
-            var _this = this;
-
-            var item = state.cart.items.find(function (item) {
-                return item.hasKey(_this.key);
-            });
+            var item = state.cart.cart.getItemByKey(this.key);
 
             if (item) {
-                return item.qty;
+                return item.getQuantity();
             }
 
             return 0;
@@ -14028,12 +14098,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     methods: {
         select: function select(attribute) {
-            var _this2 = this;
+            var _this = this;
 
             attribute.error = false;
 
             this.$nextTick(function () {
-                _this2.collectOptions();
+                _this.collectOptions();
             });
         },
         collectOptions: function collectOptions() {
@@ -14048,12 +14118,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }, []);
         },
         addToCart: function addToCart() {
-            var _this3 = this;
+            var _this2 = this;
 
             var canAdd = true;
 
             this.selectable = this.selectable.map(function (attribute) {
-                if (_this3.attributeHasError(attribute)) {
+                if (_this2.attributeHasError(attribute)) {
                     canAdd = false;
                 }
 
@@ -20422,46 +20492,51 @@ if (false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-74fbd9e4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-763a497b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "order-product-item" }, [
+  return _c("tr", [
     _c(
-      "div",
-      { staticClass: "order-product-item__top" },
+      "td",
       [_c("product-short-description", { attrs: { product: _vm.product } })],
       1
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "order-product-item__bottom" }, [
-      _c(
-        "div",
-        { staticClass: "order-product-item__price" },
-        [_c("formatted-price", { attrs: { value: _vm.product.finalPrice } })],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "order-product-item__num" }, [
+    _c(
+      "td",
+      [
+        _c("formatted-price", {
+          staticClass: "order-table__price",
+          attrs: { value: _vm.product.price }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("td", [
+      _c("span", { staticClass: "order-table__qty" }, [
         _vm._v(
           "\n            " + _vm._s(_vm.product.quantity) + " шт\n        "
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "order-product-item__total" },
-        [
-          _vm.totalPrice
-            ? _c("formatted-price", { attrs: { value: _vm.totalPrice } })
-            : _vm._e()
-        ],
-        1
-      )
-    ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "td",
+      [
+        _vm.totalPrice
+          ? _c("formatted-price", {
+              staticClass: "order-table__price",
+              attrs: { value: _vm.totalPrice }
+            })
+          : _vm._e()
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -20470,7 +20545,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-74fbd9e4", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-763a497b", module.exports)
   }
 }
 
@@ -20946,6 +21021,211 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-89c0a566", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-89ca0320\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "cabinet-order" }, [
+    _c("div", { staticClass: "cabinet-order__panel js-order-ht" }, [
+      _c("div", { staticClass: "cabinet-order-panel" }, [
+        _c("div", { staticClass: "cabinet-order-panel__left" }, [
+          _c("div", { staticClass: "cabinet-order-panel__num" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.$root.translate("Order №")) +
+                " " +
+                _vm._s(_vm.order.id) +
+                "\n                "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.order.status
+            ? _c("div", { staticClass: "cabinet-order-panel__status" }, [
+                _c(
+                  "span",
+                  { staticClass: "cabinet-order-panel__status-label" },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.$root.translate("Status")) +
+                        ":\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  { style: { color: _vm.order.status.color || false } },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.order.status.name) +
+                        "\n                    "
+                    )
+                  ]
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cabinet-order-panel__right" }, [
+          _c("div", { staticClass: "cabinet-order-panel__button" }, [
+            _c("div", { staticClass: "cabinet-order-button" }, [
+              _c("svg", { staticClass: "cabinet-order-button__icon" }, [
+                _c("use", {
+                  attrs: {
+                    "xlink:href":
+                      "/assets/images/icons.svg#symbol-keyboard-down"
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "cabinet-order__hidden ht-container" }, [
+      _c("div", { staticClass: "cabinet-order__inner ht-inner" }, [
+        _c(
+          "div",
+          { staticClass: "cabinet-order__products" },
+          [
+            _vm.$root.isDesktop
+              ? [
+                  _c("table", { staticClass: "order-table" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.cart.getProducts(), function(product) {
+                        return _c("cabinet-order-product-row", {
+                          key: product.key,
+                          attrs: { product: product }
+                        })
+                      })
+                    )
+                  ])
+                ]
+              : _vm._l(_vm.cart.getProducts(), function(product) {
+                  return _c("cabinet-order-product-item", {
+                    key: product.key,
+                    attrs: { product: product }
+                  })
+                })
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "cabinet-order__total" }, [
+          _c("div", { staticClass: "cabinet-order__prices" }, [
+            _c(
+              "div",
+              { staticClass: "cabinet-order-prices" },
+              [
+                _vm.cart.getPromoDiscount()
+                  ? [
+                      _c(
+                        "div",
+                        { staticClass: "cabinet-order-prices__total" },
+                        [
+                          _c(
+                            "span",
+                            { staticClass: "cabinet-order-prices__label" },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    _vm.$root.translate("Promo discount")
+                                  ) +
+                                  ":\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "cabinet-order-prices__value" },
+                            [
+                              _c("formatted-price", {
+                                attrs: { value: _vm.cart.getPromoDiscount() }
+                              })
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ]
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", { staticClass: "cabinet-order-prices__total" }, [
+                  _c("span", { staticClass: "cabinet-order-prices__label" }, [
+                    _vm._v(
+                      "\n                                " +
+                        _vm._s(_vm.$root.translate("Total price")) +
+                        ":\n                            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "cabinet-order-prices__value" },
+                    [
+                      _c("formatted-price", {
+                        attrs: { value: _vm.cart.getTotal() }
+                      })
+                    ],
+                    1
+                  )
+                ])
+              ],
+              2
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "cabinet-order__data" },
+          [_c("label-value-table", { attrs: { data: _vm.data } })],
+          1
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Товар")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Цена")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Количество")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Сумма")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-89ca0320", module.exports)
   }
 }
 
@@ -22142,6 +22422,60 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d179597c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "order-product-item" }, [
+    _c(
+      "div",
+      { staticClass: "order-product-item__top" },
+      [_c("product-short-description", { attrs: { product: _vm.product } })],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "order-product-item__bottom" }, [
+      _c(
+        "div",
+        { staticClass: "order-product-item__price" },
+        [_c("formatted-price", { attrs: { value: _vm.product.price } })],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "order-product-item__num" }, [
+        _vm._v(
+          "\n            " + _vm._s(_vm.product.quantity) + " шт\n        "
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "order-product-item__total" },
+        [
+          _vm.totalPrice
+            ? _c("formatted-price", { attrs: { value: _vm.totalPrice } })
+            : _vm._e()
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d179597c", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d9cc9366\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/CabinetOrders.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22204,347 +22538,17 @@ var render = function() {
                         _vm._l(_vm.orders, function(order) {
                           return _c(
                             "div",
-                            { staticClass: "cabinet-orders__item col-12" },
+                            {
+                              key: order.id,
+                              staticClass: "cabinet-orders__item col-12"
+                            },
                             [
-                              _c(
-                                "div",
-                                {
-                                  key: order.id,
-                                  staticClass: "cabinet-order block-ui"
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "cabinet-order__panel js-order-ht"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "cabinet-order-panel" },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "cabinet-order-panel__left"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "cabinet-order-panel__num"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            " +
-                                                      _vm._s(
-                                                        _vm.$root.translate(
-                                                          "Order №"
-                                                        )
-                                                      ) +
-                                                      " " +
-                                                      _vm._s(order.id) +
-                                                      "\n                                        "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              order.status
-                                                ? _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "cabinet-order-panel__status"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "span",
-                                                        {
-                                                          staticClass:
-                                                            "cabinet-order-panel__status-label"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                " +
-                                                              _vm._s(
-                                                                _vm.$root.translate(
-                                                                  "Status"
-                                                                )
-                                                              ) +
-                                                              ":\n                                            "
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "span",
-                                                        {
-                                                          style: {
-                                                            color:
-                                                              order.status
-                                                                .color || false
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                " +
-                                                              _vm._s(
-                                                                order.status
-                                                                  .name
-                                                              ) +
-                                                              "\n                                            "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e()
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "cabinet-order-panel__right"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "cabinet-order-panel__button"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "cabinet-order-button"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "svg",
-                                                        {
-                                                          staticClass:
-                                                            "cabinet-order-button__icon"
-                                                        },
-                                                        [
-                                                          _c("use", {
-                                                            attrs: {
-                                                              "xlink:href":
-                                                                "/assets/images/icons.svg#symbol-keyboard-down"
-                                                            }
-                                                          })
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "cabinet-order__hidden ht-container"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "cabinet-order__inner ht-inner"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "cabinet-order__products"
-                                            },
-                                            [
-                                              _vm.$root.isDesktop
-                                                ? [
-                                                    _c(
-                                                      "table",
-                                                      {
-                                                        staticClass:
-                                                          "order-table"
-                                                      },
-                                                      [
-                                                        _c("thead", [
-                                                          _c("tr", [
-                                                            _c("th", [
-                                                              _vm._v("Товар")
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("th", [
-                                                              _vm._v("Цена")
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("th", [
-                                                              _vm._v(
-                                                                "Количество"
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("th", [
-                                                              _vm._v("Сумма")
-                                                            ])
-                                                          ])
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "tbody",
-                                                          _vm._l(
-                                                            _vm.preparedProducts(
-                                                              order.products
-                                                            ),
-                                                            function(product) {
-                                                              return _c(
-                                                                "order-product-row",
-                                                                {
-                                                                  key:
-                                                                    product.id,
-                                                                  attrs: {
-                                                                    product: product
-                                                                  }
-                                                                }
-                                                              )
-                                                            }
-                                                          )
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                : _vm._l(
-                                                    _vm.preparedProducts(
-                                                      order.products
-                                                    ),
-                                                    function(product) {
-                                                      return _c(
-                                                        "order-product-item",
-                                                        {
-                                                          key: product.id,
-                                                          attrs: {
-                                                            product: product
-                                                          }
-                                                        }
-                                                      )
-                                                    }
-                                                  )
-                                            ],
-                                            2
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "cabinet-order__total"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "cabinet-order__prices"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "cabinet-order-prices"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "cabinet-order-prices__total"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "span",
-                                                            {
-                                                              staticClass:
-                                                                "cabinet-order-prices__label"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                                        " +
-                                                                  _vm._s(
-                                                                    _vm.$root.translate(
-                                                                      "Total price"
-                                                                    )
-                                                                  ) +
-                                                                  ":\n                                                    "
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "span",
-                                                            {
-                                                              staticClass:
-                                                                "cabinet-order-prices__value"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "formatted-price",
-                                                                {
-                                                                  attrs: {
-                                                                    value: _vm.orderTotal(
-                                                                      "defaultPrice",
-                                                                      order
-                                                                    )
-                                                                  }
-                                                                }
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "cabinet-order__data"
-                                            },
-                                            [
-                                              _c("label-value-table", {
-                                                attrs: {
-                                                  data: _vm.orderData(order)
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
-                              )
-                            ]
+                              _c("cabinet-order", {
+                                staticClass: "block-ui",
+                                attrs: { order: order }
+                              })
+                            ],
+                            1
                           )
                         })
                       )
@@ -22782,65 +22786,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-da21edfa", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-df033fa2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("tr", [
-    _c(
-      "td",
-      [_c("product-short-description", { attrs: { product: _vm.product } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "td",
-      [
-        _c("formatted-price", {
-          staticClass: "order-table__price",
-          attrs: { value: _vm.product.finalPrice }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("td", [
-      _c("span", { staticClass: "order-table__qty" }, [
-        _vm._v(
-          "\n            " + _vm._s(_vm.product.quantity) + " шт\n        "
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "td",
-      [
-        _vm.totalPrice
-          ? _c("formatted-price", {
-              staticClass: "order-table__price",
-              attrs: { value: _vm.totalPrice }
-            })
-          : _vm._e()
-      ],
-      1
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-df033fa2", module.exports)
   }
 }
 
@@ -26964,15 +26909,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue":
+/***/ "./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-74fbd9e4\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-89ca0320\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -26989,7 +26934,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/shop/cabinet/components/orders/OrderProductItem.vue"
+Component.options.__file = "resources/assets/js/components/shop/cabinet/components/orders/CabinetOrder.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -26998,9 +26943,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-74fbd9e4", Component.options)
+    hotAPI.createRecord("data-v-89ca0320", Component.options)
   } else {
-    hotAPI.reload("data-v-74fbd9e4", Component.options)
+    hotAPI.reload("data-v-89ca0320", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -27012,15 +26957,15 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue":
+/***/ "./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-df033fa2\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d179597c\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -27037,7 +26982,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/shop/cabinet/components/orders/OrderProductRow.vue"
+Component.options.__file = "resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductItem.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -27046,9 +26991,57 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-df033fa2", Component.options)
+    hotAPI.createRecord("data-v-d179597c", Component.options)
   } else {
-    hotAPI.reload("data-v-df033fa2", Component.options)
+    hotAPI.reload("data-v-d179597c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-763a497b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shop/cabinet/components/orders/CabinetOrderProductRow.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-763a497b", Component.options)
+  } else {
+    hotAPI.reload("data-v-763a497b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -33131,6 +33124,325 @@ function buildNewBreadcrumbs(data) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/scripts/shop/Cart.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export CartItem */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromoCode; });
+/* harmony export (immutable) */ __webpack_exports__["c"] = makeKey;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Cart = function () {
+    function Cart() {
+        _classCallCheck(this, Cart);
+
+        this.items = [];
+        this.promo = null;
+    }
+
+    _createClass(Cart, [{
+        key: 'findOrMakeItemByKey',
+        value: function findOrMakeItemByKey(key) {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].hasKey(key)) {
+                    return this.items[i];
+                }
+            }
+
+            return new CartItem(key);
+        }
+    }, {
+        key: 'add',
+        value: function add(key, quantity) {
+            this.findOrMakeItemByKey(key).add(quantity);
+            this.hasChanged();
+        }
+    }, {
+        key: 'set',
+        value: function set(key, quantity) {
+            this.findOrMakeItemByKey(key).set(quantity);
+            this.hasChanged();
+        }
+    }, {
+        key: 'remove',
+        value: function remove(key) {
+            this.items = this.items.filter(function (item) {
+                return !item.hasKey(key);
+            });
+        }
+    }, {
+        key: 'setProducts',
+        value: function setProducts() {
+            var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+            this.items = items.map(function (item) {
+                if (item instanceof CartItem) return item;
+
+                var ci = new CartItem(item.key, item.quantity);
+
+                if (item.info) {
+                    ci.setProductInfo(item.info);
+                }
+
+                return ci;
+            });
+        }
+    }, {
+        key: 'setPromo',
+        value: function setPromo(promo) {
+            this.promo = promo;
+            this.hasChanged();
+        }
+    }, {
+        key: 'removePromo',
+        value: function removePromo() {
+            this.setPromo(null);
+        }
+    }, {
+        key: 'hasChanged',
+        value: function hasChanged() {
+            this.quantity = null;
+            this.amount = null;
+        }
+    }, {
+        key: 'getProductsQuantity',
+        value: function getProductsQuantity() {
+            return this.items.reduce(function (acc, item) {
+                return acc + item.getQuantity();
+            }, 0);
+        }
+    }, {
+        key: 'getItems',
+        value: function getItems() {
+            return this.items;
+        }
+    }, {
+        key: 'getProducts',
+        value: function getProducts() {
+            return this.items.map(this.toProduct);
+        }
+    }, {
+        key: 'getProductByKey',
+        value: function getProductByKey(key) {
+            return this.toProduct(this.getItemByKey(key));
+        }
+    }, {
+        key: 'getItemByKey',
+        value: function getItemByKey(key) {
+            return this.items.find(function (item) {
+                return item.hasKey(key);
+            });
+        }
+    }, {
+        key: 'toProduct',
+        value: function toProduct(item) {
+            if (!item) {
+                return null;
+            }
+
+            return _extends({}, item.getInfo(), {
+                quantity: item.getQuantity(),
+                key: item.getKey()
+            });
+        }
+    }, {
+        key: 'getAmount',
+        value: function getAmount() {
+            if (_.isEmpty(this.amount)) {
+                this.amount = this.items.reduce(function (acc, item) {
+                    acc += item.getAmount();
+
+                    return acc;
+                }, 0);
+            }
+
+            return this.amount;
+        }
+    }, {
+        key: 'getPromoDiscount',
+        value: function getPromoDiscount() {
+            var discount = 0;
+
+            if (!this.promo) {
+                return discount;
+            }
+
+            return this.promo.getDiscount(this.getAmount());
+        }
+    }, {
+        key: 'getTotal',
+        value: function getTotal() {
+            return this.getAmount() - this.getPromoDiscount();
+        }
+    }]);
+
+    return Cart;
+}();
+
+/* harmony default export */ __webpack_exports__["b"] = (Cart);
+
+
+var CartItem = function () {
+    _createClass(CartItem, null, [{
+        key: 'makeKey',
+        value: function makeKey(id) {
+            var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+            return options.sort(function (a, b) {
+                return a - b;
+            }).reduce(function (acc, optionId) {
+                return acc + '-' + optionId;
+            }, id);
+        }
+    }]);
+
+    function CartItem(key) {
+        var quantity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+        _classCallCheck(this, CartItem);
+
+        this.key = key.toString();
+        this.setQuantity(quantity);
+        this.loaded = false;
+    }
+
+    _createClass(CartItem, [{
+        key: 'getKey',
+        value: function getKey() {
+            return this.key;
+        }
+    }, {
+        key: 'hasKey',
+        value: function hasKey(key) {
+            if (!key) return false;
+            return this.key === key.toString();
+        }
+    }, {
+        key: 'setQuantity',
+        value: function setQuantity(quantity) {
+            this.quantity = Math.min(this.getMaxQuantity(), Math.max(this.getMinQuantity(), quantity));
+        }
+    }, {
+        key: 'getMaxQuantity',
+        value: function getMaxQuantity() {
+            // if (this.loaded && _.isNumber(this.info.remnant)) {
+            //     return this.info.remnant
+            // }
+
+            return 99;
+        }
+    }, {
+        key: 'getMinQuantity',
+        value: function getMinQuantity() {
+            return 1;
+        }
+    }, {
+        key: 'getQuantity',
+        value: function getQuantity() {
+            return this.quantity;
+        }
+    }, {
+        key: 'getPrice',
+        value: function getPrice() {
+            if (this.isLoaded()) {
+                return this.info.price;
+            }
+
+            return 0;
+        }
+    }, {
+        key: 'getAmount',
+        value: function getAmount() {
+            return this.getQuantity() * this.getPrice();
+        }
+    }, {
+        key: 'add',
+        value: function add(quantity) {
+            this.setQuantity(this.quantity + quantity);
+
+            return this;
+        }
+    }, {
+        key: 'set',
+        value: function set(quantity) {
+            this.setQuantity(quantity);
+
+            return this;
+        }
+    }, {
+        key: 'isLoaded',
+        value: function isLoaded() {
+            return this.loaded;
+        }
+    }, {
+        key: 'getInfo',
+        value: function getInfo() {
+            return this.info;
+        }
+    }, {
+        key: 'setProductInfo',
+        value: function setProductInfo(info) {
+            this.info = _extends({}, info);
+
+            this.setQuantity(this.quantity);
+            this.loaded = true;
+
+            return this;
+        }
+    }]);
+
+    return CartItem;
+}();
+
+var PromoCode = function () {
+    function PromoCode(amount, percent) {
+        _classCallCheck(this, PromoCode);
+
+        this.amount = amount;
+        this.percent = percent;
+        this.type = null;
+    }
+
+    _createClass(PromoCode, [{
+        key: 'getType',
+        value: function getType() {
+            if (!this.type) {
+                this.type = this.amount ? 'amount' : 'percent';
+            }
+
+            return this.type;
+        }
+    }, {
+        key: 'getDiscount',
+        value: function getDiscount(price) {
+            var discount = 0;
+
+            if (this.getType() === 'amount') {
+                discount = price * this.percent / 100;
+
+                discount = Math.min(this.amount, discount);
+            } else {
+                discount = price * this.percent / 100;
+            }
+
+            return discount;
+        }
+    }]);
+
+    return PromoCode;
+}();
+
+function makeKey(id, options) {
+    return CartItem.makeKey(id, options);
+}
+
+/***/ }),
+
 /***/ "./resources/assets/js/scripts/storage/BaseStorage.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33687,24 +33999,21 @@ var CATALOG_READY = 'CATALOG_READY';
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = makeKey;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__types__ = __webpack_require__("./resources/assets/js/store/cart/types.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_DataHandler__ = __webpack_require__("./resources/assets/js/scripts/DataHandler.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__storageActionsExtension__ = __webpack_require__("./resources/assets/js/store/storageActionsExtension.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scripts_Request__ = __webpack_require__("./resources/assets/js/scripts/Request.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_promo__ = __webpack_require__("./resources/assets/js/store/cart/modules/promo/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__ = __webpack_require__("./resources/assets/js/scripts/shop/Cart.js");
 var _mutations;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
@@ -33713,127 +34022,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
-
-function makeKey(id) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    return options.sort(function (a, b) {
-        return a - b;
-    }).reduce(function (acc, optionId) {
-        return acc + '-' + optionId;
-    }, id);
-}
-
-var CartItem = function () {
-    function CartItem(key) {
-        var qty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-        _classCallCheck(this, CartItem);
-
-        this.key = key.toString();
-        this.setQty(qty);
-        this.loaded = false;
-    }
-
-    _createClass(CartItem, [{
-        key: 'hasKey',
-        value: function hasKey(key) {
-            if (!key) return false;
-            return this.key === key.toString();
-        }
-    }, {
-        key: 'getMaxQty',
-        value: function getMaxQty() {
-            // if (this.loaded && _.isNumber(this.info.remnant)) {
-            //     return this.info.remnant
-            // }
-
-            return 99;
-        }
-    }, {
-        key: 'getMinQty',
-        value: function getMinQty() {
-            return 1;
-        }
-    }, {
-        key: 'setQty',
-        value: function setQty(qty) {
-            this.qty = Math.min(this.getMaxQty(), Math.max(this.getMinQty(), qty));
-        }
-    }, {
-        key: 'add',
-        value: function add(qty) {
-            this.setQty(this.qty + qty);
-
-            return this;
-        }
-    }, {
-        key: 'update',
-        value: function update(qty) {
-            this.setQty(qty);
-
-            return this;
-        }
-    }, {
-        key: 'isLoaded',
-        value: function isLoaded() {
-            return this.loaded;
-        }
-    }, {
-        key: 'getInfo',
-        value: function getInfo() {
-            return this.info;
-        }
-    }, {
-        key: 'setProductInfo',
-        value: function setProductInfo(info) {
-            this.info = _extends({}, info);
-
-            this.setQty(this.qty);
-
-            this.loaded = true;
-
-            return this;
-        }
-    }]);
-
-    return CartItem;
-}();
-
-function itemsToCartItems() {
-    var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-    return items.map(function (item) {
-        if (item instanceof CartItem) return item;
-
-        var ci = new CartItem(item.key, item.qty);
-
-        if (item.info) {
-            ci.setProductInfo(item.info);
-        }
-
-        return ci;
-    });
-}
-
-function operateItem(items, method, key, qty) {
-    var changed = false;
-
-    var result = items.map(function (item) {
-        if (item.hasKey(key)) {
-            item[method](qty);
-            changed = true;
-        }
-
-        return item;
-    });
-
-    if (!changed) {
-        result.push(new CartItem(key, qty));
-    }
-
-    return result;
-}
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     namespaced: true,
@@ -33843,12 +34031,12 @@ function operateItem(items, method, key, qty) {
     },
 
     state: {
+        cart: new __WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["b" /* default */](),
         time: null, // время последней синхронизации
         ready: false,
         loading: false,
         error: false,
         synchronized: false,
-        items: [],
         options: [],
         abortRequest: null,
         request: null
@@ -33911,7 +34099,7 @@ function operateItem(items, method, key, qty) {
                 options = _ref6$.options,
                 qty = _ref6[1];
 
-            dispatch('addItem', [makeKey(id, options), qty]);
+            dispatch('addItem', [Object(__WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["c" /* makeKey */])(id, options), qty]);
         },
         updateProduct: function updateProduct(_ref7, _ref8) {
             var commit = _ref7.commit,
@@ -33923,7 +34111,7 @@ function operateItem(items, method, key, qty) {
                 options = _ref9$.options,
                 qty = _ref9[1];
 
-            dispatch('updateItem', [makeKey(id, options), qty]);
+            dispatch('updateItem', [Object(__WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["c" /* makeKey */])(id, options), qty]);
         },
         removeProduct: function removeProduct(_ref10, _ref11) {
             var commit = _ref10.commit,
@@ -33931,7 +34119,7 @@ function operateItem(items, method, key, qty) {
             var id = _ref11.id,
                 options = _ref11.options;
 
-            dispatch('removeItem', makeKey(id, options));
+            dispatch('removeItem', Object(__WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["c" /* makeKey */])(id, options));
         },
         addItem: function addItem(_ref12, keyQtyArr) {
             var commit = _ref12.commit,
@@ -34048,10 +34236,10 @@ function operateItem(items, method, key, qty) {
                 method: 'put',
                 data: {
                     time: state.time,
-                    items: state.items.map(function (item) {
+                    items: state.cart.getItems().map(function (item) {
                         return {
-                            key: item.key,
-                            qty: item.qty
+                            key: item.getKey(),
+                            qty: item.getQuantity()
                         };
                     })
                 }
@@ -34082,11 +34270,15 @@ function operateItem(items, method, key, qty) {
             var state = _ref23.state,
                 dispatch = _ref23.dispatch;
 
+            state.cart.setPromo(new __WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["a" /* PromoCode */](promoCode.amount, promoCode.percent));
+
             return dispatch('promo/set', promoCode);
         },
         clearPromoCode: function clearPromoCode(_ref24) {
             var state = _ref24.state,
                 dispatch = _ref24.dispatch;
+
+            state.cart.removePromo();
 
             return dispatch('promo/clear');
         },
@@ -34097,7 +34289,7 @@ function operateItem(items, method, key, qty) {
             handler: function handler(_ref25, items) {
                 var state = _ref25.state;
 
-                state.items = itemsToCartItems(items);
+                state.cart.setProducts(items);
             }
         },
 
@@ -34106,10 +34298,10 @@ function operateItem(items, method, key, qty) {
             handler: function handler(_ref26) {
                 var state = _ref26.state;
 
-                return state.items.map(function (item) {
+                return state.cart.getProducts().map(function (item) {
                     return {
-                        key: item.key,
-                        qty: item.qty
+                        key: item.getKey,
+                        qty: item.getQuantity()
                     };
                 });
             }
@@ -34120,21 +34312,19 @@ function operateItem(items, method, key, qty) {
         var _ref28 = _slicedToArray(_ref27, 2),
             key = _ref28[0],
             _ref28$ = _ref28[1],
-            qty = _ref28$ === undefined ? 1 : _ref28$;
+            quantity = _ref28$ === undefined ? 1 : _ref28$;
 
-        state.items = operateItem(state.items, 'add', key, qty);
+        state.cart.add(key, quantity);
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["j" /* CART_UPDATE_ITEM */], function (state, _ref29) {
         var _ref30 = _slicedToArray(_ref29, 2),
             key = _ref30[0],
-            qty = _ref30[1];
+            quantity = _ref30[1];
 
-        state.items = operateItem(state.items, 'update', key, qty);
+        state.cart.set(key, quantity);
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["e" /* CART_REMOVE_ITEM */], function (state, key) {
-        state.items = state.items.filter(function (item) {
-            return !item.hasKey(key);
-        });
+        state.cart.remove(key);
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["b" /* CART_CLEAR */], function (state) {
-        state.items = [];
+        state.cart.clear();
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["c" /* CART_DIRTY */], function (state) {
         state.synchronized = false;
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["g" /* CART_REQUEST_START */], function (state) {
@@ -34145,11 +34335,28 @@ function operateItem(items, method, key, qty) {
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["h" /* CART_REQUEST_SUCCESS */], function (state) {
         var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-        state.items = itemsToCartItems(data.cart.products);
         state.time = data.time;
         state.ready = true;
         state.synchronized = true;
         state.loading = false;
+
+        var products = data.cart.products;
+
+        if (!_.isEmpty(state.options)) {
+            products.forEach(function (product) {
+                if (_.isEmpty(product.info.options)) return;
+
+                product.info.attributes = product.info.options.reduce(function (acc, id) {
+                    if (id in state.options) {
+                        acc.push(state.options[id]);
+                    }
+
+                    return acc;
+                }, []).join(', ');
+            });
+        }
+
+        state.cart.setProducts(products);
     }), _defineProperty(_mutations, __WEBPACK_IMPORTED_MODULE_0__types__["f" /* CART_REQUEST_FAILURE */], function (state) {
         state.loading = false;
         state.error = true;
@@ -34164,67 +34371,23 @@ function operateItem(items, method, key, qty) {
     }), _mutations),
 
     getters: {
-        loaded: function loaded(state) {
-            return state.items.filter(function (item) {
-                return item.isLoaded();
-            });
+        products: function products(state) {
+            return state.cart.getProducts();
         },
-        products: function products(state, getters) {
-            return getters.loaded.map(function (item) {
-                var product = _extends({}, item.getInfo(), {
-                    quantity: item.qty,
-                    key: item.key
-                });
-
-                if (!(_.isEmpty(state.options) || _.isEmpty(product.options))) {
-                    product.attributes = product.options.reduce(function (acc, id) {
-                        if (id in state.options) {
-                            acc.push(state.options[id]);
-                        }
-
-                        return acc;
-                    }, []).join(', ');
-                }
-
-                return product;
-            });
+        promoDiscount: function promoDiscount(state) {
+            return state.cart.getPromoDiscount();
         },
-        promoDiscount: function promoDiscount(state, getters) {
-            var discountValue = 0;
-
-            if (!getters['promo/accepted']) {
-                return discountValue;
-            }
-
-            if (getters['promo/type'] === 'amount') {
-                discountValue = getters.amount * state.promo.percent / 100;
-
-                discountValue = Math.min(state.promo.amount, discountValue);
-            }
-
-            if (getters['promo/type'] === 'percent') {
-                discountValue = getters.amount * state.promo.percent / 100;
-            }
-
-            return discountValue;
+        amount: function amount(state) {
+            return state.cart.getAmount();
         },
-        amount: function amount(state, getters) {
-            return getters.products.reduce(function (acc, product) {
-                acc += product.quantity * product.price;
-
-                return acc;
-            }, 0);
-        },
-        total: function total(state, getters) {
-            return getters.amount - getters.promoDiscount;
+        total: function total(state) {
+            return state.cart.getTotal();
         },
         quantity: function quantity(state) {
-            return state.items.reduce(function (acc, item) {
-                return acc + item.qty;
-            }, 0);
+            return state.cart.getProductsQuantity();
         },
         isEmpty: function isEmpty(state, getters) {
-            return getters.loaded.length === 0;
+            return getters.products.length === 0;
         },
         stepNotDone: function stepNotDone(state, getters) {
             return state.loading || state.error || getters.isEmpty || !(state.ready && state.synchronized);
@@ -36025,10 +36188,13 @@ function scrollToStart(cb) {
             commit(__WEBPACK_IMPORTED_MODULE_0__types__["c" /* CHECKOUT_REQUEST_START */]);
 
             var data = {
-                cart: rootState.cart.items.reduce(function (acc, item) {
-                    acc[item.key] = item.qty;
-                    return acc;
-                }, {}),
+                cart: {
+                    products: rootState.cart.items.reduce(function (acc, item) {
+                        acc[item.key] = item.qty;
+                        return acc;
+                    }, {}),
+                    promo_code: rootState.cart.promo.name
+                },
                 shipping: {
                     type: rootState.shipping.type,
                     data: _extends({}, rootState.shipping.data)

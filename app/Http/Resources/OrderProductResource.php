@@ -14,27 +14,42 @@ class OrderProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        $params = json_decode($this->resource->params);
-
         $data = [
-            'id'           => $this->resource->product_id,
-            'title'        => $params->currentI18n->title,
-            'defaultPrice' => $this->resource->default_price,
-            'finalPrice'   => $this->resource->final_price,
-            'quantity'     => $this->resource->quantity
+            'quantity' => $this->resource->quantity,
+            'info' => [
+                'id'    => $this->resource->product_id,
+                'price' => $this->resource->final_price,
+            ]
         ];
 
-        if (! empty($params->image) && ! empty($params->image->pathes)) {
-            $imagePathes = json_decode($params->image->pathes);
+        $params = json_decode($this->resource->params);
 
-            $data['image'] = [
-                'src'    => $imagePathes->thumb->src,
-                'srcset' => $imagePathes->thumb->srcset
+        if(isset($params->titles)) {
+            $locale = app()->getLocale();
+
+            if (isset($params->titles->{$locale})) {
+                $data['info']['title'] = $params->titles->{$locale};
+            }
+            else {
+                $product = Product::where('id', $this->resource->product_id)
+                    ->with('currentI18n')
+                    ->first();
+
+                if ($product && $product->relationNotEmpty('currentI18n')) {
+                    $data['info']['title'] = $product->currentI18n->title;
+                }
+            }
+        }
+
+        if (! empty($params->image)) {
+            $data['info']['image'] = [
+                'src'    => $params->image->thumb->src,
+                'srcset' => $params->image->thumb->srcset
             ];
         }
 
         if ($this->relationNotEmpty('options')) {
-            $data['options'] = array_column($this->resource->options->toArray(), 'option_id');
+            $data['info']['options'] = array_column($this->resource->options->toArray(), 'option_id');
         }
 
         return $data;

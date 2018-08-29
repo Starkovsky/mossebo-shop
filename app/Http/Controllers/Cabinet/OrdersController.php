@@ -18,6 +18,11 @@ class OrdersController extends Controller
         $orders = $user->orders()->with(['orderProducts' => function($query) {
             $query->with('options');
         }])
+            ->with(['promoUse' => function($query) {
+                $query->with(['code' => function($query) {
+                    $query->with('currentI18n');
+                }]);
+            }])
             ->orderBy('updated_at', 'desc')
             ->get();
 

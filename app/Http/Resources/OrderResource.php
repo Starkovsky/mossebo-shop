@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Cart\PromoCodeUseResource;
 
 class OrderResource extends JsonResource
 {
@@ -43,6 +44,10 @@ class OrderResource extends JsonResource
 
         if (isset($this->resource->deliveryType)) {
             $data['deliveryType'] = $this->resource->deliveryType;
+        }
+
+        if ($this->resource->relationNotEmpty('promoUse')) {
+            $data['promo'] = new PromoCodeUseResource($this->resource->promoUse);
         }
 
         return $data;

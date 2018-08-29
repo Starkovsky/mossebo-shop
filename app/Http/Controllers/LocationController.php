@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Cart;
 use Cookie;
 use Countries;
 use App\Models\City;
@@ -13,6 +13,11 @@ use Illuminate\Support\Collection;
 class LocationController extends Controller
 {
     protected static $cityIdCookieKey = '__city::id';
+
+    public function test()
+    {
+        dd(Cart::getTotal()->getFormatted());
+    }
 
 //    public function test()
 //    {

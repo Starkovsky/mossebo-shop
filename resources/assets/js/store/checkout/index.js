@@ -117,10 +117,13 @@ export default {
             commit(actionTypes.CHECKOUT_REQUEST_START)
 
             let data = {
-                cart: rootState.cart.items.reduce((acc, item) => {
-                    acc[item.key] = item.qty
-                    return acc
-                }, {}),
+                cart: {
+                    products: rootState.cart.items.reduce((acc, item) => {
+                        acc[item.key] = item.qty
+                        return acc
+                    }, {}),
+                    promo_code: rootState.cart.promo.name
+                },
                 shipping: {
                     type: rootState.shipping.type,
                     data: {... rootState.shipping.data}

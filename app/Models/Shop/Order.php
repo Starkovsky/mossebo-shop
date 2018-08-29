@@ -5,6 +5,7 @@ namespace App\Models\Shop;
 use MosseboShopCore\Models\Shop\Order as BaseOrder;
 use App\Models\User;
 use App\Models\Language;
+use App\Models\Shop\Promo\PromoUse;
 
 class Order extends BaseOrder
 {
@@ -53,5 +54,10 @@ class Order extends BaseOrder
     public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class, 'order_id', 'id');
+    }
+
+    public function promoUse()
+    {
+        return $this->hasOne(PromoUse::class, 'order_id', 'id');
     }
 }

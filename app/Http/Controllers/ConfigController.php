@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Cities;
 use Auth;
 use Shop;
-use App\Http\Resources\PromoCodeResource;
+use App\Http\Resources\Cart\PromoCodeResource;
 use Illuminate\Support\Collection;
 
 class ConfigController extends Controller

@@ -9,7 +9,7 @@
         <td>
             <formatted-price
                 class="order-table__price"
-                :value="product.finalPrice"
+                :value="product.price"
             ></formatted-price>
         </td>
 
@@ -34,7 +34,7 @@
     import FormattedPrice from '../../../price/FormattedPrice'
 
     export default {
-        name: "OrderProductRow",
+        name: "CabinetOrderProductRow",
 
         components: {
             ProductShortDescription,
@@ -47,7 +47,7 @@
 
         computed: {
             totalPrice() {
-                return this.product.quantity * this.product.finalPrice
+                return this.product.quantity * this.product.price
             },
         }
     }

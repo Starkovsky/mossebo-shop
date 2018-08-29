@@ -254,7 +254,7 @@
 
                                             <div class="product-tabs-pane__content ht-container">
                                                 <div class="product-tabs-pane__inner ht-inner">
-                                                    <div class="row">
+                                                    <div class="row row--half">
                                                         <div class="col-lg-6">
                                                             <div class="product-tabs-pane__attributes">
                                                                 @foreach($attributes as $attribute)
@@ -347,8 +347,6 @@
             </div>
         </div>
     </div>
-
-
 
 
     <div class="d-none">

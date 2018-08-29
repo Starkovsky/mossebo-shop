@@ -5,106 +5,7 @@ import storageActionsExtension from '../storageActionsExtension'
 import Request from '../../scripts/Request'
 
 import PromoModule from './modules/promo'
-
-export function makeKey (id, options = []) {
-    return options.sort((a, b) => a - b).reduce((acc, optionId) => {
-        return acc + '-' + optionId
-    }, id)
-}
-
-class CartItem {
-    constructor(key, qty = 0) {
-        this.key = key.toString()
-        this.setQty(qty)
-        this.loaded = false
-    }
-
-    hasKey(key) {
-        if (! key) return false
-        return this.key === key.toString()
-    }
-
-    getMaxQty() {
-        // if (this.loaded && _.isNumber(this.info.remnant)) {
-        //     return this.info.remnant
-        // }
-
-        return 99
-    }
-
-    getMinQty() {
-        return 1
-    }
-
-    setQty(qty) {
-        this.qty = Math.min(this.getMaxQty(), Math.max(this.getMinQty(), qty))
-    }
-
-    add(qty) {
-        this.setQty(this.qty + qty)
-
-        return this
-    }
-
-    update(qty) {
-        this.setQty(qty)
-
-        return this
-    }
-
-    isLoaded() {
-        return this.loaded
-    }
-
-    getInfo() {
-        return this.info
-    }
-
-    setProductInfo(info) {
-        this.info = {
-            ... info
-        }
-
-        this.setQty(this.qty)
-
-        this.loaded = true
-
-        return this
-    }
-}
-
-function itemsToCartItems(items = []) {
-    return items.map(item => {
-        if (item instanceof CartItem) return item
-
-        let ci = new CartItem(item.key, item.qty)
-
-        if (item.info){
-            ci.setProductInfo(item.info)
-        }
-
-        return ci
-    })
-}
-
-function operateItem(items, method, key, qty) {
-    let changed = false
-
-    let result = items.map(item => {
-        if (item.hasKey(key)) {
-            item[method](qty)
-            changed = true
-        }
-
-        return item
-    })
-
-    if (!changed) {
-        result.push(new CartItem(key, qty))
-    }
-
-    return result
-}
+import Cart, { PromoCode, makeKey } from '../../scripts/shop/Cart'
 
 export default {
     namespaced: true,
@@ -114,12 +15,12 @@ export default {
     },
 
     state: {
+        cart: new Cart(),
         time: null, // время последней синхронизации
         ready: false,
         loading: false,
         error: false,
         synchronized: false,
-        items: [],
         options: [],
         abortRequest: null,
         request: null
@@ -149,6 +50,7 @@ export default {
             dispatch('initStorageExtension', 'cart')
                 .then(() => dispatch('getCartRequestType'))
                 .then(type => Promise.all([dispatch(type), dispatch('loadOptionsDescription')]))
+
         },
 
         getCartRequestType({state}) {
@@ -268,9 +170,9 @@ export default {
                 method: 'put',
                 data: {
                     time: state.time,
-                    items: state.items.map(item => ({
-                        key: item.key,
-                        qty: item.qty
+                    items: state.cart.getItems().map(item => ({
+                        key: item.getKey(),
+                        qty: item.getQuantity()
                     }))
                 },
             })
@@ -294,46 +196,52 @@ export default {
         },
 
         setPromoCode({ state, dispatch }, promoCode) {
+            state.cart.setPromo(
+                new PromoCode(promoCode.amount, promoCode.percent)
+            )
+
             return dispatch('promo/set', promoCode)
         },
 
         clearPromoCode({ state, dispatch }) {
+            state.cart.removePromo()
+
             return dispatch('promo/clear')
         },
 
         _sSetCartItems: {
             root: true,
             handler({state}, items) {
-                state.items = itemsToCartItems(items)
+                state.cart.setProducts(items)
             }
         },
 
         _sPrepareCartItems: {
             root: true,
             handler({state}) {
-                return state.items.map(item => ({
-                    key: item.key,
-                    qty: item.qty
+                return state.cart.getProducts().map(item => ({
+                    key: item.getKey,
+                    qty: item.getQuantity()
                 }))
             }
         }
     },
 
     mutations: {
-        [actionTypes.CART_ADD_ITEM](state, [key, qty = 1]) {
-            state.items = operateItem(state.items, 'add', key, qty)
+        [actionTypes.CART_ADD_ITEM](state, [key, quantity = 1]) {
+            state.cart.add(key, quantity)
         },
 
-        [actionTypes.CART_UPDATE_ITEM](state, [key, qty]) {
-            state.items = operateItem(state.items, 'update', key, qty)
+        [actionTypes.CART_UPDATE_ITEM](state, [key, quantity]) {
+            state.cart.set(key, quantity)
         },
 
         [actionTypes.CART_REMOVE_ITEM](state, key) {
-            state.items = state.items.filter(item => !item.hasKey(key))
+            state.cart.remove(key)
         },
 
         [actionTypes.CART_CLEAR](state) {
-            state.items = []
+            state.cart.clear()
         },
 
         [actionTypes.CART_DIRTY](state) {
@@ -350,11 +258,28 @@ export default {
         },
 
         [actionTypes.CART_REQUEST_SUCCESS](state, data = {}) {
-            state.items = itemsToCartItems(data.cart.products)
             state.time = data.time
             state.ready = true
             state.synchronized = true
             state.loading = false
+
+            let products = data.cart.products
+
+            if (! (_.isEmpty(state.options))) {
+                products.forEach(product => {
+                    if (_.isEmpty(product.info.options)) return
+
+                    product.info.attributes = product.info.options.reduce((acc, id) => {
+                        if (id in state.options) {
+                            acc.push(state.options[id])
+                        }
+
+                        return acc
+                    }, []).join(', ')
+                })
+            }
+
+            state.cart.setProducts(products)
         },
 
         [actionTypes.CART_REQUEST_FAILURE](state) {
@@ -374,70 +299,28 @@ export default {
     },
 
     getters: {
-        loaded(state) {
-            return state.items.filter(item => item.isLoaded())
+        products(state) {
+            return state.cart.getProducts()
         },
 
-        products(state, getters) {
-            return getters.loaded.map(item => {
-                let product = {
-                    ... item.getInfo(),
-                    quantity: item.qty,
-                    key: item.key
-                }
-
-                if (! (_.isEmpty(state.options) || _.isEmpty(product.options))) {
-                    product.attributes = product.options.reduce((acc, id) => {
-                        if (id in state.options) {
-                            acc.push(state.options[id])
-                        }
-
-                        return acc
-                    }, []).join(', ')
-                }
-
-                return product
-            })
+        promoDiscount(state) {
+            return state.cart.getPromoDiscount()
         },
 
-        promoDiscount(state, getters) {
-            let discountValue = 0
-
-            if (! getters['promo/accepted']) {
-                return discountValue
-            }
-
-            if (getters['promo/type'] === 'amount') {
-                discountValue = getters.amount * state.promo.percent / 100
-
-                discountValue = Math.min(state.promo.amount, discountValue)
-            }
-
-            if (getters['promo/type'] === 'percent') {
-                discountValue = getters.amount * state.promo.percent / 100
-            }
-
-            return discountValue
+        amount(state) {
+            return state.cart.getAmount()
         },
 
-        amount(state, getters) {
-            return getters.products.reduce((acc, product) => {
-                acc += product.quantity * product.price
-
-                return acc
-            }, 0)
-        },
-
-        total(state, getters) {
-            return getters.amount - getters.promoDiscount
+        total(state) {
+            return state.cart.getTotal()
         },
 
         quantity(state) {
-            return state.items.reduce((acc, item) => acc + item.qty, 0)
+            return state.cart.getProductsQuantity()
         },
 
         isEmpty(state, getters) {
-            return getters.loaded.length === 0
+            return getters.products.length === 0
         },
 
         stepNotDone(state, getters) {
@@ -445,5 +328,3 @@ export default {
         }
     }
 }
-
-

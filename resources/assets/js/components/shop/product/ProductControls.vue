@@ -96,7 +96,7 @@
     import MultiSelect from 'vue-multiselect'
     import NumControl from '../../NumControl'
     import ButtonLoading from '../../buttons/ButtonLoading'
-    import { makeKey } from '../../../store/cart/index'
+    import { makeKey } from '../../../scripts/shop/Cart'
 
     export default {
         name: "ProductControls",
@@ -130,10 +130,10 @@
 
             ... mapState({
                 quantity(state) {
-                    let item = state.cart.items.find(item => item.hasKey(this.key))
+                    let item = state.cart.cart.getItemByKey(this.key)
 
                     if (item) {
-                        return item.qty
+                        return item.getQuantity()
                     }
 
                     return 0

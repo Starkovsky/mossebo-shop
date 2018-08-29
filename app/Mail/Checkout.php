@@ -2,12 +2,12 @@
 
 namespace App\Mail;
 
+use Settings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Messages\DefaultMessage;
-use Settings;
 
 class Checkout extends Mailable
 {
@@ -36,21 +36,31 @@ class Checkout extends Mailable
 
         $products = [];
 
-        foreach ($this->data['cart'] as $cartItem) {
+        foreach ($this->data['products'] as $cartProduct) {
             $productData = [
                 'url'      => route('good', [
-                    'id' => $cartItem['product']->id
+                    'id' => $cartProduct->getProductId()
                 ]),
-                'title'    => $cartItem['product']->currentI18n->title,
-                'price'    => formatPrice($cartItem['finalPrice'], $this->data['currency_code']),
-                'quantity' => $cartItem['quantity'],
-                'total'    => formatPrice($cartItem['finalPrice'] * $cartItem['quantity'], $this->data['currency_code']),
+
+                'title'    => $cartProduct->getTitle($this->data['language_code']),
+
+                'quantity' => $cartProduct->getQuantity(),
+
+                'price'    => $cartProduct->getFinalPrice(
+                    $this->data['price_type_id'],
+                    $this->data['currency_code']
+                )->getFormatted(),
+
+                'total'    => $cartProduct->getTotalFinalPrice(
+                    $this->data['price_type_id'],
+                    $this->data['currency_code']
+                )->getFormatted(),
             ];
 
-            if ($cartItem['product']->image) {
-                $imagePathes = json_decode($cartItem['product']->image->pathes);
+            $image = $cartProduct->getImage();
 
-                $productData['image'] = imagePath($imagePathes->thumb->srcset);
+            if ($image) {
+                $productData['image'] = imagePath($image['thumb']['srcset']);
             }
 
             $products[] = $productData;
@@ -60,6 +70,10 @@ class Checkout extends Mailable
             'total' => $this->data['finalAmount'],
             'products' => $products
         ];
+
+        if (isset($this->data['promoPrice'])) {
+            $checkoutData['promo'] = $this->data['promoPrice'];
+        }
 
         $message
             ->title(trans('shop.checkout.mail.title', [

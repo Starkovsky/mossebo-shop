@@ -111,21 +111,37 @@
 
 .cabinet-order-prices {
     display: flex;
+    flex-direction: column;
 
     &__total {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+
+        & + & {
+            margin-top: 16px;
+        }
     }
 
     &__label {
         font-size: 14px / 17px;
         color: $color-text-secondary;
         margin-right: 24px;
+        text-align: right;
     }
 
     &__value {
-        font-size: 20px / 24px;
+        font-size: 16px / 20px;
         color: $color-text-primary;
+        min-width: 100px;
+        text-align: left;
+    }
+
+    @include media-breakpoint-up(sm) {
+        &__value {
+            font-size: 20px / 24px;
+            min-width: 120px;
+        }
     }
 }
 

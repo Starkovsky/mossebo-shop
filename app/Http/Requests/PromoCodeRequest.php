@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Cart;
 use App\Shop\Cart\Promo\PromoCode;
-use App\Http\Resources\PromoCodeResource;
+use App\Http\Resources\Cart\PromoCodeResource;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 

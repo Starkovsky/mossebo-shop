@@ -3223,7 +3223,15 @@ body.compensate-for-scrollbar {
 }
 
 .button {
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-weight: 500;
   text-align: center;
   white-space: nowrap;
@@ -3346,7 +3354,7 @@ body.compensate-for-scrollbar {
   margin-right: 16px;
 }
 
-.button__content {
+.button__caption {
   display: inline-block;
   vertical-align: middle;
 }
@@ -3437,7 +3445,17 @@ body.compensate-for-scrollbar {
 }
 
 .button-loading__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
+  width: 100%;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   -webkit-transition: opacity .3s;
@@ -9855,6 +9873,10 @@ a.structure-card:hover .structure-card__name {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .cabinet-order-prices__total {
@@ -9864,6 +9886,13 @@ a.structure-card:hover .structure-card__name {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.cabinet-order-prices__total + .cabinet-order-prices__total {
+  margin-top: 16px;
 }
 
 .cabinet-order-prices__label {
@@ -9871,12 +9900,23 @@ a.structure-card:hover .structure-card__name {
   line-height: 17px;
   color: #969ca3;
   margin-right: 24px;
+  text-align: right;
 }
 
 .cabinet-order-prices__value {
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 20px;
   color: #323f4c;
+  min-width: 100px;
+  text-align: left;
+}
+
+@media (min-width: 576px) {
+  .cabinet-order-prices__value {
+    font-size: 20px;
+    line-height: 24px;
+    min-width: 120px;
+  }
 }
 
 .cabinet-order-button {
@@ -10383,7 +10423,7 @@ a.structure-card:hover .structure-card__name {
 
 .checkout-step-badge.is-active .checkout-step-badge__icon {
   background-color: #fcc600;
-  color: #fff;
+  color: #323f4c;
   border-color: transparent;
 }
 

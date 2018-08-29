@@ -6,7 +6,7 @@ use Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Cart\CartResource;
 use App\Http\Requests\CartRequest;
-use App\Http\Resources\PromoCodeResource;
+use App\Http\Resources\Cart\PromoCodeResource;
 
 use App\Http\Requests\PromoCodeRequest;
 use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode;
@@ -28,8 +28,7 @@ class CartController extends Controller
         $lastUpdatedTime = Cart::getUpdatedAt();
 
         if ($request->input('time') >= $lastUpdatedTime) {
-            Cart::clearProducts();
-            Cart::setMany($request->input('items'));
+            Cart::sync($request->input('items'));
         }
 
         return $this->_makeResponse();

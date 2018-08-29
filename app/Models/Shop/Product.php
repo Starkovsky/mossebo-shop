@@ -222,6 +222,17 @@ class Product extends BaseProduct implements CartProductData
         }, []);
     }
 
+    public function getTitle($languageCode)
+    {
+        $titles = $this->getI18nTitles();
+
+        if (! $titles || !isset($titles[$languageCode])) {
+            return null;
+        }
+
+        return $titles[$languageCode];
+    }
+
     public function getPrices(): ?array
     {
         if ($this->relationIsEmpty('prices')) {

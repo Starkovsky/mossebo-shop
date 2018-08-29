@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Cart;
 
 use Shop;
-use App\Http\Resources\PromoCodeResource;
+use App\Http\Resources\Cart\PromoCodeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartProductResource extends JsonResource
@@ -17,8 +17,8 @@ class CartProductResource extends JsonResource
     public function toArray($request)
     {
         $data = [
-            'key'  => $this->resource->getKey(),
-            'qty'  => $this->resource->getQuantity(),
+            'key'      => $this->resource->getKey(),
+            'quantity' => $this->resource->getQuantity(),
             'info' => [
                 'id'      => $this->resource->getProductId(),
                 'options' => $this->resource->getOptions(),

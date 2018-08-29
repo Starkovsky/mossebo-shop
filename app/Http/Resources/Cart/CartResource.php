@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Cart;
 
-use App\Http\Resources\PromoCodeResource;
+use App\Http\Resources\Cart\PromoCodeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartResource extends JsonResource
