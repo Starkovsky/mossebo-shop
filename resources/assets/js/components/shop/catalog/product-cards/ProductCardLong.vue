@@ -11,18 +11,33 @@
         </div>
 
         <div class="product-card-long__image-box">
-            <a class="product-card-long__link" :href="link" @mouseenter="hoverLink" @mouseout="unHoverLink">
-                <template v-if="product.image">
+            <a class="product-card-long__link"
+               :href="link"
+               @mouseenter="hoverLink"
+               @mouseout="unHoverLink">
+
+                <div class="product-thumbs-slider"
+                     v-if="product.images.length > 1"
+                     @mouseleave="showImage(0)"
+                >
+                    <div class="product-thumbs-slider__item"
+                         @mouseover="showImage(index)"
+                         v-for="(image, index) in product.images"
+                         v-if="index < 3"
+                    >
+                    </div>
+                </div>
+
+                <div v-for="(image, index) in product.images"
+                     v-if="index < 3"
+                     v-show="currentImage == index"
+                >
                     <product-card-image
                         class="product-card-long__image"
-                        :image="product.image"
+                        :image="image.small"
                         :no-image-loading="noImageLoading"
                     ></product-card-image>
-                </template>
-
-                <template v-else>
-                    <div class="product-card-long__image bg-image product-image"></div>
-                </template>
+                </div>
             </a>
         </div>
 

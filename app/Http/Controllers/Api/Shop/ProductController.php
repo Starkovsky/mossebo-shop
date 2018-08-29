@@ -18,7 +18,7 @@ class ProductController extends ApiController
             $products = $this->byBadge(1)
                 ->with(
                     'currentI18n',
-                    'image',
+                    'images',
                     'currentPrice',
                     'oldPrice',
 //                    'attributeOptionRelations',
@@ -42,7 +42,7 @@ class ProductController extends ApiController
             $products = $this->byBadge(6)
                 ->with(
                     'currentI18n',
-                    'image',
+                    'images',
                     'currentPrice',
                     'oldPrice',
 //                    'attributeOptionRelations',

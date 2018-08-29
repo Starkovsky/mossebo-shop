@@ -35,7 +35,7 @@ class CategoryController extends ApiController
     {
         $products = $structureModel->products()->with([
             'currentI18n',
-            'image',
+            'images',
             'currentPrice',
             'oldPrice',
             'attributeOptionRelations',
