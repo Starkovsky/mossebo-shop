@@ -19,7 +19,16 @@ export default {
         'noImageLoading'
     ],
 
+    data() {
+        return {
+            currentImage: 0
+        }
+    },
+
     methods: {
+        showImage: function (n) {
+            this.currentImage = n;
+        }
     },
 
     computed: {

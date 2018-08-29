@@ -16,6 +16,7 @@
         display: block;
         color: $color-text-primary;
         transition: $transition-primary;
+        position: relative;
     }
 
     &__link:hover,
@@ -152,6 +153,9 @@
 
     &__short-desc {
         font-size: 12px / 14px;
+    }
+    .product-thumbs-slider {
+        height: 158px;
     }
 }
 
@@ -338,5 +342,26 @@
 
     &__btn:hover &__image {
         transform: scale(1.1);
+    }
+}
+
+.product-thumbs-slider {
+    position: absolute;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    z-index: 9;
+    height: 200px;
+    width: 100%;
+    box-sizing: border-box;
+    &__item {
+        width: 100%;
+        height: auto;
+        border-bottom: 3px solid transparent;
+        //background: rgba(0,0,0,0.2);
+        &:hover {
+            border-bottom: 3px solid $color-primary;
+        }
     }
 }
