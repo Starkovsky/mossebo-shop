@@ -96,7 +96,7 @@ class ProductController extends ApiController
     {
         $products = $query->with(
             'currentI18n',
-            'image',
+            'images',
             'currentPrice',
             'oldPrice',
             'attributeOptionRelations'
