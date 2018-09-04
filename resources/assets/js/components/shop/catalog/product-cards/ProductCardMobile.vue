@@ -6,17 +6,16 @@
 
         <div class="product-card-mobile__image-box">
             <a class="product-card-mobile__link" :href="link">
-                <template v-if="product.image">
+                <div v-for="(image, index) in product.images"
+                     v-if="index < 3"
+                     v-show="currentImage == index"
+                >
                     <product-card-image
                         class="product-card-mobile__image"
-                        :image="product.image"
+                        :image="image.small"
                         :no-image-loading="noImageLoading"
                     ></product-card-image>
-                </template>
-
-                <template v-else>
-                    <div class="product-card-mobile__image bg-image product-image"></div>
-                </template>
+                </div>
             </a>
         </div>
 
