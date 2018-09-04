@@ -7047,16 +7047,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     settings: {
                         slidesToShow: 2
                     }
-                }, {
-                    breakpoint: this.$root.getBreakpoint('lg') - 1,
-                    settings: {
-                        slidesToShow: 1
-                    }
-                }, {
-                    breakpoint: this.$root.getBreakpoint('xl') - 1,
-                    settings: {
-                        slidesToShow: 2
-                    }
                 }];
             }
 

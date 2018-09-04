@@ -4,7 +4,7 @@
     <main class="content-block">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
                     <banner-slider
                         from="banners.home"
                         type="double"
