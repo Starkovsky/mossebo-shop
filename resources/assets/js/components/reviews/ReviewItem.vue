@@ -29,12 +29,14 @@
         <div class="row">
             <div class="col-md-3 review-item__left">
                 <div class="review-item__top">
-                    <div class="review-item__rating">
-                        <rating
-                            :rate="review.rate"
-                            :hideNum="true"
-                            class-name-modificators="lg"
-                        ></rating>
+                    <div>
+                        <div class="review-item__rating">
+                            <rating
+                                :rate="review.rate"
+                                :hideNum="true"
+                                class-name-modificators="lg"
+                            ></rating>
+                        </div>
                     </div>
 
                     <div class="review-item__name">
@@ -44,7 +46,7 @@
                     <div v-html="formattedDate" class="review-item__date"></div>
                 </div>
 
-                <div v-if="unconfirmed" class="review-item__unconfirmed d-none d-md-block">
+                <div v-if="unconfirmed" class="review-item__unconfirmed">
                     <span class="on-moderation">
                         {{ $root.translate('On moderation') }}
                     </span>

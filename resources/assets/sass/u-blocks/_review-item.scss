@@ -7,7 +7,24 @@
     }
 
     & + & {
-        margin-top: 32px;
+        margin-top: 16px;
+    }
+
+    &__top,
+    &__unconfirmed {
+        text-align: center;
+
+        @include media-breakpoint-up(md) {
+            text-align: left;
+        }
+    }
+
+    &__unconfirmed {
+        margin-top: 8px;
+    }
+
+    &__rating {
+        display: inline-block;
     }
 
     &__name {
@@ -28,8 +45,12 @@
 
     &__menu {
         position: absolute;
-        top: 20px;
+        bottom: 24px;
         right: 16px;
+
+        @include media-breakpoint-up(md) {
+            top: 20px;
+        }
     }
 
     &__left {
@@ -88,6 +109,21 @@
             margin: -8px;
         }
     }
+
+    @include media-breakpoint-down(md) {
+        .ht-container {
+            top: auto;
+            bottom: 100%;
+            margin: -8px -8px 0;
+
+            &::after {
+                top: auto;
+                bottom: 0;
+                transform: rotate(180deg);
+            }
+        }
+    }
+
 
     &__icon {
         width: 24px;

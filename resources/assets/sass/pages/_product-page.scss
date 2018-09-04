@@ -191,6 +191,7 @@
 
     &__right {
         padding-bottom: 32px;
+        position: relative;
     }
 
     @include media-breakpoint-up(lg) {
@@ -200,7 +201,6 @@
         }
 
         &__right {
-            position: relative;
             padding-right: 32px;
             display: flex;
             flex-direction: column;

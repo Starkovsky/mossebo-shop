@@ -1,12 +1,4 @@
 .reviews-pallete {
-    &__controls {
-        margin-bottom: 24px;
-
-        @include media-breakpoint-up(md) {
-            margin-bottom: 40px;
-        }
-    }
-
     &__wrap {
         transition: height .3s;
 
@@ -20,6 +12,11 @@
         margin-left: -30px;
         display: flex;
         flex-wrap: wrap;
+        margin-top: 24px;
+
+        @include media-breakpoint-up(md) {
+            margin-top: 40px;
+        }
     }
 
     &__item {
@@ -71,9 +68,14 @@
     }
 
     &__num {
-        margin-right: 24px;
-        font-size: 24px / 30px;
+        margin-right: 16px;
+        font-size: 14px / 17px;
         color: $color-text-secondary;
+
+        @include media-breakpoint-up(lg) {
+            margin-right: 24px;
+            font-size: 24px / 30px;
+        }
     }
 
 
@@ -89,5 +91,39 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+    }
+}
+
+
+.reviews-list {
+    &__slider {
+        .slick-list {
+            margin: -16px;
+        }
+
+        .slick-slide {
+            padding: 16px;
+        }
+    }
+
+    &__pagination {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 16px / 20px;
+        color: $color-text-secondary;
+    }
+
+    &__prev,
+    &__next {
+        position: absolute;
+        top: 54px;
+    }
+
+    &__prev {
+        left: -12px;
+    }
+
+    &__next {
+        right: -12px;
     }
 }

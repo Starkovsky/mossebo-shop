@@ -28,6 +28,7 @@ class ConfigController extends Controller
         $this->__connectLocations($config);
         $this->__connectUserData($config);
         $this->__connectDefaultPromo($config);
+        $this->__connectBanners($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
     }
@@ -84,7 +85,21 @@ class ConfigController extends Controller
     protected function __connectDefaultPromo(& $config)
     {
         if ($promoCode = Shop::getDefaultPromoCode()) {
-            $config['default_promo'] = new PromoCodeResource($promoCode);
+            $config['defaultPromo'] = new PromoCodeResource($promoCode);
+        }
+    }
+
+    protected function __connectBanners(& $config)
+    {
+        $bannersController = app()->make(\App\Http\Controllers\BannerController::class);
+
+        if (Shop::isMainPage()) {
+            $config['banners']['home'] = $bannersController->random(2, 8);
+        }
+
+        if (Shop::isCatalog()) {
+            $config['banners']['catalogFilters'] = $bannersController->random(3, 8);
+            $config['banners']['catalogList'] = $bannersController->random(4, 8);
         }
     }
 }

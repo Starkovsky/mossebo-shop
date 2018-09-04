@@ -19,7 +19,15 @@
                     </div>
 
                     <div class="catalog-filters-banner" v-if="! loading">
-                        <banner-random></banner-random>
+                        <banner-column
+                            v-if="allProductsQuantity > 12"
+                            from="banners.catalogFilters"
+                        ></banner-column>
+
+                        <banner-slider
+                            v-else
+                            from="banners.catalogFilters"
+                        ></banner-slider>
                     </div>
                 </div>
 

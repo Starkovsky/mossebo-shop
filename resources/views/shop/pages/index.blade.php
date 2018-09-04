@@ -4,12 +4,11 @@
     <main class="content-block">
         <div class="container">
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <banner-home-stock></banner-home-stock>
-                </div>
-
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                    <banner-home-new></banner-home-new>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                    <banner-slider
+                        from="banners.home"
+                        type="double"
+                    ></banner-slider>
                 </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">

@@ -1,97 +1,95 @@
 <template>
     <div :class="{'reviews-pallete': true, 'no-reviews': reviewsNum === 0}">
         <div class="reviews-pallete__wrap js-reviews-wrap">
-            <div>
-                <div v-if="! (loading || error)" class="reviews-pallete__controls">
-                    <div class="reviews-control-panel">
-                        <div class="row row--no-padding">
-                            <div class="col-md-6 reviews-control-panel__left">
-                                <div v-if="! hideButton" class="reviews-control-panel__button">
-                                    <div class="review-invocation">
-                                        <div class="review-invocation__button">
-                                            <template v-if="$root.isAuthorized()">
-                                                <template v-if="unconfirmed">
-                                                    <button-icon
-                                                        class="button-primary"
-                                                        icon="symbol-create"
-                                                        @click="edit(unconfirmed)"
-                                                        :disabled="panelDisabled"
-                                                    >
-                                                        Изменить отзыв
-                                                    </button-icon>
-                                                </template>
-
-                                                <template v-else>
-                                                    <button-icon
-                                                        class="button-primary"
-                                                        icon="symbol-create"
-                                                        @click="toForm"
-                                                        :disabled="panelDisabled"
-                                                    >
-                                                        Оставить отзыв
-                                                    </button-icon>
-                                                </template>
+            <div v-if="! (loading || error)" class="reviews-pallete__controls">
+                <div class="reviews-control-panel">
+                    <div class="row row--no-padding">
+                        <div class="col-md-6 reviews-control-panel__left">
+                            <div v-if="! hideButton" class="reviews-control-panel__button">
+                                <div class="review-invocation">
+                                    <div class="review-invocation__button">
+                                        <template v-if="$root.isAuthorized()">
+                                            <template v-if="unconfirmed">
+                                                <button-icon
+                                                    class="button-primary"
+                                                    icon="symbol-create"
+                                                    @click="edit(unconfirmed)"
+                                                    :disabled="panelDisabled"
+                                                >
+                                                    Изменить отзыв
+                                                </button-icon>
                                             </template>
 
                                             <template v-else>
                                                 <button-icon
                                                     class="button-primary"
-                                                    icon="symbol-auth"
-                                                    @click="toLogin"
+                                                    icon="symbol-create"
+                                                    @click="toForm"
                                                     :disabled="panelDisabled"
                                                 >
-                                                    Войдите, чтобы оставить отзыв
+                                                    Оставить отзыв
                                                 </button-icon>
                                             </template>
-                                        </div>
+                                        </template>
 
-                                        <div v-if="reviewsNum === 0 && activeStep !== 'form'" class="review-invocation__caption">
-                                            <svg class="review-invocation__arrow">
-                                                <use xlink:href="/assets/images/icons.svg#review-invocation-arrow"></use>
-                                            </svg>
+                                        <template v-else>
+                                            <button-icon
+                                                class="button-primary"
+                                                icon="symbol-auth"
+                                                @click="toLogin"
+                                                :disabled="panelDisabled"
+                                            >
+                                                Войти и написать отзыв
+                                            </button-icon>
+                                        </template>
+                                    </div>
 
-                                            <span class="review-invocation__label">
-                                                Станьте первым кто напишет
-                                            </span>
-                                        </div>
+                                    <div v-if="reviewsNum === 0 && activeStep !== 'form'" class="review-invocation__caption">
+                                        <svg class="review-invocation__arrow">
+                                            <use xlink:href="/assets/images/icons.svg#review-invocation-arrow"></use>
+                                        </svg>
+
+                                        <span class="review-invocation__label">
+                                            Станьте первым кто напишет
+                                        </span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="col-md-6 reviews-control-panel__right">
-                                <div class="reviews-control-panel__num">
-                                    <template v-if="reviewsNum === 0">
-                                        Пока нет отзывов
-                                    </template>
+                        <div class="col-md-6 reviews-control-panel__right">
+                            <div class="reviews-control-panel__num">
+                                <template v-if="reviewsNum === 0">
+                                    Пока нет отзывов
+                                </template>
 
-                                    <template v-else>
-                                        <span v-html="reviewsNumLabel"></span>
-                                    </template>
-                                </div>
+                                <template v-else>
+                                    <span v-html="reviewsNumLabel"></span>
+                                </template>
+                            </div>
 
-                                <div class="reviews-control-panel__sort">
-                                    <div class="reviews-sort">
-                                        <div class="reviews-sort__sort">
-                                            <multi-select
-                                                :value="multiselectActiveSortType"
-                                                :options="multiselectSortTypes"
-                                                :max-height="300"
-                                                :searchable="false"
-                                                :hide-selected="false"
-                                                :multiple="false"
-                                                :allow-empty="false"
-                                                @select="setSortType"
-                                                :disabled="reviewsNum === 0 || panelDisabled"
-                                            >
-                                                <template slot="option" slot-scope="props">
-                                                    {{ props.option.title }}
-                                                </template>
+                            <div class="reviews-control-panel__sort">
+                                <div class="reviews-sort">
+                                    <div class="reviews-sort__sort">
+                                        <multi-select
+                                            :value="multiselectActiveSortType"
+                                            :options="multiselectSortTypes"
+                                            :max-height="300"
+                                            :searchable="false"
+                                            :hide-selected="false"
+                                            :multiple="false"
+                                            :allow-empty="false"
+                                            @select="setSortType"
+                                            :disabled="reviewsNum === 0 || panelDisabled"
+                                        >
+                                            <template slot="option" slot-scope="props">
+                                                {{ props.option.title }}
+                                            </template>
 
-                                                <template slot="singleLabel" slot-scope="props">
-                                                    {{ props.option.title }}
-                                                </template>
-                                            </multi-select>
-                                        </div>
+                                            <template slot="singleLabel" slot-scope="props">
+                                                {{ props.option.title }}
+                                            </template>
+                                        </multi-select>
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="reviews-pallete__content">
+            <div v-if="(isActive('list') &&  reviewsNum > 0) || isActive('form')" class="reviews-pallete__content">
                 <!--<transition-->
                     <!--:name="animationName"-->
                     <!--@before-leave="beforeLeave"-->

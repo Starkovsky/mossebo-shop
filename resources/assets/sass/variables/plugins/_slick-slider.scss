@@ -68,6 +68,7 @@
 .slick-initialized .slick-slide
 {
     display: block;
+    height: 100%;
 }
 
 .slick-loading .slick-slide
@@ -138,10 +139,15 @@
 .slick-next {
     width: 48px;
     height: 48px;
+    padding: 0;
     border: 1px solid $color-border;
     border-radius: 50%;
     background-color: transparent;
     transition: $transition-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
     .symbol-icon {
         display: inline-block;
@@ -160,6 +166,21 @@
         .symbol-icon {
             fill: $color-text-primary;
         }
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.slick-arrow--small {
+    width: 32px;
+    height: 32px;
+    background-color: $color-ui;
+
+    .symbol-icon {
+        width: 24px;
+        height: 24px;
     }
 }
 
@@ -203,14 +224,6 @@
         position: absolute;
         top: 50%;
         margin-top: -24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
-        }
     }
 
     .slick-slide {

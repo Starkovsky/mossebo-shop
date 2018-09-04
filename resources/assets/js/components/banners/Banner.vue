@@ -1,24 +1,28 @@
 <template>
     <div
-        :class="'banner banner--' + id"
-        :style="{backgroundImage: gradient}"
+        :class="classNameWithModificators('banner') + ' banner--' + id"
+        :style="{backgroundImage: background}"
     >
-        <div class="banner__image-box">
+        <div v-if="image" class="banner__image-box">
             <background-image-loader
                 :image="image"
                 :screen="true"
                 class="banner__image"
+                :alt="title"
             ></background-image-loader>
         </div>
 
+        <div v-else v-html="title" :style="{color: titleColor}" class="banner__title"></div>
+
         <div class="banner__bottom">
-            <div v-html="title" class="banner__title"></div>
+            <div v-html="caption" :style="{color: captionColor}" class="banner__caption"></div>
 
             <div class="banner__button">
                 <a
                     class="button button-long button-shadow"
-                    :href="preparedLink"
+                    :href="link"
                     :target="linkIsOuter ? '_blank' : '_self'"
+                    :style="buttonStyle"
                 >
                     {{ buttonText }}
                 </a>
@@ -29,19 +33,24 @@
 
 <script>
     import Core from '../../scripts/core'
+    import Mixin from './mixin'
     import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
 
     export default {
         name: "Banner",
+
+        mixins: [
+            Mixin
+        ],
 
         components: {
             BackgroundImageLoader
         },
 
         props: {
-            id: Number,
-
             image: String,
+
+            backgroundImage: String,
 
             gradientFrom: {
                 default: '#fcc600'
@@ -62,8 +71,9 @@
             gradientAngle: {
                 default: 45,
             },
-
             title: String,
+
+            caption: String,
 
             buttonText: {
                 type: String,
@@ -73,25 +83,13 @@
 
             link: {
                 type: String
-            }
+            },
         },
 
         computed: {
             linkIsOuter() {
                 return this.link.indexOf('http') === 0 && this.link.indexOf(window.location.host) === -1
             },
-
-            preparedLink() {
-                return this.linkIsOuter ? this.link : Core.siteUrl(this.link)
-            },
-
-            gradient() {
-                if (this.gradientIsRadial) {
-                    return `radial-gradient(${this.gradientFrom}, ${this.gradientTo})`
-                }
-
-                return `linear-gradient(${this.gradientAngle}deg, ${this.gradientFrom} 0%, ${this.gradientTo} 100%)`
-            }
         }
     }
 </script>

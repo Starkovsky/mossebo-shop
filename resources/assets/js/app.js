@@ -34,8 +34,6 @@ import CatalogSearch from './components/shop/catalog/CatalogSearch'
 import ProductList from './components/shop/catalog/ProductList'
 import ProductCard from './components/shop/catalog/product-cards/ProductCard'
 import FormattedPrice from './components/shop/price/FormattedPrice'
-import BannerHomeStock from './components/banners/BannerHomeStock'
-import BannerHomeNew from './components/banners/BannerHomeNew'
 import Checkout from './components/shop/checkout/Checkout'
 import Cabinet from './components/shop/cabinet/Cabinet'
 import CartBtn from './components/shop/cart/CartBtn'
@@ -49,13 +47,15 @@ import ProductActions from './components/shop/product/ProductActions'
 import ProductSale from './components/shop/sale/ProductSale'
 
 import CitiesSelect from './components/city-select/CitiesSelect'
-import HeaderBanner from './components/HeaderBanner'
+import HeaderBanner from './components/banners/HeaderBanner'
+import BannerSlider from './components/banners/BannersSet/BannerSlider'
 import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoader'
 
 import Core from './scripts/core'
 import './scripts/HeightToggle'
 import './bootstrap/tooltip'
 import '@fancyapps/fancybox'
+import 'slick-carousel'
 
 import initFixedMenu from './scripts/FixedMenu'
 import initMainMenu from './scripts/MainMenu'
@@ -86,8 +86,6 @@ const app = new Vue({
         ProductList,
         ProductCard,
         FormattedPrice,
-        BannerHomeStock,
-        BannerHomeNew,
         Checkout,
         Cabinet,
         CartBtn,
@@ -98,7 +96,8 @@ const app = new Vue({
         CitiesSelect,
         HeaderBanner,
         BackgroundImageLoader,
-        SearchInput
+        SearchInput,
+        BannerSlider
     },
     data: {
         windowWidth: window.innerWidth,
@@ -281,5 +280,3 @@ $('.slider-nav').slick({
 $('.js-form-popup').fancybox(
     Core.getFancyboxConfig()
 )
-
-

@@ -7,8 +7,8 @@
         </template>
 
         <div class="product-list" v-if="!loading">
-            <div class="product-list__row row row--half js-products-slider">
-                <template v-for="(product, index) in products">
+            <div class="product-list__row row row--half js-slider">
+                <template v-for="product in products">
                     <div
                         class="product-list__product col-lg-3"
                         :key="product.id"
@@ -25,18 +25,17 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import 'slick-carousel'
-
     import Loading from '../../Loading'
     import ProductCard from "./product-cards/ProductCard"
     import RequestMixin from '../../../mixins/RequestMixin'
+    import MobileSliderMixin from '../../../mixins/MobileSliderMixin'
 
     export default {
         name: "ProductList",
 
         mixins: [
-            RequestMixin
+            RequestMixin,
+            MobileSliderMixin
         ],
 
         components: {
@@ -91,16 +90,8 @@
                 }
             },
 
-            initSlider() {
-                if (this.sliderInited) return
-
-                let slider = this.$el.querySelector('.js-products-slider')
-
-                if (! slider) return
-
-                this.sliderEl$ = $(slider)
-
-                this.sliderEl$.slick({
+            getSliderSettings() {
+                return {
                     dots: true,
                     infinite: true,
                     speed: 300,
@@ -120,35 +111,7 @@
                             }
                         }
                     ]
-                });
-
-                this.sliderInited = true
-            },
-
-            destroySlider() {
-                if (!this.sliderInited) return
-
-                this.sliderEl$.slick('unslick')
-
-                this.sliderInited = false
-            },
-
-
-            handleResize() {
-                if (this.$root.windowMoreThan('lg')) {
-                    this.destroySlider()
                 }
-                else {
-                    this.initSlider()
-                }
-            },
-
-            makeSlider() {
-                this.$root.$on('resize', this.handleResize)
-
-                this.$nextTick(() => {
-                    this.handleResize()
-                })
             },
         },
 

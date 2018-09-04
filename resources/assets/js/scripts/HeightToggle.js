@@ -1,21 +1,6 @@
 // Всплывашки.
 
-function dispatchEvent(target, eventName) {
-    let myEvent
-
-    if (typeof CustomEvent === 'undefined') {
-        myEvent = document.createEvent(eventName);
-        myEvent.initCustomEvent(eventName, false, true);
-    }
-    else {
-        myEvent = new CustomEvent(eventName, {
-            bubbles: false,
-            cancelable: true
-        });
-    }
-
-    target.dispatchEvent(myEvent)
-}
+import { dispatchEvent } from './functions'
 
 const MakeHtUniqueId = (() => {
     let counter = 0

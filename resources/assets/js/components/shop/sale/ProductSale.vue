@@ -1,7 +1,7 @@
 <template>
     <loading :loading="loading">
         <div v-if="error">
-            <banner-home-stock></banner-home-stock>
+
         </div>
 
         <div v-else-if="!product" class="product-card-sale block-ui"></div>
@@ -16,12 +16,13 @@
 </template>
 
 <script>
+    // <banner-home-stock></banner-home-stock>
     import axios from 'axios'
     import Core from '../../../scripts/core/index'
     import Loading from '../../Loading'
     import ProductCardSale from '../catalog/product-cards/ProductCardSale'
 
-    import BannerHomeStock from '../../banners/BannerHomeStock'
+    // import BannerHomeStock from '../../banners/BannerHomeStock'
 
     export default {
         name: "ProductSale",
@@ -29,7 +30,7 @@
         components: {
             ProductCardSale,
             Loading,
-            BannerHomeStock
+            // BannerHomeStock
         },
 
         data() {

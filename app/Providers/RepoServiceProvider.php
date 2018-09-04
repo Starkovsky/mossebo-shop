@@ -91,5 +91,11 @@ class RepoServiceProvider extends ServiceProvider
                 \App\Models\Shop\Badge\BadgeType::class
             );
         });
+
+        $this->app->singleton('banner-places', function() {
+            return new \MosseboShopCore\Repositories\BannerPlaceRepository(
+                \App\Models\Shop\Banner\BannerPlace::class
+            );
+        });
     }
 }

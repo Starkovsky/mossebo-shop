@@ -1,7 +1,3 @@
-.reviews-pallete.no-reviews {
-    padding-bottom: 80px;
-}
-
 .review-form {
     padding: 16px 16px 24px;
 
@@ -92,6 +88,11 @@
         left: 158px;
         color: $color-text-secondary;
         white-space: nowrap;
+        display: none;
+
+        @include media-breakpoint-up(sm) {
+            display: block;
+        }
     }
 
     &__arrow {
@@ -109,3 +110,8 @@
     }
 }
 
+@include media-breakpoint-up(sm) {
+    .reviews-pallete.no-reviews {
+        padding-bottom: 80px;
+    }
+}

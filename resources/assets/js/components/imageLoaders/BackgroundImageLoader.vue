@@ -1,5 +1,7 @@
 <template>
-    <div :class="{'bg-image-loader': true, animate: animate, loaded: loaded, empty: empty}" :style="style"></div>
+    <div :class="{'bg-image-loader': true, animate: animate, loaded: loaded, empty: empty}" :style="style">
+        <slot></slot>
+    </div>
 </template>
 
 <script>

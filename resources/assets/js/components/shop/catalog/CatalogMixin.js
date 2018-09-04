@@ -9,7 +9,8 @@ import Loading from '../../Loading'
 import Tabs from '../../Tabs'
 import CardTypesChanger from './CardTypesChanger'
 import ButtonLoading from '../../buttons/ButtonLoading'
-import BannerRandom from '../../banners/BannerRandom'
+import BannerSlider from '../../banners/BannersSet/BannerSlider'
+import BannerColumn from '../../banners/BannersSet/BannerColumn'
 import SidePopup from '../../SidePopup'
 import ServerError from '../../ServerError'
 import MultiSelect from 'vue-multiselect'
@@ -22,7 +23,8 @@ export default {
         Tabs,
         CardTypesChanger,
         ButtonLoading,
-        BannerRandom,
+        BannerSlider,
+        BannerColumn,
         SidePopup,
         MultiSelect,
         CatalogFilterList,
@@ -48,6 +50,7 @@ export default {
             sortTypes: state => state.catalog.sort.types,
             activeSortType: state => state.catalog.sort.active,
             activeCardType: state => state.catalog.cards.active,
+            allProductsQuantity: state => state.catalog.products.length,
             products: state => state.catalog.pagination.productsToShow,
             filtersExists: state => state.catalog.filters.filters.length > 0,
             filtersIsDirty: state => state.catalog.filters.isDirty,

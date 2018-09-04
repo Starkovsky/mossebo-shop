@@ -18,3 +18,8 @@ export function makeEvent(eventName) {
 export function dispatchEvent(el, eventName) {
     el.dispatchEvent(makeEvent(eventName))
 }
+
+
+export function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

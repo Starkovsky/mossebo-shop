@@ -11,7 +11,6 @@ export default {
 
     state: {
         url: '',
-        all: false,
         reviews: [],
         loading: false,
         error: false,
@@ -87,12 +86,6 @@ export default {
                 .then(() => dispatch('setSortedReviews'))
         },
 
-        all({state, commit}) {
-            if (! state.all) {
-                commit(actionTypes.REVIEWS_LIST_All)
-            }
-        },
-
         loading({commit}) {
             commit(actionTypes.REVIEWS_LIST_LOADING_START)
         }
@@ -119,10 +112,6 @@ export default {
         [actionTypes.REVIEWS_LIST_REQUEST_END](state) {
             state.loading = false
             state.abortRequest = false
-        },
-
-        [actionTypes.REVIEWS_LIST_All](state) {
-            state.all = true
         },
 
         [actionTypes.REVIEWS_LIST_READY](state) {

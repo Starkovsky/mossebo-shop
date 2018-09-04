@@ -3,44 +3,72 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Shop\Banner\Banner;
+use App\Http\Resources\Banner\BannerResource;
+use BannerPlaces;
+use Illuminate\Support\Collection;
 
 class BannerController extends Controller
 {
-    protected static $banners = [
-        [
-            'id' => 1,
-            'image' => '/assets/images/tmp/header-test-1.jpg',
-            'mobile_image' => '/assets/images/tmp/header-test-mobile-1.jpg',
-            'title' => '',
-            'link' => '/catalog/tekstil'
-        ]
-    ];
+    protected static $cacheKeyNamespace = 'banners';
 
-    public function getHeaderBanner()
+    protected function byPosition($placeId)
     {
-        $banner = static::findRelevantHeaderBanner();
+        $bannersTableName = config('tables.Banners');
+        $relationTableName = config('tables.BannerPlaceRelations');
 
-        return $banner ? (object) $banner : false;
-    }
+        $query = Banner::enabled()->with('currentI18n')->inRandomOrder();
 
-    protected static function findRelevantHeaderBanner()
-    {
-        $url = pathUrl(request()->url());
+        $query
+            ->join("{$relationTableName}", function($join) use($bannersTableName, $relationTableName, $placeId) {
+                $join->on("{$bannersTableName}.id", '=', "{$relationTableName}.banner_id")
+                    ->where("{$relationTableName}.place_id", $placeId);
+            })
+            ->groupBy(\DB::raw("{$bannersTableName}.id, {$relationTableName}.place_id, {$relationTableName}.banner_id"));
 
-        $banners = array_reduce(static::$banners, function($carry, $banner) use($url) {
-            if ($banner['link'] !== $url) {
-                $carry[] = $banner;
-            }
+        $request = request();
+
+        return $query->get()->reduce(function($carry, $item) use($request) {
+            $carry->push(
+                (new BannerResource($item))->toArray($request)
+            );
 
             return $carry;
-        }, []);
+        }, new Collection);
+    }
 
-        $bannersCount = count($banners);
+    public function get($placeId)
+    {
+        return \Cache::remember(static::makeKey($placeId), 18000, function() use($placeId) {
+            return $this->byPosition($placeId);
+        });
+    }
 
-        if ($bannersCount === 0) {
+    public function random($placeId, $quantity = 1)
+    {
+        $banners = $this->get($placeId);
+
+        $availableQuantity = min($quantity, $banners->count());
+
+        if (! $availableQuantity) {
             return false;
         }
 
-        return $banners[random_int(0, $bannersCount - 1)];
+        $banners = $banners->random($availableQuantity);
+
+        if ($quantity === 1) {
+            return $banners->first();
+        }
+
+        return $banners;
+    }
+
+    public static function makeKey($positon)
+    {
+        return implode('::', [
+            self::$cacheKeyNamespace,
+            app()->getLocale(),
+            $positon
+        ]);
     }
 }

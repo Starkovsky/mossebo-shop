@@ -2,12 +2,13 @@
     <div v-if="index === 24" class="col-12">
         <banner-random
             is-long
+            from="banners.catalogList"
         ></banner-random>
     </div>
 </template>
 
 <script>
-    import BannerRandom from '../../../banners/BannerRandom'
+    import BannerRandom from '../../../banners/BannersSet/BannerRandom'
 
     export default {
         name: 'CatalogBanner',

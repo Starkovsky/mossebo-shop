@@ -27,7 +27,6 @@
 
     &__image {
         margin: auto;
-        width: 200px;
         max-width: 100%;
         background-size: contain;
         background-position: center center;
@@ -88,7 +87,8 @@
     }
 
     &__image-box {
-        margin-bottom: 7px;
+        max-width: 200px;
+        margin: 0 auto 7px;
     }
 
     &__price {
@@ -156,6 +156,7 @@
     }
     .product-thumbs-slider {
         height: 158px;
+        padding: 0;
     }
 }
 
@@ -355,6 +356,7 @@
     height: 200px;
     width: 100%;
     box-sizing: border-box;
+    padding: 0 8px;
     &__item {
         width: 100%;
         height: auto;

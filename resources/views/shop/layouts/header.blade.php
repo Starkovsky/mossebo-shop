@@ -1,13 +1,27 @@
 @php
-    $banner = app()->make(App\Http\Controllers\BannerController::class)->getHeaderBanner();
+    $banner = app()->make(App\Http\Controllers\BannerController::class)->random(1);
 @endphp
 
 @if ($banner)
     <div class="header-banner-wrap js-header-banner">
         <header-banner
-            link="{{ siteUrl($banner->link) }}"
-            image="{{ $banner->image }}"
-            mobile-image="{{ $banner->mobile_image }}"
+            id="{{ $banner['id'] }}"
+            link="{{ siteUrl($banner['link']) }}"
+            image="{{ $banner['desktop_image'] }}"
+            mobile-image="{{ $banner['mobile_image'] }}"
+            gradient-from="{{ $banner['gradient']['color_from'] }}"
+
+            gradient-to="{{ $banner['gradient']['color_to'] }}"
+            gradient-type="{{ $banner['gradient']['type'] }}"
+            gradient-angle="{{ $banner['gradient']['angle'] }}"
+
+            title="{{ $banner['merged_title'] }}"
+            button-text="{{ $banner['button'] }}"
+
+            title-color="{{ $banner['title_color'] }}"
+            caption-color="{{ $banner['caption_color'] }}"
+            button-color="{{ $banner['button_color'] }}"
+            button-background="{{ $banner['button_background_color'] }}"
         ></header-banner>
     </div>
 @endif
