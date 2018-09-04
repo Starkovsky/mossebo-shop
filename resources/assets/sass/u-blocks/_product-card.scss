@@ -236,7 +236,8 @@
     }
 
     &__image-box {
-        margin-bottom: 7px;
+        max-width: 200px;
+        margin: 0 auto 7px;
     }
 
     &__prices {
