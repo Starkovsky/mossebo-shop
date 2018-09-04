@@ -17,7 +17,7 @@ class BannerController extends Controller
         $bannersTableName = config('tables.Banners');
         $relationTableName = config('tables.BannerPlaceRelations');
 
-        $query = Banner::enabled()->with('currentI18n', 'positions')->inRandomOrder();
+        $query = Banner::enabled()->with('currentI18n', 'places')->inRandomOrder();
 
         $query
             ->join("{$relationTableName}", function($join) use($bannersTableName, $relationTableName, $placeId) {
