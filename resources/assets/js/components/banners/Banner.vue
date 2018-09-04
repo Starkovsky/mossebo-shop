@@ -9,6 +9,7 @@
                 :screen="true"
                 class="banner__image"
                 :alt="title"
+                @onload="imageLoaded"
             ></background-image-loader>
         </div>
 
@@ -90,6 +91,12 @@
             linkIsOuter() {
                 return this.link.indexOf('http') === 0 && this.link.indexOf(window.location.host) === -1
             },
+        },
+
+        methods: {
+            imageLoaded() {
+                this.$emit('image-loaded')
+            }
         }
     }
 </script>

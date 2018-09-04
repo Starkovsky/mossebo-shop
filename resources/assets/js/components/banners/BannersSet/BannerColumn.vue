@@ -41,6 +41,6 @@
                 .then(banners => {
                     this.banners = banners
                 })
-        }
+        },
     }
 </script>

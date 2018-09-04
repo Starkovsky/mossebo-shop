@@ -6730,6 +6730,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -6786,6 +6787,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         linkIsOuter: function linkIsOuter() {
             return this.link.indexOf('http') === 0 && this.link.indexOf(window.location.host) === -1;
+        }
+    },
+
+    methods: {
+        imageLoaded: function imageLoaded() {
+            this.$emit('image-loaded');
         }
     }
 });
@@ -6969,6 +6976,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -7052,6 +7061,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
 
             return settings;
+        },
+        setCloneImage: function setCloneImage(banner) {
+            var clonedBanners = this.$el.querySelectorAll('.slick-cloned .banner--' + banner.id);
+
+            if (clonedBanners.length) {
+                [].forEach.call(clonedBanners, function (el) {
+                    var imageEl = el.querySelector('.banner__image');
+
+                    imageEl.style.backgroundImage = 'url(' + banner.small_image + ')';
+
+                    imageEl.classList.add('animate');
+                    imageEl.classList.add('loaded');
+                });
+            }
         }
     }
 });
@@ -20014,7 +20037,8 @@ var render = function() {
             [
               _c("background-image-loader", {
                 staticClass: "banner__image",
-                attrs: { image: _vm.image, screen: true, alt: _vm.title }
+                attrs: { image: _vm.image, screen: true, alt: _vm.title },
+                on: { onload: _vm.imageLoaded }
               })
             ],
             1
@@ -21015,6 +21039,11 @@ var render = function() {
                 "gradient-to": banner.gradient.color_to,
                 "gradient-type": banner.gradient.type,
                 "gradient-angle": banner.gradient.angle
+              },
+              on: {
+                "image-loaded": function($event) {
+                  _vm.setCloneImage(banner)
+                }
               }
             })
           ],
@@ -27170,6 +27199,7 @@ module.exports = Component.exports
             this.onLoad(elImg, function () {
                 _this.loaded = true;
                 _this.image$ = elImg.src;
+                _this.$emit('onload');
             });
         },
         isNeedToShow: function isNeedToShow() {

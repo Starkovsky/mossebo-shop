@@ -30,6 +30,8 @@
                     :gradient-to="banner.gradient.color_to"
                     :gradient-type="banner.gradient.type"
                     :gradient-angle="banner.gradient.angle"
+
+                    @image-loaded="setCloneImage(banner)"
                 ></banner>
             </div>
         </div>
@@ -134,6 +136,20 @@
                 return settings
             },
 
+            setCloneImage(banner) {
+                let clonedBanners = this.$el.querySelectorAll('.slick-cloned .banner--' + banner.id)
+
+                if (clonedBanners.length) {
+                    [].forEach.call(clonedBanners, el => {
+                        let imageEl = el.querySelector('.banner__image')
+
+                        imageEl.style.backgroundImage = 'url(' + banner.small_image + ')'
+
+                        imageEl.classList.add('animate')
+                        imageEl.classList.add('loaded')
+                    })
+                }
+            }
         }
     }
 </script>

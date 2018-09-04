@@ -96,6 +96,7 @@ export default  {
             this.onLoad(elImg, () => {
                 this.loaded = true
                 this.image$ = elImg.src
+                this.$emit('onload')
             })
         },
 
