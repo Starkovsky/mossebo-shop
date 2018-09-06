@@ -6,16 +6,6 @@ use MosseboShopCore\Models\Shop\OrderProduct as BaseOrderProduct;
 
 class OrderProduct extends BaseOrderProduct
 {
-    protected $fillable = [
-        'order_id',
-        'product_id',
-        'default_price',
-        'final_price',
-        'currency_code',
-        'quantity',
-        'params'
-    ];
-
     public function order()
     {
         return $this->hasOne(Order::class, 'id', 'order_id');

@@ -54,11 +54,14 @@
 
         created() {
             this.loadBanners()
-                .then(banners => {
-                    if (banners && banners.length) {
-                        this.banner = banners[getRandomInt(0, banners.length - 1)]
-                    }
-                })
+        },
+
+        methods: {
+            setBanners(banners) {
+                if (! banners) return
+
+                this.banner = banners[getRandomInt(0, banners.length - 1)]
+            }
         }
     }
 </script>

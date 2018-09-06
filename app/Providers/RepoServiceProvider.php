@@ -8,23 +8,18 @@ class RepoServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->app->singleton('categories', function() {
+            return app()->make(\App\Repositories\CategoryRepository::class);
+        });
+
         $this->app->singleton('languages', function() {
-            return new \MosseboShopCore\Repositories\LanguageRepository(
-                \App\Models\Language::class
-            );
+            return app()->make(\App\Repositories\LanguageRepository::class);
         });
 
         $this->app->singleton('attributes', function() {
-            return new \MosseboShopCore\Repositories\AttributeRepository(
-                \App\Models\Shop\Attribute::class
-            );
+            return app()->make(\App\Repositories\AttributeRepository::class);
         });
 
-        $this->app->singleton('categories', function() {
-            return new \MosseboShopCore\Repositories\CategoryRepository(
-                \App\Models\Shop\Category::class
-            );
-        });
 
         $this->app->singleton('rooms', function() {
             return new \MosseboShopCore\Repositories\RoomRepository(

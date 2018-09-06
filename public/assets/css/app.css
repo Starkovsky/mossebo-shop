@@ -3514,6 +3514,63 @@ body.compensate-for-scrollbar {
   z-index: 1;
 }
 
+.button-group {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  color: #323f4c;
+  border: 1px solid #ecedf3;
+  border-radius: 30px;
+  font-size: 14px;
+  line-height: 24px;
+  overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.button-group__main {
+  padding: 11px 32px;
+  cursor: pointer;
+}
+
+.button-group__main:hover {
+  color: #323f4c;
+  background-color: #fcc600;
+}
+
+.button-group__side {
+  border-left: 1px solid #ecedf3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 11px 16px 11px 12px;
+  cursor: pointer;
+}
+
+.button-group__icon {
+  width: 24px;
+  height: 24px;
+  fill: #969ca3;
+}
+
+.button-group__side:hover, .button-group__side.is-hovered, .button-group__side.is-active {
+  background-color: #fcc600;
+}
+
+.button-group__side:hover .button-group__icon,
+.button-group__side.is-hovered .button-group__icon,
+.button-group__side.is-active .button-group__icon {
+  fill: #323f4c;
+}
+
 .form-group {
   text-align: left;
   position: relative;

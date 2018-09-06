@@ -124,6 +124,10 @@
             },
 
             optionsTooMuch() {
+                if (this.filter.id === 20) {
+                    return false
+                }
+
                 return this.optionsLength > this.maxOptionsCount && this.optionsLength - this.maxOptionsCount > 2
             },
 

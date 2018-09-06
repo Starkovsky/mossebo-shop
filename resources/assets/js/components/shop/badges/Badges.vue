@@ -44,6 +44,10 @@
 
         methods: {
             initBadges(badgeTypes) {
+                if (! badgeTypes) {
+                    return
+                }
+
                 this.badges$ = this.badges.reduce((acc, badgeId) => {
                     let badge = badgeTypes.find(badge => badge.id === badgeId)
 

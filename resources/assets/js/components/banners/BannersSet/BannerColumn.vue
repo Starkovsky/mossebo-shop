@@ -38,9 +38,6 @@
 
         created() {
             this.loadBanners()
-                .then(banners => {
-                    this.banners = banners
-                })
         },
     }
 </script>

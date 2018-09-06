@@ -16,8 +16,11 @@ class LocationController extends Controller
 
     public function test()
     {
-        dd(Cart::getTotal()->getFormatted());
+//        dd(Cart::getTotal()->getFormatted());
+
+        dd(\Attributes::getCollection());
     }
+
 
 //    public function test()
 //    {

@@ -2,7 +2,7 @@
     <div v-if="index === 24" class="col-12">
         <banner-random
             is-long
-            from="banners.catalogList"
+            place="4"
         ></banner-random>
     </div>
 </template>

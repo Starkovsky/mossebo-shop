@@ -6,8 +6,9 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
                     <banner-slider
-                        from="banners.home"
                         type="double"
+                        place="2"
+                        quantity="8"
                     ></banner-slider>
                 </div>
 

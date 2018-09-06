@@ -1,6 +1,6 @@
-import Core from '../../../scripts/core/index'
 import RequestMixin from '../../../mixins/RequestMixin'
 import Banner from '../Banner'
+import DataHandler from '../../../scripts/DataHandler'
 
 export default {
     mixins: [
@@ -11,10 +11,10 @@ export default {
         Banner
     },
 
-    props: {
-        url: null,
-        from: null,
-    },
+    props: [
+        'place',
+        'quantity'
+    ],
 
     data() {
         return {
@@ -24,26 +24,16 @@ export default {
 
     methods: {
         loadBanners() {
-            return new Promise(resolve => {
-                let banners
-
-                if (this.from) {
-                    banners = Core.config(this.from)
-                }
-
-                if (banners) {
-                    return resolve(banners)
-                }
-
-                if (this.url) {
-                    return this.sendRequest('get', this.url)
-                        .success(response => {
-                            resolve(response.data.banners)
-                        })
-                }
-
-                resolve([])
-            })
+            return DataHandler.get('banners')
+                .then(({banners}) => {
+                    this.setBanners(banners)
+                })
         },
+
+        setBanners(banners) {
+            if (! banners) return
+
+            this.banners = _.shuffle(banners).slice(0, this.quantity)
+        }
     },
 }

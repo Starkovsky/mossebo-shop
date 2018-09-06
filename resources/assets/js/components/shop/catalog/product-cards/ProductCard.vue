@@ -61,9 +61,11 @@
             </div>
 
             <div class="product-card__buttons">
-                <a :href="link" class="button button-light">
-                    Подробнее
-                </a>
+                <product-card-button
+                    :link="link"
+                    :status="inCart ? 'in-cart' : 'not-in-cart'"
+                    @side-click="addToCart"
+                ></product-card-button>
             </div>
         </div>
     </div>

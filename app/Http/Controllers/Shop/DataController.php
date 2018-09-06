@@ -15,6 +15,9 @@ use App\Http\Resources\StyleResource;
 use App\Http\Resources\RoomResource;
 use App\Http\Resources\BadgeTypeResource;
 
+use App\Models\Shop\Banner\Banner;
+use App\Http\Resources\Banner\BannerResource;
+
 class DataController extends Controller
 {
     protected static $repositories = [];
@@ -69,6 +72,7 @@ class DataController extends Controller
         }
 
         \Cache::forget(self::$cacheKey);
+        \Cache::forget(self::makeKey('banners'));
     }
 
     /**
@@ -93,7 +97,7 @@ class DataController extends Controller
 
         foreach ($keys as $key) {
             if (isset(self::$repositories[$key])) {
-                self::_connectFromRepository($key, $data);
+//                self::_connectFromRepository($key, $data);
             }
             else {
                 self::_connectFromMethod($key, $data);
@@ -174,5 +178,26 @@ class DataController extends Controller
         return BadgeTypeResource::collection(
             \BadgeTypes::getCollection(['currentI18n'])
         );
+    }
+
+    protected static function _getBanners()
+    {
+        return \Cache::remember(self::makeKey('banners'), 18000, function() {
+            $query = Banner::enabled()
+                ->with('currentI18n', 'places')
+                ->orderBy('position', 'asc')
+                ->orderBy('id', 'desc');
+
+            return BannerResource::collection($query->get());
+        });
+    }
+
+    protected static function makeKey($key)
+    {
+        return implode('::', [
+            static::$cacheKey,
+            app()->getLocale(),
+            $key
+        ]);
     }
 }

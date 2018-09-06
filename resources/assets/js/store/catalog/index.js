@@ -104,7 +104,7 @@ export default {
         },
 
         setCardType({ state, commit, dispatch }, type) {
-            if (! state.filtering) {
+            if (! state.filtering && type !== state.cards.active) {
                 dispatch('cards/setType', type)
                     .then(() => dispatch('process', 'paginate'))
             }

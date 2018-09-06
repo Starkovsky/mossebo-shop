@@ -32,6 +32,10 @@ class BannerResource extends JsonResource
         $data['link'] = $this->getLink();
         $data['merged_title'] = $this->getMergedTitle();
 
+        if ($this->relationNotEmpty('places')) {
+            $data['places'] = array_column($this->resource->places->toArray(), 'id');
+        }
+
         return $data;
     }
 

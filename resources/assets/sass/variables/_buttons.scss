@@ -229,3 +229,51 @@
         z-index: 1;
     }
 }
+
+
+.button-group {
+    display: inline-flex;
+    color: $color-text-primary;
+    border: 1px solid $color-border;
+    border-radius: 30px;
+    font-size: 14px / 24px;
+    overflow: hidden;
+    user-select: none;
+
+    &__main {
+        padding: 11px 32px;
+        cursor: pointer;
+
+        &:hover {
+            color: $color-text-primary;
+            background-color: $color-primary;
+        }
+    }
+
+    &__side {
+        border-left: 1px solid $color-border;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 16px 11px 12px;
+        cursor: pointer;
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: $color-text-secondary;
+    }
+
+    &__side:hover,
+    &__side.is-hovered,
+    &__side.is-active {
+        background-color: $color-primary;
+    }
+
+    &__side:hover &__icon,
+    &__side.is-hovered &__icon,
+    &__side.is-active &__icon {
+        fill: $color-text-primary;
+    }
+}

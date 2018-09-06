@@ -9,23 +9,6 @@ use App\Models\Shop\Promo\PromoUse;
 
 class Order extends BaseOrder
 {
-    protected $fillable = [
-        'user_id',
-        'language_code',
-        'currency_code',
-        'order_status_id',
-        'pay_type_id',
-        'delivery_type_id',
-        'first_name',
-        'last_name',
-        'phone',
-        'email',
-        'city',
-        'address',
-        'post_code',
-        'comment'
-    ];
-
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -53,11 +36,12 @@ class Order extends BaseOrder
 
     public function orderProducts()
     {
-        return $this->hasMany(OrderProduct::class, 'order_id', 'id');
+        return $this->hasMany(OrderProduct::class, $this->relationFieldName, 'id');
     }
 
     public function promoUse()
     {
-        return $this->hasOne(PromoUse::class, 'order_id', 'id');
+        return $this->hasOne(PromoUse::class, $this->relationFieldName, 'id');
     }
 }
+

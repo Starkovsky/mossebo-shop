@@ -23,7 +23,7 @@ export default {
 
     actions: {
         setType({ state, commit, dispatch }, type) {
-            if (type in state.types) {
+            if (type in state.types && state.active !== type) {
                 commit(actionTypes.CATALOG_SET_CARD_TYPE, type)
             }
         },

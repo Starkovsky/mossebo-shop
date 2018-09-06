@@ -7,35 +7,13 @@
                     :key="index + 'banner'"
                 ></catalog-banner>
 
-                <template v-if="cardType$ === 'tile'">
-                    <div
-                        :class="{'catalog-product-list__product': true, [tileCardClass]: true}"
-                        :key="product.id"
+                <div :class="cardClass" :key="product.id">
+                    <component
+                        :is="cardComponent"
+                        :product="product"
                         v-show="show"
-                    >
-                        <product-card
-                            :product="product"
-                        ></product-card>
-                    </div>
-                </template>
-
-                <template v-if="cardType$ === 'list'">
-                    <div :class="{'catalog-product-list__product': true, [listCardClass]: true}" :key="product.id">
-                        <product-card-long
-                            :product="product"
-                            v-show="show"
-                        ></product-card-long>
-                    </div>
-                </template>
-
-                <template v-if="cardType$ === 'mobile'">
-                    <div :class="{'catalog-product-list__product col-12': true, [mobileCardClass]: true}" :key="product.id">
-                        <product-card-mobile
-                            :product="product"
-                            v-show="show"
-                        ></product-card-mobile>
-                    </div>
-                </template>
+                    ></component>
+                </div>
             </template>
         </div>
     </div>
@@ -129,6 +107,46 @@
                 else {
                     return 'mobile'
                 }
+            },
+
+            cardClass() {
+                let className
+
+                switch (this.cardType$) {
+                    case 'tile':
+                        className = {'catalog-product-list__product': true, [this.tileCardClass]: true}
+                        break
+
+                    case 'list':
+                        className = {'catalog-product-list__product': true, [this.listCardClass]: true}
+                        break
+
+                    case 'mobile':
+                        className = {'catalog-product-list__product col-12': true, [this.mobileCardClass]: true}
+                        break
+                }
+
+                return className
+            },
+
+            cardComponent() {
+                let componentName
+
+                switch (this.cardType$) {
+                    case 'tile':
+                        componentName = 'product-card'
+                        break
+
+                    case 'list':
+                        componentName = 'product-card-long'
+                        break
+
+                    case 'mobile':
+                        componentName = 'product-card-mobile'
+                        break
+                }
+
+                return componentName
             }
         }
     }

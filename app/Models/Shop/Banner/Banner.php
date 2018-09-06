@@ -19,8 +19,8 @@ class Banner extends BaseBanner
         );
     }
 
-    public static function enabled()
+    public function scopeEnabled($query)
     {
-        return self::where('enabled', true);
+        return $query->where('enabled', true);
     }
 }

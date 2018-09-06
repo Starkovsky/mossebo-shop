@@ -21,12 +21,14 @@
                     <div class="catalog-filters-banner" v-if="! loading">
                         <banner-column
                             v-if="allProductsQuantity > 12"
-                            from="banners.catalogFilters"
+                            place="3"
+                            quantity="3"
                         ></banner-column>
 
                         <banner-slider
                             v-else
-                            from="banners.catalogFilters"
+                            place="3"
+                            quantity="3"
                         ></banner-slider>
                     </div>
                 </div>

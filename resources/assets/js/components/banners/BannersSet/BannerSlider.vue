@@ -67,9 +67,7 @@
 
         created() {
             this.loadBanners()
-                .then(banners => {
-                    this.banners = banners
-
+                .then(() => {
                     let sliderEl = this.$el.querySelector('.js-slider')
 
                     this.sliderEl$ = $(sliderEl)
