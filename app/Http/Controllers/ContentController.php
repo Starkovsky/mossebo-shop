@@ -95,4 +95,8 @@ class ContentController extends Controller
         return view('shop.pages.help.use-policy');
     }
 
+    public function contacts()
+    {
+        return view('shop.pages.contacts');
+    }
 }

@@ -62,9 +62,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('/privacy', 'ContentController@privacy')->name('privacy');
         Route::get('/about-us', 'ContentController@aboutUs')->name('about-us');
-        Route::get('/contacts', function() {
-            return view('shop.pages.contacts');
-        })->name('contacts');
+        Route::get('/contacts', 'ContentController@contacts')->name('contacts');
 
 
         Route::get('/privat-policy', 'ContentController@privat_policy')->name('privat_policy');
