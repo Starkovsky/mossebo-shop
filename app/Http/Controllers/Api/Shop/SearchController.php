@@ -26,7 +26,7 @@ class SearchController extends ApiController
         $ids = $this->searchIds($query);
 
         $products = Product::with([
-            'image',
+            'previews',
             'currentPrice',
             'salePrice',
             'oldPrice',

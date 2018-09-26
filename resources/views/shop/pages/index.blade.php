@@ -88,6 +88,7 @@
         </div>
     </section>
 
+    @if (false)
     <section class="instagram-slider">
         <div class="overlay">
             <div class="container">
@@ -126,6 +127,7 @@
             </div>
         </div>
     </section>
+    @endif
 
     <section class="social-group">
         <div class="container">
