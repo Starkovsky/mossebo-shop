@@ -33,7 +33,7 @@ class OrderResource extends JsonResource
         // isset потому что это не отношение
         if (isset($this->resource->status)) {
             $data['status'] = [
-                'name' => $this->resource->status->currentI18n->name,
+                'name' => $this->resource->status->name,
                 'color' => $this->resource->status->color
             ];
         }

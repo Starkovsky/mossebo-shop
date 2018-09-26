@@ -4,7 +4,7 @@
         <name>Mossebo.Market</name>
         <company>ООО "МОССЭБО КМ"</company>
         <categories>
-            @foreach($categorys as $category)
+            @foreach($categories as $category)
                 <category id="{{ $category->id }}"
                           @if(!is_null($category->parent_id)) parentId="{{ $category->parent_id }}" @endif >
                     {{{ $category->current_i18n->title }}}

@@ -1,5 +1,5 @@
 @php
-    $categories = Categories::enabled(['currentI18n', 'productCount'])->where('products_count', '>', 0)->toTree();
+    $categories = Categories::where('products_count', '>', 0)->toTree();
 @endphp
 
 <div class="main-nav-wrap">
@@ -65,11 +65,11 @@
                             <li class="catalog-nav__item">
                                 @if (is_null($category->children))
                                     <a href="{{ siteUrl('catalog/' . $category->slug) }}" class="catalog-nav__link js-catalog-nav--link">
-                                        {{ $category->currentI18n->title }}
+                                        {{ $category->title }}
                                     </a>
                                 @else
                                     <span class="catalog-nav__trigger js-catalog-nav--link" data-id="{{ $category->id }}">
-                                        {{ $category->currentI18n->title }}
+                                        {{ $category->title }}
                                     </span>
                                 @endif
                             </li>
@@ -84,7 +84,7 @@
                                 @foreach($category->children as $children)
                                     <li class="catalog-nav__item">
                                         <a href="{{ siteUrl('catalog/' . $children->slug) }}" class="catalog-nav__link">
-                                            {{ $children->currentI18n->title }}
+                                            {{ $children->title }}
                                         </a>
                                     </li>
                                 @endforeach

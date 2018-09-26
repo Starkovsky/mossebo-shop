@@ -24,6 +24,7 @@ export default  {
             empty: false,
             // todo: протестировать в ie
             image$: '',
+            timeStart: null,
         }
     },
 
@@ -93,7 +94,13 @@ export default  {
             let elImg = document.createElement('img')
             elImg.src = image
 
+            this.timeStart = performance.now()
+
             this.onLoad(elImg, () => {
+                if (performance.now() - this.timeStart < 50) {
+                    this.animate = false
+                }
+
                 this.loaded = true
                 this.image$ = elImg.src
                 this.$emit('onload')

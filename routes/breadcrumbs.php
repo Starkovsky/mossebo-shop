@@ -176,8 +176,15 @@ Breadcrumbs::for('privat-policy', function ($trail) {
 
     $trail->push(trans('content.privat-policy'));
 });
+
 Breadcrumbs::for('use-policy', function ($trail) {
     $trail->parent('home');
 
     $trail->push(trans('content.use-policy'));
+});
+
+Breadcrumbs::for('contacts', function ($trail) {
+    $trail->parent('home');
+
+    $trail->push(trans('content.contacts'));
 });

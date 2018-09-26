@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Auth;
 use SeoProxy;
 use BadgeTypes;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
 
@@ -32,10 +32,10 @@ class ProductController extends Controller
     public function index($id)
     {
         $product = Product::with(
-            'currentI18n',
             'badges',
             'images',
             'currentPrice',
+            'salePrice',
             'oldPrice',
             'attributeRelations',
             'attributeOptions',
@@ -51,8 +51,7 @@ class ProductController extends Controller
         $attributesIds = array_column($product->attributeRelations->toArray(), 'attribute_id');
         $optionsIds = array_column($product->attributeOptions->toArray(), 'id');
 
-        $attributes = \Attributes::enabled(['currentI18n'])
-            ->whereIn('id', $attributesIds);
+        $attributes = \Attributes::whereIn('id', $attributesIds);
 
         $carry = [
             'all' => new Collection(),
@@ -68,11 +67,11 @@ class ProductController extends Controller
                 if ($count > 1 && $attribute->selectable) {
                     $carry['selectable']->push([
                         'id' => $attribute->id,
-                        'title' => $attribute->currentI18n->title,
+                        'title' => $attribute->title,
                         'options' => $attribute->options->reduce(function ($carry, $item) {
                             $carry[] = [
                                 'id' => $item->id,
-                                'title' => $item->currentI18n->value
+                                'title' => $item->value
                             ];
 
                             return $carry;
@@ -88,7 +87,7 @@ class ProductController extends Controller
             return $carry;
         }, $carry);
 
-        $badgeTypes = BadgeTypes::getCollection('currentI18n');
+        $badgeTypes = BadgeTypes::getCollection();
 
         $badges = $product->badges->reduce(function($acc, $item) use($badgeTypes) {
             $badge = $badgeTypes->where('id', $item->badge_type_id)->first();
@@ -104,7 +103,7 @@ class ProductController extends Controller
 
         $product->show();
 
-        SeoProxy::setMetaFromI18nModel($product);
+        SeoProxy::setMetaFromModel($product);
         SeoProxy::setImageFromModel($product, 'oneHalf');
 
         return view('shop.pages.product', [

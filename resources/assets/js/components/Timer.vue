@@ -1,5 +1,5 @@
 <template>
-    <div v-if="! isDone()" class="timer">
+    <div v-if="! isDone()" :class="classNameWithModificators('timer')">
         <div class="timer__container">
             <div v-if="days > 0" class="timer__num timer__num--days">
                 <span>
@@ -8,7 +8,11 @@
                     ></animated-symbol-change>
                 </span>
 
-                {{ $root.translate('days.short')}}
+                &thinsp;
+
+                <span class="timer__label">
+                    {{ $root.translate('days.short')}}
+                </span>
             </div>
 
             <div class="timer__num timer__num--hours">
@@ -18,7 +22,11 @@
                     ></animated-symbol-change>
                 </span>
 
-                {{ $root.translate('hours.short')}}
+                &thinsp;
+
+                <span class="timer__label">
+                    {{ $root.translate('hours.short')}}
+                </span>
             </div>
 
             <div class="timer__num timer__num--minutes">
@@ -28,7 +36,11 @@
                     ></animated-symbol-change>
                 </span>
 
-                {{ $root.translate('minutes.short')}}
+                &thinsp;
+
+                <span class="timer__label">
+                    {{ $root.translate('minutes.short')}}
+                </span>
             </div>
 
             <div class="timer__num timer__num--seconds">
@@ -38,7 +50,11 @@
                     ></animated-symbol-change>
                 </span>
 
-                {{ $root.translate('seconds.short')}}
+                &thinsp;
+
+                <span class="timer__label">
+                    {{ $root.translate('seconds.short')}}
+                </span>
             </div>
         </div>
     </div>
@@ -46,6 +62,7 @@
 
 <script>
     import AnimatedSymbolChange from './AnimatedSymbolChange'
+    import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
 
     const second = 1
     const minute = second * 60
@@ -55,8 +72,12 @@
     export default {
         name: "Timer",
 
+        mixins: [
+            ClassNameWithModificators
+        ],
+
         components: {
-            AnimatedSymbolChange,
+            AnimatedSymbolChange
         },
 
         props: {
@@ -75,7 +96,7 @@
         },
 
         mounted() {
-            let start = performance.now();
+            let start = performance.now()
 
             let animate = time => {
                 this.elapsed = (time - start) / 1000

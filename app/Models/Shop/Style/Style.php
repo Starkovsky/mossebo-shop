@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Style;
 
 use App\Models\Media;
 
-use MosseboShopCore\Models\Shop\Style as BaseStyle;
+use MosseboShopCore\Models\Shop\Style\Style as BaseStyle;
+use App\Models\Shop\Product\Product;
+use App\Models\Shop\Product\ProductCount;
+use App\Support\Traits\Models\HasI18n;
 
 class Style extends BaseStyle
 {
+    use HasI18n;
+
     public function productsRelations()
     {
         return $this->hasMany(StyleProduct::class, $this->relationFieldName);

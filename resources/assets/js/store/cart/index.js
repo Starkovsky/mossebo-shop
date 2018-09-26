@@ -23,7 +23,8 @@ export default {
         synchronized: false,
         options: [],
         abortRequest: null,
-        request: null
+        request: null,
+        requestTime: null
     },
 
     actions: {
@@ -50,7 +51,6 @@ export default {
             dispatch('initStorageExtension', 'cart')
                 .then(() => dispatch('getCartRequestType'))
                 .then(type => Promise.all([dispatch(type), dispatch('loadOptionsDescription')]))
-
         },
 
         getCartRequestType({state}) {
@@ -134,7 +134,7 @@ export default {
         },
 
         add({dispatch}, item) {
-            dispatch('request', {
+            return dispatch('request', {
                 method: 'put',
                 url: Core.siteUrl('cart/' + item[0]),
                 data: {
@@ -143,29 +143,41 @@ export default {
             })
         },
 
-        request({ state, commit, dispatch }, config) {
+        abortableRequest({ state, dispatch }, config) {
             if (state.request) {
                 state.request.abort()
             }
 
-            commit(actionTypes.CART_REQUEST_START)
+            return dispatch('request', config)
+                .then(request => {
+                    state.request = request.any(() => state.request = null)
+                })
+        },
 
-            state.request = new Request(config.method, config.url, config.data || null)
-                .success(response => dispatch('setCart', response.data))
-                .any(() => state.request = null)
+        request({ state, commit, dispatch }, config) {
+            let startTime = performance.now()
+
+            commit(actionTypes.CART_REQUEST_START, startTime)
+
+            return new Request(config.method, config.url, config.data || null)
+                .success(response => {
+                    if (state.requestTime === startTime && state.time <= response.data.time) {
+                        dispatch('setCart', response.data)
+                    }
+                })
                 .silent()
                 .start()
         },
 
         load({ state, commit, dispatch }) {
-            return dispatch('request', {
+            return dispatch('abortableRequest', {
                 url: Core.siteUrl('cart'),
                 method: 'post',
             })
         },
 
         sync({ state, dispatch }) {
-            return dispatch('request', {
+            return dispatch('abortableRequest', {
                 url: Core.siteUrl('cart'),
                 method: 'put',
                 data: {
@@ -248,9 +260,10 @@ export default {
             state.synchronized = false
         },
 
-        [actionTypes.CART_REQUEST_START](state) {
+        [actionTypes.CART_REQUEST_START](state, time) {
             state.loading = true
             state.error = false
+            state.requestTime = time
         },
 
         [actionTypes.CART_READY](state) {

@@ -30,7 +30,7 @@ class ReviewResource extends JsonResource
                 $data['item'] = [
                     'type'  => 'good',
                     'id'    => $this->resource->item->id,
-                    'title' => $this->resource->item->currentI18n->title
+                    'title' => $this->resource->item->title
                 ];
             }
         }

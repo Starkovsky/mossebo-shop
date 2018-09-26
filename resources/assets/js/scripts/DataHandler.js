@@ -85,10 +85,11 @@ class DataHandler extends BlankPlugin {
             this.requestDebouncer()
         }
 
-        this.keysToLoad = [
-            ... this.keysToLoad,
-            ... keys
-        ]
+        keys.forEach(key => {
+            if (this.keysToLoad.indexOf(key) === -1) {
+                this.keysToLoad.push(key)
+            }
+        })
 
         return new Promise(resolve => {
             this.one('loaded', () => {

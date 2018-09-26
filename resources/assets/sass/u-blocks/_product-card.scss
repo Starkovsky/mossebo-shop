@@ -1,16 +1,10 @@
 .product-card,
 .product-card-long,
 .product-card-mobile,
-.product-card-sale {
+.product-card-sale,
+.product-card-promo {
     padding: 24px 16px;
     position: relative;
-
-    &__badges {
-        position: absolute;
-        top: 19px;
-        left: 16px;
-        z-index: 1;
-    }
 
     &__link {
         display: block;
@@ -37,7 +31,6 @@
         display: block;
         font-size: 14px / 17px;
         font-weight: 400;
-        margin-bottom: 10px;
         height: 34px;
         overflow: hidden;
     }
@@ -74,7 +67,14 @@
 }
 
 .product-card {
-    min-height: 420px;
+    min-height: 490px;
+
+    &__badges {
+        position: absolute;
+        top: 19px;
+        left: 16px;
+        z-index: 1;
+    }
 
     &__name,
     &__info {
@@ -82,13 +82,24 @@
         padding-right: 8px;
     }
 
-    &__actions {
-        margin-bottom: 8px;
+    &__link {
+        margin-top: 6px;
     }
 
     &__image-box {
         max-width: 200px;
+        position: relative;
         margin: 0 auto 7px;
+    }
+
+    &__name {
+        line-height: 22px;
+        height: 44px;
+        margin-top: 10px;
+    }
+
+    &__info {
+        margin-top: 7px;
     }
 
     &__price {
@@ -99,7 +110,7 @@
 
     &__buttons {
         overflow: hidden;
-        margin-top: 15px;
+        margin-top: 24px;
         text-align: center;
     }
 }
@@ -109,6 +120,10 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+
+    &__badges {
+        margin-top: 10px;
+    }
 
     &__actions {
         position: absolute;
@@ -139,7 +154,8 @@
     }
 
     &__name {
-        margin-bottom: 16px;
+        height: auto;
+        max-height: 34px;
     }
 
     &__price {
@@ -154,10 +170,6 @@
     &__short-desc {
         font-size: 12px / 14px;
     }
-    .product-thumbs-slider {
-        height: 158px;
-        padding: 0;
-    }
 }
 
 .product-card-mobile {
@@ -166,6 +178,13 @@
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
+
+    &__badges {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        z-index: 1;
+    }
 
     &__image-box {
         width: 90px;
@@ -212,7 +231,7 @@
 
 
 .product-card-sale {
-    min-height: 420px;
+    min-height: 490px;
     padding: 16px;
 
     &__actions {
@@ -227,8 +246,6 @@
             right: 24px;
         }
     }
-
-
 
     &--small &__timer,
     &__actions {
@@ -314,6 +331,8 @@
 }
 
 .product-thumbs {
+    display: inline-block;
+    vertical-align: bottom;
     overflow: hidden;
 
     &__container {
@@ -325,9 +344,9 @@
     }
 
     &__btn {
-        width: 60px;
-        height: 60px;
-        padding: 6px;
+        width: 64px;
+        height: 64px;
+        padding: 3px;
         border: 1px solid $color-border;
         border-radius: $border-radius;
         background-color: $color-ui;
@@ -354,17 +373,183 @@
     justify-content: space-between;
     align-items: stretch;
     z-index: 9;
-    height: 200px;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 0 8px;
+
     &__item {
         width: 100%;
         height: auto;
         border-bottom: 3px solid transparent;
         //background: rgba(0,0,0,0.2);
+
         &:hover {
             border-bottom: 3px solid $color-primary;
+        }
+    }
+}
+
+
+.product-card-promo {
+    padding: 24px;
+    display: flex;
+
+    &__left,
+    &__right {
+        width: 50%;
+    }
+
+    &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__right {
+        text-align: center;
+    }
+
+    &__badge {
+        color: $color-accent;
+    }
+
+    &__name {
+        font-size: 18px / 24px;
+        height: 48px;
+    }
+
+    &__reviews {
+        margin-top: 16px;
+    }
+
+    &__image-box {
+        max-width: 200px;
+        margin: 24px auto 0;
+    }
+
+    &__thumbs {
+        margin-top: 32px;
+    }
+
+    &__quantity {
+        margin-top: 19px;
+    }
+
+    &__button {
+        margin-top: 16px;
+    }
+
+    &__price {
+        font-size: 30px / 37px;
+        color: $color-accent;
+    }
+
+    &__old-price {
+        font-size: 20px / 24px;
+        height: auto;
+        color: $color-text-secondary;
+        margin-top: 6px;
+    }
+
+    &__timer {
+        color: $color-text-primary;
+    }
+
+    &__timer-label {
+        font-size: 14px / 17px;
+        margin-bottom: 8px;
+    }
+
+    &__saving {
+        margin-top: 12px;
+        font-size: 12px / 14px;
+        color: $color-text-primary;
+    }
+
+    &--link-hover &__link {
+        color: $color-primary;
+    }
+
+    &--small &__badges {
+        position: absolute;
+        top: 19px;
+        left: 16px;
+        z-index: 1;
+    }
+
+    &--small &__timer {
+        margin-top: 13px;
+    }
+
+    &--small &__prices {
+        margin-top: 15px;
+    }
+
+    &--small &__price {
+        font-size: 20px / 24px;
+    }
+
+    &--small &__old-price {
+        font-size: 12px / 16px;
+        margin-top: 4px;
+    }
+
+    &--small &__reviews {
+        margin-top: 8px;
+    }
+
+    &--small &__info {
+        margin-top: 19px;
+    }
+
+    &--small &__quantity {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    &--small &__timer-label {
+        font-size: 12px / 15px;
+        margin-bottom: 4px;
+    }
+
+    &--small &__image-box {
+        max-width: 180px;
+    }
+
+    &--small &__name {
+        font-size: 14px / 17px;
+        height: 34px;
+    }
+}
+
+.product-remained {
+    font-size: 12px / 15px;
+    color: $color-text-primary;
+
+    &__num {
+        display: inline-block;
+        position: relative;
+        padding: 0 5px;
+        margin: 0 3px;
+        z-index: 1;
+    }
+
+    &__circle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        width: 100%;
+        background: #D8D8D8;
+        z-index: -1;
+        border-radius: 50%;
+
+        &::before {
+            content: '';
+            padding-top: 100%;
+            display: block;
         }
     }
 }

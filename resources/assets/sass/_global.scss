@@ -92,3 +92,38 @@ html, body {
     display: table;
     clear: both;
 }
+
+
+body {
+    position: relative;
+
+
+}
+
+
+.kids-hidden {
+    position: fixed 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    opacity: 1;
+    z-index: 999;
+
+    &.animate {
+        transition: opacity 2s;
+        opacity: 0;
+    }
+
+    &--seal {
+        background-image: url('/assets/images/kids/1.png');
+    }
+
+    &--robot {
+        background-image: url('/assets/images/kids/2.png');
+    }
+
+    &--rabbit {
+        background-image: url('/assets/images/kids/3.png');
+    }
+}
+

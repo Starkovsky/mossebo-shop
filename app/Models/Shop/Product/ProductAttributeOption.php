@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Product;
 
-use MosseboShopCore\Models\Shop\ProductAttributeOption as BaseProductAttributeOption;
+use MosseboShopCore\Models\Shop\Product\ProductAttributeOption as BaseProductAttributeOption;
+use App\Models\Shop\Category\Category;
+use App\Models\Shop\Attribute\AttributeOption;
 
 class ProductAttributeOption extends BaseProductAttributeOption
 {

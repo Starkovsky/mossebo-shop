@@ -6,6 +6,7 @@
                     :icon="badge.icon"
                     :color="badge.color"
                     :title="badge.title"
+                    :no-tooltips="noTooltips"
                 ></badge>
             </div>
         </div>
@@ -24,7 +25,9 @@
                 default() {
                     return []
                 }
-            }
+            },
+
+            noTooltips: null,
         },
 
         data() {

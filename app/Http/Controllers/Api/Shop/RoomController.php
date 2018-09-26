@@ -7,10 +7,15 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\ProductResource;
 use Rooms;
 use Categories;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
+use App\Support\Traits\Cacheable;
 
 class RoomController extends ApiController
 {
+    use Cacheable;
+
+    protected static $cacheNamespace = 'room-products';
+
     /**
      * Выводит весь каталог
      *
@@ -18,14 +23,14 @@ class RoomController extends ApiController
      */
     public function products($slug)
     {
-        $style = Rooms::enabled()->where('slug', $slug)->first();
+        $room = Rooms::where('slug', $slug)->first();
 
-        if (! $style) {
+        if (! $room) {
             return abort(404);
         }
 
-        $products = \Cache::remember('room::' . $slug, 60, function() use($rooms) {
-            return $this->getProducts($rooms);
+        $products = \Cache::remember(static::makeCacheKey($slug), 60, function() use($room) {
+            return $this->getProducts($room);
         });
 
         return response()->json([
@@ -35,8 +40,8 @@ class RoomController extends ApiController
 
     public function catalog($slug, $categorySlug)
     {
-        $room = Rooms::enabled()->where('slug', $slug)->first();
-        $category = Categories::enabled()->where('slug', $categorySlug)->first();
+        $room = Rooms::where('slug', $slug)->first();
+        $category = Categories::where('slug', $categorySlug)->first();
 
         if (! ($room && $category)) {
             return abort(404);
@@ -48,12 +53,12 @@ class RoomController extends ApiController
                     ->whereRoom($room->id)
                     ->whereCategory($category->id)
                     ->with([
-                        'currentI18n',
-                        'image',
                         'currentPrice',
+                        'salePrice',
                         'oldPrice',
                         'attributeOptionRelations',
-                        'supplier'
+                        'supplier',
+                        'previews',
                     ])
                     ->get()
             );
@@ -68,13 +73,14 @@ class RoomController extends ApiController
     {
         return static::prepareProducts(
             $structureModel
-                ->products()->with([
-                    'currentI18n',
-                    'image',
+                ->products()
+                ->with([
                     'currentPrice',
+                    'salePrice',
                     'oldPrice',
                     'attributeOptionRelations',
-                    'supplier'
+                    'supplier',
+                    'previews',
                 ])
                 ->where('enabled', true)
                 ->get()

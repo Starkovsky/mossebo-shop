@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Category;
 
-use MosseboShopCore\Models\Shop\CategoryProduct as BaseCategoryProduct;
+use MosseboShopCore\Models\Shop\Category\CategoryProduct as BaseCategoryProduct;
+use App\Models\Shop\Product\Product;
 
 class CategoryProduct extends BaseCategoryProduct
 {

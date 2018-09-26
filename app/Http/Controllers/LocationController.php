@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Cart;
 use Cookie;
-use Countries;
 use App\Models\City;
 use App\Models\Region;
 use Illuminate\Http\Request;

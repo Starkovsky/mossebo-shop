@@ -13,29 +13,28 @@
         <a class="product-card__link"
            :href="link"
         >
-            <div class="product-thumbs-slider"
-                 v-if="product.images.length > 1"
-                 @mouseleave="showImage(0)"
-            >
-                <div class="product-thumbs-slider__item"
-                     @mouseover="showImage(index)"
-                     v-for="(image, index) in product.images"
-                     v-if="index < 3"
+            <div class="product-card__image-box">
+                <div
+                    class="product-thumbs-slider"
+                    v-if="product.previews.length > 1"
+                    @mouseleave="showImage(0)"
                 >
+                    <div
+                        class="product-thumbs-slider__item"
+                        @mouseover="showImage(index)"
+                        v-for="(image, index) in product.previews"
+                    ></div>
                 </div>
-            </div>
 
-            <div v-for="(image, index) in product.images"
-                 v-if="index < 3"
-                 v-show="currentImage == index"
-            >
-                <div class="product-card__image-box">
+                <template v-for="(image, index) in product.previews">
                     <product-card-image
+                        :key="image.id"
+                        v-show="currentImage === index"
                         class="product-card__image"
-                        :image="image.small"
+                        :image="image"
                         :no-image-loading="noImageLoading"
                     ></product-card-image>
-                </div>
+                </template>
             </div>
 
             <div class="product-card__name">

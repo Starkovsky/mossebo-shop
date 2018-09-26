@@ -23,7 +23,7 @@
     <div class="product-page">
         <div class="container">
             <h1 class="title-h1">
-                {{ $product->currentI18n->title }}
+                {{ $product->title }}
             </h1>
         </div>
 
@@ -113,9 +113,9 @@
                                                                             <use xlink:href="/vendor/images/badges.svg#{{ $badge->icon }}"></use>
                                                                         </svg>
 
-                                                                        @if($badge->currentI18n->title)
+                                                                        @if($badge->title)
                                                                             <div class="badge__text">
-                                                                                {{ $badge->currentI18n->title }}
+                                                                                {{ $badge->title }}
                                                                             </div>
                                                                         @endif
                                                                     </div>
@@ -261,7 +261,7 @@
                                                                     @php
                                                                         $optionsAsString = $product->attributeOptions->reduce(function ($carry, $option) use($attribute) {
                                                                             if ($option->attribute_id == $attribute->id) {
-                                                                                $carry[] = $option->currentI18n->value;
+                                                                                $carry[] = $option->value;
                                                                             }
 
                                                                             return $carry;
@@ -272,7 +272,7 @@
 
                                                                     @if ($optionsAsString)
                                                                         <div class="product-param">
-                                                                            {{ $attribute->currentI18n->title }}:
+                                                                            {{ $attribute->title }}:
 
                                                                             <span class="product-param__value">
                                                                                 {{ $optionsAsString }}
@@ -285,7 +285,7 @@
 
                                                         <div class="col-lg-6">
                                                             <div class="product-tabs-pane__description">
-                                                                {!! $product->currentI18n->description !!}
+                                                                {!! $product->description !!}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -328,7 +328,7 @@
 
                 <reviews
                     url="{{ siteUrl('goods/' . $product->id . '/reviews') }}"
-                    title="{{ $product->currentI18n->title }}"
+                    title="{{ $product->title }}"
                 ></reviews>
             </div>
 
@@ -370,7 +370,7 @@
                             <img
                                 src="https://admin.mossebo.market{{ $images[0]->small->src }}"
                                 srcset="https://admin.mossebo.market{{ $images[0]->small->srcset }} 2x"
-                                alt="{{ $product->currentI18n->title }}">
+                                alt="{{ $product->title }}">
                         </div>
                     @endif
 

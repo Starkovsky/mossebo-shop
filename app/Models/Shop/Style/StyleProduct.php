@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Style;
 
-use MosseboShopCore\Models\Shop\StyleProduct as BaseStyleProduct;
+use MosseboShopCore\Models\Shop\Style\StyleProduct as BaseStyleProduct;
+use App\Models\Shop\Product\Product;
 
 class StyleProduct extends BaseStyleProduct
 {

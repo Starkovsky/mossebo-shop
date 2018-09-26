@@ -3,17 +3,20 @@
         :class="classNameWithModificators('banner') + ' banner--' + id"
         :style="{backgroundImage: background}"
     >
-        <div v-if="image" class="banner__image-box">
+        <div class="banner__accent-box">
             <background-image-loader
+                v-if="image"
                 :image="image"
                 :screen="true"
                 class="banner__image"
                 :alt="title"
                 @onload="imageLoaded"
             ></background-image-loader>
+
+            <div v-else v-html="title" :style="{color: titleColor}" class="banner__title"></div>
         </div>
 
-        <div v-else v-html="title" :style="{color: titleColor}" class="banner__title"></div>
+
 
         <div class="banner__bottom">
             <div v-html="caption" :style="{color: captionColor}" class="banner__caption"></div>

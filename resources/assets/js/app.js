@@ -280,3 +280,75 @@ $('.slider-nav').slick({
 $('.js-form-popup').fancybox(
     Core.getFancyboxConfig()
 )
+
+;(function () {
+    let characters = [
+        {
+            name: 'seal',
+            showed: false
+        },
+        {
+            name: 'robot',
+            showed: false
+        },
+        {
+            name: 'rabbit',
+            showed: false
+        }
+    ]
+
+    window.addEventListener('DOMContentLoaded', e => {
+        let stack = []
+        let phrase = 'mossebokids'
+
+        window.addEventListener('keydown', e => {
+            let code = e.keyCode || e.which
+            let key = String.fromCharCode(code).toLowerCase()
+
+            stack.push(key)
+
+            let joined = stack.join('')
+
+            if (phrase.indexOf(joined) === -1) {
+                stack = [key]
+            }
+
+            if (joined === phrase) {
+                stack = []
+                showCharacter()
+            }
+        })
+    })
+
+    function showPromo() {
+        alert('Промокод на покупку товаров Mossebo//kids: KIDSRULETHEWORLD')
+    }
+
+    function showCharacter() {
+        let character = _.shuffle(characters).find(character => !character.showed)
+
+        if (! character) {
+            showPromo()
+            return
+        }
+
+        character.showed = true
+
+        let el = document.createElement('div')
+        el.classList.add('kids-hidden')
+        el.classList.add('kids-hidden--' + character.name)
+
+        el.addEventListener('transitionend', e => {
+            document.body.removeChild(el)
+        }, {passive: true, once: true})
+
+
+        document.body.appendChild(el)
+
+        setTimeout(() => {
+            el.classList.add('animate')
+        })
+    }
+}())
+
+

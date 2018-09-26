@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use SeoProxy;
 use Categories;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 use App\Http\Controllers\Shop\BaseStructure\BaseStructureController;
 
 class CatalogController extends BaseStructureController
@@ -25,11 +25,7 @@ class CatalogController extends BaseStructureController
     {
         $category = static::find($slug);
 
-        $categoryChildren = Categories::enabled([
-            'image',
-            'currentI18n',
-            'productCount',
-        ])->where('parent_id', $category->id);
+        $categoryChildren = Categories::where('parent_id', $category->id);
 
         if ($categoryChildren->count() > 0) {
             return view('shop.pages.catalog.catalog', [
@@ -52,13 +48,7 @@ class CatalogController extends BaseStructureController
 
     public static function all($parentId = 0)
     {
-        $categories = static::$repository::enabled([
-            'image',
-            'currentI18n',
-            'productCount'
-        ])
-            ->where('parent_id', $parentId)
-            ->sortBy('position');
+        $categories = static::$repository::where('parent_id', $parentId);
 
         return static::makeStructureCollection(
             $categories,

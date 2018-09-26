@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Room;
 
 use App\Models\Media;
 
-use MosseboShopCore\Models\Shop\Room as BaseRoom;
+use MosseboShopCore\Models\Shop\Room\Room as BaseRoom;
+use App\Models\Shop\Product\Product;
+use App\Models\Shop\Product\ProductCount;
+use App\Support\Traits\Models\HasI18n;
 
 class Room extends BaseRoom
 {
+    use HasI18n;
+
     public function productsRelations()
     {
         return $this->hasMany(RoomProduct::class, $this->relationFieldName);

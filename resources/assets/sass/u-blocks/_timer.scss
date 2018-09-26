@@ -4,28 +4,34 @@
     &__container {
         display: flex;
         flex-wrap: wrap;
-        margin: -34px 0 -15px -15px;
+        margin: -31px 0 -16px -16px;
         padding: 15px 0;
     }
 
     &__num {
         display: flex;
-        padding: 19px 0 0 19px;
+        padding: 16px 0 0 16px;
     }
-}
-
-
-.action-small-timer {
-    display: inline-block;
-    vertical-align: bottom;
-    font-size: 14px / 17px;
 
     &__label {
-        color: $color-danger;
-        margin-bottom: 8px;
+        position: relative;
+        font-size: 22px;
+        top: 2px;
     }
 
-    &__timer {
-        color: $color-text-primary;
+    &--medium &__num {
+        font-size: 20px / 24px;
+    }
+
+    &--medium &__label {
+        font-size: 18px;
+    }
+
+    &--big &__num {
+        font-size: 26px / 32px;
+    }
+
+    &--big &__label {
+        font-size: 22px;
     }
 }

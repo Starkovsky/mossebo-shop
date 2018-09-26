@@ -16,19 +16,12 @@ class ProductResource extends JsonResource
     {
         $data = [
             'id' => $this->id,
-            'new' => $this->is_new,
-            'popular' => $this->is_popular,
-            'name' => $this->currentI18n->title,
+            'name' => $this->title,
         ];
 
         if ($this->relationNotEmpty('image')) {
             if (! empty($this->image->pathes)) {
-                $imagePathes = json_decode($this->image->pathes);
-
-                $data['image'] = [
-                    'src' => $imagePathes->small->src,
-                    'srcset' => $imagePathes->small->srcset
-                ];
+                $data['image'] = $this->getImagePathes($this->image, 'small');
             }
         }
 
@@ -44,12 +37,28 @@ class ProductResource extends JsonResource
             }
         }
 
+        if ($this->relationNotEmpty('previews')) {
+            if (! empty($this->previews)) {
+                $data['previews'] = [];
+
+                foreach ($this->previews as $key => $image) {
+                    $data['previews'][] = $this->getImagePathes($image, 'small');
+
+                    if ($key === 2) break;
+                }
+            }
+        }
+
         if ($this->relationNotEmpty('currentPrice')) {
             $data['price'] = $this->currentPrice->value;
         }
 
         if ($this->relationNotEmpty('oldPrice')) {
             $data['old_price'] = $this->oldPrice->value;
+        }
+
+        if ($this->relationNotEmpty('salePrice')) {
+            $data['sale_price'] = $this->salePrice->value;
         }
 
         if ($this->relationNotEmpty('attributeOptionRelations')) {
@@ -86,4 +95,17 @@ class ProductResource extends JsonResource
 
         return $data;
     }
+
+    protected function getImagePathes($image, $size)
+    {
+        $imagePathes = json_decode($image->pathes);
+
+        return [
+            'id' => $image->id,
+            'src' => $imagePathes->{$size}->src,
+            'srcset' => $imagePathes->{$size}->srcset
+        ];
+    }
 }
+
+

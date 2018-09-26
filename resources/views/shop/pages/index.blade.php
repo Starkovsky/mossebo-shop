@@ -1,7 +1,7 @@
 @extends('shop.layouts.html')
 
 @section('content')
-    <main class="content-block">
+    <section class="content-block">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-6">
@@ -15,6 +15,31 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-6">
                     <product-sale></product-sale>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-block js-product-list-container">
+        <div class="container">
+            <product-list
+                title="{{ __('pages/home.product_list_popular') }}"
+                :url="'{{ apiUrl('goods/popular') }}'"
+            ></product-list>
+        </div>
+    </section>
+
+    <section class="content-block js-product-list-container">
+        <div class="container">
+            <product-list
+                title="{{ __('pages/home.product_list_new') }}"
+                :url="'{{ apiUrl('goods/new') }}'"
+            ></product-list>
+        </div>
+    </section>
+
+    <section class="content-block">
+        <div class="container">
+            <div class="row">
 
                 <div class="col-md-4">
                     <a href="{{ route('help-article', ['slug' => 'delivery']) }}" class="information-block block-ui block-ui--with-hover">
@@ -36,36 +61,19 @@
                         Мы не только быстро доставляем,  но и без проблем возвращаем. В течение 14 дней без объяснения причин вы можете осуществить возврат товара.
                     </a>
                 </div>
+
             </div>
         </div>
-    </main>
+    </section>
 
-    <main class="content-block js-product-list-container">
-        <div class="container">
-            <product-list
-                title="{{ __('pages/home.product_list_popular') }}"
-                :url="'{{ apiUrl('goods/popular') }}'"
-            ></product-list>
-        </div>
-    </main>
-
-    <main class="content-block js-product-list-container">
-        <div class="container">
-            <product-list
-                title="{{ __('pages/home.product_list_new') }}"
-                :url="'{{ apiUrl('goods/new') }}'"
-            ></product-list>
-        </div>
-    </main>
-
-    <main class="content-block">
+    <section class="content-block">
         @include('shop.layouts.structure', [
             'chunkName' => 'shop.chunks.structure-card',
             'items' => app()->make(\App\Http\Controllers\Shop\RoomController::class)->all()
         ])
-    </main>
+    </section>
 
-    <main class="content-block">
+    <section class="content-block">
         <div class="container">
             <h2 class="title-h2">Стили</h2>
         </div>
@@ -78,9 +86,9 @@
         <div class="container">
             @include('chunks.buttons.watch-all', ['link' => siteUrl('/styles')])
         </div>
-    </main>
+    </section>
 
-    <div class="instagram-slider">
+    <section class="instagram-slider">
         <div class="overlay">
             <div class="container">
                 <h3 class="title-h2">Наша продукция в реальных интерьерах</h3>
@@ -98,6 +106,7 @@
             </div>
             <div class="instagram-overlay-svg"></div>
         </div>
+
         <div class="slider slider-instagram">
             <div style="background-image: url(/assets/images/instagram-slider/1.jpg);"
                  class="instagram-slider__image"
@@ -116,9 +125,9 @@
             >
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="social-group">
+    <section class="social-group">
         <div class="container">
             <div class="title-h2">Узнавай об акциях и находи промокоды в наших соцсетях!</div>
             <div class="row">
@@ -134,5 +143,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

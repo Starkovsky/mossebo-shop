@@ -2,9 +2,9 @@
 
 namespace App\Shop\Cart;
 
+use App\Models\Shop\Product\Product;
 use MosseboShopCore\Shop\Cart\CartProduct as BaseCartProduct;
 use MosseboShopCore\Contracts\Shop\Cart\CartProductData as CartProductDataInterface;
-use App\Models\Shop\Product;
 
 class CartProduct extends BaseCartProduct
 {

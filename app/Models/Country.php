@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use MosseboShopCore\Models\Country as BaseCountry;
-
-use App\Models\Shop\Currency;
+use App\Models\Shop\Currency\Currency;
 
 class Country extends BaseCountry
 {

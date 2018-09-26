@@ -10,7 +10,7 @@ class StructureCardResource extends JsonResource
     {
         $data = [
             'id'             => $this->id,
-            'title'          => $this->currentI18n->title,
+            'title'          => $this->title,
             'url'            => $this->getUrl(),
             'products_count' => $this->getProductsCount()
         ];

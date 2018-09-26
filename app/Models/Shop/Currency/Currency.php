@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Currency;
 
-use MosseboShopCore\Models\Shop\Currency as BaseCurrency;
+use MosseboShopCore\Models\Shop\Currency\Currency as BaseCurrency;
+use App\Models\Shop\Price\Price;
 
 class Currency extends BaseCurrency
 {

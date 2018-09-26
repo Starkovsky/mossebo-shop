@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Order;
 
-use MosseboShopCore\Models\Shop\Order as BaseOrder;
+use MosseboShopCore\Models\Shop\Order\Order as BaseOrder;
 use App\Models\User;
 use App\Models\Language;
 use App\Models\Shop\Promo\PromoUse;
+use App\Models\Shop\PayType\PayType;
+use App\Models\Shop\DeliveryType\DeliveryType;
 
 class Order extends BaseOrder
 {

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api\Shop;
 use Illuminate\Http\Request;
 
 use Cache;
-use App\Models\Shop\Product;
-use App\Http\Controllers\Api\ApiController;
+use App\Models\Shop\Product\Product;
 use App\Http\Resources\ProductResource;
-use App\Models\Shop\AttributeOption;
+use App\Http\Controllers\Api\ApiController;
+use App\Models\Shop\Attribute\AttributeOption;
 
 class ProductController extends ApiController
 {
@@ -17,12 +17,11 @@ class ProductController extends ApiController
         $products = Cache::remember('products::popular', 5, function () {
             $products = $this->byBadge(1)
                 ->with(
-                    'currentI18n',
-                    'images',
                     'currentPrice',
+                    'salePrice',
                     'oldPrice',
-//                    'attributeOptionRelations',
-                    'badges'
+                    'badges',
+                    'previews'
                 )
                 ->orderBy('updated_at', 'desc')
                 ->take(8)
@@ -41,12 +40,11 @@ class ProductController extends ApiController
         $products = Cache::remember('products::new', 5, function () {
             $products = $this->byBadge(6)
                 ->with(
-                    'currentI18n',
-                    'images',
                     'currentPrice',
+                    'salePrice',
                     'oldPrice',
-//                    'attributeOptionRelations',
-                    'badges'
+                    'badges',
+                    'previews'
                 )
                 ->orderBy('updated_at', 'desc')
                 ->take(8)
@@ -66,11 +64,12 @@ class ProductController extends ApiController
         $productTableName = config('tables.Products');
 
         return Product::enabled()
+            ->addSelect(\DB::raw("{$badgeTableName}.id as badge_id"))
             ->where("{$badgeTableName}.badge_type_id", $badgeTypeId)
-            ->groupBy("{$productTableName}.id")
             ->join("{$badgeTableName}", function($join) use($badgeTableName, $productTableName) {
                 $join->on("{$badgeTableName}.item_id", '=', "{$productTableName}.id")
-                    ->where("{$badgeTableName}.item_type", 'product');
+                    ->where("{$badgeTableName}.item_type", 'product')
+                    ->groupBy("{$productTableName}.id");
             });
     }
 
@@ -95,11 +94,11 @@ class ProductController extends ApiController
     protected function getAdditionalProductsResource($query, $limit = 4)
     {
         $products = $query->with(
-            'currentI18n',
-            'images',
             'currentPrice',
+            'salePrice',
             'oldPrice',
-            'attributeOptionRelations'
+            'attributeOptionRelations',
+            'previews'
         )
             ->inRandomOrder()
             ->take($limit)

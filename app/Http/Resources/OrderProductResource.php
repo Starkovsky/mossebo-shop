@@ -32,12 +32,9 @@ class OrderProductResource extends JsonResource
             }
             else {
                 $product = Product::where('id', $this->resource->product_id)
-                    ->with('currentI18n')
                     ->first();
 
-                if ($product && $product->relationNotEmpty('currentI18n')) {
-                    $data['info']['title'] = $product->currentI18n->title;
-                }
+                $data['info']['title'] = $product->title;
             }
         }
 

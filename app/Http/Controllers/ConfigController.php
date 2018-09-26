@@ -12,15 +12,14 @@ class ConfigController extends Controller
 {
     public function index()
     {
-        $lang = \Languages::getCollection(['currency'])->first();
+        $lang = \Languages::getCollection()->first();
 
         $config = [
             'language' => [
                 'code' => $lang->code
             ],
             'currency' => [
-                'symbol' => $lang->currency->symbol,
-                'swap' => $lang->currency->swap_currency_symbol
+                'code' => $lang->currency_code
             ],
         ];
 

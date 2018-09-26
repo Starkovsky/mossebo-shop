@@ -30,7 +30,16 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $user->update(
-            $request->only(['first_name', 'last_name', 'phone', 'email', 'password', 'address', 'city', 'post_code'])
+            $request->only([
+                'first_name',
+                'last_name',
+                'phone',
+                'email',
+                'password',
+                'address',
+                'city',
+                'post_code'
+            ])
         );
 
         Auth::setUser($user);

@@ -238,55 +238,24 @@
 }
 
 .cart-total-mobile {
-    & > table {
-        width: 100%;
+    &__top,
+    &__bottom {
+        padding: 16px;
+    }
 
-        & td {
-            font-size: 14px / 16px;
-            color: $color-text-primary;
-            padding: 8px;
-            text-align: center;
+    &__bottom {
+        border-top: 1px solid $color-border;
+    }
 
-            &:first-child {
-                color: $color-text-secondary;
-                padding-left: 16px;
-                text-align: left;
-                width: 100px;
-            }
+    &__label {
+        font-size: 14px / 22px;
+        color: $color-text-secondary;
+        margin-bottom: 6px;
+    }
 
-            &:nth-child(2) {
-                width: 50px;
-            }
-
-            &:last-child {
-                padding-right: 16px;
-                text-align: right;
-            }
-        }
-
-        & tr {
-            &:first-child {
-                & td {
-                    padding-top: 24px;
-                }
-            }
-
-            &:last-child {
-                & td {
-                    border-top: 1px solid $color-border;
-                    padding-top: 16px;
-                    padding-bottom: 24px;
-
-                    &:last-child {
-                        font-size: 18px / 21px;
-                    }
-                }
-            }
-
-            &:nth-last-child(2) td {
-                padding-bottom: 16px;
-            }
-        }
+    &__total {
+        font-size: 18px / 24px;
+        color: $color-text-primary;
     }
 }
 
@@ -294,6 +263,7 @@
     &__mobile-total-title {
         margin-top: 32px;
         margin-bottom: 16px;
+        font-size: 20px / 28px;
     }
 
     &__summary {
@@ -400,21 +370,10 @@
     &__center {
         padding-top: 28px;
     }
+}
 
-    &__intermediate {
-        height: 44px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    &__row {
-        display: flex;
-        justify-content: flex-end;
-    }
-
+.cart-intermediate {
     &__value {
-        min-width: 90px;
         padding-left: 16px;
         color: $color-text-primary;
 
@@ -433,6 +392,7 @@
         font-size: 14px / 17px;
         color: $color-text-secondary;
         margin-bottom: 12px;
+        white-space: nowrap;
     }
 
     &__value {
@@ -462,3 +422,16 @@
 }
 
 
+.cart-mobile-promo {
+    &__top {
+        padding: 24px 16px;
+    }
+
+    &__bottom {
+        padding: 16px;
+    }
+
+    &__bottom {
+        border-top: 1px solid $color-border;
+    }
+}

@@ -126,7 +126,8 @@
 
         data() {
             return {
-                image: false
+                image: false,
+                linkIsHovered: false
             }
         },
 
@@ -139,7 +140,7 @@
         methods: {
             setImage(id) {
                 this.image = this.product.images.find(image => image.id === id)
-            }
+            },
         },
 
 

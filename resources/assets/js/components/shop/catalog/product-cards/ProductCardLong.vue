@@ -1,52 +1,55 @@
 <template>
     <div :class="{'product-card-long block-ui block-ui--with-hover': true, 'link-is-hovered': linkIsHovered}">
-        <div v-if="product.badges" class="product-card-long__badges">
-            <badges
-                :badges="product.badges"
-            ></badges>
-        </div>
-
         <div class="product-card-long__actions text-right">
             <product-actions></product-actions>
         </div>
 
-        <div class="product-card-long__image-box">
-            <a class="product-card-long__link"
-               :href="link"
-               @mouseenter="hoverLink"
-               @mouseout="unHoverLink">
-
-                <div class="product-thumbs-slider"
-                     v-if="product.images.length > 1"
-                     @mouseleave="showImage(0)"
+        <a
+            class="product-card-long__link"
+            :href="link"
+            @mouseover="hover"
+            @mouseleave="unHover"
+        >
+            <div class="product-card-long__image-box">
+                <div
+                    class="product-thumbs-slider"
+                    v-if="product.previews.length > 1"
+                    @mouseleave="showImage(0)"
                 >
-                    <div class="product-thumbs-slider__item"
-                         @mouseover="showImage(index)"
-                         v-for="(image, index) in product.images"
-                         v-if="index < 3"
-                    >
-                    </div>
+                    <div
+                        class="product-thumbs-slider__item"
+                        @mouseover="showImage(index)"
+                        v-for="(image, index) in product.previews"
+                    ></div>
                 </div>
 
-                <div v-for="(image, index) in product.images"
-                     v-if="index < 3"
-                     v-show="currentImage == index"
-                >
+                <template v-for="(image, index) in product.previews">
                     <product-card-image
+                        :key="image.id"
+                        v-show="currentImage === index"
                         class="product-card-long__image"
-                        :image="image.small"
+                        :image="image"
                         :no-image-loading="noImageLoading"
                     ></product-card-image>
-                </div>
-            </a>
-        </div>
+                </template>
+            </div>
+        </a>
 
         <div class="product-card-long__center">
-            <div class="product-card-long__name">
-                <a class="product-card-long__link" :href="link" @mouseenter="hoverLink" @mouseout="unHoverLink">
-                    {{ product.name }}
-                </a>
+            <div class="">
+                <div class="product-card-long__name">
+                    <a class="product-card-long__link" :href="link" @mouseover="hover" @mouseleave="unHover">
+                        {{ product.name }}
+                    </a>
+                </div>
+
+                <div v-if="product.badges" class="product-card-long__badges">
+                    <badges
+                        :badges="product.badges"
+                    ></badges>
+                </div>
             </div>
+
 
             <div class="product-card-long__short-desc">
                 <div class="product-param">
@@ -87,9 +90,11 @@
 
 
             <div class="product-card-long__buttons">
-                <a :href="link" class="button button-light">
-                    Подробнее
-                </a>
+                <product-card-button
+                    :link="link"
+                    :status="inCart ? 'in-cart' : 'not-in-cart'"
+                    @side-click="addToCart"
+                ></product-card-button>
             </div>
         </div>
     </div>
@@ -107,18 +112,18 @@
 
         data() {
             return {
-                linkIsHovered: false
+                linkIsHovered: false,
             }
         },
 
         methods: {
-            hoverLink() {
+            hover() {
                 this.linkIsHovered = true
             },
 
-            unHoverLink() {
+            unHover() {
                 this.linkIsHovered = false
             },
-        }
+        },
     }
 </script>

@@ -1,17 +1,15 @@
 <template>
     <loading :loading="loading">
-        <div v-if="error">
-
-        </div>
+        <div v-if="error"></div>
 
         <div v-else-if="!product" class="product-card-sale block-ui"></div>
 
-        <product-card-sale
+        <product-card-promo
             v-else
             :product="product"
             :saleTime="saleTime"
             :small="small"
-        ></product-card-sale>
+        ></product-card-promo>
     </loading>
 </template>
 
@@ -20,7 +18,8 @@
     import axios from 'axios'
     import Core from '../../../scripts/core/index'
     import Loading from '../../Loading'
-    import ProductCardSale from '../catalog/product-cards/ProductCardSale'
+    // import ProductCardSale from '../catalog/product-cards/ProductCardSale'
+    import ProductCardPromo from '../catalog/product-cards/ProductCardPromo'
 
     // import BannerHomeStock from '../../banners/BannerHomeStock'
 
@@ -28,7 +27,7 @@
         name: "ProductSale",
 
         components: {
-            ProductCardSale,
+            ProductCardPromo,
             Loading,
             // BannerHomeStock
         },

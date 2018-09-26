@@ -4,7 +4,7 @@
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
     height: 100%;
-    min-height: 420px;
+    min-height: 490px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -14,6 +14,29 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    &__bottom {
+        height: 208px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    &__accent-box {
+        position: relative;
+        width: 100%;
+        max-width: 298px;
+        max-height: 250px;
+        overflow: hidden;
+
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+            transition: .3s;
+            position: relative;
+        }
+    }
 
     &__image-box {
         position: relative;
@@ -31,13 +54,17 @@
         }
     }
 
-    &__image {
+    &__image,
+    &__title {
         position: absolute;
         top: 24px;
         left: 24px;
         bottom: 24px;
         right: 24px;
         margin: auto;
+    }
+
+    &__image {
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
@@ -47,7 +74,6 @@
     &__title {
         font-size: 24px / 30px;
         font-weight: 500;
-        height: 250px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -66,10 +92,10 @@
         text-align: center;
         max-width: 216px;
         width: 100%;
-        margin: auto;
+        margin: 24px auto 0;
     }
 
-    @media (min-width: 576px) {
+    @include media-breakpoint-up(sm) {
         &--long {
             min-height: auto;
             height: auto;
@@ -78,16 +104,12 @@
             justify-content: flex-end;
             align-items: center;
         }
-
+        //
         &--long &__title {
-            position: absolute;
-            width: 190px;
-            height: 100%;
-            top: 0;
-            left: 0;
+            position: absolute 16px;
         }
 
-        &--long &__image-box {
+        &--long &__accent-box {
             width: 190px;
             max-height: none;
             margin: 0;
@@ -100,6 +122,11 @@
         &--long &__bottom {
             width: calc(100% - 190px);
             height: 100%;
+            flex-direction: row;
+        }
+
+        &--long &__button {
+            margin-top: 0;
         }
 
         &--long &__image {

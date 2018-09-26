@@ -54,9 +54,9 @@
     // </div>
 
     import { mapState, mapGetters } from 'vuex'
-    import Core from '../../../scripts/core'
-    import FormSenderMixin from '../../../mixins/FormSender'
-    import ButtonLoading from '../../buttons/ButtonLoading'
+    import Core from '../../../../scripts/core/index'
+    import FormSenderMixin from '../../../../mixins/FormSender'
+    import ButtonLoading from '../../../buttons/ButtonLoading'
 
     export default {
         name: 'promo-form',

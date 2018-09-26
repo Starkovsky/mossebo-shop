@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import Core from '../../../scripts/core'
+
     export default {
         name: "FormattedPrice",
 
@@ -15,7 +17,14 @@
         computed: {
             formatted() {
                 let value = this.value.toString().replace(',', '.').replace(/[^0-9]+/g, '')
-                return parseFloat(value).toLocaleString() + ' ' + this.$root.mossebo.currency.symbol
+
+                return parseFloat(value).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 0,
+                    currencyDisplay: 'symbol',
+                    style: 'currency',
+                    currency: Core.config('currency.code')
+                })
             }
         }
     }

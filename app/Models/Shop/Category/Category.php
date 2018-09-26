@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Category;
 
 use App\Models\Media;
-use MosseboShopCore\Models\Shop\Category as BaseCategory;
+use MosseboShopCore\Models\Shop\Category\Category as BaseCategory;
+use App\Models\Shop\Product\Product;
+use App\Models\Shop\Product\ProductCount;
+use App\Support\Traits\Models\HasI18n;
 
 class Category extends BaseCategory
 {
+    use HasI18n;
+
     public function productsRelations()
     {
         return $this->hasMany(CategoryProduct::class, $this->relationFieldName);

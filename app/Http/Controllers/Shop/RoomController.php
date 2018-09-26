@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Shop;
 
-use App\Models\Shop\Product;
-use App\Http\Controllers\Shop\BaseStructure\BaseStructureController;
 use Rooms;
 use Categories;
 use SeoProxy;
+use App\Models\Shop\Product\Product;
+use App\Http\Controllers\Shop\BaseStructure\BaseStructureController;
 
 class RoomController extends BaseStructureController
 {
@@ -26,11 +26,7 @@ class RoomController extends BaseStructureController
     {
         $room = static::find($slug);
 
-        $categories = Categories::enabled([
-            'image',
-            'currentI18n',
-            'productCounts'
-        ])->where('parent_id', 0);
+        $categories = Categories::where('parent_id', 0);
 
         return view('shop.pages.rooms.catalog', [
             'room' => $room,
@@ -43,19 +39,13 @@ class RoomController extends BaseStructureController
     {
         $room = static::find($slug);
 
-        $category = Categories::enabled([
-            'currentI18n',
-        ])->where('slug', $categorySlug)->first();
+        $category = Categories::where('slug', $categorySlug)->first();
 
         if (!$category) {
             abort(404);
         }
 
-        $categoryChildren = Categories::enabled([
-            'image',
-            'currentI18n',
-            'productCount',
-        ])->where('parent_id', $category->id);
+        $categoryChildren = Categories::where('parent_id', $category->id);
 
         if ($categoryChildren->count() > 0) {
             return view('shop.pages.rooms.catalog', [
@@ -81,11 +71,7 @@ class RoomController extends BaseStructureController
 
     public static function all()
     {
-        $rooms = static::$repository::enabled([
-            'image',
-            'currentI18n',
-            'productCount'
-        ])->sortBy('position');
+        $rooms = static::$repository::getCollection();
 
         return static::makeStructureCollection(
             $rooms,

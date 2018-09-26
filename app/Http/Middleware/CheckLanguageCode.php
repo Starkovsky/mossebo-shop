@@ -20,7 +20,7 @@ class CheckLanguageCode
         $path = $request->path();
 
 
-        foreach (Languages::enabled() as $language) {
+        foreach (Languages::getCollection() as $language) {
             if ($path === $language->code) {
                 return $next($request);
             }

@@ -18,7 +18,7 @@ class BadgeTypeResource extends JsonResource
             'id'       => $this->resource->id,
             'icon'     => $this->resource->icon,
             'color'    => $this->resource->color,
-            'title'    => $this->resource->currentI18n->title,
+            'title'    => $this->resource->title,
             'position' => $this->resource->position
         ];
     }

@@ -11,6 +11,7 @@
 
     &__breadcrumbs {
         display: none;
+        margin-bottom: 24px;
     }
 
     @include media-breakpoint-up(lg) {

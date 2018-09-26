@@ -12,11 +12,7 @@ class BaseStructureController extends Controller
 
     protected static function find($slug)
     {
-        $structureModel = static::$repository::enabled([
-            'image',
-            'currentI18n',
-            'productCount'
-        ])->where('slug', $slug)->first();
+        $structureModel = static::$repository::where('slug', $slug)->first();
 
         if (! $structureModel) {
             abort(404);
@@ -30,7 +26,7 @@ class BaseStructureController extends Controller
 
     protected static function setMeta($structureModel)
     {
-        SeoProxy::setMetaFromI18nModel($structureModel);
+        SeoProxy::setMetaFromModel($structureModel);
         SeoProxy::setImageFromModel($structureModel, 'oneHalf');
     }
 

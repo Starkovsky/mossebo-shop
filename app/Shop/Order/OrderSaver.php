@@ -5,11 +5,11 @@ namespace App\Shop\Order;
 use DB;
 use Cart;
 use PayTypes;
-use App\Models\Shop\Product;
-use App\Models\Shop\Order;
-use App\Models\Shop\OrderProduct;
-use App\Models\Shop\OrderProductAttributeOption;
-use App\Models\Shop\AttributeOption;
+//use App\Models\Shop\Product\Product;
+use App\Models\Shop\Order\Order;
+use App\Models\Shop\Order\OrderProduct;
+use App\Models\Shop\Order\OrderProductAttributeOption;
+//use App\Models\Shop\Attribute\AttributeOption;
 use App\Models\Shop\Promo\PromoUse;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,9 +49,9 @@ class OrderSaver
         $this->result['baseAmount'] = $baseAmount->getFormatted();
         $this->result['finalAmount'] = $this->cart->getTotal()->getFormatted();
 
-        $payType = PayTypes::enabled('currentI18n')->where('id', $this->result['pay_type_id'])->first();
+        $payType = PayTypes::where('id', $this->result['pay_type_id'])->first();
 
-        $this->result['pay_type'] = $payType->currentI18n->name;
+        $this->result['pay_type'] = $payType->name;
 
         $promoCode = $this->cart->getPromoCode();
 

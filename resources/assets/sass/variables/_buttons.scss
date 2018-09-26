@@ -232,7 +232,7 @@
 
 
 .button-group {
-    display: inline-flex;
+    display: flex;
     color: $color-text-primary;
     border: 1px solid $color-border;
     border-radius: 30px;
@@ -241,8 +241,10 @@
     user-select: none;
 
     &__main {
-        padding: 11px 32px;
+        padding: 11px 11px;
+        flex-grow: 1;
         cursor: pointer;
+        text-align: center;
 
         &:hover {
             color: $color-text-primary;

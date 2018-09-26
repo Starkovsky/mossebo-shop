@@ -120,5 +120,14 @@ return [
     'Banners'         => 'shop_banners',
     'BannersI18n'     => 'shop_banners_i18n',
     'BannerPlaces'    => 'shop_banner_places',
-    'BannerPlaceRelations' => 'shop_banner_place_relations'
+    'BannerPlaceRelations' => 'shop_banner_place_relations',
+
+
+    'ProductSales'    => 'shop_product_sales',
+
+    'Interiors'       => 'shop_interiors',
+    'InteriorsI18n'   => 'shop_interiors_i18n',
+    'InteriorPoints'  => 'shop_interior_points',
+    'InteriorStyles'  => 'shop_interior_styles',
+    'InteriorRooms'   => 'shop_interior_rooms',
 ];

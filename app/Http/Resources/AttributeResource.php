@@ -16,7 +16,7 @@ class AttributeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->currentI18n->title,
+            'title' => $this->title,
             'options' => OptionResource::collection($this->options),
             'position' => $this->position
         ];

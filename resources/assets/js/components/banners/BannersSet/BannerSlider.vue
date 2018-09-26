@@ -113,7 +113,8 @@
                         {
                             breakpoint: this.$root.getBreakpoint('sm') - 1,
                             settings: {
-                                slidesToShow: 2
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
                             }
                         },
                     ]

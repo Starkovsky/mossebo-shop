@@ -6,9 +6,9 @@
     <div class="container">
         <h1 class="title-h1">
             @if ($category)
-                {{ $category->currentI18n->title }}
+                {{ $category->title }}
             @else
-                {{ $room->currentI18n->title }}
+                {{ $room->title }}
             @endif
         </h1>
     </div>

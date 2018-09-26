@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\Shop;
 
-use App\Http\Controllers\Api\ApiController;
-use App\Models\Shop\Product;
-use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Resources\ProductResource;
+use App\Models\Shop\Product\Product;
 
 class SearchController extends ApiController
 {
@@ -26,9 +26,9 @@ class SearchController extends ApiController
         $ids = $this->searchIds($query);
 
         $products = Product::with([
-            'currentI18n',
             'image',
             'currentPrice',
+            'salePrice',
             'oldPrice',
             'supplier',
 
@@ -56,9 +56,7 @@ class SearchController extends ApiController
             $this->search($request->input('q'))->take(5)
         );
 
-        $products = Product::with([
-            'currentI18n',
-        ])->whereIn('id', $ids)->get();
+        $products = Product::whereIn('id', $ids)->get();
 
         return [
             'status' => 'success',

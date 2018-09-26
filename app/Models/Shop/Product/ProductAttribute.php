@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Product;
 
-use MosseboShopCore\Models\Shop\ProductAttribute as BaseProductAttribute;
+use MosseboShopCore\Models\Shop\Product\ProductAttribute as BaseProductAttribute;
+use App\Models\Shop\Attribute\Attribute;
 
 class ProductAttribute extends BaseProductAttribute
 {

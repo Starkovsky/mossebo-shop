@@ -33,12 +33,12 @@ class OneClick extends Mailable
     {
         $product = Product::with([
             'currentPrice',
-            'currentI18n',
+            'salePrice',
             'image',
         ])->where('id', $this->userData['id'])->firstOrFail();
 
         $productData = [
-            'title' => $product->currentI18n->title,
+            'title' => $product->title,
             'url'   => siteUrl($product->url()),
             'price' => $product->currentPrice->getFormatted()
         ];

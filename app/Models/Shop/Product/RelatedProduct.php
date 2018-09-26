@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Product;
 
-use MosseboShopCore\Models\Shop\RelatedProduct as BaseRelatedProduct;
+use MosseboShopCore\Models\Shop\Product\RelatedProduct as BaseRelatedProduct;
 
 class RelatedProduct extends BaseRelatedProduct
 {

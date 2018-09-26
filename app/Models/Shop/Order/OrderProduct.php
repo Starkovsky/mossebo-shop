@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Order;
 
-use MosseboShopCore\Models\Shop\OrderProduct as BaseOrderProduct;
+use MosseboShopCore\Models\Shop\Order\OrderProduct as BaseOrderProduct;
+use App\Models\Shop\Product\Product;
 
 class OrderProduct extends BaseOrderProduct
 {

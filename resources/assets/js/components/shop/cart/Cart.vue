@@ -55,27 +55,41 @@
                                 </div>
 
                                 <div class="cart-summary__center">
-                                    <div class="cart-summary__intermediate">
-                                        <div class="cart-summary__row">
-                                            <span class="cart-summary__label">
-                                                {{ amountLabel }}:
-                                            </span>
+                                    <table class="cart-intermediate">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span class="cart-intermediate__label">
+                                                        {{ amountLabel }}:
+                                                    </span>
+                                                </td>
 
-                                            <span class="cart-summary__value">
-                                                <formatted-price :value="amount"></formatted-price>
-                                            </span>
-                                        </div>
+                                                <td>
+                                                    <span class="cart-intermediate__value">
+                                                        <formatted-price
+                                                            :value="amount"
+                                                        ></formatted-price>
+                                                    </span>
+                                                </td>
+                                            </tr>
 
-                                        <div v-if="promoAccepted && promoDiscount" class="cart-summary__row">
-                                            <span class="cart-summary__label">
-                                                Скидка по промокоду:
-                                            </span>
+                                            <tr v-if="promoAccepted && promoDiscount">
+                                                <td>
+                                                    <span class="cart-intermediate__label">
+                                                        Скидка по промокоду:
+                                                    </span>
+                                                </td>
 
-                                            <span class="cart-summary__value cart-summary__value--green">
-                                                <formatted-price :value="promoDiscount"></formatted-price>
-                                            </span>
-                                        </div>
-                                    </div>
+                                                <td>
+                                                    <span class="cart-intermediate__value cart-intermediate__value--green">
+                                                        <formatted-price
+                                                            :value="promoDiscount"
+                                                        ></formatted-price>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
 
                                 <div class="cart-summary__total">
@@ -94,107 +108,96 @@
                             </div>
 
                             <div v-if="promoExist" class="cart-page__promo-info">
-                                <div class="promo-info">
-
-                                    <div v-if="promoAccepted" class="promo-info__status promo-info__status--success">
-                                        промокод применен
-                                    </div>
-
-                                    <div v-else class="promo-info__status promo-info__status--error">
-                                        не выполнены условия
-                                    </div>
-
-                                    <div class="promo-info__title">
-                                        {{ promoTitle }}
-                                    </div>
-
-                                    <div class="promo-info__text">
-                                        {{ promoDescription }}
-                                    </div>
-                                </div>
+                                <promo-info
+                                    :accepted="promoAccepted"
+                                    :title="promoTitle"
+                                    :description="promoDescription"
+                                ></promo-info>
                             </div>
 
                             <div class="cart-page__promo-links">
-                                <div class="promo-links">
-                                    <div class="row row--half">
-                                        <div class="promo-links__link">
-                                            <a href="#" class="icon-link" target="_blank">
-                                                <svg class="icon-link__icon">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-search"></use>
-                                                </svg>
-
-                                                Найти другие промокоды
-                                            </a>
-                                        </div>
-
-                                        <div class="promo-links__link">
-                                            <a href="#" class="link" target="_blank">
-                                                Как получить скидку?
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <promo-links></promo-links>
                             </div>
                         </div>
                     </template>
 
                     <template v-else>
+                        <div class="cart-page__mobile-promo mt-16">
+                            <div class="cart-mobile-promo block-ui">
+                                <div class="cart-mobile-promo__top">
+                                    <div class="cart-mobile-promo__form">
+                                        <promo-form></promo-form>
+                                    </div>
+
+                                    <div v-if="promoExist" class="cart-mobile-promo__info mt-24">
+                                        <promo-info
+                                            :accepted="promoAccepted"
+                                            :title="promoTitle"
+                                            :description="promoDescription"
+                                        ></promo-info>
+                                    </div>
+                                </div>
+
+                                <div class="cart-mobile-promo__bottom">
+                                    <promo-links></promo-links>
+                                </div>
+                            </div>
+                        </div>
+
                         <h4 class="cart-page__mobile-total-title">
                             Итого
                         </h4>
 
                         <div class="cart-page__mobile-total cart-total-mobile block-ui">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        Товаров:
-                                    </td>
+                            <div class="cart-total-mobile__top">
+                                <table class="cart-intermediate">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <span class="cart-intermediate__label">
+                                                {{ amountLabel }}:
+                                            </span>
+                                        </td>
 
-                                    <td>
-                                        {{ productsQuantity }}
-                                    </td>
+                                        <td>
+                                            <span class="cart-intermediate__value">
+                                                <formatted-price
+                                                    :value="amount"
+                                                ></formatted-price>
+                                            </span>
+                                        </td>
+                                    </tr>
 
-                                    <td>
-                                        <formatted-price
-                                            :value="amount"
-                                        ></formatted-price>
-                                    </td>
-                                </tr>
+                                    <tr v-if="promoAccepted && promoDiscount">
+                                        <td>
+                                            <span class="cart-intermediate__label">
+                                                Скидка по промокоду:
+                                            </span>
+                                        </td>
 
-                                <tr v-if="false">
-                                    <td>
-                                        Доставка:
-                                    </td>
+                                        <td>
+                                            <span class="cart-intermediate__value cart-intermediate__value--green">
+                                                <formatted-price
+                                                    :value="promoDiscount"
+                                                ></formatted-price>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                    <td>
+                            <div class="cart-total-mobile__bottom">
+                                <div class="cart-total-mobile__label">
+                                    Итого к оплате:
+                                </div>
 
-                                    </td>
-
-                                    <td>
-                                        <formatted-price
-                                            :value="shippingPrice"
-                                        ></formatted-price>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Всего:
-                                    </td>
-
-                                    <td>
-
-                                    </td>
-
-                                    <td>
-                                        <formatted-price
-                                            :value="totalPrice"
-                                        ></formatted-price>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                <div class="cart-total-mobile__total">
+                                    <formatted-price
+                                        :value="totalPrice"
+                                    ></formatted-price>
+                                </div>
+                            </div>
                         </div>
                     </template>
                 </div>
@@ -206,14 +209,18 @@
 
 <script>
     import { mapGetters, mapState } from 'vuex'
-    import PromoForm from './PromoForm'
+    import PromoForm from './promo/PromoForm'
+    import PromoLinks from './promo/PromoLinks'
+    import PromoInfo from './promo/PromoInfo'
     import Mixin from './mixin'
 
     export default {
         name: "Cart",
 
         components: {
-            PromoForm
+            PromoForm,
+            PromoLinks,
+            PromoInfo
         },
 
         mixins: [

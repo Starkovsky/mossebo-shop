@@ -22,9 +22,9 @@ class BannerResource extends JsonResource
             'button_color' => $this->resource->button_color,
             'button_background_color' => $this->resource->button_background_color,
 
-            'title' => $this->resource->currentI18n->title,
-            'caption' => $this->resource->currentI18n->caption,
-            'button' => $this->resource->currentI18n->button,
+            'title' => $this->resource->title,
+            'caption' => $this->resource->caption,
+            'button' => $this->resource->button,
         ];
 
         $this->connectImages($data);
@@ -52,7 +52,7 @@ class BannerResource extends JsonResource
 
     public function getLink()
     {
-        $link = $this->resource->currentI18n->link;
+        $link = $this->resource->link;
 
         if (! $link) {
             return $link;
@@ -70,7 +70,7 @@ class BannerResource extends JsonResource
         $acc = [];
 
         foreach(['title', 'caption'] as $label) {
-            $text = $this->resource->currentI18n->{$label};
+            $text = $this->resource->{$label};
 
             if ($text) {
                 $acc[] = $text;

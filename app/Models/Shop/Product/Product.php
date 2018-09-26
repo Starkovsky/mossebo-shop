@@ -1,15 +1,29 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Product;
 
+use Shop;
 use App\Models\Media;
 use App\Models\Review;
 use App\Models\Shop\Badge\Badge;
-use MosseboShopCore\Models\Shop\Product as BaseProduct;
+use MosseboShopCore\Models\Shop\Product\Product as BaseProduct;
 use MosseboShopCore\Contracts\Shop\Cart\CartProductData;
+use App\Models\Shop\Category\Category;
+use App\Models\Shop\Category\CategoryProduct;
+use App\Models\Shop\Price\Price;
+use App\Models\Shop\Style\Style;
+use App\Models\Shop\Style\StyleProduct;
+use App\Models\Shop\Room\Room;
+use App\Models\Shop\Room\RoomProduct;
+use App\Models\Shop\Attribute\Attribute;
+use App\Models\Shop\Attribute\AttributeOption;
+use App\Models\Shop\Supplier\Supplier;
+use App\Support\Traits\Models\HasI18n;
 
 class Product extends BaseProduct implements CartProductData
 {
+    use HasI18n;
+
     protected $fillable = [
         'showed'
     ];
@@ -81,7 +95,7 @@ class Product extends BaseProduct implements CartProductData
         return $this->hasManyThrough(
             AttributeOption::class, ProductAttributeOption::class,
             $this->relationFieldName, 'id', 'id', 'option_id'
-        )->with('currentI18n');
+        );
     }
 
     public function attributeOptionRelations()
@@ -108,10 +122,18 @@ class Product extends BaseProduct implements CartProductData
             ->orderBy('order_column', 'asc');
     }
 
+    public function previews()
+    {
+        return $this
+            ->morphMany(Media::class, 'model')
+            ->orderBy('order_column', 'asc');
+    }
+
     public function currentPrice()
     {
         return $this
             ->morphOne(Price::class, 'item')
+            ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
             ->where('price_type_id','=', '2');
     }
 
@@ -119,7 +141,16 @@ class Product extends BaseProduct implements CartProductData
     {
         return $this
             ->morphOne(Price::class, 'item')
+            ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
             ->where('price_type_id','=', '1');
+    }
+
+    public function salePrice()
+    {
+        return $this
+            ->morphOne(Price::class, 'item')
+            ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
+            ->where('price_type_id','=', '6');
     }
 
     public function relatedRelations()
@@ -152,11 +183,14 @@ class Product extends BaseProduct implements CartProductData
             $optionsTable = config('tables.AttributeOptions');
             $productOptionsTable = config('tables.ProductAttributeOptions');
 
-            $query->join("{$productOptionsTable}", "{$productOptionsTable}.product_id", '=', "{$productTable}.id")
-                ->join("{$optionsTable}", "{$optionsTable}.id", '=', "{$productOptionsTable}.option_id")
-                ->where("{$optionsTable}.enabled", true)
-                ->whereIn("{$optionsTable}.id", $options)
-                ->groupBy("{$productTable}.id");
+            $query->join("{$productOptionsTable}", function($join) use($productTable, $optionsTable, $productOptionsTable, $options) {
+                $join->on("{$productOptionsTable}.product_id", '=', "{$productTable}.id")
+                    ->join("{$optionsTable}", function($join) use($optionsTable, $productOptionsTable, $options) {
+                        $join->on("{$optionsTable}.id", '=', "{$productOptionsTable}.option_id")
+                            ->where("{$optionsTable}.enabled", true)
+                            ->whereIn("{$optionsTable}.id", $options);
+                    });
+            });
         }
 
         return $query->first();
@@ -172,7 +206,7 @@ class Product extends BaseProduct implements CartProductData
             return false;
         }
 
-        if ($this->relationIsEmpty('image') && $this->relationIsEmpty('images')) {
+        if ($this->relationIsEmpty('image') && $this->relationIsEmpty('images') && $this->relationIsEmpty('previews')) {
             return false;
         }
 
@@ -190,6 +224,16 @@ class Product extends BaseProduct implements CartProductData
         return true;
     }
 
+    // todo: доделать
+    public function getPrice()
+    {
+        $price = $this->currentPrice;
+
+        return app()->makeWith(\MosseboShopCore\Contracts\Shop\Price::class, [
+            'value' => $price->value,
+            'currencyCode' => $price->currency_code
+        ]);
+    }
 
     public function show()
     {
@@ -212,7 +256,7 @@ class Product extends BaseProduct implements CartProductData
     public function getI18nTitles(): ?array
     {
         if ($this->relationIsEmpty('i18n')) {
-            return null;
+            $this->i18n()->get();
         }
 
         return $this->i18n->reduce(function($carry, $item) {

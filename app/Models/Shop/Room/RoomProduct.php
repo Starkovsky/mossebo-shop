@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Room;
 
-use MosseboShopCore\Models\Shop\RoomProduct as BaseRoomProduct;
+use MosseboShopCore\Models\Shop\Room\RoomProduct as BaseRoomProduct;
+use App\Models\Shop\Product\Product;
 
 class RoomProduct extends BaseRoomProduct
 {

@@ -17,18 +17,18 @@ class BannerController extends Controller
         $bannersTableName = config('tables.Banners');
         $relationTableName = config('tables.BannerPlaceRelations');
 
-        $query = Banner::enabled()->with('currentI18n')->inRandomOrder();
+        $query = Banner::enabled();
 
         $query
             ->join("{$relationTableName}", function($join) use($bannersTableName, $relationTableName, $placeId) {
                 $join->on("{$bannersTableName}.id", '=', "{$relationTableName}.banner_id")
-                    ->where("{$relationTableName}.place_id", $placeId);
-            })
-            ->groupBy(\DB::raw("{$bannersTableName}.id, {$relationTableName}.place_id, {$relationTableName}.banner_id"));
+                    ->where("{$relationTableName}.place_id", $placeId)
+                    ->groupBy(\DB::raw("{$bannersTableName}.id, {$relationTableName}.place_id, {$relationTableName}.banner_id"));
+            });
 
         $request = request();
 
-        return $query->get()->reduce(function($carry, $item) use($request) {
+        return $query->get()->shuffle()->reduce(function($carry, $item) use($request) {
             $carry->push(
                 (new BannerResource($item))->toArray($request)
             );

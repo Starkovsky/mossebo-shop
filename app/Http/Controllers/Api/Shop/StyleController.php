@@ -7,10 +7,15 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\ProductResource;
 use Styles;
 use Categories;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
+use App\Support\Traits\Cacheable;
 
 class StyleController extends ApiController
 {
+    use Cacheable;
+
+    protected static $cacheNamespace = 'style-products';
+
     /**
      * Выводит весь каталог
      *
@@ -18,13 +23,13 @@ class StyleController extends ApiController
      */
     public function products($slug)
     {
-        $style = Styles::enabled()->where('slug', $slug)->first();
+        $style = Styles::where('slug', $slug)->first();
 
         if (! $style) {
             return abort(404);
         }
 
-        $products = \Cache::remember('style::' . $slug, 60, function() use($style) {
+        $products = \Cache::remember(static::makeCacheKey($slug), 60, function() use($style) {
             return $this->getProducts($style);
         });
 
@@ -35,25 +40,25 @@ class StyleController extends ApiController
 
     public function catalog($slug, $categorySlug)
     {
-        $style = Styles::enabled()->where('slug', $slug)->first();
-        $category = Categories::enabled()->where('slug', $categorySlug)->first();
+        $style = Styles::where('slug', $slug)->first();
+        $category = Categories::where('slug', $categorySlug)->first();
 
         if (! ($style && $category)) {
             return abort(404);
         }
 
-        $products = \Cache::remember('style::' . $slug . '::' . $categorySlug, 60, function() use($style, $category) {
+        $products = \Cache::remember(static::makeCacheKey($slug) . '::' . $categorySlug, 60, function() use($style, $category) {
             return static::prepareProducts(
                 Product::enabled()
                     ->whereStyle($style->id)
                     ->whereCategory($category->id)
                     ->with([
-                        'currentI18n',
-                        'image',
                         'currentPrice',
+                        'salePrice',
                         'oldPrice',
                         'attributeOptionRelations',
-                        'supplier'
+                        'supplier',
+                        'previews',
                     ])
                     ->get()
             );
@@ -68,13 +73,14 @@ class StyleController extends ApiController
     {
         return static::prepareProducts(
             $structureModel
-                ->products()->with([
-                    'currentI18n',
-                    'image',
+                ->products()
+                ->with([
                     'currentPrice',
+                    'salePrice',
                     'oldPrice',
                     'attributeOptionRelations',
-                    'supplier'
+                    'supplier',
+                    'previews',
                 ])
                 ->where('enabled', true)
                 ->get()

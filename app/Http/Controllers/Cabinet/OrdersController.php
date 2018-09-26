@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Cabinet;
 
 use Auth;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderResource;
 use PayTypes;
 use DeliveryTypes;
 use OrderStatuses;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 
 class OrdersController extends Controller
 {
@@ -19,22 +19,18 @@ class OrdersController extends Controller
             $query->with('options');
         }])
             ->with(['promoUse' => function($query) {
-                $query->with(['code' => function($query) {
-                    $query->with('currentI18n');
-                }]);
+                $query->with('code');
             }])
             ->orderBy('updated_at', 'desc')
             ->get();
 
-        $orderStatuses = OrderStatuses::getCollection('currentI18n');
-        $payTypes      = PayTypes::getCollection('currentI18n');
-        $deliveryTypes = DeliveryTypes::getCollection('currentI18n');
+        $payTypes      = PayTypes::getCollection();
+        $orderStatuses = OrderStatuses::getCollection();
+        $deliveryTypes = DeliveryTypes::getCollection();
 
         $orders = $orders->each(function(& $order) use($orderStatuses, $payTypes, $deliveryTypes) {
             $order->status       = $orderStatuses->where('id', $order->order_status_id)->first();
-
             $order->payType      = $payTypes->where('id', $order->pay_type_id)->first();
-
             $order->deliveryType = $deliveryTypes->where('id', $order->delivery_type_id)->first();
         });
 

@@ -31,21 +31,34 @@ class SeoProxy implements SeoProxyInterface
         OpenGraph::addImage($pathToImage);
     }
 
-    public static function setMetaFromI18nModel(BaseModel $modelObj): void
+    public static function setMetaFromModel(BaseModel $modelObj): void
     {
-        if ($modelObj->relationIsEmpty('currentI18n')) {
-            return;
+        $title = static::getMetaFromModelByKey($modelObj, 'title');
+
+        if (! is_null($title)) {
+            static::setTitle($title);
         }
 
-        $i18n = $modelObj->currentI18n;
+        $description = static::getMetaFromModelByKey($modelObj, 'description');
 
-        $title = $i18n->meta_title ? $i18n->meta_title : $i18n->title;
+        if (! is_null($title)) {
+            static::setDescription($description);
+        }
+    }
 
-        static::setTitle($title);
+    protected static function getMetaFromModelByKey(BaseModel $modelObj, $key): ?string
+    {
+        $metaKey = 'meta_' . $key;
 
-        $description = $i18n->meta_description ? $i18n->meta_description : $i18n->description;
+        if (isset($modelObj[$metaKey])) {
+            return $modelObj[$metaKey];
+        }
 
-        static::setDescription($description);
+        if (isset($modelObj[$key])) {
+            return $modelObj[$key];
+        }
+
+        return null;
     }
 
     public static function setImageFromModel(BaseModel $modelObj, string $conversionName): void

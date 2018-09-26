@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use MosseboShopCore\Models\Language as BaseLanguage;
-use App\Models\Shop\Currency;
+use App\Models\Shop\Currency\Currency;
 
 class Language extends BaseLanguage
 {

@@ -106,6 +106,7 @@ export default {
         setCardType({ state, commit, dispatch }, type) {
             if (! state.filtering && type !== state.cards.active) {
                 dispatch('cards/setType', type)
+                    .then(() => dispatch('updateStorage', 'cards.active'))
                     .then(() => dispatch('process', 'paginate'))
             }
         },

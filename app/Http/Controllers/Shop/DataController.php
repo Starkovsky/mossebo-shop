@@ -9,6 +9,7 @@ use Attributes;
 use Styles;
 use Rooms;
 use Categories;
+use BadgeTypes;
 use App\Http\Resources\AttributeResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\StyleResource;
@@ -17,12 +18,36 @@ use App\Http\Resources\BadgeTypeResource;
 
 use App\Models\Shop\Banner\Banner;
 use App\Http\Resources\Banner\BannerResource;
+use App\Support\Traits\Cacheable;
 
 class DataController extends Controller
 {
-    protected static $repositories = [];
+    use Cacheable;
 
-    protected static $cacheKey = 'interactionData';
+    protected static $repositories = [
+        'attributes' => [
+            'repository' => Attributes::class,
+            'resource' => AttributeResource::class,
+        ],
+        'categories' => [
+            'repository' => Categories::class,
+            'resource' => CategoryResource::class,
+        ],
+        'styles' => [
+            'repository' => Styles::class,
+            'resource' => StyleResource::class,
+        ],
+        'rooms' => [
+            'repository' => Rooms::class,
+            'resource' => RoomResource::class,
+        ],
+        'badge-types' => [
+            'repository' => BadgeTypes::class,
+            'resource' => BadgeTypeResource::class,
+        ]
+    ];
+
+    protected static $cacheNamespace = 'shop-data';
 
     /**
      * Получение свежего ключа.
@@ -31,7 +56,7 @@ class DataController extends Controller
      */
     public static function getRelevantKey()
     {
-        return \Cache::remember(self::$cacheKey, 18000, function () {
+        return \Cache::remember(self::makeCacheKey(), 18000, function () {
             return md5(uniqid());
         });
     }
@@ -50,7 +75,7 @@ class DataController extends Controller
 
         if (isset(self::$repositories[$dataTypeOrModelClassName])) {
             self::$repositories[$dataTypeOrModelClassName]::clearCache();
-            \Cache::forget(self::$cacheKey);
+            \Cache::forget(self::makeCacheKey());
             return;
         }
 
@@ -59,7 +84,7 @@ class DataController extends Controller
         foreach (self::$repositories as $repo) {
             if ($repo::getModelClassName() === $modelClassName) {
                 $repo::clearCache();
-                \Cache::forget(self::$cacheKey);
+                \Cache::forget(self::makeCacheKey());
                 return;
             }
         }
@@ -71,8 +96,8 @@ class DataController extends Controller
             $repository::clearCache();
         }
 
-        \Cache::forget(self::$cacheKey);
-        \Cache::forget(self::makeKey('banners'));
+        \Cache::forget(self::makeCacheKey());
+        \Cache::forget(self::makeCacheKey('banners'));
     }
 
     /**
@@ -97,7 +122,7 @@ class DataController extends Controller
 
         foreach ($keys as $key) {
             if (isset(self::$repositories[$key])) {
-//                self::_connectFromRepository($key, $data);
+                self::_connectFromRepository($key, $data);
             }
             else {
                 self::_connectFromMethod($key, $data);
@@ -105,6 +130,13 @@ class DataController extends Controller
         }
 
         return response($data, 200);
+    }
+
+    protected static function _connectFromRepository($key, &$data)
+    {
+        $data[$key] = self::$repositories[$key]['resource']::collection(
+            self::$repositories[$key]['repository']::getCollection()
+        );
     }
 
     /**
@@ -130,61 +162,11 @@ class DataController extends Controller
         }
     }
 
-    /**
-     * Получение аттрибутов.
-     */
-    protected static function _getAttributes()
-    {
-        return AttributeResource::collection(
-            \Attributes::enabled(['currentI18n'])
-        );
-    }
-
-    /**
-     * Получение категорий.
-     */
-    protected static function _getCategories()
-    {
-        return CategoryResource::collection(
-            \Categories::enabled(['currentI18n'])
-        );
-    }
-
-    /**
-     * Получение стилей.
-     */
-    protected static function _getStyles()
-    {
-        return StyleResource::collection(
-            \Styles::enabled(['currentI18n'])
-        );
-    }
-
-    /**
-     * Получение комнат.
-     */
-    protected static function _getRooms()
-    {
-        return RoomResource::collection(
-            \Rooms::enabled(['currentI18n'])
-        );
-    }
-
-    /**
-     * Получение комнат.
-     */
-    protected static function _getBadgeTypes()
-    {
-        return BadgeTypeResource::collection(
-            \BadgeTypes::getCollection(['currentI18n'])
-        );
-    }
-
     protected static function _getBanners()
     {
-        return \Cache::remember(self::makeKey('banners'), 18000, function() {
+        return \Cache::remember(self::makeCacheKey('banners'), 18000, function() {
             $query = Banner::enabled()
-                ->with('currentI18n', 'places')
+                ->with('places')
                 ->orderBy('position', 'asc')
                 ->orderBy('id', 'desc');
 
@@ -192,12 +174,5 @@ class DataController extends Controller
         });
     }
 
-    protected static function makeKey($key)
-    {
-        return implode('::', [
-            static::$cacheKey,
-            app()->getLocale(),
-            $key
-        ]);
-    }
+
 }

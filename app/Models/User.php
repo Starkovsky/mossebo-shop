@@ -9,7 +9,7 @@ use App\Support\Traits\Models\UserNotifications;
 use Cog\Contracts\Love\Liker\Models\Liker as LikerContract;
 use Cog\Laravel\Love\Liker\Models\Traits\Liker;
 
-use App\Models\Shop\Order;
+use App\Models\Shop\Order\Order;
 use App\Models\Shop\Promo\PromoUse;
 
 

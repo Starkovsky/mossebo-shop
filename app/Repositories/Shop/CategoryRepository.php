@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Shop;
 
 use Illuminate\Support\Collection;
-use MosseboShopCore\Repositories\CategoryRepository as BaseCategoryRepository;
-use App\Models\Shop\Category;
+use MosseboShopCore\Repositories\Shop\CategoryRepository as BaseCategoryRepository;
+use App\Models\Shop\Category\Category;
 
 class CategoryRepository extends BaseCategoryRepository
 {
@@ -16,8 +16,8 @@ class CategoryRepository extends BaseCategoryRepository
     public function getCollectionRaw(): Collection
     {
         return Category::enabled()
-            ->localized()
-            ->with('image', 'productCounts')
+            ->withProductCount()
+            ->with('image')
             ->get();
     }
 }

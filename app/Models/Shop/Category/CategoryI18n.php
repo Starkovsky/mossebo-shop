@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Shop\Category;
 
-use MosseboShopCore\Models\Shop\CategoryI18n as BaseCategoryI18n;
+use MosseboShopCore\Models\Shop\Category\CategoryI18n as BaseCategoryI18n;
 
 class CategoryI18n extends BaseCategoryI18n
 {

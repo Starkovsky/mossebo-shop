@@ -5,7 +5,7 @@ namespace App\Shop;
 use Route;
 use App\Shop\Cart\Promo\PromoCode;
 use MosseboShopCore\Shop\Shop as BaseShop;
-use App\Models\Shop\Promo\PromoCode as PromoCodeResource;
+use App\Models\Shop\Promo\PromoCode as PromoCodeModel;
 
 class Shop extends BaseShop
 {
@@ -19,7 +19,7 @@ class Shop extends BaseShop
             return false;
         }
 
-        $promoCodeResource = PromoCodeResource::where('id', $defaultPromoCodeId)->first();
+        $promoCodeResource = PromoCodeModel::where('id', $defaultPromoCodeId)->first();
 
         if (! $promoCodeResource) {
             return false;

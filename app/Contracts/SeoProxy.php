@@ -12,7 +12,7 @@ interface SeoProxy
 
     public static function setImage(string $pathToImage): void;
 
-    public static function setMetaFromI18nModel(BaseModel $modelObj): void;
+    public static function setMetaFromModel(BaseModel $modelObj): void;
 
     public static function setImageFromModel(BaseModel $modelObj, string $conversionName): void;
 
