@@ -7,7 +7,7 @@
         <div class="promo-form__input">
             <div class="form-group js-form-group">
                 <div class="promo-input">
-                    <div>
+                    <div class="promo-input__main">
                         <div class="promo-input__group form-input-group">
                             <input
                                 :value="query"
