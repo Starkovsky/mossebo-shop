@@ -1,14 +1,12 @@
 .banner {
     width: 100%;
-    padding: 24px;
+    padding: 45px 24px 24px;
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
-    height: 100%;
-    min-height: 490px;
+    height: 490px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden;
     position: relative;
     background-position: center center;
@@ -16,29 +14,13 @@
     background-size: cover;
 
     &__bottom {
-        height: 208px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        flex-grow: 2;
     }
 
     &__accent-box {
-        position: relative;
-        width: 100%;
-        max-width: 298px;
-        max-height: 250px;
-        overflow: hidden;
-
-        &:before {
-            content: "";
-            display: block;
-            padding-top: 100%;
-            transition: .3s;
-            position: relative;
-        }
-    }
-
-    &__image-box {
         position: relative;
         width: 100%;
         max-width: 298px;
@@ -72,11 +54,81 @@
     }
 
     &__title {
-        font-size: 24px / 30px;
+        font-size: 24px / 1.25em;
         font-weight: 500;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    &--medium &__title {
+        &--1,
+        &--2,
+        &--3,
+        &--4 {
+            font-size: 80px;
+        }
+
+        &--5 {
+            font-size: 60px;
+        }
+
+        &--6 {
+            font-size: 42px;
+        }
+
+        &--7 {
+            font-size: 36px;
+        }
+
+        &--8 {
+            font-size: 30px;
+        }
+    }
+
+    &--big &__title {
+        font-size: 36px;
+
+        &--1,
+        &--2,
+        &--3,
+        &--4,
+        &--5 {
+            font-size: 80px;
+        }
+
+        &--6 {
+            font-size: 60px;
+        }
+
+        &--7 {
+            font-size: 52px;
+        }
+
+        &--8 {
+            font-size: 42px;
+        }
+    }
+
+    &--long &__title {
+        &--1,
+        &--2,
+        &--3,
+        &--4 {
+            font-size: 60px;
+        }
+
+        &--5 {
+            font-size: 52px;
+        }
+
+        &--6 {
+            font-size: 42px;
+        }
+
+        &--7 {
+            font-size: 32px;
+        }
     }
 
     &__caption {
@@ -85,7 +137,6 @@
         overflow: hidden;
         color: #fff;
         text-align: center;
-        margin-bottom: 25px;
     }
 
     &__button {
@@ -97,12 +148,12 @@
 
     @include media-breakpoint-up(sm) {
         &--long {
+            padding: 24px;
             min-height: auto;
             height: auto;
-            flex-direction: row;
             flex-wrap: wrap;
             justify-content: flex-end;
-            align-items: center;
+            align-items: flex-end;
         }
         //
         &--long &__title {
@@ -122,37 +173,35 @@
         &--long &__bottom {
             width: calc(100% - 190px);
             height: 100%;
-            flex-direction: row;
-        }
-
-        &--long &__button {
-            margin-top: 0;
+            flex-direction: column;
         }
 
         &--long &__image {
             background-size: contain;
         }
 
-        &--big &__title {
-            font-size: 60px;
+        &--long &__caption {
+            height: auto;
+            max-height: 48px;
+            overflow: hidden;
         }
     }
 
-    @media (min-width: 768px) {
+    @include media-breakpoint-up(md) {
         &--long &__bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             flex-wrap: wrap;
+            flex-direction: row;
+            align-items: center
+        }
+
+        &--long &__button {
+            margin-top: 0;
         }
 
         &--long &__caption {
             width: calc(100% - 216px);
             margin-bottom: 0;
             text-align: left;
-            height: auto;
-            max-height: 48px;
-            overflow: hidden;
             padding-right: 32px;
         }
     }

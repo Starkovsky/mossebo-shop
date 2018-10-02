@@ -20,6 +20,24 @@
 
     &__button {
         margin-left: 24px;
+        flex-grow: 2;
+        text-align: right;
+    }
+
+    &__title {
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    @include media-breakpoint-up(sm) {
+        &__bg {
+            justify-content: center;
+        }
+
+        &__title,
+        &__button {
+            flex-grow: unset;
+        }
     }
 
     @include media-breakpoint-up(md) {

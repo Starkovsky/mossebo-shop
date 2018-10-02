@@ -7,18 +7,18 @@ export default {
 
     state: {
         types: {
-            tile: {
+            default: {
                 icon: 'symbol-tile',
-                title: Core.translate('tile')
+                title: Core.translate('default')
             },
 
-            list: {
+            long: {
                 icon: 'symbol-list',
-                title: Core.translate('list')
+                title: Core.translate('long')
             },
         },
 
-        active: 'tile'
+        active: 'default'
     },
 
     actions: {

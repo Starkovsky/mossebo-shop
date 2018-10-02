@@ -36,6 +36,10 @@
 
 @include('shop.layouts.metrika')
 
+@if (Shop::isFranchisee())
+    @include('shop.layouts.franchisee')
+@endif
+
 
 </body>
 </html>

@@ -54,7 +54,7 @@
                                 </div>
 
                                 <div class="product-preview__price">
-                                    {{ $point->product->getPrice()->getFormatted() }}
+                                    {{ $point->product->getActualPrice()->getFormatted() }}
                                 </div>
 
                                 <div class="product-preview__button">

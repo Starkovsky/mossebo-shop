@@ -98,7 +98,7 @@
 </template>
 
 <script>
-    import mixin from './mixin'
+    import mixin from './types/mixin'
     import Timer from '../../../Timer'
     import ProductImagesHat from '../../../../mixins/ProductImagesHat'
     import BackgroundImageLoader from '../../../imageLoaders/BackgroundImageLoader'
@@ -117,7 +117,6 @@
         },
 
         props: {
-            saleTime: null,
             small: {
                 type: Boolean,
                 default: false,
@@ -143,7 +142,6 @@
             },
         },
 
-
         computed: {
             images() {
                 if (! (this.product && this.product.images && this.product.images.length)) return []
@@ -153,7 +151,7 @@
 
             isSmall() {
                 return this.small || this.$root.isMobile
-            }
+            },
         }
     }
 </script>

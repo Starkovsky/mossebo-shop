@@ -5,8 +5,7 @@
         <banner
             :id="banner.id"
 
-            :classNameModificators="isLong ? 'long' : undefined"
-
+            :is-long="isLong"
             :link="banner.link"
             :title="banner.title"
             :caption="banner.caption"

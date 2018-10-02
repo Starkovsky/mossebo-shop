@@ -1,8 +1,8 @@
 <template>
     <component
-        :is="buttonText ? 'div' : 'a'"
-        :href="buttonText ? null : link"
-        :class="classNameWithModificators('header-banner') + ' header-banner--' + id"
+        :is="hasButton ? 'div' : 'a'"
+        :href="hasButton ? null : link"
+        :class="classNameWithModificators('header-banner', id)"
     >
         <template v-if="backgroundImage">
             <background-image-loader
@@ -11,10 +11,14 @@
                 :screen="true"
                 class="header-banner__bg"
             >
-                <div v-html="title" :style="{color: titleColor}" class="header-banner__title"></div>
+                <div
+                    v-html="title"
+                    :style="{color: titleColor}"
+                    :class="classNameWithModificators('header-banner__title', titleLength)"
+                ></div>
 
                 <div v-if="buttonText" class="header-banner__button">
-                    <a :style="buttonStyle" :href="link" class="button button-long button-small button-shadow">
+                    <a :style="buttonStyle" :href="link" class="button button-small button-shadow">
                         {{ buttonText }}
                     </a>
                 </div>
@@ -27,10 +31,14 @@
                 :style="{backgroundImage: gradient}"
                 class="header-banner__bg"
             >
-                <div v-html="title" :style="{color: titleColor}" class="header-banner__title"></div>
+                <div
+                    v-html="title"
+                    :style="{color: titleColor}"
+                    :class="classNameWithModificators('header-banner__title', titleLength)"
+                ></div>
 
                 <div v-if="buttonText" class="header-banner__button">
-                    <a :style="buttonStyle" :href="link" class="button button-long button-small button-shadow">
+                    <a :style="buttonStyle" :href="link" class="button button-small button-shadow">
                         {{ buttonText }}
                     </a>
                 </div>
@@ -82,6 +90,10 @@
 
                 return false
             },
+
+            titleLength() {
+                return Math.ceil(this.title.length / 5)
+            }
         }
     }
 </script>

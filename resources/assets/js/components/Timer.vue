@@ -84,26 +84,37 @@
             time: Number
         },
 
+        watch: {
+            time: function() {
+                this.elapsed = 0
+                this.start = new Date().getTime()
+            }
+        },
+
         data() {
             return {
-                elapsed: 0,
                 days: 0,
                 hours: 0,
                 minutes: 0,
                 seconds: 0,
-                stopped: false
+                stopped: false,
+                start: null,
+                elapsed: 0,
             }
         },
 
         mounted() {
-            let start = performance.now()
+            this.start = new Date().getTime()
 
-            let animate = time => {
-                this.elapsed = (time - start) / 1000
+            let animate = () => {
+                let elapsed = (new Date().getTime() - this.start) / 1000
 
-                this.tick()
+                if (elapsed - this.elapsed > 0.1) {
+                    this.elapsed = elapsed
+                    this.tick()
+                }
 
-                if (this.timeLeft > 0 && !this.stopped) {
+                if (! (this.stopped || this.isDone())) {
                     requestAnimationFrame(animate)
                 }
             }
@@ -132,6 +143,8 @@
                 this.minutes = Math.floor(left / minute)
 
                 this.seconds = Math.floor(left - minute * this.minutes)
+
+                this.$emit('tick', this.timeLeft)
             },
 
             prepareNum(num) {

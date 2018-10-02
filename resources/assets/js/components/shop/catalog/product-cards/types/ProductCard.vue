@@ -75,6 +75,7 @@
 
     export default {
         name: "ProductCard",
+
         mixins: [
             mixin
         ],

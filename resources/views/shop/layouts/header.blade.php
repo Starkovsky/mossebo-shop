@@ -25,7 +25,6 @@
         ></header-banner>
     </div>
 @endif
-
 <header class="header js-fixed-menu">
     <div class="header__fixer"></div>
     <div class="header__fixed js-fixed-menu-container">

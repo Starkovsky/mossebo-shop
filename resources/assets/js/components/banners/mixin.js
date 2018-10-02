@@ -27,6 +27,7 @@ export default {
         },
 
         title: String,
+        caption: String,
         buttonText: String,
 
         link: String,
@@ -41,7 +42,7 @@ export default {
     methods: {
         makeBackgroundUrl(image) {
             return 'url(' + image + ')'
-        }
+        },
     },
 
     computed: {
@@ -74,5 +75,9 @@ export default {
 
             return this.gradient
         },
+
+        hasButton() {
+            return !! this.buttonText
+        }
     }
 }

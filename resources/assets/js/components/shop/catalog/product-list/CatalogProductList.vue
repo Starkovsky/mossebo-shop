@@ -1,6 +1,6 @@
 <template>
     <div class="catalog-product-list" v-if="!loading">
-        <div :class="{row: true, 'row--half': cardType$ === 'mobile' || cardType$ === 'list', [rowClass]: true}">
+        <div :class="{row: true, 'row--half': cardType$ === 'mobile' || cardType$ === 'long', [rowClass]: true}">
             <template v-for="(product, index) in products">
                 <catalog-banner
                     :index="index"
@@ -8,11 +8,11 @@
                 ></catalog-banner>
 
                 <div :class="cardClass" :key="product.id">
-                    <component
-                        :is="cardComponent"
+                    <product-card-mother
                         :product="product"
+                        :types="cardType$"
                         v-show="show"
-                    ></component>
+                    ></product-card-mother>
                 </div>
             </template>
         </div>
@@ -22,17 +22,13 @@
 <script>
 
     import CatalogBanner from "../banner/CatalogBanner"
-    import ProductCard from "../product-cards/ProductCard"
-    import ProductCardLong from "../product-cards/ProductCardLong"
-    import ProductCardMobile from "../product-cards/ProductCardMobile"
+    import ProductCardMother from "../product-cards/ProductCardMother"
 
     export default {
         name: "ProductList",
 
         components: {
-            ProductCard,
-            ProductCardLong,
-            ProductCardMobile,
+            ProductCardMother,
             CatalogBanner
         },
 
@@ -44,7 +40,7 @@
 
             cardType: {
                 type: String,
-                default: () => 'tile'
+                default: () => 'default'
             },
 
             noMobileCard: {
@@ -74,7 +70,6 @@
         data() {
             return {
                 show: !this.loading,
-                type: 'long'
             }
         },
 
@@ -88,15 +83,6 @@
                     this.show = !this.loading
                 })
             },
-
-            switchType() {
-                if (this.type === 'default') {
-                    this.type = 'long'
-                }
-                else {
-                    this.type = 'default'
-                }
-            }
         },
 
         computed: {
@@ -113,11 +99,11 @@
                 let className
 
                 switch (this.cardType$) {
-                    case 'tile':
+                    case 'default':
                         className = {'catalog-product-list__product': true, [this.tileCardClass]: true}
                         break
 
-                    case 'list':
+                    case 'long':
                         className = {'catalog-product-list__product': true, [this.listCardClass]: true}
                         break
 
@@ -128,26 +114,6 @@
 
                 return className
             },
-
-            cardComponent() {
-                let componentName
-
-                switch (this.cardType$) {
-                    case 'tile':
-                        componentName = 'product-card'
-                        break
-
-                    case 'list':
-                        componentName = 'product-card-long'
-                        break
-
-                    case 'mobile':
-                        componentName = 'product-card-mobile'
-                        break
-                }
-
-                return componentName
-            }
         }
     }
 </script>

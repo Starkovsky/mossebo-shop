@@ -3,8 +3,8 @@
         class="badge"
         :style="{backgroundColor: color}"
         :title="title"
-        :data-toggle="title && noTooltip ? 'tooltip' : false"
-        :data-placement="title && noTooltip ? 'top' : false"
+        :data-toggle="title && !noTooltip ? 'tooltip' : false"
+        :data-placement="title && !noTooltip ? 'top' : false"
     >
         <div class="badge__content">
             <template v-if="icon">

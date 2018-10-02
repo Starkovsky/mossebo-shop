@@ -10,6 +10,7 @@ use App\Models\Shop\Promo\PromoCode as PromoCodeModel;
 class Shop extends BaseShop
 {
     protected $route = null;
+    protected $user = null;
 
     public function getDefaultPromoCode()
     {
@@ -52,5 +53,65 @@ class Shop extends BaseShop
             'style-catalog',
             'style-category',
         ]);
+    }
+
+    public function user()
+    {
+        if (is_null($this->user)) {
+            $prefix = app('request')->route()->getPrefix();
+
+            if (strpos($prefix, 'api/') === 0) {
+                $this->user = Auth::guard('api')->user();
+            }
+            else {
+                $this->user = Auth::user();
+            }
+        }
+
+        return $this->user;
+    }
+
+    public function isFranchiseeDomain()
+    {
+        return strpos(request()->getHost(), 'f.') === 0;
+    }
+
+    public function userIsFranchisee()
+    {
+        $user = $this->user();
+
+        return $user && $user->isFranchisee();
+    }
+
+    public function isFranchisee()
+    {
+        return $this->isFranchiseeDomain() && $this->userIsFranchisee();
+    }
+
+    public function getCurrentPriceTypeId()
+    {
+        if ($this->isFranchisee()) {
+            return config('shop.price.types.franchisee');
+        }
+
+        return $this->getDefaultPriceTypeId();
+    }
+
+
+
+
+
+
+
+
+    protected $salesHandler = null;
+
+    public function sales()
+    {
+        if (is_null($this->salesHandler)) {
+            $this->salesHandler = new \App\Shop\Sale\Sale();
+        }
+
+        return $this->salesHandler;
     }
 }

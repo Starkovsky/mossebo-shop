@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Shop;
 
 class ProductResource extends JsonResource
 {
@@ -58,7 +59,12 @@ class ProductResource extends JsonResource
         }
 
         if ($this->relationNotEmpty('salePrice')) {
-            $data['sale_price'] = $this->salePrice->value;
+            if (Shop::sales()->itemHasSale($this->resource)) {
+                $data['sale'] = [
+                    'price' => $this->resource->salePrice->value,
+                    'time' => Shop::sales()->getItemSaleTime($this->resource),
+                ];
+            }
         }
 
         if ($this->relationNotEmpty('attributeOptionRelations')) {

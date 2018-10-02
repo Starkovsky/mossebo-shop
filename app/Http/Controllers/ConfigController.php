@@ -6,10 +6,17 @@ use Cities;
 use Auth;
 use Shop;
 use App\Http\Resources\Cart\PromoCodeResource;
-use Illuminate\Support\Collection;
+use App\Http\Controllers\Shop\DataController;
 
 class ConfigController extends Controller
 {
+    protected $user = null;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     public function index()
     {
         $lang = \Languages::getCollection()->first();
@@ -21,6 +28,7 @@ class ConfigController extends Controller
             'currency' => [
                 'code' => $lang->currency_code
             ],
+            'base_time' => time()
         ];
 
         $this->__connectTranslates($config);
@@ -28,8 +36,17 @@ class ConfigController extends Controller
         $this->__connectUserData($config);
         $this->__connectDefaultPromo($config);
         $this->__connectBanners($config);
+        $this->__connectFranchisee($config);
+        $this->__connectDataTypes($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
+    }
+
+    protected function __connectFranchisee(& $config)
+    {
+        if (Shop::isFranchiseeDomain() && $this->user && $this->user->isFranchisee()) {
+            $config['user']['token'] = $this->user->api_token;
+        }
     }
 
 
@@ -55,19 +72,17 @@ class ConfigController extends Controller
 
     protected function __connectUserData(& $config)
     {
-        $user = Auth::user();
-
-        if (! $user) return;
+        if (! $this->user) return;
 
         $config['user'] = [
-            'id'         => $user->id,
-            'first_name' => $user->first_name,
-            'last_name'  => $user->last_name,
-            'phone'      => $user->phone,
-            'email'      => $user->email,
-            'city'       => $user->city,
-            'address'    => $user->address,
-            'post_code'  => $user->post_code,
+            'id'         => $this->user->id,
+            'first_name' => $this->user->first_name,
+            'last_name'  => $this->user->last_name,
+            'phone'      => $this->user->phone,
+            'email'      => $this->user->email,
+            'city'       => $this->user->city,
+            'address'    => $this->user->address,
+            'post_code'  => $this->user->post_code,
         ];
 
         foreach ($config['user'] as $key => $value) {
@@ -76,8 +91,8 @@ class ConfigController extends Controller
             }
         }
 
-        if ($user->getPriceTypeId() !== Shop::getDefaultPriceTypeId()) {
-            $user['promoDisabled'] = true;
+        if ($this->user->getPriceTypeId() !== Shop::getDefaultPriceTypeId()) {
+            $this->user['promoDisabled'] = true;
         }
     }
 
@@ -100,5 +115,10 @@ class ConfigController extends Controller
             $config['banners']['catalogFilters'] = $bannersController->random(3, 8);
             $config['banners']['catalogList'] = $bannersController->random(4, 8);
         }
+    }
+
+    protected function __connectDataTypes(& $config)
+    {
+        $config['data-types'] = DataController::getDataTypes();
     }
 }

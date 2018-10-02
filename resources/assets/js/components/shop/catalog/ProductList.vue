@@ -13,10 +13,11 @@
                         class="product-list__product col-lg-3"
                         :key="product.id"
                     >
-                        <product-card
+                        <product-card-mother
                             :product="product"
                             :no-image-loading="true"
-                        ></product-card>
+                            :types="['default', 'sale']"
+                        ></product-card-mother>
                     </div>
                 </template>
             </div>
@@ -26,9 +27,10 @@
 
 <script>
     import Loading from '../../Loading'
-    import ProductCard from "./product-cards/ProductCard"
+    import ProductCardMother from "./product-cards/ProductCardMother"
     import RequestMixin from '../../../mixins/RequestMixin'
     import MobileSliderMixin from '../../../mixins/MobileSliderMixin'
+    import Product from '../../../scripts/shop/Product'
 
     export default {
         name: "ProductList",
@@ -40,7 +42,7 @@
 
         components: {
             Loading,
-            ProductCard,
+            ProductCardMother,
         },
 
         data () {
@@ -82,7 +84,7 @@
                     }
                 }
                 else {
-                    this.products = products.slice(0, this.limit)
+                    this.products = products.slice(0, this.limit).map(product => new Product(product))
 
                     this.$nextTick(() => {
                         this.makeSlider()

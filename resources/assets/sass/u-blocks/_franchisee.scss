@@ -1,0 +1,27 @@
+.franchisee-screen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: $color-primary;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__content {
+        padding: 48px 16px;
+        text-align: center;
+    }
+
+    &__button {
+        margin-top: 48px;
+    }
+
+    &.hidden {
+        opacity: 0;
+        visibility: hidden;
+        z-index: -999;
+    }
+}

@@ -35,6 +35,12 @@ export default class Request {
             ... data
         }
 
+        let token = Core.user.getToken()
+
+        if (token) {
+            data.api_token = token
+        }
+
         if (['post', 'put', 'patch'].indexOf(method) !== -1) {
             config.data = data
         }
@@ -75,7 +81,7 @@ export default class Request {
             })
             .catch(error => {
                 if (axios.isCancel(error)) return
-                console.log(error)
+                console.error(error)
 
                 let response = error.response || {}
 

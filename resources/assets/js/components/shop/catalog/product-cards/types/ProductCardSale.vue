@@ -32,7 +32,7 @@
                     </div>
 
                     <timer
-                        :time="getSaleTime()"
+                        :time="product.sale.remainedTime()"
                         :class-name-modificators="'medium'"
                     ></timer>
                 </div>
@@ -43,17 +43,27 @@
                    @mouseleave="unHover"
                 >
                     <div class="product-card-promo__image-box">
-                        <background-image-loader
-                            v-if="image"
-                            :key="image.id"
-                            class="product-card-promo__image"
-                            :screen="true"
-                            :image="prepareImage(image.small.src)"
-                            :retina-image="prepareImage(image.small.srcset)"
-                            :reset="true"
-                        ></background-image-loader>
+                        <div
+                            class="product-thumbs-slider"
+                            v-if="product.previews.length > 1"
+                            @mouseleave="showImage(0)"
+                        >
+                            <div
+                                class="product-thumbs-slider__item"
+                                @mouseover="showImage(index)"
+                                v-for="(image, index) in product.previews"
+                            ></div>
+                        </div>
 
-                        <div v-else class="product-card-promo__image"></div>
+                        <template v-for="(image, index) in product.previews">
+                            <product-card-image
+                                :key="image.id"
+                                v-show="currentImage === index"
+                                class="product-card__image"
+                                :image="image"
+                                :no-image-loading="noImageLoading"
+                            ></product-card-image>
+                        </template>
                     </div>
                 </a>
 
@@ -127,8 +137,9 @@
 
                         <div class="action-small-timer__timer">
                             <timer
-                                :time="getSaleTime()"
-                                :class-name-modificators="getSaleTime() < 86400 ? 'big' : 'medium'"
+                                :time="product.sale.remainedTime()"
+                                :class-name-modificators="timerSize"
+                                @tick="setTimeLeft"
                             ></timer>
                         </div>
                     </div>
@@ -188,8 +199,8 @@
                             :key="image.id"
                             class="product-card-promo__image"
                             :screen="true"
-                            :image="prepareImage(image.small.src)"
-                            :retina-image="prepareImage(image.small.srcset)"
+                            :image="prepareImage(image.src)"
+                            :retina-image="prepareImage(image.srcset)"
                             :reset="true"
                         ></background-image-loader>
 
@@ -197,16 +208,16 @@
                     </div>
                 </a>
 
-                <div v-if="!isSmall && product.images && product.images.length > 0" class="product-card-promo__thumbs">
+                <div v-if="!isSmall && previews" class="product-card-promo__thumbs">
                     <div class="product-thumbs">
                         <div class="product-thumbs__container d-flex">
-                            <template v-for="image in images">
+                            <template v-for="image in previews">
                                 <div :key="image.id" class="product-thumbs__item">
                                     <div @click="setImage(image.id)" class="product-thumbs__btn">
                                         <background-image-loader
                                             class="product-thumbs__image"
-                                            :image="prepareImage(image.thumb.src)"
-                                            :retina-image="prepareImage(image.thumb.srcset)"
+                                            :image="prepareImage(image.src)"
+                                            :retina-image="prepareImage(image.srcset)"
                                         ></background-image-loader>
                                     </div>
                                 </div>
@@ -242,13 +253,13 @@
 
 <script>
     import mixin from './mixin'
-    import Timer from '../../../Timer'
-    import ProductImagesHat from '../../../../mixins/ProductImagesHat'
-    import BackgroundImageLoader from '../../../imageLoaders/BackgroundImageLoader'
-    import Badge from '../../badges/Badge'
+    import Timer from '../../../../Timer'
+    import Badge from '../../../badges/Badge'
+    import ProductImagesHat from '../../../../../mixins/ProductImagesHat'
+    import BackgroundImageLoader from '../../../../imageLoaders/BackgroundImageLoader'
 
     export default {
-        name: "ProductCardSaleSmall",
+        name: "ProductCardSale",
 
         mixins: [
             mixin,
@@ -261,20 +272,13 @@
             Badge
         },
 
-        props: {
-            saleTime: null,
-            small: {
-                type: Boolean,
-                default: false,
-            }
-        },
-
         data() {
             return {
                 image: false,
                 linkIsHovered: false,
                 isSmall: false,
                 startTime: null,
+                timeLeft: this.product.sale.remainedTime(),
             }
         },
 
@@ -283,8 +287,8 @@
         },
 
         mounted() {
-            if (this.images.length) {
-                this.image = this.images[0]
+            if (this.previews) {
+                this.image = this.previews[0]
             }
 
             this.$root.$on('resize', this.checkSize)
@@ -293,7 +297,7 @@
 
         methods: {
             setImage(id) {
-                this.image = this.product.images.find(image => image.id === id)
+                this.image = this.previews.find(image => image.id === id)
             },
 
             hover() {
@@ -317,16 +321,16 @@
                 }
             },
 
-            getSaleTime() {
-                return this.saleTime - parseInt((performance.now() - this.startTime) / 1000)
+            setTimeLeft(time) {
+                this.timeLeft = time
             }
         },
 
         computed: {
-            images() {
-                if (! (this.product && this.product.images && this.product.images.length)) return []
+            previews() {
+                if (! (this.product && this.product.previews && this.product.previews.length)) return false
 
-                return this.product.images.slice(0, 3)
+                return this.product.previews.slice(0, 3)
             },
 
             maxPrice() {
@@ -334,7 +338,7 @@
             },
 
             minPrice() {
-                return this.product.sale_price
+                return this.product.sale.price
             },
 
             discountPercent() {
@@ -347,6 +351,10 @@
                 if (this.maxPrice > this.minPrice) {
                     return this.maxPrice - this.minPrice
                 }
+            },
+
+            timerSize() {
+                return this.timeLeft < 86400 ? 'big' : 'medium'
             }
         }
     }

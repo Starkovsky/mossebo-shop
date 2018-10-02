@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Shop;
 
 use Illuminate\Support\Collection;
 
+use Shop;
 use Auth;
 use SeoProxy;
 use BadgeTypes;
 use App\Models\Shop\Product\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
+
 
 class ProductController extends Controller
 {
@@ -31,17 +33,16 @@ class ProductController extends Controller
      */
     public function index($id)
     {
-        $product = Product::with(
-            'badges',
-            'images',
-            'currentPrice',
-            'salePrice',
-            'oldPrice',
-            'attributeRelations',
-            'attributeOptions',
-            'supplier'
-        )
-            ->where('enabled','=',true)
+        $product = Product::enabled()
+            ->with(
+                'badges',
+                'images',
+                'currentPrice',
+                'salePrice',
+                'oldPrice',
+                'attributeRelations',
+                'attributeOptions'
+            )
             ->findOrFail($id);
 
         if (! $product->canBeShowed()) {

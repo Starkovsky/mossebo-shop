@@ -1,22 +1,35 @@
+function addModifs(acc, modifs) {
+    if (_.isString(modifs)) {
+        modifs = [modifs]
+    }
+
+    if (_.isArray(modifs)) {
+        acc = [
+            ... acc,
+            ... modifs
+        ]
+    }
+
+    return acc
+}
+
+
 export default {
     props: [
         'classNameModificators'
     ],
 
     methods: {
-        classNameWithModificators(baseClass) {
-            let addModif = (acc, modif) => acc + ' ' + baseClass + '--' + modif
-            let modif = this.classNameModificators
+        classNameWithModificators(baseClass, modifs) {
+            let modifiers = addModifs([], this.classNameModificators)
+            modifiers = addModifs(modifiers, _.isArray(modifs) ? modifs : [].slice.call(arguments, 1))
 
-            if (_.isArray(modif)) {
-                return modif.reduce(addModif, baseClass)
+
+            if (_.isEmpty(modifiers)) {
+                return baseClass
             }
 
-            if (_.isString(modif)) {
-                return addModif(baseClass, modif)
-            }
-
-            return baseClass
+            return baseClass + ' ' + modifiers.map(modif => baseClass + '--' + modif).join(' ')
         }
     }
 }

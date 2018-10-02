@@ -32,7 +32,7 @@ import Reviews from './components/reviews/Reviews'
 import Catalog from './components/shop/catalog/Catalog'
 import CatalogSearch from './components/shop/catalog/CatalogSearch'
 import ProductList from './components/shop/catalog/ProductList'
-import ProductCard from './components/shop/catalog/product-cards/ProductCard'
+import ProductCard from './components/shop/catalog/product-cards/types/ProductCard'
 import FormattedPrice from './components/shop/price/FormattedPrice'
 import Checkout from './components/shop/checkout/Checkout'
 import Cabinet from './components/shop/cabinet/Cabinet'
@@ -350,5 +350,3 @@ $('.js-form-popup').fancybox(
         })
     }
 }())
-
-

@@ -1,5 +1,6 @@
 import * as actionTypes from './types'
 import storageActionsExtension from '../storageActionsExtension'
+import Product from '../../scripts/shop/Product'
 import Request from '../../scripts/Request'
 import FilterModule from './modules/filters'
 import SortModule from './modules/sort'
@@ -96,7 +97,7 @@ export default {
         },
 
         setProducts({commit}, products) {
-            commit(actionTypes.CATALOG_SET_PRODUCTS, products)
+            commit(actionTypes.CATALOG_SET_PRODUCTS, products.map(product => new Product(product)))
         },
 
         setActiveProductIndexes({commit}, activeProductIndexes) {

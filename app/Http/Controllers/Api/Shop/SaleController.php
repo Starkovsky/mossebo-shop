@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Shop;
 use Shop;
 use App\Support\Traits\Cacheable;
 use App\Models\Shop\Product\Product;
-use App\Models\Shop\Product\ProductSale;
+use App\Models\Shop\Sale\Sale;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\ProductResource;
 
@@ -19,28 +19,32 @@ class SaleController extends ApiController
     {
         $now = \Carbon\Carbon::now();
 
-        $productsToSale = ProductSale::where('date_start', '<', $now)
+        $productsToSale = Sale::where('date_start', '<', $now)
             ->where('date_finish', '>', $now)
+            ->where('item_type', 'product')
             ->get();
 
         $product = Product::enabled()
             ->with([
-                'images',
+                'previews',
                 'currentPrice',
                 'salePrice',
                 'oldPrice',
                 'salePrice',
             ])
-            ->whereIn('shop_products.id', array_column($productsToSale->toArray(), 'product_id'))
+            ->whereIn('shop_products.id', array_column($productsToSale->toArray(), 'item_id'))
             ->inRandomOrder()
             ->first();
 
         if ($product) {
-            $productToSale = $productsToSale->where('product_id', $product->id)->first();
-
             return [
+                'status' => 'success',
                 'product' => new ProductResource($product),
-                'sale_time' => $productToSale->date_finish->timestamp - $now->timestamp
+            ];
+        }
+        else {
+            return [
+                'status' => 'error',
             ];
         }
     }

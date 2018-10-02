@@ -1,6 +1,8 @@
 <template>
-    <div
-        :class="classNameWithModificators('banner') + ' banner--' + id"
+    <component
+        :is="hasButton ? 'div' : 'a'"
+        :href="hasButton ? null : link"
+        :class="classNameWithModificators('banner', id, type)"
         :style="{backgroundImage: background}"
     >
         <div class="banner__accent-box">
@@ -13,15 +15,22 @@
                 @onload="imageLoaded"
             ></background-image-loader>
 
-            <div v-else v-html="title" :style="{color: titleColor}" class="banner__title"></div>
+            <div
+                v-else
+                v-html="title"
+                :style="{color: titleColor}"
+                :class="classNameWithModificators('banner__title', titleLength)"
+            ></div>
         </div>
 
-
-
         <div class="banner__bottom">
-            <div v-html="caption" :style="{color: captionColor}" class="banner__caption"></div>
+            <div
+                v-html="caption"
+                :style="{color: captionColor}"
+                :class="classNameWithModificators('banner__caption', captionLength)"
+            ></div>
 
-            <div class="banner__button">
+            <div v-if="hasButton && link" class="banner__button">
                 <a
                     class="button button-long button-shadow"
                     :href="link"
@@ -32,11 +41,10 @@
                 </a>
             </div>
         </div>
-    </div>
+    </component>
 </template>
 
 <script>
-    import Core from '../../scripts/core'
     import Mixin from './mixin'
     import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
 
@@ -52,54 +60,54 @@
         },
 
         props: {
-            image: String,
-
+            isLong: false,
             backgroundImage: String,
+        },
 
-            gradientFrom: {
-                default: '#fcc600'
+        data() {
+            return {
+                elWidth: 0
+            }
+        },
+
+        mounted() {
+            this.$root.$on('resize', this.checkElSize)
+
+            this.$nextTick(() => {
+                this.checkElSize()
+            })
+        },
+
+        methods: {
+            imageLoaded() {
+                this.$emit('image-loaded')
             },
 
-            gradientTo: {
-                default: '#fdda55'
-            },
-
-            gradientIsRadial: {
-                default: false
-            },
-
-            gradientType: {
-                default: 'linear'
-            },
-
-            gradientAngle: {
-                default: 45,
-            },
-            title: String,
-
-            caption: String,
-
-            buttonText: {
-                type: String,
-                // todo: Назвать правильно
-                default: Core.translate('See details')
-            },
-
-            link: {
-                type: String
-            },
+            checkElSize() {
+                this.elWidth = this.$el.scrollWidth
+            }
         },
 
         computed: {
             linkIsOuter() {
                 return this.link.indexOf('http') === 0 && this.link.indexOf(window.location.host) === -1
             },
-        },
 
-        methods: {
-            imageLoaded() {
-                this.$emit('image-loaded')
+            titleLength() {
+                return this.title.length
+            },
+
+            captionLength() {
+                return Math.ceil(this.caption.length / 5)
+            },
+
+            type() {
+                if (this.isLong && this.$root.windowMoreThan('sm')) {
+                    return 'long'
+                }
+
+                return this.elWidth > 418 ? 'big' : 'medium'
             }
-        }
+        },
     }
 </script>

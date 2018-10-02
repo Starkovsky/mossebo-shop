@@ -21,14 +21,15 @@ class DataHandler extends BlankPlugin {
     }
 
     get(dataKeys = []) {
-        this.data = {}
-
         if (_.isString(dataKeys)) {
             dataKeys = [dataKeys]
         }
 
+        let availableKeys = Core.config('data-types')
+        dataKeys = dataKeys.filter(key => availableKeys.indexOf(key) !== -1)
+
         if (dataKeys.length === 0) {
-            return new Promise(resolve => resolve())
+            return new Promise(resolve => resolve({}))
         }
 
         return this.getData(dataKeys)
@@ -56,7 +57,7 @@ class DataHandler extends BlankPlugin {
     getData(dataKeys) {
         return new Promise(resolve => {
             dataKeys = dataKeys.reduce((acc, key) => {
-                if (!this.getFromStorage(key)) {
+                if (! this.getFromStorage(key)) {
                     acc.push(key)
                 }
 
@@ -67,7 +68,8 @@ class DataHandler extends BlankPlugin {
                 resolve(this.data)
             }
             else {
-                resolve(this.getFromServer(dataKeys))
+                this.getFromServer(dataKeys)
+                    .then(() => resolve(this.data))
             }
         })
     }
@@ -81,21 +83,26 @@ class DataHandler extends BlankPlugin {
             return acc
         }, [])
 
-        if (keys) {
-            this.requestDebouncer()
-        }
-
         keys.forEach(key => {
             if (this.keysToLoad.indexOf(key) === -1) {
                 this.keysToLoad.push(key)
             }
         })
 
-        return new Promise(resolve => {
-            this.one('loaded', () => {
-                resolve(this.data)
+        if (this.keysToLoad && this.keysToLoad.length) {
+            this.requestDebouncer()
+
+            return new Promise(resolve => {
+                let destroy = this.on('loaded', () => {
+                    if (dataKeys.filter(key => ! (key in this.data)).length === 0) {
+                        destroy()
+                        resolve()
+                    }
+                })
             })
-        })
+        }
+
+        return new Promise(resolve => resolve({}))
     }
 
     request() {

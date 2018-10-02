@@ -1,11 +1,11 @@
 import { mapGetters } from 'vuex'
-import Core from '../../../../scripts/core/index'
-import FormattedPrice from '../../price/FormattedPrice'
-import Rating from '../../../Rating'
-import ProductActions from '../../product/ProductActions'
-import ProductCardImage from './components/ProductCardImage'
-import ProductCardButton from './components/ProductCardButton'
-import Badges from '../../badges/Badges'
+import Core from '../../../../../scripts/core/index'
+import FormattedPrice from '../../../price/FormattedPrice'
+import Rating from '../../../../Rating'
+import ProductActions from '../../../product/ProductActions'
+import ProductCardImage from '../components/ProductCardImage'
+import ProductCardButton from '../components/ProductCardButton'
+import Badges from '../../../badges/Badges'
 
 export default {
     components: {
@@ -49,6 +49,6 @@ export default {
 
         inCart() {
             return !! this.cartProducts.find(item => item.id.toString() === this.product.id.toString())
-        }
+        },
     }
 }

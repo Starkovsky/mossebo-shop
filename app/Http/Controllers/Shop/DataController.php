@@ -44,7 +44,7 @@ class DataController extends Controller
         'badge-types' => [
             'repository' => BadgeTypes::class,
             'resource' => BadgeTypeResource::class,
-        ]
+        ],
     ];
 
     protected static $cacheNamespace = 'shop-data';
@@ -108,6 +108,8 @@ class DataController extends Controller
      */
     public static function get(Request $request)
     {
+        sleep(5);
+
         $keys = $request->input('dataKeys');
 
         if (empty($keys)) {
@@ -174,5 +176,20 @@ class DataController extends Controller
         });
     }
 
+    public static function getDataTypes()
+    {
+        $types = [];
+        $methods = get_class_methods(self::class);
 
+        foreach ($methods as $methodName) {
+            if (strpos($methodName, '_get') === 0) {
+                $types[] = strtolower(str_replace('_get', '', $methodName));
+            }
+        }
+
+        return array_merge(
+            array_keys(static::$repositories),
+            $types
+        );
+    }
 }

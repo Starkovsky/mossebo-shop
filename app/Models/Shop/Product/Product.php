@@ -134,7 +134,7 @@ class Product extends BaseProduct implements CartProductData
         return $this
             ->morphOne(Price::class, 'item')
             ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
-            ->where('price_type_id','=', '2');
+            ->where('price_type_id','=', Shop::getCurrentPriceTypeId());
     }
 
     public function oldPrice()
@@ -224,10 +224,19 @@ class Product extends BaseProduct implements CartProductData
         return true;
     }
 
-    // todo: доделать
-    public function getPrice()
+    /**
+     * Возвращает актуальную цену товара
+     *
+     * @return mixed
+     */
+    public function getActualPrice()
     {
-        $price = $this->currentPrice;
+        if ($this->relationNotEmpty('salePrice') && Shop::sales()->productInSale($this)) {
+            $price = $this->salePrice;
+        }
+        else {
+            $price = $this->currentPrice;
+        }
 
         return app()->makeWith(\MosseboShopCore\Contracts\Shop\Price::class, [
             'value' => $price->value,

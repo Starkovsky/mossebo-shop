@@ -1,8 +1,9 @@
 import cookie from './cookie'
 import Alerty from '../Alerty'
 import setMeta from '../MetaSetter'
+import timeHandler from './time'
 
-const Core = {
+let Core = {
     siteUrl(url = '') {
         if (url.indexOf('http') === 0) {
             return url
@@ -110,8 +111,17 @@ const Core = {
                 ... params
             })
         }
+    },
+
+
+    user: {
+        getToken() {
+            return Core.config('user.token')
+        }
     }
 }
+
+Core.time = new timeHandler(Core.config('base_time'))
 
 export default Core
 
