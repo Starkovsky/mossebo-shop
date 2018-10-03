@@ -35,9 +35,17 @@ export default class CookieStorage extends BaseStorage {
         let time = new Date
         time.setDate(time.getDate() + 21)
 
-        setCookie(key, this.prepareIncomingData(data), {
+        data = this.prepareIncomingData(data)
+
+        setCookie(key, data, {
             expires: time,
             domain: '.' + window.location.hostname,
+            path: '/',
+        })
+
+        setCookie(key, data, {
+            expires: time,
+            domain: window.location.hostname,
             path: '/',
         })
     }
