@@ -1,6 +1,6 @@
 import Core from '../core'
 
-export default class SaleTime
+export default class Sale
 {
     constructor(saleData) {
         this.data = saleData
@@ -40,5 +40,9 @@ export default class SaleTime
             finish  = this.finishTime()
 
         return start && finish && start < current && finish > start
+    }
+
+    getPrice() {
+        return this.data.price
     }
 }

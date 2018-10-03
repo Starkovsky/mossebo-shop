@@ -177,7 +177,11 @@ class Product extends BaseProduct implements CartProductData
 
         $query = self::enabled()
             ->where("{$productTable}.id", $id)
-            ->with('image', 'i18n', 'prices');
+            ->with(
+                'image',
+                'i18n',
+                'prices'
+            );
 
         if (! empty($options)) {
             $optionsTable = config('tables.AttributeOptions');

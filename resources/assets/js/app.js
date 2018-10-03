@@ -39,7 +39,6 @@ import Cabinet from './components/shop/cabinet/Cabinet'
 import CartBtn from './components/shop/cart/CartBtn'
 
 
-
 import ProductControls from './components/shop/product/ProductControls'
 import TabsHtml from './components/TabsHtml'
 import Rating from './components/Rating'
@@ -107,7 +106,35 @@ const app = new Vue({
     // mixins: [
     //
     // ],
+
+    created() {
+        this.resizeHandler = _.debounce(() => {
+            this.windowWidth = window.innerWidth
+            this.$emit('resize')
+        }, 50)
+
+        window.addEventListener('resize', this.resizeHandler, { passive: true })
+    },
+
+    mounted() {
+        initFixedMenu('.js-fixed-menu')
+
+        initMainMenu()
+
+        heightToggle('.js-ht', {
+            bindCloseEvents: true
+        })
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.resizeHandler)
+    },
+
     methods: {
+        touchResize() {
+            this.resizeHandler()
+        },
+
         windowLessThan(size) {
             return this.windowWidth < this.getBreakpoint(size)
         },
@@ -144,7 +171,7 @@ const app = new Vue({
 
         userId() {
             return Core.config('user.id')
-        }
+        },
     },
 
     computed: {
@@ -163,29 +190,6 @@ const app = new Vue({
         catalogUrl() {
             return Core.siteUrl('/catalog')
         }
-    },
-
-    created() {
-        this.resizeHandler = _.debounce(() => {
-            this.windowWidth = window.innerWidth
-            this.$emit('resize')
-        }, 50)
-
-        window.addEventListener('resize', this.resizeHandler, { passive: true })
-    },
-
-    mounted() {
-        initFixedMenu('.js-fixed-menu')
-
-        initMainMenu()
-
-        heightToggle('.js-ht', {
-            bindCloseEvents: true
-        })
-    },
-
-    beforeDestroy() {
-        window.removeEventListener('resize', this.resizeHandler)
     },
 });
 
@@ -350,3 +354,8 @@ $('.js-form-popup').fancybox(
         })
     }
 }())
+
+
+import {CookieStorageProxy} from './scripts/storage/CookieStorageProxy'
+
+window.CookieStorageProxy = CookieStorageProxy

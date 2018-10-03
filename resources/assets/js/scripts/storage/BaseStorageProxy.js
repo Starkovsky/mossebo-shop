@@ -26,12 +26,16 @@ export default class BaseStorageProxy {
         return key
     }
 
-    add(key, data) {
+    set(key, data) {
         key = this.prepareKey(key)
 
         this.__data[key] = data
 
         this.__storage.set(key, data)
+    }
+
+    add(key, data) {
+        this.set(key, data)
     }
 
     get(key) {

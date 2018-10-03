@@ -12,6 +12,7 @@ class EncryptCookies extends Middleware
      * @var array
      */
     protected $except = [
-        '__city::id'
+        '__city::id',
+        '__franchisee::screen-no-block'
     ];
 }

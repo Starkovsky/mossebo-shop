@@ -1,4 +1,4 @@
-import SaleTime from './SaleTime'
+import Sale from './Sale'
 
 export default class Product {
     constructor(productData) {
@@ -9,7 +9,7 @@ export default class Product {
         }
 
         if (this.hasSale()) {
-            this.sale = new SaleTime(this.sale)
+            this.sale = new Sale(this.sale)
         }
     }
 

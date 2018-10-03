@@ -2,6 +2,7 @@
 
 namespace App\Shop;
 
+use Auth;
 use Route;
 use App\Shop\Cart\Promo\PromoCode;
 use MosseboShopCore\Shop\Shop as BaseShop;

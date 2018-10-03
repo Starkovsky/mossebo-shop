@@ -36,21 +36,21 @@ class CartProductResource extends JsonResource
 
     protected function setPrice(& $data)
     {
-        $user = \Auth::user();
+        $getPrice = function($typeId) {
+            return $this->resource->getFinalPrice(
+                $typeId,
+                Shop::getCurrentCurrencyCode()
+            );
+        };
 
-        if (is_null($user)) {
-            $priceTypeId = Shop::getDefaultPriceTypeId();
+        if ($price = $getPrice(Shop::getCurrentPriceTypeId())) {
+            $data['price'] = $price->getValue();
         }
         else {
-            $priceTypeId = $user->getPriceTypeId();
+            if ($price = $getPrice(Shop::getDefaultPriceTypeId())) {
+                $data['price'] = $price->getValue();
+            }
         }
-
-        $price = $this->resource->getFinalPrice(
-            $priceTypeId,
-            Shop::getCurrentCurrencyCode()
-        );
-
-        $data['price'] = $price->getValue();
     }
 
     protected function setTitle(& $data)

@@ -24,6 +24,10 @@ export default {
         initSlider() {
             if (this.sliderInited) return
 
+            this.sliderEl$.on('init breakpoint', e => {
+                this.$root.touchResize()
+            })
+
             this.sliderEl$.slick(
                 this.getSliderSettings()
             );

@@ -3,51 +3,98 @@
     height: 56px;
 }
 
+//.header-banner {
+//    display: block;
+//    text-decoration: none !important;
+//
+//    &__bg {
+//        display: flex;
+//        align-items: center;
+//        justify-content: space-between;
+//        background-size: cover;
+//        background-position: center center;
+//        background-repeat: no-repeat;
+//        height: 56px;
+//        padding: 0 16px;
+//    }
+//
+//    &__button {
+//        margin-left: 24px;
+//        flex-grow: 2;
+//        text-align: right;
+//    }
+//
+//    &__title {
+//        flex-grow: 1;
+//        text-align: center;
+//    }
+//
+//    @include media-breakpoint-up(sm) {
+//        &__bg {
+//            justify-content: center;
+//        }
+//
+//        &__title,
+//        &__button {
+//            flex-grow: unset;
+//        }
+//    }
+//
+//    @include media-breakpoint-up(md) {
+//        &__bg {
+//            justify-content: center;
+//        }
+//
+//        &__title {
+//            font-size: 20px;
+//            text-transform: uppercase;
+//        }
+//    }
+//}
+
+
 .header-banner {
     display: block;
     text-decoration: none !important;
 
     &__bg {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        height: 56px;
+        padding: 0 16px;
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;
-        height: 56px;
-        padding: 0 16px;
+
+        &::before {
+            content: none;
+        }
     }
 
-    &__button {
-        margin-left: 24px;
-        flex-grow: 2;
-        text-align: right;
+    &__content {
+        height: 100%;
+        max-width: 615px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     &__title {
-        flex-grow: 1;
-        text-align: center;
+        font-size: 12px / 1.25em;
+        padding-right: 16px;
+        width: 100%;
     }
 
-    @include media-breakpoint-up(sm) {
-        &__bg {
-            justify-content: center;
-        }
+    &__button {
+        margin-left: 16px;
+    }
 
-        &__title,
-        &__button {
-            flex-grow: unset;
-        }
+    & .text-content {
+        line-height: 1.2em;
     }
 
     @include media-breakpoint-up(md) {
-        &__bg {
-            justify-content: center;
-        }
-
         &__title {
-            font-size: 20px;
-            text-transform: uppercase;
+            font-size: 18px / 1.25em;
         }
     }
 }

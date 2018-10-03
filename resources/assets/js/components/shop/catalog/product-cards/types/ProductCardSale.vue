@@ -338,7 +338,7 @@
             },
 
             minPrice() {
-                return this.product.sale.price
+                return this.product.sale.getPrice()
             },
 
             discountPercent() {

@@ -2,12 +2,13 @@
     <component
         :is="hasButton ? 'div' : 'a'"
         :href="hasButton ? null : link"
-        :class="classNameWithModificators('banner', id, type)"
         :style="{backgroundImage: background}"
+        :class="classNameWithModificators('banner', id, type)"
+        :target="hasButton && linkIsOuter ? '_blank' : null"
     >
-        <div class="banner__accent-box">
+        <div class="banner__top">
             <background-image-loader
-                v-if="image"
+                v-if="image && type !== 'long'"
                 :image="image"
                 :screen="true"
                 class="banner__image"
@@ -17,29 +18,45 @@
 
             <div
                 v-else
-                v-html="title"
                 :style="{color: titleColor}"
-                :class="classNameWithModificators('banner__title', titleLength)"
-            ></div>
+                class="banner__title"
+            >
+                <font-resizer
+                    style="width: 100%"
+                    :min-size="titleMinFontSize"
+                    :max-size="titleMaxFontSize"
+                >
+                    <span v-html="title"></span>
+                </font-resizer>
+            </div>
+        </div>
+
+        <div class="banner__center">
+            <div
+                v-if="caption"
+                :style="{color: captionColor}"
+                class="banner__caption"
+            >
+                <font-resizer
+                    style="width: 100%"
+                    :min-size="captionMinFontSize"
+                    :max-size="captionMaxFontSize"
+                >
+                    <span v-html="caption"></span>
+                </font-resizer>
+            </div>
         </div>
 
         <div class="banner__bottom">
-            <div
-                v-html="caption"
-                :style="{color: captionColor}"
-                :class="classNameWithModificators('banner__caption', captionLength)"
-            ></div>
-
-            <div v-if="hasButton && link" class="banner__button">
-                <a
-                    class="button button-long button-shadow"
-                    :href="link"
-                    :target="linkIsOuter ? '_blank' : '_self'"
-                    :style="buttonStyle"
-                >
-                    {{ buttonText }}
-                </a>
-            </div>
+            <a
+                v-if="hasButton && link"
+                :href="link"
+                class="button button-long button-shadow"
+                :target="linkIsOuter ? '_blank' : null"
+                :style="buttonStyle"
+            >
+                {{ buttonText }}
+            </a>
         </div>
     </component>
 </template>
@@ -47,6 +64,33 @@
 <script>
     import Mixin from './mixin'
     import BackgroundImageLoader from '../imageLoaders/BackgroundImageLoader'
+
+    const fontSizes = {
+        title: {
+            min: {
+                long: 16,
+                medium: 24,
+                big: 30,
+            },
+            max: {
+                long: 24,
+                medium: 130,
+                big: 130,
+            }
+        },
+        caption: {
+            min: {
+                long: 14,
+                medium: 16,
+                big: 16,
+            },
+            max: {
+                long: 18,
+                medium: 18,
+                big: 18,
+            }
+        },
+    }
 
     export default {
         name: "Banner",
@@ -60,8 +104,7 @@
         },
 
         props: {
-            isLong: false,
-            backgroundImage: String,
+            isLong: Boolean
         },
 
         data() {
@@ -89,8 +132,16 @@
         },
 
         computed: {
+            hasButton() {
+                return !! this.buttonText
+            },
+
             linkIsOuter() {
-                return this.link.indexOf('http') === 0 && this.link.indexOf(window.location.host) === -1
+                return (
+                    typeof this.link === 'string' &&
+                    this.link.indexOf('http') === 0 &&
+                    this.link.indexOf(window.location.host) === -1
+                )
             },
 
             titleLength() {
@@ -107,7 +158,35 @@
                 }
 
                 return this.elWidth > 418 ? 'big' : 'medium'
-            }
+            },
+
+            titleMinFontSize() {
+                return fontSizes.title.min[this.type]
+            },
+
+            titleMaxFontSize() {
+                return fontSizes.title.max[this.type]
+            },
+
+            captionMinFontSize() {
+                return fontSizes.caption.min[this.type]
+            },
+
+            captionMaxFontSize() {
+                return fontSizes.caption.max[this.type]
+            },
+
+            background() {
+                if (this.type === 'long' && this.backgroundImage2) {
+                    return this.makeBackgroundUrl(this.backgroundImage2)
+                }
+
+                if (this.backgroundImage1) {
+                    return this.makeBackgroundUrl(this.backgroundImage1)
+                }
+
+                return this.gradient
+            },
         },
     }
 </script>

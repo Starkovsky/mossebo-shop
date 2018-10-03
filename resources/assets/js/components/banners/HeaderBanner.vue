@@ -4,38 +4,27 @@
         :href="hasButton ? null : link"
         :class="classNameWithModificators('header-banner', id)"
     >
-        <template v-if="backgroundImage">
-            <background-image-loader
-                :key="$root.isMobile ? 'header-banner-mobile' : 'header-banner-desktop'"
-                :image="backgroundImage"
-                :screen="true"
-                class="header-banner__bg"
-            >
-                <div
-                    v-html="title"
-                    :style="{color: titleColor}"
-                    :class="classNameWithModificators('header-banner__title', titleLength)"
-                ></div>
+        <component
+            :is="backgroundImage ? 'background-image-loader' : 'div'"
+            class="header-banner__bg"
+            :style="backgroundImage ? null : {backgroundImage: gradient}"
+            :image="backgroundImage ? backgroundImage : null"
+            :screen="backgroundImage ? true : null"
+        >
 
-                <div v-if="buttonText" class="header-banner__button">
-                    <a :style="buttonStyle" :href="link" class="button button-small button-shadow">
-                        {{ buttonText }}
-                    </a>
+            <div class="header-banner__content">
+                <div
+                    :style="{color: titleColor}"
+                    class="header-banner__title"
+                >
+                    <font-resizer
+                        style="width: 100%"
+                        :min-size="type === 'mobile' ? 12 : 14"
+                        :max-size="type === 'mobile' ? 16 : 18"
+                    >
+                        <span v-html="title"></span>
+                    </font-resizer>
                 </div>
-
-            </background-image-loader>
-        </template>
-
-        <template v-else>
-            <div
-                :style="{backgroundImage: gradient}"
-                class="header-banner__bg"
-            >
-                <div
-                    v-html="title"
-                    :style="{color: titleColor}"
-                    :class="classNameWithModificators('header-banner__title', titleLength)"
-                ></div>
 
                 <div v-if="buttonText" class="header-banner__button">
                     <a :style="buttonStyle" :href="link" class="button button-small button-shadow">
@@ -43,9 +32,8 @@
                     </a>
                 </div>
             </div>
-        </template>
+        </component>
     </component>
-
 </template>
 
 <script>
@@ -63,29 +51,14 @@
             BackgroundImageLoader
         },
 
-        props: [
-            'mobileImage'
-        ],
-
         computed: {
             backgroundImage() {
-                if (this.$root.isMobile) {
-                    if (this.mobileImage) {
-                        return this.mobileImage
-                    }
-
-                    if (this.image) {
-                        return this.image
-                    }
+                if (this.$root.isMobile && this.backgroundImage2) {
+                    return this.backgroundImage2
                 }
-                else {
-                    if (this.image) {
-                        return this.image
-                    }
 
-                    if (this.mobileImage) {
-                        return this.mobileImage
-                    }
+                if (this.backgroundImage1) {
+                    return this.backgroundImage1
                 }
 
                 return false
@@ -93,6 +66,10 @@
 
             titleLength() {
                 return Math.ceil(this.title.length / 5)
+            },
+
+            type() {
+                return this.$root.isMobile ? 'mobile' : 'desktop'
             }
         }
     }

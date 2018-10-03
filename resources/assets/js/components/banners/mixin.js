@@ -1,14 +1,21 @@
 import ClassNameWithModificators from '../../mixins/ClassNameWithModificators'
+import FontResizer from '../FontResizer'
 
 export default {
     mixins: [
         ClassNameWithModificators
     ],
 
+    components: {
+        FontResizer
+    },
+
     props: {
         id: null,
 
         image: null,
+        backgroundImage1: null,
+        backgroundImage2: null,
 
         gradientFrom: {
             default: '#fcc600'
@@ -66,14 +73,6 @@ export default {
             }
 
             return style
-        },
-
-        background() {
-            if (this.backgroundImage) {
-                return this.makeBackgroundUrl(this.backgroundImage)
-            }
-
-            return this.gradient
         },
 
         hasButton() {

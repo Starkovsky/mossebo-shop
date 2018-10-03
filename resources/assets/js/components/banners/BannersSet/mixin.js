@@ -1,6 +1,6 @@
 import RequestMixin from '../../../mixins/RequestMixin'
-import Banner from '../Banner'
 import DataHandler from '../../../scripts/DataHandler'
+import Banner from '../Banner'
 
 export default {
     mixins: [
@@ -32,6 +32,12 @@ export default {
 
         setBanners(banners) {
             if (! banners) return
+
+            let place = parseInt(this.place)
+
+            banners = banners.filter(item => {
+                return item.places.indexOf(place) !== -1
+            })
 
             this.banners = _.shuffle(banners).slice(0, this.quantity)
         }

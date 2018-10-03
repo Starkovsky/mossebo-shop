@@ -14,8 +14,9 @@
                 :button-color="banner.button_color"
                 :button-background="banner.button_background"
 
-                :image="banner.small_image"
-                :background-image="banner.background_image"
+                :image="banner.image"
+                :background-image1="banner.background_image_1"
+                :background-image2="banner.background_image_2"
 
                 :gradient-from="banner.gradient.color_from"
                 :gradient-to="banner.gradient.color_to"

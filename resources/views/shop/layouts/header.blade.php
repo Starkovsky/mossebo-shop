@@ -7,9 +7,9 @@
         <header-banner
             id="{{ $banner['id'] }}"
             link="{{ siteUrl($banner['link']) }}"
-            image="{{ $banner['desktop_image'] }}"
-            mobile-image="{{ $banner['mobile_image'] }}"
-            gradient-from="{{ $banner['gradient']['color_from'] }}"
+            image="{{ $banner['image'] }}"
+            background-image1="{{ $banner['background_image_1'] }}"
+            background-image2="{{ $banner['background_image_2'] }}"
 
             gradient-to="{{ $banner['gradient']['color_to'] }}"
             gradient-type="{{ $banner['gradient']['type'] }}"

@@ -1,4 +1,4 @@
-<div class="franchisee-screen js-franchisee-screen">
+<div class="franchisee-screen js-franchisee-screen{{ Cookie::get('__franchisee::screen-no-block') ? ' hidden' : ''}}">
     <div class="franchisee-screen__content">
         <svg class="franchisee-screen__logo">
             <use xlink:href="/assets/images/icons.svg#symbol-logo-{{ App::getLocale() }}"></use>
@@ -14,6 +14,8 @@
 
 <script>
     window.addEventListener('DOMContentLoaded', function() {
+        let storage = new CookieStorageProxy('__franchisee')
+
         let screenEl = document.querySelector('.js-franchisee-screen')
         let buttonEl = document.querySelector('.js-franchisee-button')
         let timeout
@@ -27,6 +29,7 @@
             window.addEventListener('keydown', resetTimeout)
             window.addEventListener('touchstart', resetTimeout)
             resetTimeout()
+            storage.set('screen-no-block', true)
         }
 
         function resetTimeout() {
@@ -43,10 +46,15 @@
             window.removeEventListener('keydown', resetTimeout)
             window.removeEventListener('touchstart', resetTimeout)
             screenEl.classList.remove('hidden')
+            storage.set('screen-no-block', false)
         }
 
         buttonEl.addEventListener('click', function() {
             hideScreen()
         })
+
+        if (storage.get('screen-no-block')) {
+            showScreen()
+        }
     })
 </script>

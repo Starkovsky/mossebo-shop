@@ -1,5 +1,5 @@
 <template>
-    <div class="banner-slider">
+    <div v-else class="banner-slider">
         <div v-show="sliderInited" class="banner-slider__prev">
             <button type="button" class="slick-prev slick-arrow slick-arrow--small js-slider-prev">
                 <svg class="symbol-icon symbol-arrow-forward">
@@ -23,8 +23,9 @@
                     :button-color="banner.button_color"
                     :button-background="banner.button_background"
 
-                    :image="banner.small_image"
-                    :background-image="banner.background_image"
+                    :image="banner.image"
+                    :background-image1="banner.background_image_1"
+                    :background-image2="banner.background_image_2"
 
                     :gradient-from="banner.gradient.color_from"
                     :gradient-to="banner.gradient.color_to"

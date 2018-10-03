@@ -41,7 +41,7 @@ class BannerResource extends JsonResource
 
     protected function connectImages(& $data)
     {
-        $lables = ['small_image', 'mobile_image', 'desktop_image', 'background_image'];
+        $lables = ['image', 'background_image_1', 'background_image_2'];
 
         foreach ($lables as $label) {
             $image = $this->resource->{$label};
