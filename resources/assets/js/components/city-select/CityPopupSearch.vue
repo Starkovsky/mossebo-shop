@@ -135,6 +135,9 @@
             submitCity() {
                 if (this.city) {
                     this.$store.dispatch('city/setCity', this.city)
+                        .then(() => {
+                            this.$store.dispatch('city/confirmCity')
+                        })
                     this.close()
                     this.results = []
                     this.city = null

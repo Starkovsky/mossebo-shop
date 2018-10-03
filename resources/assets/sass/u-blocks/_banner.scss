@@ -149,6 +149,7 @@
 
     &__slide {
         padding: 8px;
+        vertical-align: bottom;
     }
 
     @include media-breakpoint-up(lg) {

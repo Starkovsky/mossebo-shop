@@ -111,7 +111,7 @@ const app = new Vue({
         this.resizeHandler = _.debounce(() => {
             this.windowWidth = window.innerWidth
             this.$emit('resize')
-        }, 50)
+        }, 120)
 
         window.addEventListener('resize', this.resizeHandler, { passive: true })
     },
