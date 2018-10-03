@@ -7257,7 +7257,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getSliderSettings: function getSliderSettings() {
             var settings = {
                 dots: false,
-                infinite: true,
+                infinite: false,
                 speed: 300,
                 slidesToShow: 1,
                 slidesToScroll: 1,
