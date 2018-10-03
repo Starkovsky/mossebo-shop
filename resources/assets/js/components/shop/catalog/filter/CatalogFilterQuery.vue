@@ -20,7 +20,6 @@
                             :value="stateQuery"
                             @input="inputChange"
                             @keydown.enter="submit"
-
                         >
                     </div>
                 </div>

@@ -7144,7 +7144,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         setBanners: function setBanners(banners) {
             if (!banners) return;
 
-            this.banner = banners[Object(__WEBPACK_IMPORTED_MODULE_1__scripts_functions__["b" /* getRandomInt */])(0, banners.length - 1)];
+            __WEBPACK_IMPORTED_MODULE_0__mixin__["a" /* default */].methods.setBanners.call(this, banners);
+
+            this.banner = this.banners[0];
         }
     }
 });
@@ -35296,7 +35298,7 @@ var TimeSynchronizer = function () {
 "use strict";
 /* unused harmony export makeEvent */
 /* harmony export (immutable) */ __webpack_exports__["a"] = dispatchEvent;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getRandomInt;
+/* unused harmony export getRandomInt */
 function makeEvent(eventName) {
     var myEvent = void 0;
 

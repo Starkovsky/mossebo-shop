@@ -60,7 +60,9 @@
             setBanners(banners) {
                 if (! banners) return
 
-                this.banner = banners[getRandomInt(0, banners.length - 1)]
+                Mixin.methods.setBanners.call(this, banners)
+
+                this.banner = this.banners[0]
             }
         }
     }
