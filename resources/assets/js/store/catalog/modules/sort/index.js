@@ -8,7 +8,7 @@ const sortMethods = {
      * @returns {Array}
      */
     sortPopular(products) {
-        return _.orderBy(products, ['popular', 'id'])
+        return _.orderBy(products, ['popular', 'id'], ['desc', 'asc'])
     },
 
     /**
@@ -18,7 +18,7 @@ const sortMethods = {
      * @returns {Array}
      */
     sortNew(products) {
-        return _.orderBy(products, ['new', 'id'])
+        return _.orderBy(products, ['new', 'id'], ['desc', 'asc'])
     },
 
     /**
@@ -38,7 +38,15 @@ const sortMethods = {
      * @returns {Array}
      */
     sortDiscount(products) {
-        return _.orderBy(products, ['old_price', 'id'])
+        return products.sort((a, b) => {
+            let result = b.getDiscountPercent() - a.getDiscountPercent()
+
+            if (result === 0) {
+                return a.id - b.id
+            }
+
+            return result
+        })
     }
 }
 

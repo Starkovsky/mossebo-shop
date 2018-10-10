@@ -17,24 +17,6 @@ class User extends BaseUser implements LikerContract
 {
     use Liker, Notifiable, UserNotifications;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'first_name', 'last_name', 'phone', 'email', 'address', 'password', 'city', 'post_code'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
     public function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);

@@ -67,7 +67,7 @@
                 submitDisabled(state) {
                     return (
                         ! state.cart.ready ||
-                        state.cart.items.length === 0 ||
+                        state.cart.cart.items.length === 0 ||
                         state.cart.loading ||
                         state.cart.error ||
                         state.checkout.loading ||

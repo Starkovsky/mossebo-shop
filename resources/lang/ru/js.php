@@ -55,7 +55,7 @@ return [
     'ago' => 'назад',
 
     'days' => [
-        'short' => 'д',
+        'short' => 'дн.',
         'declination' => [
             'день',
             'дня',

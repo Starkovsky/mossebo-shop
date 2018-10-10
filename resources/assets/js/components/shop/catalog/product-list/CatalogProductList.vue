@@ -10,7 +10,7 @@
                 <div :class="cardClass" :key="product.id">
                     <product-card-mother
                         :product="product"
-                        :types="cardType$"
+                        :types="[cardType$, 'sale']"
                         v-show="show"
                     ></product-card-mother>
                 </div>

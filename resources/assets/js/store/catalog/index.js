@@ -70,7 +70,7 @@ export default {
                                     'filters/calculateProductCountPerOption',
                                     state.products
                                 ))
-                                .then(() => dispatch('process', 'filter'))
+                                .then(() => dispatch('process', 'sort'))
                                 .then(() => commit(actionTypes.CATALOG_READY))
                         })
                 })
@@ -90,14 +90,14 @@ export default {
                 state.searchRequest = new Request('get', '/api' + window.location.pathname + window.location.search)
                     .success(response => {
                         state.searchRequest = null
-                        resolve(response.data.products)
+                        resolve(response.data.products.map(product => new Product(product)))
                     })
                     .start()
             })
         },
 
         setProducts({commit}, products) {
-            commit(actionTypes.CATALOG_SET_PRODUCTS, products.map(product => new Product(product)))
+            commit(actionTypes.CATALOG_SET_PRODUCTS, products)
         },
 
         setActiveProductIndexes({commit}, activeProductIndexes) {

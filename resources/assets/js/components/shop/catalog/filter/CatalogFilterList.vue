@@ -1,5 +1,5 @@
 <template>
-    <div class="catalog-filter block-ui">
+    <div class="catalog-filter">
         <div v-for="(filter, index) in filters" :key="filter.id" class="catalog-filter-item">
             <template v-if="filter.id === 'prices'">
                 <catalog-filter-price

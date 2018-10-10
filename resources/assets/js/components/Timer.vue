@@ -63,11 +63,7 @@
 <script>
     import AnimatedSymbolChange from './AnimatedSymbolChange'
     import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
-
-    const second = 1
-    const minute = second * 60
-    const hour = minute * 60
-    const day = hour * 24
+    import { parseTime } from '../scripts/core/time'
 
     export default {
         name: "Timer",
@@ -132,17 +128,11 @@
             },
 
             tick() {
-                let left = this.timeLeft
+                let result = parseTime(this.timeLeft)
 
-                this.days = Math.floor(left / day)
-                left -= day * this.days
-
-                this.hours = Math.floor(left / hour)
-                left -= hour * this.hours
-
-                this.minutes = Math.floor(left / minute)
-
-                this.seconds = Math.floor(left - minute * this.minutes)
+                for (let i in result) {
+                    this[i] = result[i]
+                }
 
                 this.$emit('tick', this.timeLeft)
             },

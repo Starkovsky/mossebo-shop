@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\City;
 use Illuminate\Http\Request;
-use App\Http\Resources\CityResource;
 
 class LocationController extends ApiController
 {

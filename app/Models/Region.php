@@ -10,4 +10,9 @@ class Region extends BaseRegion
     {
         return $this->hasOne(Country::class, 'code', 'country_code');
     }
+
+    public function postalCodes()
+    {
+        return $this->morphMany(PostalCode::class, 'item');
+    }
 }

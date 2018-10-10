@@ -6,7 +6,9 @@
                     :icon="badge.icon"
                     :color="badge.color"
                     :title="badge.title"
-                    :no-tooltips="noTooltips"
+                    :text="badge.text"
+                    :class-name-modificators="badge.modif"
+                    :no-tooltip="noTooltips"
                 ></badge>
             </div>
         </div>
@@ -21,12 +23,7 @@
         name: 'badges',
 
         props: {
-            badges: {
-                default() {
-                    return []
-                }
-            },
-
+            badges: null,
             noTooltips: null,
         },
 
@@ -40,12 +37,32 @@
             Badge
         },
 
+        watch: {
+            badges: 'updateBadges'
+        },
+
         created() {
-            DataHandler.get('badge-types')
-                .then(data => this.initBadges(data['badge-types']))
+            if (! (this.badges instanceof Array && this.badges.length)) return
+
+            this.updateBadges()
         },
 
         methods: {
+            updateBadges() {
+                if (this.badges instanceof Array && this.badges.length) {
+                    if (this.badges[0] instanceof Object) {
+                        this.badges$ = this.badges
+                    }
+                    else {
+                        DataHandler.get('badge-types')
+                            .then(data => this.initBadges(data['badge-types']))
+                    }
+                }
+                else {
+                    this.badges$ = []
+                }
+            },
+
             initBadges(badgeTypes) {
                 if (! badgeTypes) {
                     return
@@ -64,7 +81,9 @@
                 this.$nextTick(() => {
                     this.$root.initTooltips()
                 })
-            }
+            },
+
+
         }
     }
 </script>

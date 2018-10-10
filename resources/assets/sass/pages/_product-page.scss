@@ -111,6 +111,10 @@
 
         &--num {
             padding: 0;
+
+            &:hover {
+                box-shadow: none;
+            }
         }
     }
 

@@ -10,7 +10,9 @@
         <template v-else-if="ready">
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
-                    <catalog-filter-list></catalog-filter-list>
+                    <catalog-filter-list
+                        class="block-ui"
+                    ></catalog-filter-list>
 
                     <div v-if="filtersExists" class="catalog-filters-controls">
                         <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
@@ -94,7 +96,6 @@
                             <card-types-changer></card-types-changer>
                         </div>
                     </div>
-
 
                     <loading
                         :loading="filtering"

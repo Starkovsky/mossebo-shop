@@ -20,6 +20,8 @@ class MorphServiceProvider extends ServiceProvider
             'room'     => \App\Models\Shop\Room\Room::class,
             'style'    => \App\Models\Shop\Style\Style::class,
             'review'   => \App\Models\Review::class,
+            'city'     => \App\Models\City::class,
+            'region'   => \App\Models\Region::class,
         ]);
     }
 

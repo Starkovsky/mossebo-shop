@@ -1,5 +1,13 @@
 <template>
+    <product-card-sale-mother
+        v-if="type === 'sale'"
+        :product="product"
+        :no-image-loading="noImageLoading"
+        :type="baseType"
+    ></product-card-sale-mother>
+
     <component
+        v-else
         :is="component"
         :product="product"
         :no-image-loading="noImageLoading"
@@ -10,7 +18,7 @@
     import ProductCard from './types/ProductCard'
     import ProductCardLong from './types/ProductCardLong'
     import ProductCardMobile from './types/ProductCardMobile'
-    import ProductCardSale from './types/ProductCardSale'
+    import ProductCardSaleMother from './types/ProductCardSaleMother'
 
     const types = {
         default: 'product-card',
@@ -32,7 +40,7 @@
             ProductCard,
             ProductCardLong,
             ProductCardMobile,
-            ProductCardSale
+            ProductCardSaleMother
         },
 
         watch: {
@@ -60,24 +68,34 @@
         },
 
         computed: {
-            component() {
+            type() {
                 if (this.types$.length === 1) {
-                    return types[this.types$[0]]
+                    return this.types$[0]
                 }
 
                 if (this.canUseType('sale')) {
                     if (this.product.hasSale() && this.product.sale.isActual()) {
-                        return types.sale
+                        return 'sale'
                     }
                 }
 
+                return this.baseType
+            },
+
+            baseType() {
                 if (this.canUseType('mobile')) {
                     if (this.$root.windowLessThan('lg')) {
-                        return types.mobile
+                        return 'mobile'
                     }
                 }
 
-                return types.default
+                let types = this.types$.filter(type => type !== 'sale')
+
+                return types.length ? types[0] : 'default'
+            },
+
+            component() {
+                return types[this.type]
             }
         }
     }

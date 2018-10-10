@@ -126,8 +126,6 @@ class OrderSaver
 
             $order->orderProducts()->save($orderProduct);
 
-            $orderProduct->save();
-
             foreach ($product->getOptions() as $optionId) {
                 $orderProduct->options()->save(new OrderProductAttributeOption([
                     'option_id' => $optionId,

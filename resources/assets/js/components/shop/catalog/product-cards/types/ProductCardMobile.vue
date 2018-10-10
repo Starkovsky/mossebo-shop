@@ -1,12 +1,5 @@
 <template>
     <div class="product-card-mobile block-ui block-ui--with-hover">
-        <div v-if="product.badges" class="product-card-mobile__badges">
-            <badges
-                :badges="product.badges.slice(0, 1)"
-                :no-tooltips="true"
-            ></badges>
-        </div>
-
         <div class="product-card-mobile__actions text-right">
             <product-actions></product-actions>
         </div>
@@ -32,12 +25,18 @@
                 </a>
             </div>
 
-            <div class="product-card-mobile__info">
-                <div class="product-card-mobile__rating">
-                    <rating
-                        class-name-modificators="sm"
-                    ></rating>
-                </div>
+            <div v-if="product.badges" class="product-card-mobile__badges">
+                <badges
+                    class="badges--small"
+                    :badges="product.badges.slice(0, 3)"
+                    :no-tooltips="true"
+                ></badges>
+            </div>
+
+            <div class="product-card-mobile__rating">
+                <rating
+                    class-name-modificators="sm"
+                ></rating>
             </div>
 
             <div class="product-card-mobile__prices">

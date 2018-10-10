@@ -4,17 +4,18 @@
 
         <div v-else-if="saleNotExist" class="product-card-sale block-ui"></div>
 
-        <product-card-sale
+        <product-card-sale-big
             v-else
             :product="product"
-        ></product-card-sale>
+            class="block-ui block-ui--with-hover"
+        ></product-card-sale-big>
     </loading>
 </template>
 
 <script>
     import Core from '../../../scripts/core/index'
     import Loading from '../../Loading'
-    import ProductCardSale from '../catalog/product-cards/types/ProductCardSale'
+    import ProductCardSaleBig from '../catalog/product-cards/types/ProductCardSaleBig'
     import RequestMixin from '../../../mixins/RequestMixin'
     import Product from '../../../scripts/shop/Product'
 
@@ -26,7 +27,7 @@
         ],
 
         components: {
-            ProductCardSale,
+            ProductCardSaleBig,
             Loading,
         },
 

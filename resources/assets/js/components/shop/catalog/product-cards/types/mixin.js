@@ -50,5 +50,22 @@ export default {
         inCart() {
             return !! this.cartProducts.find(item => item.id.toString() === this.product.id.toString())
         },
+
+
+        maxPrice() {
+            return this.product.getMaxPrice()
+        },
+
+        minPrice() {
+            return this.product.getMinPrice()
+        },
+
+        discountPercent() {
+            return '-&thinsp;' + this.product.getDiscountPercent() + '&thinsp;%'
+        },
+
+        discount() {
+            return this.product.getDiscount()
+        },
     }
 }

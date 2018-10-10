@@ -118,11 +118,12 @@ export default {
 
             let data = {
                 cart: {
-                    products: rootState.cart.items.reduce((acc, item) => {
-                        acc[item.key] = item.qty
+                    products: rootState.cart.cart.items.reduce((acc, item) => {
+                        acc[item.getKey()] = item.getQuantity()
+
                         return acc
                     }, {}),
-                    promo_code: rootState.cart.promo.name
+                    promo_code: rootState.cart.cart.promo ? rootState.cart.cart.promo.name : ''
                 },
                 shipping: {
                     type: rootState.shipping.type,

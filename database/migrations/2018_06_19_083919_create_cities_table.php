@@ -22,13 +22,15 @@ class CreateCitiesTable extends Migration
 
             $table->string('name')->nullable();
             $table->string('short_name')->nullable();
-            $table->string('postal_code')->nullable();
+            $table->string('fias_code')->nullable();
+            $table->string('okato_code')->nullable();
+            $table->string('aoguid');
 
             $table->boolean('enabled')->index()->default(1);
             $table->integer('position')->unsigned()->default(0);
 
             $table->timestamps();
-            $table->timestamp('indexed_at');
+            $table->timestamp('indexed_at')->nullable();
         });
     }
 }

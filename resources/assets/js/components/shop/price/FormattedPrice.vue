@@ -16,7 +16,7 @@
 
         computed: {
             formatted() {
-                let value = this.value.toString().replace(',', '.').replace(/[^0-9]+/g, '')
+                let value = this.value.toString().replace(',', '.').replace(/[^0-9.]+/g, '')
 
                 return parseFloat(value).toLocaleString(undefined, {
                     maximumFractionDigits: 2,

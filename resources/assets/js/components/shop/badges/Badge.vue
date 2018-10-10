@@ -1,6 +1,6 @@
 <template>
     <div
-        class="badge"
+        :class="classNameWithModificators('badge')"
         :style="{backgroundColor: color}"
         :title="title"
         :data-toggle="title && !noTooltip ? 'tooltip' : false"
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+    import ClassNameWithModificators from '../../../mixins/ClassNameWithModificators'
+
     export default {
         name: 'badge',
 
@@ -29,7 +31,12 @@
             'color',
             'title',
             'text',
-            'no-tooltip'
+            'no-tooltip',
+            'modif'
+        ],
+
+        mixins: [
+            ClassNameWithModificators
         ],
     }
 </script>

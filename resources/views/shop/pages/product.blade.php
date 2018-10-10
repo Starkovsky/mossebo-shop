@@ -41,7 +41,18 @@
                                                     <a
                                                         href="https://admin.mossebo.market{{ $image->original }}"
                                                         data-fancybox="gallery"
+                                                        class="image-preview-link"
                                                     >
+                                                        <div class="image-preview-link__label">
+                                                            <svg class="image-preview-link__icon">
+                                                                <use xlink:href="/assets/images/icons.svg#symbol-zoom-in"></use>
+                                                            </svg>
+
+                                                            <span class="image-preview-link__text">
+                                                                Увеличить фото
+                                                            </span>
+                                                        </div>
+
                                                         <div
                                                             class="produt-page-image product-image bg-image"
                                                             style="background-image: url(https://admin.mossebo.market{{ $image->medium->srcset }})"
@@ -63,8 +74,19 @@
                                         <div>
                                             <a
                                                 href="https://admin.mossebo.market{{ $images[0]->original }}"
+                                                class="image-preview-link"
                                                 data-fancybox
                                             >
+                                                <div class="image-preview-link__label">
+                                                    <svg class="image-preview-link__icon">
+                                                        <use xlink:href="/assets/images/icons.svg#symbol-zoom-in"></use>
+                                                    </svg>
+
+                                                    <span class="image-preview-link__text">
+                                                        Увеличить фото
+                                                    </span>
+                                                </div>
+
                                                 <div
                                                     class="produt-page-image product-image bg-image"
                                                     style="background-image: url(https://admin.mossebo.market{{ $images[0]->medium->srcset }})"
@@ -235,8 +257,8 @@
                         <div class="product-tabs js-product-tabs">
                             <div class="product-tabs__tabs">
                                 <tabs-html
-                                    :tabs="{'#characteristics': 'Описание и характеристики', '#instructions': 'Инструкции'}"
-                                    :class-name-modificators="['center', 'xl', 'underline']"
+                                    :tabs="{'#characteristics': 'Описание и характеристики', '#delivery': 'Доставка', '#instructions': 'Инструкции'}"
+                                    :class-name-modificators="['xl', 'underline', 'large-padding']"
                                 ></tabs-html>
                             </div>
 
@@ -294,10 +316,30 @@
                                         </div>
                                     </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="instructions">
+                                    <div class="product-tabs__pane tab-pane block-ui fade" id="delivery">
                                         <div class="product-tabs-pane">
                                             <div class="product-tabs-pane__trigger js-ht-product-info">
                                                 Доставка и возврат
+
+                                                <svg class="product-tabs-pane__chevron">
+                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                                </svg>
+                                            </div>
+
+                                            <div class="product-tabs-pane__content ht-container">
+                                                <div class="product-tabs-pane__inner ht-inner">
+                                                    <div class="product-tabs-pane__under_constraction">
+                                                        Данный раздел находится в разработке
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-tabs__pane tab-pane block-ui fade" id="instructions">
+                                        <div class="product-tabs-pane">
+                                            <div class="product-tabs-pane__trigger js-ht-product-info">
+                                                Инструкции
 
                                                 <svg class="product-tabs-pane__chevron">
                                                     <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>

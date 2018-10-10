@@ -50,6 +50,11 @@
         padding-bottom: 11px;
     }
 
+    &--large-padding {
+        padding-left: 65px;
+        padding-right: 65px;
+    }
+
     @include media-breakpoint-up(md) {
         &__item {
             width: auto;
