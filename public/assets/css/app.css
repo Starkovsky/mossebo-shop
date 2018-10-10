@@ -5607,6 +5607,7 @@ input:checked + .huge-radio {
 }
 
 .image-preview-link {
+  display: block;
   position: relative;
 }
 
