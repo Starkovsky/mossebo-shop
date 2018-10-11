@@ -83,4 +83,17 @@ class LoginController extends Controller
 
         return false;
     }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'redirect' => $this->getReferer()
+            ]);
+        }
+        else {
+            return parent::sendLoginResponse($request);
+        }
+    }
 }

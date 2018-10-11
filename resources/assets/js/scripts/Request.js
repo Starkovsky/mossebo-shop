@@ -15,6 +15,27 @@ function runCallback(cb) {
     }
 }
 
+function prepareData(data) {
+    let token = Core.user.getToken()
+
+    if (data instanceof FormData) {
+        if (token) {
+            data.append('api_token', token)
+        }
+    }
+    else if (data instanceof Object) {
+        data = {
+            ... data
+        }
+
+        if (token) {
+            data.api_token = token
+        }
+    }
+
+    return data
+}
+
 export default class Request {
     constructor(method = 'get', url, data = {}, configParams = {}) {
         this.status = null
@@ -31,15 +52,7 @@ export default class Request {
             url: url,
         }
 
-        data = {
-            ... data
-        }
-
-        let token = Core.user.getToken()
-
-        if (token) {
-            data.api_token = token
-        }
+        data = prepareData(data)
 
         if (['post', 'put', 'patch'].indexOf(method) !== -1) {
             config.data = data

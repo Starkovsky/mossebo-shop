@@ -41,12 +41,12 @@ export default {
                 title: 'Доставка',
             },
 
-            {
-                identif: 'payment',
-                icon: 'symbol-credit-card',
-                stepName: 'Шаг третий',
-                title: 'Оплата',
-            },
+            // {
+            //     identif: 'payment',
+            //     icon: 'symbol-credit-card',
+            //     stepName: 'Шаг третий',
+            //     title: 'Оплата',
+            // },
 
             {
                 identif: 'confirmation',
@@ -123,7 +123,7 @@ export default {
 
                         return acc
                     }, {}),
-                    promo_code: rootState.cart.cart.promo ? rootState.cart.cart.promo.name : ''
+                    promo_code: rootState.cart.promo.name
                 },
                 shipping: {
                     type: rootState.shipping.type,

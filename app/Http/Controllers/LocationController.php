@@ -264,6 +264,8 @@ class LocationController extends Controller
      */
     public static function getUserCity()
     {
+        return static::getMainCity();
+
         $city = static::getUserCityFromCookies();
 
         if ($city !== false) {

@@ -149,7 +149,7 @@
 
                 if (this.order.promo) {
                     cart.setPromo(
-                        new PromoCode(this.order.promo.amount, this.order.promo.percent)
+                        new PromoCode(this.order.promo)
                     )
                 }
 

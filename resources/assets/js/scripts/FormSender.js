@@ -3,6 +3,7 @@ import BlankPlugin from './base/BlankPlugin'
 import Core from './core'
 import Alerty from './Alerty'
 import { dispatchEvent } from './functions'
+import Request from './Request'
 
 
 function getInputGroupElClasslist(el) {
@@ -266,48 +267,61 @@ export default class FormSender extends FormInputs {
 
     submit() {
         if (this.sendInProcess) return
+
         this.startLoading()
 
-        axios.post(this.url, new FormData(this.el), {cancelToken: new axios.CancelToken(c => this.requestCancel = c)})
-            .then(response => this.handleResponseData(response.data))
-            .catch(thrown => {
-                if (axios.isCancel(thrown)) return
-
-                if (this.thrownHasHandlableData(thrown)) {
-                    this.handleResponseData(thrown.response.data)
-                    return
+        new Request('post', this.url, new FormData(this.el))
+            .success(() => this.applyToFields('reset'))
+            .fail(response => {
+                if ('data' in response && 'errors' in response.data) {
+                    this.showErrors(response.data.errors)
                 }
-
-                this.showMessage(Core.translate('errors.technical'), 'error')
-                console.log(thrown)
             })
-            .finally(() => {
+            .any(() => {
                 this.endLoading()
             })
+            .start()
+
+        // axios.post(this.url, new FormData(this.el), {cancelToken: new axios.CancelToken(c => this.requestCancel = c)})
+        //     .then(response => this.handleResponseData(response.data))
+        //     .catch(thrown => {
+        //         if (axios.isCancel(thrown)) return
+        //
+        //         if (this.thrownHasHandlableData(thrown)) {
+        //             this.handleResponseData(thrown.response.data)
+        //             return
+        //         }
+        //
+        //         this.showMessage(Core.translate('errors.technical'), 'error')
+        //         console.log(thrown)
+        //     })
+        //     .finally(() => {
+        //         this.endLoading()
+        //     })
     }
 
-    thrownHasHandlableData(thrown) {
-        if (! 'response' in thrown || ! thrown.response) return false
-        if (! 'data' in thrown.response) return false
-
-        return 'message' in thrown.response.data && thrown.response.data.message
-    }
-
-    handleResponseData(data) {
-        this.trigger('onDone', data)
-
-        if (data.status === 'error' && data.errors) {
-            this.showErrors(data.errors)
-        }
-
-        if (data.status === 'success') {
-            this.applyToFields('reset')
-        }
-
-        if (data.message) {
-            this.showMessage(data.message, data.status)
-        }
-    }
+    // thrownHasHandlableData(thrown) {
+    //     if (! 'response' in thrown || ! thrown.response) return false
+    //     if (! 'data' in thrown.response) return false
+    //
+    //     return 'message' in thrown.response.data && thrown.response.data.message
+    // }
+    //
+    // handleResponseData(data) {
+    //     this.trigger('onDone', data)
+    //
+    //     if (data.status === 'error' && data.errors) {
+    //         this.showErrors(data.errors)
+    //     }
+    //
+    //     if (data.status === 'success') {
+    //         this.applyToFields('reset')
+    //     }
+    //
+    //     if (data.message) {
+    //         this.showMessage(data.message, data.status)
+    //     }
+    // }
 
     startLoading() {
         this.sendInProcess = true

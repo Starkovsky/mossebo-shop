@@ -13,7 +13,6 @@ class Registration extends BaseNotification
     {
         return $this->newMailMessage()
             ->subject(trans('mail.registration.subject', ['site' => config('app.name')]))
-            ->to($notifiable->email, $notifiable->getFullName())
             ->title(trans('mail.registration.title', ['site' => config('app.name')]))
             ->line(trans('mail.registration.hello', ['name' => $notifiable->getFullName()]))
             ->line(trans('mail.registration.line-1', ['site' => config('app.name')]))

@@ -93,18 +93,20 @@
                             </div>
 
                             <div class="auth-form">
-                                <form method="POST" action="{{ route('login') }}">
+                                <form method="POST" action="{{ route('login') }}" class="js-form-sender">
                                     @csrf
 
-                                    <div class="form-group">
+                                    <div class="form-group js-form-group">
                                         <label for="email" class="form-label">Введите E-Mail</label>
-                                        <input id="email"
-                                               type="email"
-                                               class="form-input mb-3{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                               name="email"
-                                               value="{{ old('email') }}"
-                                               required
-                                               autofocus
+
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            class="form-input mb-3{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                            name="email"
+                                            value="{{ old('email') }}"
+                                            required
+                                            autofocus
                                         >
 
                                         @if ($errors->has('email'))
@@ -114,13 +116,15 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group mt-24">
+                                    <div class="form-group mt-24 js-form-group">
                                         <label for="password" class="form-label mt-2">Введите пароль</label>
-                                        <input id="password"
-                                               type="password"
-                                               class="form-input mb-3{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                               name="password"
-                                               required
+
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            class="form-input mb-3{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                            name="password"
+                                            required
                                         >
                                         @if ($errors->has('password'))
                                             <span class="form-error">
@@ -129,7 +133,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group mt-16">
+                                    <div class="form-group mt-16 js-form-group">
                                         <label class="form-checkbox">
                                             <input
                                                 class="form-checkbox__input"
@@ -147,8 +151,14 @@
                                     </div>
 
                                     <div class="mt-24">
-                                        <button type="submit" class="button button-primary login">
-                                            Войти
+                                        <button type="submit" class="button button-primary button-loading login">
+                                            <span class="button-loading__content">
+                                                Войти
+                                            </span>
+
+                                            <svg class="button-loading__loader">
+                                                <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                                            </svg>
                                         </button>
                                     </div>
 
@@ -162,8 +172,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="d-none d-md-block auth__bottom">

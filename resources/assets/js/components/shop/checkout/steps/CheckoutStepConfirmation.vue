@@ -5,7 +5,7 @@
         <confirmation></confirmation>
 
         <template slot="back">
-            <button @click="toStep('payment')" class="button button-light" :disabled="loading">
+            <button @click="toStep('shipping')" class="button button-light" :disabled="loading">
                 <svg class="button__icon button__icon--left">
                     <use xlink:href="/assets/images/icons.svg#symbol-arrow-back"></use>
                 </svg>

@@ -4786,10 +4786,19 @@ img {
 .badge {
   border-radius: 16px;
   padding: 8px;
-  overflow: hidden;
   min-width: 32px;
   height: 32px;
   color: #fff;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }

@@ -207,12 +207,12 @@ export default {
             return queue
         },
 
-        setPromoCode({ state, dispatch }, promoCode) {
+        setPromoCode({ state, dispatch }, promoCodeData) {
             state.cart.setPromo(
-                new PromoCode(promoCode.amount, promoCode.percent)
+                new PromoCode(promoCodeData)
             )
 
-            return dispatch('promo/set', promoCode)
+            return dispatch('promo/set', promoCodeData)
         },
 
         clearPromoCode({ state, dispatch }) {

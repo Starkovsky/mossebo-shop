@@ -35,12 +35,12 @@
 
             <template v-else>
                 <button-loading
-                    @click="toStep('payment')"
+                    @click="toStep('confirmation')"
                     class="button button-primary"
                     :loading="validationLoading"
                     :disabled="validationLoading"
                 >
-                    Перейти к оплате
+                    Подтвердить заказ
 
                     <svg class="button__icon button__icon--right">
                         <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>

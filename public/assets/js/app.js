@@ -9174,8 +9174,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -9982,7 +9980,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             cart.setProducts(this.order.products);
 
             if (this.order.promo) {
-                cart.setPromo(new __WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__["a" /* PromoCode */](this.order.promo.amount, this.order.promo.percent));
+                cart.setPromo(new __WEBPACK_IMPORTED_MODULE_0__scripts_shop_Cart__["a" /* PromoCode */](this.order.promo));
             }
 
             return cart;
@@ -18088,34 +18086,26 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "badge__content" },
-        [
-          _vm.icon
-            ? [
-                _c("svg", { staticClass: "badge__icon" }, [
-                  _c("use", {
-                    attrs: {
-                      "xlink:href": "/vendor/images/badges.svg#" + _vm.icon
-                    }
-                  })
-                ])
-              ]
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.text
-            ? [
-                _c("div", {
-                  staticClass: "badge__text",
-                  domProps: { innerHTML: _vm._s(_vm.text) }
-                })
-              ]
-            : _vm._e()
-        ],
-        2
-      )
-    ]
+      _vm.icon
+        ? [
+            _c("svg", { staticClass: "badge__icon" }, [
+              _c("use", {
+                attrs: { "xlink:href": "/vendor/images/badges.svg#" + _vm.icon }
+              })
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.text
+        ? [
+            _c("div", {
+              staticClass: "badge__text",
+              domProps: { innerHTML: _vm._s(_vm.text) }
+            })
+          ]
+        : _vm._e()
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -21490,7 +21480,7 @@ var render = function() {
             attrs: { disabled: _vm.loading },
             on: {
               click: function($event) {
-                _vm.toStep("payment")
+                _vm.toStep("shipping")
               }
             }
           },
@@ -24722,13 +24712,13 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        _vm.toStep("payment")
+                        _vm.toStep("confirmation")
                       }
                     }
                   },
                   [
                     _vm._v(
-                      "\n                Перейти к оплате\n\n                "
+                      "\n                Подтвердить заказ\n\n                "
                     ),
                     _c(
                       "svg",
@@ -33319,6 +33309,7 @@ function initFixedMenu(query) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Alerty__ = __webpack_require__("./resources/assets/js/scripts/Alerty.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__functions__ = __webpack_require__("./resources/assets/js/scripts/functions/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Request__ = __webpack_require__("./resources/assets/js/scripts/Request.js");
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -33328,6 +33319,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 
 
@@ -33633,51 +33625,60 @@ var FormSender = function (_FormInputs) {
             var _this5 = this;
 
             if (this.sendInProcess) return;
+
             this.startLoading();
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(this.url, new FormData(this.el), { cancelToken: new __WEBPACK_IMPORTED_MODULE_0_axios___default.a.CancelToken(function (c) {
-                    return _this5.requestCancel = c;
-                }) }).then(function (response) {
-                return _this5.handleResponseData(response.data);
-            }).catch(function (thrown) {
-                if (__WEBPACK_IMPORTED_MODULE_0_axios___default.a.isCancel(thrown)) return;
-
-                if (_this5.thrownHasHandlableData(thrown)) {
-                    _this5.handleResponseData(thrown.response.data);
-                    return;
+            new __WEBPACK_IMPORTED_MODULE_5__Request__["a" /* default */]('post', this.url, new FormData(this.el)).success(function () {
+                return _this5.applyToFields('reset');
+            }).fail(function (response) {
+                if ('data' in response && 'errors' in response.data) {
+                    _this5.showErrors(response.data.errors);
                 }
-
-                _this5.showMessage(__WEBPACK_IMPORTED_MODULE_2__core__["a" /* default */].translate('errors.technical'), 'error');
-                console.log(thrown);
-            }).finally(function () {
+            }).any(function () {
                 _this5.endLoading();
-            });
+            }).start();
+
+            // axios.post(this.url, new FormData(this.el), {cancelToken: new axios.CancelToken(c => this.requestCancel = c)})
+            //     .then(response => this.handleResponseData(response.data))
+            //     .catch(thrown => {
+            //         if (axios.isCancel(thrown)) return
+            //
+            //         if (this.thrownHasHandlableData(thrown)) {
+            //             this.handleResponseData(thrown.response.data)
+            //             return
+            //         }
+            //
+            //         this.showMessage(Core.translate('errors.technical'), 'error')
+            //         console.log(thrown)
+            //     })
+            //     .finally(() => {
+            //         this.endLoading()
+            //     })
         }
-    }, {
-        key: 'thrownHasHandlableData',
-        value: function thrownHasHandlableData(thrown) {
-            if (!'response' in thrown || !thrown.response) return false;
-            if (!'data' in thrown.response) return false;
 
-            return 'message' in thrown.response.data && thrown.response.data.message;
-        }
-    }, {
-        key: 'handleResponseData',
-        value: function handleResponseData(data) {
-            this.trigger('onDone', data);
+        // thrownHasHandlableData(thrown) {
+        //     if (! 'response' in thrown || ! thrown.response) return false
+        //     if (! 'data' in thrown.response) return false
+        //
+        //     return 'message' in thrown.response.data && thrown.response.data.message
+        // }
+        //
+        // handleResponseData(data) {
+        //     this.trigger('onDone', data)
+        //
+        //     if (data.status === 'error' && data.errors) {
+        //         this.showErrors(data.errors)
+        //     }
+        //
+        //     if (data.status === 'success') {
+        //         this.applyToFields('reset')
+        //     }
+        //
+        //     if (data.message) {
+        //         this.showMessage(data.message, data.status)
+        //     }
+        // }
 
-            if (data.status === 'error' && data.errors) {
-                this.showErrors(data.errors);
-            }
-
-            if (data.status === 'success') {
-                this.applyToFields('reset');
-            }
-
-            if (data.message) {
-                this.showMessage(data.message, data.status);
-            }
-        }
     }, {
         key: 'startLoading',
         value: function startLoading() {
@@ -34281,9 +34282,9 @@ function makeLoader(startCb, finishCb) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -34296,6 +34297,24 @@ function runCallback(cb) {
     if (_.isFunction(cb)) {
         cb.apply(null, [].slice.call(arguments, 1));
     }
+}
+
+function prepareData(data) {
+    var token = __WEBPACK_IMPORTED_MODULE_0__core_index__["a" /* default */].user.getToken();
+
+    if (data instanceof FormData) {
+        if (token) {
+            data.append('api_token', token);
+        }
+    } else if (data instanceof Object) {
+        data = _extends({}, data);
+
+        if (token) {
+            data.api_token = token;
+        }
+    }
+
+    return data;
 }
 
 var Request = function () {
@@ -34324,13 +34343,7 @@ var Request = function () {
             url: url
         };
 
-        data = _extends({}, data);
-
-        var token = __WEBPACK_IMPORTED_MODULE_0__core_index__["a" /* default */].user.getToken();
-
-        if (token) {
-            data.api_token = token;
-        }
+        data = prepareData(data);
 
         if (['post', 'put', 'patch'].indexOf(method) !== -1) {
             config.data = data;
@@ -35998,6 +36011,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function roundPrice(price) {
+    return Math.ceil(price);
+}
+
 var Cart = function () {
     function Cart() {
         _classCallCheck(this, Cart);
@@ -36122,7 +36139,7 @@ var Cart = function () {
                 }, 0);
             }
 
-            return this.amount;
+            return roundPrice(this.amount);
         }
     }, {
         key: 'getPromoDiscount',
@@ -36133,12 +36150,12 @@ var Cart = function () {
                 return discount;
             }
 
-            return this.promo.getDiscount(this.getAmount());
+            return roundPrice(this.promo.getDiscount(this.getAmount()));
         }
     }, {
         key: 'getTotal',
         value: function getTotal() {
-            return this.getAmount() - this.getPromoDiscount();
+            return roundPrice(this.getAmount() - this.getPromoDiscount());
         }
     }]);
 
@@ -36261,11 +36278,11 @@ var CartItem = function () {
 }();
 
 var PromoCode = function () {
-    function PromoCode(amount, percent) {
+    function PromoCode(data) {
         _classCallCheck(this, PromoCode);
 
-        this.amount = amount;
-        this.percent = percent;
+        this.amount = data.amount;
+        this.percent = data.percent;
         this.type = null;
     }
 
@@ -36291,7 +36308,7 @@ var PromoCode = function () {
                 discount = price * this.percent / 100;
             }
 
-            return discount;
+            return roundPrice(discount);
         }
     }]);
 
@@ -37302,13 +37319,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             return queue;
         },
-        setPromoCode: function setPromoCode(_ref24, promoCode) {
+        setPromoCode: function setPromoCode(_ref24, promoCodeData) {
             var state = _ref24.state,
                 dispatch = _ref24.dispatch;
 
-            state.cart.setPromo(new __WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["a" /* PromoCode */](promoCode.amount, promoCode.percent));
+            state.cart.setPromo(new __WEBPACK_IMPORTED_MODULE_6__scripts_shop_Cart__["a" /* PromoCode */](promoCodeData));
 
-            return dispatch('promo/set', promoCode);
+            return dispatch('promo/set', promoCodeData);
         },
         clearPromoCode: function clearPromoCode(_ref25) {
             var state = _ref25.state,
@@ -39146,12 +39163,16 @@ function scrollToStart(cb) {
             icon: 'symbol-truck',
             stepName: 'Шаг второй',
             title: 'Доставка'
-        }, {
-            identif: 'payment',
-            icon: 'symbol-credit-card',
-            stepName: 'Шаг третий',
-            title: 'Оплата'
-        }, {
+        },
+
+        // {
+        //     identif: 'payment',
+        //     icon: 'symbol-credit-card',
+        //     stepName: 'Шаг третий',
+        //     title: 'Оплата',
+        // },
+
+        {
             identif: 'confirmation',
             icon: 'symbol-confirmation',
             stepName: 'Шаг четвёртый',
@@ -39245,7 +39266,7 @@ function scrollToStart(cb) {
 
                         return acc;
                     }, {}),
-                    promo_code: rootState.cart.cart.promo ? rootState.cart.cart.promo.name : ''
+                    promo_code: rootState.cart.promo.name
                 },
                 shipping: {
                     type: rootState.shipping.type,

@@ -16,7 +16,6 @@ class CheckoutController extends Controller
     public function index(CheckoutRequest $request)
     {
         $result = (new OrderSaver($request->all()))->save();
-        dd('a');
 
         Mail::to($result['email'])
             ->bcc(config('mail.to.address'), config('mail.to.name'))

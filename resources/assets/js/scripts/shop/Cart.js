@@ -1,3 +1,7 @@
+function roundPrice(price) {
+    return Math.ceil(price)
+}
+
 export default class Cart {
     constructor() {
         this.items = []
@@ -99,7 +103,7 @@ export default class Cart {
             }, 0)
         }
 
-        return this.amount
+        return roundPrice(this.amount)
     }
 
     getPromoDiscount() {
@@ -109,11 +113,15 @@ export default class Cart {
             return discount
         }
 
-        return this.promo.getDiscount(this.getAmount())
+        return roundPrice(
+            this.promo.getDiscount(this.getAmount())
+        )
     }
 
     getTotal() {
-        return this.getAmount() - this.getPromoDiscount()
+        return roundPrice(
+            this.getAmount() - this.getPromoDiscount()
+        )
     }
 }
 
@@ -209,9 +217,9 @@ export class CartItem {
 }
 
 export class PromoCode {
-    constructor(amount, percent) {
-        this.amount = amount
-        this.percent = percent
+    constructor(data) {
+        this.amount = data.amount
+        this.percent = data.percent
         this.type = null
     }
 
@@ -235,7 +243,7 @@ export class PromoCode {
             discount = price * this.percent / 100
         }
 
-        return discount
+        return roundPrice(discount)
     }
 }
 

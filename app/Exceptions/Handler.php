@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -56,5 +57,19 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        $response = ['status' => 'error'];
+
+        if ($errors = $exception->errors()) {
+            $response['errors'] = $errors;
+        }
+        elseif ($message = $exception->getMessage()) {
+            $response['message'] = $message;
+        }
+
+        return response()->json($response, $exception->status);
     }
 }
