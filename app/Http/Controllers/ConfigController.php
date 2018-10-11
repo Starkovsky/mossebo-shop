@@ -32,7 +32,7 @@ class ConfigController extends Controller
         ];
 
         $this->__connectTranslates($config);
-        $this->__connectLocations($config);
+//        $this->__connectLocations($config);
         $this->__connectUserData($config);
         $this->__connectDefaultPromo($config);
         $this->__connectBanners($config);

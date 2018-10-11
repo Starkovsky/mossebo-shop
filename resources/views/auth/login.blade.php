@@ -102,18 +102,11 @@
                                         <input
                                             id="email"
                                             type="email"
-                                            class="form-input mb-3{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                            class="form-input mb-3"
                                             name="email"
-                                            value="{{ old('email') }}"
                                             required
                                             autofocus
                                         >
-
-                                        @if ($errors->has('email'))
-                                            <span class="form-error">
-                                                <strong>{{ $errors->first('email') }}</strong>
-                                            </span>
-                                        @endif
                                     </div>
 
                                     <div class="form-group mt-24 js-form-group">
@@ -122,15 +115,10 @@
                                         <input
                                             id="password"
                                             type="password"
-                                            class="form-input mb-3{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                            class="form-input mb-3"
                                             name="password"
                                             required
                                         >
-                                        @if ($errors->has('password'))
-                                            <span class="form-error">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
                                     </div>
 
                                     <div class="form-group mt-16 js-form-group">
@@ -139,7 +127,7 @@
                                                 class="form-checkbox__input"
                                                 type="checkbox"
                                                 checked="checked"
-                                                name="remember" {{ old('remember') ? 'checked' : '' }}
+                                                name="remember"
                                             >
 
                                             <span class="form-checkbox__checkmark"></span>

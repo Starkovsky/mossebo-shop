@@ -3562,9 +3562,9 @@ body.compensate-for-scrollbar {
 }
 
 .button-group__icon {
-  width: 24px;
-  height: 24px;
-  fill: #969ca3;
+  width: 22px;
+  height: 22px;
+  fill: #dfdfdf;
 }
 
 .button-group__side:hover, .button-group__side.is-hovered, .button-group__side.is-active {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Support\Traits\Controllers\HasRedirectToReferer;
 use URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -20,7 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, HasRedirectToReferer;
 
     /**
      * Where to redirect users after login.
@@ -41,47 +42,21 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        \Session::put('login-referer', URL::previous());
+        $this->storeReferer();
 
         return view('auth.login');
     }
 
     protected function authenticated(Request $request, $user)
     {
-        $referer = \Session::pull('login-referer');
-
-        if ($referer) {
-            return redirect($referer);
-        }
+        return redirect($this->getRedirectUrl());
     }
 
     protected function loggedOut()
     {
-        if ($referer = $this->getReferer()) {
-            $url = $referer;
-        }
-        else {
-            $url = '/';
-        }
-
-        return redirect()->intended($url);
-    }
-
-    protected function getReferer()
-    {
-        $referer = URL::previous();
-
-        if ($referer) {
-            $route = app('router')->getRoutes()->match(
-                app('request')->create($referer)
-            );
-
-            if ($route) {
-                return $referer;
-            }
-        }
-
-        return false;
+        return redirect()->intended(
+            $this->getRedirectUrl()
+        );
     }
 
     protected function sendLoginResponse(Request $request)
@@ -89,7 +64,7 @@ class LoginController extends Controller
         if ($request->expectsJson()) {
             return response()->json([
                 'status' => 'success',
-                'redirect' => $this->getReferer()
+                'redirect' => $this->getRedirectUrl()
             ]);
         }
         else {

@@ -176,7 +176,7 @@ class LocationController extends Controller
         $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
 
         $codes = [];
-//$c = [];
+
         foreach ($files as $file) {
             $places = file_get_contents($path . '/' . $file);
             $places = json_decode($places, true);
@@ -252,10 +252,7 @@ class LocationController extends Controller
 
             $postalCode->save();
         }
-
-//        dd($codes);
     }
-
 
     /*
      * Отдает город пользователя из кукисов, или ищет по ip.

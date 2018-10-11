@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Support\Traits\Controllers\HasRedirectToReferer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -21,7 +23,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers, HasRedirectToReferer;
 
     /**
      * Where to redirect users after registration.
@@ -95,9 +97,21 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
+        $this->storeReferer();
+
         return view('auth.register', [
             'socialUser' => false,
             'provider' => false,
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'redirect' => $this->getRedirectUrl()
+            ]);
+        }
     }
 }

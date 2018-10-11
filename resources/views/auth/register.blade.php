@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="auth auth--registration block-ui">
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('register') }}" class="js-form-sender">
                 @csrf
 
                 <div class="auth__top container">
@@ -90,7 +90,7 @@
                     <div class="auth-form auth-form--registration">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-first-name" class="form-label">
                                         Имя
                                     </label>
@@ -100,20 +100,13 @@
                                         type="text"
                                         class="form-input"
                                         name="first_name"
-                                        value="{{ old('first_name') }}"
                                         required
                                     >
-
-                                    @if ($errors->has('first_name'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('first_name') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-last-name" class="form-label">
                                         Фамилия
                                     </label>
@@ -123,20 +116,13 @@
                                         type="text"
                                         class="form-input"
                                         name="last_name"
-                                        value="{{ old('last_name') }}"
                                         required
                                     >
-
-                                    @if ($errors->has('last_name'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('last_name') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-phone" class="form-label">
                                         Телефон
                                     </label>
@@ -146,20 +132,13 @@
                                         type="tel"
                                         class="form-input"
                                         name="phone"
-                                        value="{{ old('phone') }}"
                                         required
                                     >
-
-                                    @if ($errors->has('phone'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('phone') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-email" class="form-label">
                                         E-Mail
                                     </label>
@@ -169,20 +148,13 @@
                                         type="email"
                                         class="form-input"
                                         name="email"
-                                        value="{{ old('email') }}"
                                         required
                                     >
-
-                                    @if ($errors->has('email'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-password" class="form-label">
                                         Пароль
                                     </label>
@@ -194,17 +166,11 @@
                                         name="password"
                                         required
                                     >
-
-                                    @if ($errors->has('password'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                <div class="form-group js-form-group">
                                     <label for="registration-password-confirm" class="form-label">
                                         Подтверждение пароля
                                     </label>
@@ -216,19 +182,19 @@
                                         name="password_confirmation"
                                         required
                                     >
-
-                                    @if ($errors->has('password_confirmation'))
-                                        <span class="form-error">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span>
-                                    @endif
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-32">
-                            <button type="submit" class="button button-primary">
-                                Создать аккаунт
+                            <button type="submit" class="button button-primary button-loading login">
+                                <span class="button-loading__content">
+                                    Создать аккаунт
+                                </span>
+
+                                <svg class="button-loading__loader">
+                                    <use xlink:href="/assets/images/icons.svg#symbol-spinner"></use>
+                                </svg>
                             </button>
                         </div>
 
