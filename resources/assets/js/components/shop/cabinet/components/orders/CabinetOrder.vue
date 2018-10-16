@@ -107,7 +107,8 @@
 
 
 <script>
-    import Cart, { PromoCode, makeKey } from '../../../../../scripts/shop/Cart'
+    import Cart, { makeKey } from '../../../../../scripts/shop/Cart'
+    import PromoCode from '../../../../../scripts/shop/PromoCode'
     import FormattedPrice from '../../../price/FormattedPrice'
     import CabinetOrderProductRow from './CabinetOrderProductRow'
     import CabinetOrderProductItem from './CabinetOrderProductItem'
@@ -140,8 +141,8 @@
 
                 this.order.products.forEach(product => {
                     product.key = makeKey(
-                        product.info.id,
-                        product.info.options
+                        product.data.id,
+                        product.data.options
                     )
                 })
 

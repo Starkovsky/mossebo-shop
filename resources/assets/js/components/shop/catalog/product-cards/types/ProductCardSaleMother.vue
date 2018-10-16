@@ -38,11 +38,11 @@
             ProductCardMobile
         },
 
-        props: [
-            'type',
-            'product',
-            'noImageLoading'
-        ],
+        props: {
+            type: null,
+            product: null,
+            noImageLoading: null,
+        },
 
         data() {
             return {
@@ -97,6 +97,11 @@
                     if (elapsed - this.elapsed > 0.1) {
                         this.elapsed = elapsed
                         this.timeLeft = this.product.sale.remainedTime()
+
+                        if (this.timeLeft <= 0) {
+                            this.$emit('sale-time-end')
+                        }
+
                         this.updateBadges()
                     }
 
@@ -159,6 +164,10 @@
             },
 
             timeLeftShort() {
+                if (this.timeLeft <= 0) {
+                    return false
+                }
+
                 let result = parseTime(this.timeLeft)
 
                 if (result.days > 0) {

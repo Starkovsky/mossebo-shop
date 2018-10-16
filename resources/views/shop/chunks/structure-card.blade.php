@@ -8,7 +8,12 @@
 
         <div class="structure-card__description">
             <div class="structure-card__name">
-                {{ $item['title'] }}
+                <font-resizer
+                    min-size="15"
+                    max-size="24"
+                >
+                    <span>{{ $item['title'] }}</span>
+                </font-resizer>
             </div>
 
             <div class="structure-card__amount">
@@ -26,7 +31,12 @@
 
         <div class="structure-card__description">
             <div class="structure-card__name">
-                {{ $item['title'] }}
+                <font-resizer
+                    min-size="15"
+                    max-size="24"
+                >
+                    <span>{{ $item['title'] }}</span>
+                </font-resizer>
             </div>
 
             <div class="structure-card__amount">

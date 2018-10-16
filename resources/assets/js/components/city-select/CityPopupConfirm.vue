@@ -4,7 +4,7 @@
         @close="close"
     >
         <div class="select-city-confirm">
-            <div class="select-city-confirm__text">
+            <div v-if="false" class="select-city-confirm__text">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 At debitis delectus dignissimos.
             </div>

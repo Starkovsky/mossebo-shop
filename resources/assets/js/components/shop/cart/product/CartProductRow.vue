@@ -15,7 +15,7 @@
             <td>
                 <formatted-price
                     class="cart-table__price"
-                    :value="product.price"
+                    :value="price"
                 ></formatted-price>
             </td>
 
@@ -36,9 +36,9 @@
 
             <td>
                 <formatted-price
-                    v-if="totalPrice"
+                    v-if="amount"
+                    :value="amount"
                     class="cart-table__price"
-                    :value="totalPrice"
                 ></formatted-price>
             </td>
 

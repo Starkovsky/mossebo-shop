@@ -1,9 +1,10 @@
 <template>
     <product-card-sale-mother
-        v-if="type === 'sale'"
+        v-if="type$ === 'sale'"
         :product="product"
         :no-image-loading="noImageLoading"
         :type="baseType"
+        @sale-time-end="setType"
     ></product-card-sale-mother>
 
     <component
@@ -49,12 +50,14 @@
 
         data() {
             return {
-                types$: null
+                types$: null,
+                type$: null
             }
         },
 
         created() {
             this.setTypes()
+            this.setType()
         },
 
         methods: {
@@ -62,13 +65,7 @@
                 this.types$ = this.types instanceof Array ? this.types : [this.types]
             },
 
-            canUseType(type) {
-                return this.types$.indexOf(type) !== -1
-            }
-        },
-
-        computed: {
-            type() {
+            getType() {
                 if (this.types$.length === 1) {
                     return this.types$[0]
                 }
@@ -82,6 +79,16 @@
                 return this.baseType
             },
 
+            setType() {
+                this.type$ = this.getType()
+            },
+
+            canUseType(type) {
+                return this.types$.indexOf(type) !== -1
+            }
+        },
+
+        computed: {
             baseType() {
                 if (this.canUseType('mobile')) {
                     if (this.$root.windowLessThan('lg')) {
@@ -95,7 +102,7 @@
             },
 
             component() {
-                return types[this.type]
+                return types[this.type$]
             }
         }
     }

@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\ApiController;
 
 use Categories;
 use App\Support\Traits\Cacheable;
-use App\Http\Resources\ProductResource;
+use App\Models\Shop\Product\Product;
+use App\Models\Shop\Category\CategoryProduct;
 
 class CategoryController extends ApiController
 {
@@ -27,7 +28,7 @@ class CategoryController extends ApiController
             return abort(404);
         }
 
-        $products = \Cache::remember(static::makeCacheKey($slug), 60, function() use($category) {
+        $products = \Cache::remember(static::makeCacheKey($slug), 30, function() use($category) {
             return $this->getProducts($category);
         });
 
@@ -38,7 +39,24 @@ class CategoryController extends ApiController
 
     protected function getProducts($structureModel)
     {
-        $products = $structureModel->products()
+        $ids = array_column(
+            $structureModel->descendants()->get()->toArray(),
+            'id'
+        );
+
+        $ids[] = $structureModel->id;
+
+        $productTableName = (new Product)->getTable();
+        $relationTableName = (new CategoryProduct)->getTable();
+
+        $products = Product::rawQuery()
+            ->select(\DB::raw("DISTINCT ON ({$productTableName}.id) {$productTableName}.*"))
+            ->join($relationTableName, function ($join) use($productTableName, $relationTableName, $ids) {
+                $join->on("{$relationTableName}.product_id", "{$productTableName}.id")
+                    ->whereIn("{$relationTableName}.category_id", $ids);
+            })
+            ->localized()
+            ->enabled()
             ->with([
                 'previews',
                 'currentPrice',
@@ -48,16 +66,9 @@ class CategoryController extends ApiController
                 'supplier',
                 'badges',
             ])
-            ->where('enabled', true)
             ->get();
 
-        return $products->reduce(function ($carry, $product) {
-            if ($product->canBeShowed()) {
-                $carry[] = new ProductResource($product);
-            }
-
-            return $carry;
-        }, []);
+        return productsToResource($products);
     }
 }
 

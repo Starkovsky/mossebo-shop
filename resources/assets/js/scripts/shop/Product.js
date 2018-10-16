@@ -30,6 +30,10 @@ export default class Product {
         return this.old_price ? this.old_price : this.price
     }
 
+    getPrice() {
+        return this.getMinPrice()
+    }
+
     getDiscount() {
         return this.getMaxPrice() - this.getMinPrice()
     }

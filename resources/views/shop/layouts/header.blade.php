@@ -89,10 +89,7 @@
                                     <a href="/cabinet#reviews" class="dropdown-item">Отзывы</a>
                                     {{--<a href="/cabinet#questions" class="dropdown-item">Вопросы</a>--}}
                                     {{--<a href="/cabinet#help" class="dropdown-item gray">Помощь</a>--}}
-                                    <a class="dropdown-item logout"
-                                       href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                    >
+                                    <a href="{{ route('logout') }}" class="dropdown-item logout">
                                         {{ __('auth.logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

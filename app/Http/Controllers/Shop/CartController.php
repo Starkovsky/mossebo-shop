@@ -73,4 +73,11 @@ class CartController extends Controller
 
         return $this->_makeResponse();
     }
+
+    public function clearPromo()
+    {
+        Cart::clearPromoCode();
+
+        return $this->_makeResponse();
+    }
 }

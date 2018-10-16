@@ -101,6 +101,7 @@
                                         class="form-input"
                                         name="first_name"
                                         required
+                                        @if($socialUser)value="{{ $first_name }}"@endif
                                     >
                                 </div>
                             </div>
@@ -117,6 +118,7 @@
                                         class="form-input"
                                         name="last_name"
                                         required
+                                        @if($socialUser)value="{{ $last_name }}"@endif
                                     >
                                 </div>
                             </div>
@@ -133,6 +135,7 @@
                                         class="form-input"
                                         name="phone"
                                         required
+                                        @if($socialUser)value="{{ $phone }}"@endif
                                     >
                                 </div>
                             </div>
@@ -149,6 +152,7 @@
                                         class="form-input"
                                         name="email"
                                         required
+                                        @if($socialUser)value="{{ $email }}"@endif
                                     >
                                 </div>
                             </div>

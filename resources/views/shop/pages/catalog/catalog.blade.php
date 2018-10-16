@@ -13,4 +13,8 @@
         'chunkName' => 'shop.chunks.structure-card',
         'items' => $categories
     ])
+
+    <div class="container mt-60">
+        <catalog></catalog>
+    </div>
 @endsection

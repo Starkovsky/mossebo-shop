@@ -56,3 +56,9 @@ window.formatDate = function (time) {
 
     return result
 }
+
+
+
+window.roundPrice = function(price) {
+    return Math.ceil(price)
+}

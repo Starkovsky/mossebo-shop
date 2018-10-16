@@ -48,20 +48,7 @@ class RoomController extends ApiController
         }
 
         $products = \Cache::remember('room::' . $slug . '::' . $categorySlug, 60, function() use($room, $category) {
-            return static::prepareProducts(
-                Product::enabled()
-                    ->whereRoom($room->id)
-                    ->whereCategory($category->id)
-                    ->with([
-                        'currentPrice',
-                        'salePrice',
-                        'oldPrice',
-                        'attributeOptionRelations',
-                        'supplier',
-                        'previews',
-                    ])
-                    ->get()
-            );
+            return $this->getProducts($room, $category);
         });
 
         return response()->json([
@@ -69,33 +56,30 @@ class RoomController extends ApiController
         ]);
     }
 
-    protected function getProducts($structureModel)
+    protected function getProducts($structureModel, $category = null)
     {
-        return static::prepareProducts(
-            $structureModel
-                ->products()
-                ->with([
-                    'currentPrice',
-                    'salePrice',
-                    'oldPrice',
-                    'attributeOptionRelations',
-                    'supplier',
-                    'previews',
-                ])
-                ->where('enabled', true)
-                ->get()
-        );
-    }
+        if ($category) {
+            $query = Product::byCategory($category->id)
+                ->localized()
+                ->enabled();
+        }
+        else {
+            $query = Product::query();
+        }
 
-    protected static function prepareProducts($products)
-    {
-        return $products->reduce(function ($carry, $product) {
-            if ($product->canBeShowed()) {
-                $carry[] = new ProductResource($product);
-            }
+        $query
+            ->whereRoom($structureModel->id)
+            ->with([
+                'previews',
+                'currentPrice',
+                'salePrice',
+                'oldPrice',
+                'attributeOptionRelations',
+                'supplier',
+                'badges',
+            ]);
 
-            return $carry;
-        }, []);
+        return productsToResource($query->get());
     }
 }
 

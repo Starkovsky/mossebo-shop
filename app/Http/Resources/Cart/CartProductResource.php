@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Cart;
 
 use Shop;
-use App\Http\Resources\Cart\PromoCodeResource;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartProductResource extends JsonResource
@@ -19,7 +19,7 @@ class CartProductResource extends JsonResource
         $data = [
             'key'      => $this->resource->getKey(),
             'quantity' => $this->resource->getQuantity(),
-            'info' => [
+            'data' => [
                 'id'      => $this->resource->getProductId(),
                 'options' => $this->resource->getOptions(),
                 'added'   => $this->resource->getAddedAtTimestamp(),
@@ -27,9 +27,9 @@ class CartProductResource extends JsonResource
             ]
         ];
 
-        $this->setPrice($data['info']);
-        $this->setTitle($data['info']);
-        $this->setImage($data['info']);
+        $this->setPrice($data['data']);
+        $this->setTitle($data['data']);
+        $this->setImage($data['data']);
 
         return $data;
     }
@@ -49,6 +49,17 @@ class CartProductResource extends JsonResource
         else {
             if ($price = $getPrice(Shop::getDefaultPriceTypeId())) {
                 $data['price'] = $price->getValue();
+            }
+        }
+
+        if ($price = $getPrice(Shop::getPriceTypeId('sale'))) {
+            $sale = Shop::sales()->getSale('product', $this->resource->getKey());
+
+            if ($sale) {
+                $data['sale'] = [
+                    'price' => $price->getValue(),
+                    'time' => Shop::sales()->getSaleTime($sale),
+                ];
             }
         }
     }

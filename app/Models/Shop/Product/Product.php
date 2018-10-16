@@ -3,6 +3,7 @@
 namespace App\Models\Shop\Product;
 
 use Shop;
+use Categories;
 use App\Models\Media;
 use App\Models\Review;
 use App\Models\Shop\Badge\Badge;
@@ -134,7 +135,7 @@ class Product extends BaseProduct implements CartProductData
         return $this
             ->morphOne(Price::class, 'item')
             ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
-            ->where('price_type_id','=', Shop::getCurrentPriceTypeId());
+            ->where('price_type_id', '=', Shop::getCurrentPriceTypeId());
     }
 
     public function oldPrice()
@@ -142,7 +143,7 @@ class Product extends BaseProduct implements CartProductData
         return $this
             ->morphOne(Price::class, 'item')
             ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
-            ->where('price_type_id','=', '1');
+            ->where('price_type_id', '=', Shop::getPriceTypeId('old'));
     }
 
     public function salePrice()
@@ -150,7 +151,7 @@ class Product extends BaseProduct implements CartProductData
         return $this
             ->morphOne(Price::class, 'item')
             ->where('currency_code', '=', Shop::getCurrentCurrencyCode())
-            ->where('price_type_id','=', '6');
+            ->where('price_type_id', '=', Shop::getPriceTypeId('sale'));
     }
 
     public function relatedRelations()
@@ -183,13 +184,13 @@ class Product extends BaseProduct implements CartProductData
                 'prices'
             );
 
-        if (! empty($options)) {
+        if (!empty($options)) {
             $optionsTable = config('tables.AttributeOptions');
             $productOptionsTable = config('tables.ProductAttributeOptions');
 
-            $query->join("{$productOptionsTable}", function($join) use($productTable, $optionsTable, $productOptionsTable, $options) {
+            $query->join("{$productOptionsTable}", function ($join) use ($productTable, $optionsTable, $productOptionsTable, $options) {
                 $join->on("{$productOptionsTable}.product_id", '=', "{$productTable}.id")
-                    ->join("{$optionsTable}", function($join) use($optionsTable, $productOptionsTable, $options) {
+                    ->join("{$optionsTable}", function ($join) use ($optionsTable, $productOptionsTable, $options) {
                         $join->on("{$optionsTable}.id", '=', "{$productOptionsTable}.option_id")
                             ->where("{$optionsTable}.enabled", true)
                             ->whereIn("{$optionsTable}.id", $options);
@@ -202,7 +203,7 @@ class Product extends BaseProduct implements CartProductData
 
     public function canBeShowed(): bool
     {
-        if (! $this->enabled) {
+        if (!$this->enabled) {
             return false;
         }
 
@@ -215,11 +216,10 @@ class Product extends BaseProduct implements CartProductData
         }
 
         if (isset($this['supplier_enabled'])) {
-            if (! $this->supplier_enabled) {
+            if (!$this->supplier_enabled) {
                 return false;
             }
-        }
-        else {
+        } else {
             if (!$this->supplier->enabled) {
                 return false;
             }
@@ -237,8 +237,7 @@ class Product extends BaseProduct implements CartProductData
     {
         if ($this->relationNotEmpty('salePrice') && Shop::sales()->productInSale($this)) {
             $price = $this->salePrice;
-        }
-        else {
+        } else {
             $price = $this->currentPrice;
         }
 
@@ -272,7 +271,7 @@ class Product extends BaseProduct implements CartProductData
             $this->i18n()->get();
         }
 
-        return $this->i18n->reduce(function($carry, $item) {
+        return $this->i18n->reduce(function ($carry, $item) {
             $carry[$item->language_code] = $item->title;
 
             return $carry;
@@ -283,7 +282,7 @@ class Product extends BaseProduct implements CartProductData
     {
         $titles = $this->getI18nTitles();
 
-        if (! $titles || !isset($titles[$languageCode])) {
+        if (!$titles || !isset($titles[$languageCode])) {
             return null;
         }
 
@@ -296,11 +295,11 @@ class Product extends BaseProduct implements CartProductData
             return null;
         }
 
-        return $this->prices->map(function($item) {
+        return $this->prices->map(function ($item) {
             return [
                 'currency_code' => $item->currency_code,
                 'price_type_id' => $item->price_type_id,
-                'value'         => $item->value,
+                'value' => $item->value,
             ];
         })->toArray();
     }
@@ -316,5 +315,24 @@ class Product extends BaseProduct implements CartProductData
         }
 
         return array_column($this->attributeOptionRelations()->get()->toArray(), 'option_id');
+    }
+
+    public static function byCategory($categoryId)
+    {
+        $category = Categories::where('id', $categoryId)->first();
+
+        $ids = $category->descendants->pluck('id');
+        $ids->push($categoryId);
+        $ids = $ids->toArray();
+
+        $productTableName = (new Product)->getTable();
+        $relationTableName = (new CategoryProduct)->getTable();
+
+        return Product::rawQuery()
+            ->select(\DB::raw("DISTINCT ON ({$productTableName}.id) {$productTableName}.*"))
+            ->join($relationTableName, function ($join) use($productTableName, $relationTableName, $ids) {
+                $join->on("{$relationTableName}.product_id", "{$productTableName}.id")
+                    ->whereIn("{$relationTableName}.category_id", $ids);
+            });
     }
 }

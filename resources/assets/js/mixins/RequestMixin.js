@@ -19,17 +19,16 @@ export default {
 
             this.loading = true
 
-            this.request = new Request(method, url, data).start()
-            this.hanleRequest()
+            this.request = new Request(method, url, data)
+            this.handleRequest()
 
-            return this.request
+            return this.request.start()
         },
 
-        hanleRequest() {
+        handleRequest() {
             this.request
                 .any(this.abortRequest)
                 .fail(() => this.error = true)
-                .start()
         },
 
         abortRequest() {

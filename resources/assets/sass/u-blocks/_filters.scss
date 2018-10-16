@@ -339,3 +339,34 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.filter-option--209 .form-checkbox__checkmark::before {
+    background-image: url("/assets/images/filters/colors/craft.jpg");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.filter-option--239 .form-checkbox__checkmark::before {
+    background-color: #171310;
+    background-image: linear-gradient(45deg, #171310 0%, #bab7b0 50%, #171310 100%)
+}
+
+.filter-option--242 .form-checkbox__checkmark::before {
+    background-color: #a06f44;
+    background-image: linear-gradient(45deg, #a06f44 0%, #bab7b0 50%, #a06f44 100%)
+}
+
+.filter-option--243 .form-checkbox__checkmark::before {
+    background-color: #cfcfcf;
+    background-image: linear-gradient(45deg, #9c9c92 0%, #f7f7f7 100%)
+}
+
+.filter-option--244 .form-checkbox__checkmark::before {
+    background-color: #5c5754;
+    background-image: linear-gradient(45deg, #5c5754 0%, #cbcbcb 50%, #5c5754 100%)
+}
+
+
+
+

@@ -44,6 +44,8 @@ trait HasRedirectToReferer
         return !$route || in_array($route->getName(), [
             'login',
             'logout',
+            'login-social',
+            'login-social.callback',
             'register',
             'password.request',
             'password.email',

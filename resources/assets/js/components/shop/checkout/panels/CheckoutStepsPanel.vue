@@ -1,6 +1,6 @@
 <template>
     <div class="checkout-steps-panel block-ui">
-        <div class="row">
+        <div class="row justify-content-center">
             <template v-for="step in steps">
                 <div :key="step.identif" class="col-xs-6 col-sm-6 col-md-6 col-lg-3">
                     <div :class="{'checkout-step-badge': true, 'is-active': isActive(step)}">

@@ -112,11 +112,13 @@
 
                     <div class="mt-32">
                         <div class="row justify-content-center align-items-center">
+                            @if (false)
                             <div class="col-9 col-md-6">
                                 <a href="#popup-call" class="button button-light button-long js-form-popup">
                                     {{ __('layouts.footer-recall') }}
                                 </a>
                             </div>
+                            @endif
 
                             <div class="col-9 col-md-6">
                                 <a href="#popup-feedback" class="button button-light button-long js-form-popup">
@@ -134,11 +136,13 @@
                                 </svg>
                             </div>
 
+                            @if (false)
                             <div class="footer-pay-group__item">
                                 <svg class="pay-maestro">
                                     <use xlink:href="/assets/images/icons.svg#pay-maestro"></use>
                                 </svg>
                             </div>
+                            @endif
 
                             <div class="footer-pay-group__item">
                                 <svg class="pay-mastercard">
@@ -180,6 +184,7 @@
                                 <li class="footer-nav__item">
                                     <a href="{{ route('rooms') }}" class="footer-nav__link link">Комнаты</a>
                                 </li>
+                                @if (false)
                                 <li class="footer-nav__item">
                                     <a href="#" class="footer-nav__link link">Комплекты</a>
                                 </li>
@@ -195,6 +200,7 @@
                                 <li class="footer-nav__item">
                                     <a href="#" class="footer-nav__link link">Наш выбор</a>
                                 </li>
+                                @endif
                             </ul>
                         </nav>
                     </div>
@@ -215,6 +221,7 @@
                                 <li class="footer-nav__item">
                                     <a href="{{ route('help-article', ['slug' => 'garant']) }}" class="footer-nav__link link">Гарантии</a>
                                 </li>
+                                @if (false)
                                 <li class="footer-nav__item">
                                     <a href="#" class="footer-nav__link link">Поддержка</a>
                                 </li>
@@ -227,6 +234,7 @@
                                 <li class="footer-nav__item">
                                     <a href="#" class="footer-nav__link link">FAQ</a>
                                 </li>
+                                @endif
                             </ul>
                         </nav>
                     </div>
@@ -239,19 +247,21 @@
 
                             <ul class="footer-nav__links">
                                 <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">О нас</a>
+                                    <a href="https://mossebo.studio/o-nas/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">О нас</a>
                                 </li>
+                                @if (false)
                                 <li class="footer-nav__item">
                                     <a href="#" class="footer-nav__link link">Проекты</a>
                                 </li>
+                                @endif
                                 <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Блог</a>
+                                    <a href="https://mossebo.studio/novosti/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Блог</a>
                                 </li>
                                 <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Вакансии</a>
+                                    <a href="https://mossebo.studio/vacancie/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Вакансии</a>
                                 </li>
                                 <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Контакты</a>
+                                    <a href="https://mossebo.studio/kontaktyi/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Контакты</a>
                                 </li>
                             </ul>
                         </nav>

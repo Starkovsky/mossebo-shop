@@ -22,9 +22,14 @@
 
                     <div class="promo-input__side">
                         <template v-if="codeAccepted && !hasError">
-                            <div @click="clear" class="promo-input__submit button button-primary">
+                            <button-loading
+                                tag="div"
+                                :loading="loading"
+                                @click="clear"
+                                class="promo-input__submit button button-primary"
+                            >
                                 Сбросить
-                            </div>
+                            </button-loading>
                         </template>
 
                         <template v-else>
@@ -98,25 +103,30 @@
                 this.query = e.target.value.toUpperCase()
             },
 
-            clear() {
-                this.inputEl.disabled = false
-
-                this.$nextTick(() => {
-                    this.inputEl.focus()
-                    this.inputEl.setSelectionRange(0, this.inputEl.value.length, 'none')
-                    document.execCommand('delete')
-                    this.$store.dispatch('cart/promo/clear')
-                })
-            },
-
-            hanleRequest() {
-                FormSenderMixin.methods.hanleRequest.call(this)
+            handleRequest() {
+                FormSenderMixin.methods.handleRequest.call(this)
                     .success(response => {
                         this.$store.dispatch('cart/setCart', response.data)
                     })
                     .fail(() => {
                         this.$store.dispatch('cart/promo/clear')
                     })
+            },
+
+            clear() {
+                this.inputEl.disabled = false
+
+                this.loader.start()
+
+                this.sendRequest('delete', this.getUrl())
+                    .success(() => this.$nextTick(this.clearInput))
+            },
+
+            clearInput() {
+                this.inputEl.focus()
+                this.inputEl.setSelectionRange(0, this.inputEl.value.length, 'none')
+                document.execCommand('delete')
+                this.$store.dispatch('cart/promo/clear')
             },
         },
 

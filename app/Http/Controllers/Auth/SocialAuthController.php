@@ -65,11 +65,11 @@ class SocialAuthController extends Controller
             }
         }
 
+        $user = Auth::user();
+
         $socialProvider = SocialProvider::where('provider_user_id', $socialUser->getId())
             ->where('provider', $provider)
             ->first();
-
-        $user = Auth::user();
 
         if ($user) {
             if (! $socialProvider) {
@@ -88,9 +88,19 @@ class SocialAuthController extends Controller
             return $this->redirectToReferer();
         }
 
+        $user = $socialUser->getRaw();
+
+        $getUserData = function($label) use($user) {
+            return isset($user[$label]) ? htmlspecialchars($user[$label]) : '';
+        };
+
         return view('auth.register', [
             'socialUser' => $socialUser,
-            'provider' => $provider,
+            'provider'   => $provider,
+            'first_name' => $getUserData('first_name'),
+            'last_name'  => $getUserData('last_name'),
+            'email'      => $getUserData('email'),
+            'phone'      => $getUserData('phone'),
         ]);
     }
 

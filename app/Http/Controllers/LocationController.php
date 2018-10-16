@@ -15,8 +15,29 @@ class LocationController extends Controller
 {
     protected static $cityIdCookieKey = '__city::id';
 
-//    public function test()
-//    {
+    public function test2()
+    {
+    }
+
+    public function test()
+    {
+//        $a = \DB::select('SELECT * FROM (SELECT count(fias_code) as fias_count, fias_code FROM cities GROUP BY fias_code ORDER BY fias_count DESC) as a WHERE fias_count > 1');
+//
+//        foreach ($a as $item) {
+//            if (! $item->fias_code) continue;
+//
+//            $b = City::where('fias_code', $item->fias_code)
+//                ->orderBy('id')
+//                ->get();
+//
+//            if ($b->count() > 1) {
+//                City::where('fias_code', $item->fias_code)
+//                    ->where('id', '>', $b->first()->id)
+//                    ->delete();
+//            }
+//        }
+
+//        $this->findUserCity();
 ////        return;
 //        ini_set("memory_limit","2048M");
 //        ini_set('max_execution_time', 3000);
@@ -32,7 +53,7 @@ class LocationController extends Controller
 //            scandir(app_path('Geo')),
 //            array('.', '..', '.DS_Store')
 //        ));
-//    }
+    }
 
 //    protected function saveRegions()
 //    {
@@ -126,112 +147,112 @@ class LocationController extends Controller
 //        }
 //    }
 
-    protected function saveCities()
-    {
-        $path = app_path('Geo');
-        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
-
-        $regions = Region::get();
-
-        foreach ($files as $file) {
-            $cities = file_get_contents($path . '/' . $file);
-            $cities = json_decode($cities, true);
-
-            $cities = array_filter($cities, function ($city) {
-                return $city['CURRSTATUS'] == 0;
-            });
-
-            foreach ($cities as $city) {
-                if ($city['AOLEVEL'] != 4 && $city['AOLEVEL'] != 6 ) {
-                    continue;
-                }
-
-                if (! in_array($city['SHORTNAME'], ["п/ст", "с", "п", "высел", "у", "дп", "рп", "х", "гп", "с/мо", "кп", "г", "г.", "д", "аал", "ст-ца", "ст", "с/п", "снт", "м", "заимка", "нп", "пгт", "арбан", "городок", "аул", "массив", "сл", "починок"])) {
-                    continue;
-                }
-
-                $parent = $regions
-                    ->where('fias_code', $city['REGIONCODE'] . $city['AREACODE'] . '00000000')
-                    ->first();
-
-                $city = new City([
-                    'region_id'  => $parent->id,
-                    'name'       => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
-                    'short_name' => str_replace('г.', 'г', $city['SHORTNAME']),
-                    'fias_code'  => $city['CODE'],
-                    'okato_code' => $city['OKATO'],
-                    'aoguid'     => $city['AOGUID'],
-                    'parent_id'  => $parent->id,
-                    'enabled'    => 1,
-                ]);
-
-                $city->save();
-            }
-        }
-    }
-
-    protected function savePostalCodes()
-    {
-        $path = app_path('Geo');
-        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
-
-        $codes = [];
-
-        foreach ($files as $file) {
-            $places = file_get_contents($path . '/' . $file);
-            $places = json_decode($places, true);
-
-            $places = array_filter($places, function ($city) {
-                return $city['CURRSTATUS'] == 0;
-            });
-
-            foreach ($places as $place) {
-                if (empty($place['POSTALCODE'])) {
-                    continue;
-                }
-
-                $code = implode('', [
-                    $place['REGIONCODE'],
-                    $place['AREACODE'],
-                    $place['CITYCODE'],
-                    $place['PLACECODE'],
-//                    '000',
-                    '00'
-                ]);
-
-                if ($place['CODE'] === $code) {
-                    continue;
-                }
-
-                if (! isset($city) || $city->fias_code !== $code) {
-                    $city = City::where('fias_code', $code)->first();
-                }
-
-                if ($city) {
-                    $codes[$place['POSTALCODE']] = [
-                        'type' => 'city',
-                        'id' => $city->id,
-                    ];
-                }
-                else {
-                    if (! isset($region) || $region->fias_code !== $code) {
-                        $region = Region::where('fias_code', $code)->first();
-                    }
-
-                    if ($region) {
-                        $codes[$place['POSTALCODE']] = [
-                            'type' => 'region',
-                            'id' => $region->id,
-                        ];
-                    }
-                    else {
-//                        $c[] = array_filter($places, function ($city) use($code) {
-//                            return strpos($city['CODE'], $code) === 0;
-//                        });
-                    }
-                }
-            }
-        }
+//    protected function saveCities()
+//    {
+//        $path = app_path('Geo');
+//        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
+//
+//        $regions = Region::get();
+//
+//        foreach ($files as $file) {
+//            $cities = file_get_contents($path . '/' . $file);
+//            $cities = json_decode($cities, true);
+//
+//            $cities = array_filter($cities, function ($city) {
+//                return $city['CURRSTATUS'] == 0;
+//            });
+//
+//            foreach ($cities as $city) {
+//                if ($city['AOLEVEL'] != 4 && $city['AOLEVEL'] != 6 ) {
+//                    continue;
+//                }
+//
+//                if (! in_array($city['SHORTNAME'], ["п/ст", "с", "п", "высел", "у", "дп", "рп", "х", "гп", "с/мо", "кп", "г", "г.", "д", "аал", "ст-ца", "ст", "с/п", "снт", "м", "заимка", "нп", "пгт", "арбан", "городок", "аул", "массив", "сл", "починок"])) {
+//                    continue;
+//                }
+//
+//                $parent = $regions
+//                    ->where('fias_code', $city['REGIONCODE'] . $city['AREACODE'] . '00000000')
+//                    ->first();
+//
+//                $city = new City([
+//                    'region_id'  => $parent->id,
+//                    'name'       => empty($city['OFFNAME']) ? $city['FORMALNAME'] : $city['OFFNAME'],
+//                    'short_name' => str_replace('г.', 'г', $city['SHORTNAME']),
+//                    'fias_code'  => $city['CODE'],
+//                    'okato_code' => $city['OKATO'],
+//                    'aoguid'     => $city['AOGUID'],
+//                    'parent_id'  => $parent->id,
+//                    'enabled'    => 1,
+//                ]);
+//
+//                $city->save();
+//            }
+//        }
+//    }
+//
+//    protected function savePostalCodes()
+//    {
+//        $path = app_path('Geo');
+//        $files = array_diff(scandir($path), array('.', '..', '.DS_Store'));
+//
+//        $codes = [];
+//
+//        foreach ($files as $file) {
+//            $places = file_get_contents($path . '/' . $file);
+//            $places = json_decode($places, true);
+//
+//            $places = array_filter($places, function ($city) {
+//                return $city['CURRSTATUS'] == 0;
+//            });
+//
+//            foreach ($places as $place) {
+//                if (empty($place['POSTALCODE'])) {
+//                    continue;
+//                }
+//
+//                $code = implode('', [
+//                    $place['REGIONCODE'],
+//                    $place['AREACODE'],
+//                    $place['CITYCODE'],
+//                    $place['PLACECODE'],
+////                    '000',
+//                    '00'
+//                ]);
+//
+//                if ($place['CODE'] === $code) {
+//                    continue;
+//                }
+//
+//                if (! isset($city) || $city->fias_code !== $code) {
+//                    $city = City::where('fias_code', $code)->first();
+//                }
+//
+//                if ($city) {
+//                    $codes[$place['POSTALCODE']] = [
+//                        'type' => 'city',
+//                        'id' => $city->id,
+//                    ];
+//                }
+//                else {
+//                    if (! isset($region) || $region->fias_code !== $code) {
+//                        $region = Region::where('fias_code', $code)->first();
+//                    }
+//
+//                    if ($region) {
+//                        $codes[$place['POSTALCODE']] = [
+//                            'type' => 'region',
+//                            'id' => $region->id,
+//                        ];
+//                    }
+//                    else {
+////                        $c[] = array_filter($places, function ($city) use($code) {
+////                            return strpos($city['CODE'], $code) === 0;
+////                        });
+//                    }
+//                }
+//            }
+//        }
 
 //        $a = [];
 //
@@ -243,16 +264,16 @@ class LocationController extends Controller
 //            dd($a);
 //        }
 
-        foreach ($codes as $code => $data) {
-            $postalCode = new PostalCode([
-                'item_id'   => $data['id'],
-                'item_type' => $data['type'],
-                'code'      => $code,
-            ]);
-
-            $postalCode->save();
-        }
-    }
+//        foreach ($codes as $code => $data) {
+//            $postalCode = new PostalCode([
+//                'item_id'   => $data['id'],
+//                'item_type' => $data['type'],
+//                'code'      => $code,
+//            ]);
+//
+//            $postalCode->save();
+//        }
+//    }
 
     /*
      * Отдает город пользователя из кукисов, или ищет по ip.
@@ -261,8 +282,6 @@ class LocationController extends Controller
      */
     public static function getUserCity()
     {
-        return static::getMainCity();
-
         $city = static::getUserCityFromCookies();
 
         if ($city !== false) {
@@ -341,50 +360,50 @@ class LocationController extends Controller
      *
      * @return mixed
      */
-    public static function findClosestCity($lat, $lon)
-    {
-        $cities = Cities::enabled('currentI18n')->filter(function ($city) {
-            return ! (empty($city->lat) || empty($city->lon));
-        });
+//    public static function findClosestCity($lat, $lon)
+//    {
+//        $cities = Cities::enabled('currentI18n')->filter(function ($city) {
+//            return ! (empty($city->lat) || empty($city->lon));
+//        });
+//
+//        $citiesCount = $cities->count();
+//
+//        if ($citiesCount === 1) {
+//            return $cities->first();
+//        }
+//
+//        if ($citiesCount === 0) {
+//            return static::getMainCity();
+//        }
+//
+//        $closestCity = $cities->first();
+//        $shortest = static::getDistanceToCity($closestCity, $lat, $lon);
+//
+//
+//        foreach ($cities->slice(1) as $city) {
+//            $len = static::getDistanceToCity($city, $lat, $lon);
+//
+//            if ($shortest > $len) {
+//                $shortest = $len;
+//                $closestCity = $city;
+//            }
+//        }
+//
+//        return $closestCity;
+//    }
 
-        $citiesCount = $cities->count();
-
-        if ($citiesCount === 1) {
-            return $cities->first();
-        }
-
-        if ($citiesCount === 0) {
-            return static::getMainCity();
-        }
-
-        $closestCity = $cities->first();
-        $shortest = static::getDistanceToCity($closestCity, $lat, $lon);
-
-
-        foreach ($cities->slice(1) as $city) {
-            $len = static::getDistanceToCity($city, $lat, $lon);
-
-            if ($shortest > $len) {
-                $shortest = $len;
-                $closestCity = $city;
-            }
-        }
-
-        return $closestCity;
-    }
-
-    /**
-     * Определение расстояния от города до заданных координат.
-     *
-     * @param \App\Models\City $city
-     * @param $lat
-     * @param $lon
-     * @return float
-     */
-    public static function getDistanceToCity($city, $lat, $lon)
-    {
-        return sqrt( pow($city->lat - $lat, 2) + pow($city->lon - $lon, 2));
-    }
+//    /**
+//     * Определение расстояния от города до заданных координат.
+//     *
+//     * @param \App\Models\City $city
+//     * @param $lat
+//     * @param $lon
+//     * @return float
+//     */
+//    public static function getDistanceToCity($city, $lat, $lon)
+//    {
+//        return sqrt( pow($city->lat - $lat, 2) + pow($city->lon - $lon, 2));
+//    }
 
     /**
      * Отдает основной город.

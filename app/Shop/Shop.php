@@ -98,13 +98,6 @@ class Shop extends BaseShop
         return $this->getDefaultPriceTypeId();
     }
 
-
-
-
-
-
-
-
     protected $salesHandler = null;
 
     public function sales()

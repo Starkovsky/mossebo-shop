@@ -5,7 +5,9 @@ import storageActionsExtension from '../storageActionsExtension'
 import Request from '../../scripts/Request'
 
 import PromoModule from './modules/promo'
-import Cart, { PromoCode, makeKey } from '../../scripts/shop/Cart'
+import Cart, { makeKey } from '../../scripts/shop/Cart'
+import PromoCode from '../../scripts/shop/PromoCode'
+
 
 export default {
     namespaced: true,
@@ -54,7 +56,7 @@ export default {
         },
 
         getCartRequestType({state}) {
-            if (!state.time) {
+            if (! state.time) {
                 return 'load'
             }
             else {
@@ -161,7 +163,7 @@ export default {
 
             return new Request(config.method, config.url, config.data || null)
                 .success(response => {
-                    if (state.requestTime === startTime && state.time <= response.data.time) {
+                    if (state.requestTime === startTime) {
                         dispatch('setCart', response.data)
                     }
                 })
@@ -276,13 +278,13 @@ export default {
             state.synchronized = true
             state.loading = false
 
-            let products = data.cart.products
+            let items = data.cart.products
 
             if (! (_.isEmpty(state.options))) {
-                products.forEach(product => {
-                    if (_.isEmpty(product.info.options)) return
+                items.forEach(item => {
+                    if (_.isEmpty(item.data.options)) return
 
-                    product.info.attributes = product.info.options.reduce((acc, id) => {
+                    item.data.attributes = item.data.options.reduce((acc, id) => {
                         if (id in state.options) {
                             acc.push(state.options[id])
                         }
@@ -292,7 +294,7 @@ export default {
                 })
             }
 
-            state.cart.setProducts(products)
+            state.cart.setProducts(items)
         },
 
         [actionTypes.CART_REQUEST_FAILURE](state) {

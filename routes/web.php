@@ -13,11 +13,12 @@
 
 Route::group(['middleware' => 'web'], function () {
     // Маршруты для Авторизации через Соцсети
-    Route::get('login/{provider}', 'Auth\SocialAuthController@redirect');
-    Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback');
+    Route::get('login/{provider}', 'Auth\SocialAuthController@redirect')->name('login-social');
+    Route::get('login/{provider}/callback', 'Auth\SocialAuthController@callback')->name('login-social.callback');
 
     Route::group(['prefix' => 'ru'], function () {
         Route::get('/test', 'LocationController@test');
+        Route::get('/test2', 'LocationController@test2');
 
         // Маршруты Авторизации
         Auth::routes();
@@ -75,6 +76,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::put('/cart', 'Shop\CartController@sync');
         Route::put('/cart/{key}', 'Shop\CartController@add');
         Route::post('/cart/promo', 'Shop\CartController@promo');
+        Route::delete('/cart/promo', 'Shop\CartController@clearPromo');
 
         // Оформление заказа
         Route::post('/checkout', 'Shop\CheckoutController@index');

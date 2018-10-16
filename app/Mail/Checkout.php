@@ -36,6 +36,8 @@ class Checkout extends Mailable
 
         $products = [];
 
+
+
         foreach ($this->data['products'] as $cartProduct) {
             $productData = [
                 'url'      => route('good', [

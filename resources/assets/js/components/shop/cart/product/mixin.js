@@ -43,12 +43,16 @@ export default {
 
         changeQty(qty) {
             this.$store.dispatch('cart/updateProduct', [this.product, qty])
-        }
+        },
     },
 
     computed: {
-        totalPrice() {
-            return this.product.quantity * this.product.price
+        price() {
+            return this.product.getPrice()
+        },
+
+        amount() {
+            return this.product.quantity * this.price
         },
 
         isGhost() {

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use Cache;
 use App\Models\Shop\Product\Product;
-use App\Http\Resources\ProductResource;
 use App\Http\Controllers\Api\ApiController;
 use App\Models\Shop\Attribute\AttributeOption;
 
@@ -27,7 +26,7 @@ class ProductController extends ApiController
                 ->take(8)
                 ->get();
 
-            return ProductResource::collection($products);
+            return productsToResource($products);
         });
 
         return response()->json([
@@ -50,7 +49,7 @@ class ProductController extends ApiController
                 ->take(8)
                 ->get();
 
-            return ProductResource::collection($products);
+            return productsToResource($products);
         });
 
         return response()->json([
@@ -75,7 +74,7 @@ class ProductController extends ApiController
 
     public function related(Product $product)
     {
-        $products = Cache::remember('products::related::' . $product->id, 5, function () use($product) {
+        $products = Cache::remember('products::related::' . $product->id, 5, function() use($product) {
             return $this->getAdditionalProductsResource(
                 Product::whereIn('id', $this->getRelatedProductIds($product))
             );
@@ -104,7 +103,7 @@ class ProductController extends ApiController
             ->take($limit)
             ->get();
 
-        return ProductResource::collection($products);
+        return productsToResource($products);
     }
 
     public function similar(Request $request, Product $product)

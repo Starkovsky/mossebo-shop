@@ -29,7 +29,7 @@ class StyleController extends ApiController
             return abort(404);
         }
 
-        $products = \Cache::remember(static::makeCacheKey($slug), 60, function() use($style) {
+        $products = \Cache::remember(static::makeCacheKey($slug), 30, function() use($style) {
             return $this->getProducts($style);
         });
 
@@ -47,21 +47,8 @@ class StyleController extends ApiController
             return abort(404);
         }
 
-        $products = \Cache::remember(static::makeCacheKey($slug) . '::' . $categorySlug, 60, function() use($style, $category) {
-            return static::prepareProducts(
-                Product::enabled()
-                    ->whereStyle($style->id)
-                    ->whereCategory($category->id)
-                    ->with([
-                        'currentPrice',
-                        'salePrice',
-                        'oldPrice',
-                        'attributeOptionRelations',
-                        'supplier',
-                        'previews',
-                    ])
-                    ->get()
-            );
+        $products = \Cache::remember(static::makeCacheKey($slug) . '::' . $categorySlug, 30, function() use($style, $category) {
+            return $this->getProducts($style, $category);
         });
 
         return response()->json([
@@ -69,33 +56,30 @@ class StyleController extends ApiController
         ]);
     }
 
-    protected function getProducts($structureModel)
+    protected function getProducts($structureModel, $category = null)
     {
-        return static::prepareProducts(
-            $structureModel
-                ->products()
-                ->with([
-                    'currentPrice',
-                    'salePrice',
-                    'oldPrice',
-                    'attributeOptionRelations',
-                    'supplier',
-                    'previews',
-                ])
-                ->where('enabled', true)
-                ->get()
-        );
-    }
+        if ($category) {
+            $query = Product::byCategory($category->id)
+                ->localized()
+                ->enabled();
+        }
+        else {
+            $query = Product::query();
+        }
 
-    protected static function prepareProducts($products)
-    {
-        return $products->reduce(function ($carry, $product) {
-            if ($product->canBeShowed()) {
-                $carry[] = new ProductResource($product);
-            }
+        $query
+            ->whereStyle($structureModel->id)
+            ->with([
+                'previews',
+                'currentPrice',
+                'salePrice',
+                'oldPrice',
+                'attributeOptionRelations',
+                'supplier',
+                'badges',
+            ]);
 
-            return $carry;
-        }, []);
+        return productsToResource($query->get());
     }
 }
 

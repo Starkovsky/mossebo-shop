@@ -16,7 +16,7 @@ class OrderProductResource extends JsonResource
     {
         $data = [
             'quantity' => $this->resource->quantity,
-            'info' => [
+            'data' => [
                 'id'    => $this->resource->product_id,
                 'price' => $this->resource->final_price,
             ]
@@ -28,25 +28,25 @@ class OrderProductResource extends JsonResource
             $locale = app()->getLocale();
 
             if (isset($params->titles->{$locale})) {
-                $data['info']['title'] = $params->titles->{$locale};
+                $data['data']['title'] = $params->titles->{$locale};
             }
             else {
                 $product = Product::where('id', $this->resource->product_id)
                     ->first();
 
-                $data['info']['title'] = $product->title;
+                $data['data']['title'] = $product->title;
             }
         }
 
         if (! empty($params->image)) {
-            $data['info']['image'] = [
+            $data['data']['image'] = [
                 'src'    => $params->image->thumb->src,
                 'srcset' => $params->image->thumb->srcset
             ];
         }
 
         if ($this->relationNotEmpty('options')) {
-            $data['info']['options'] = array_column($this->resource->options->toArray(), 'option_id');
+            $data['data']['options'] = array_column($this->resource->options->toArray(), 'option_id');
         }
 
         return $data;

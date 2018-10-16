@@ -25,8 +25,8 @@
 
             <div class="cart-product-item__total">
                 <formatted-price
-                    v-if="totalPrice"
-                    :value="totalPrice"
+                    v-if="amount"
+                    :value="amount"
                 ></formatted-price>
             </div>
 

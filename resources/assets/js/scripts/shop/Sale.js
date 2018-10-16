@@ -39,7 +39,7 @@ export default class Sale
             start   = this.startTime(),
             finish  = this.finishTime()
 
-        return start && finish && start < current && finish > start
+        return start && finish && start < current && finish > current
     }
 
     getPrice() {

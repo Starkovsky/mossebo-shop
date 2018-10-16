@@ -26,20 +26,42 @@ class Sale
         return $this->sales;
     }
 
-    public function itemHasSale(HasMorphRelation $item)
+    public function getSale($type, $id)
     {
         $sales = $this->getSales();
 
-        return isset($sales[$item->getMorphTypeName()][$item->id]);
+        return isset($sales[$type][$id]) ? $sales[$type][$id] : false;
     }
 
-    public function getItemSaleTime(HasMorphRelation $item)
+    public function getSaleTime($sale)
     {
-        $sale = $this->getSales()[$item->getMorphTypeName()][$item->id];
-
         return [
             'start' => strtotime($sale->date_start),
             'finish' => strtotime($sale->date_finish),
         ];
+    }
+
+    public function hasActualSale($type, $id)
+    {
+        if ($sale = $this->getSale($type, $id)) {
+            $range = $this->getSaleTime($sale);
+            $time = time();
+
+            return $time >= $range['start'] && $time <= $range['finish'];
+        }
+
+        return false;
+    }
+
+    public function itemHasSale(HasMorphRelation $item)
+    {
+        return !! $this->getSale($item->getMorphTypeName(), $item->id);
+    }
+
+    public function getItemSaleTime(HasMorphRelation $item)
+    {
+        return $this->getSaleTime(
+            $this->getSale($item->getMorphTypeName(), $item->id)
+        );
     }
 }

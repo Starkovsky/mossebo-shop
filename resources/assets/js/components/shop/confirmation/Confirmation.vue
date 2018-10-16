@@ -79,6 +79,7 @@
             </confirmation-block>
 
             <confirmation-block
+                v-if="false"
                 icon="symbol-credit-card"
                 title="Оплата"
                 @change="setStep('payment')"

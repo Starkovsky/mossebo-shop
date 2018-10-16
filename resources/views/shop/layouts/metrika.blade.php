@@ -30,6 +30,7 @@
         }
     })(document, window, "yandex_metrika_callbacks2");
 </script>
+
 <noscript>
     <div><img src="https://mc.yandex.ru/watch/48404660" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
@@ -40,10 +41,19 @@
 @if(Route::currentRouteName() == 'home')
     <!-- social groups scripts -->
 
+
+    <!-- VK Widget -->
+
+
     <script type="text/javascript" src="https://vk.com/js/api/openapi.js?159"></script>
+
     <script type="text/javascript">
-        VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222", color2: '323F4C', color3: 'FCC600'}, 76599685);
+        VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222"}, 76599685);
     </script>
+    {{----}}
+    {{--<script type="text/javascript">--}}
+        {{--VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222", color2: '323F4C', color3: 'FCC600'}, 76599685);--}}
+    {{--</script>--}}
 
     <script>
         !function (d, id, did, st) {

@@ -18,7 +18,6 @@
                     class="header-banner__title"
                 >
                     <font-resizer
-                        style="width: 100%"
                         :min-size="type === 'mobile' ? 12 : 14"
                         :max-size="type === 'mobile' ? 16 : 18"
                     >

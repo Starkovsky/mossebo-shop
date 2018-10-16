@@ -39,12 +39,14 @@ class LocationController extends ApiController
     protected function search($query)
     {
         return City::search($query, function($client, $query, $params) {
+            $query = mb_strtolower($query);
+
             $params['body'] = [
                 'from' => 0,
                 'size' => 20,
                 'query' => [
-                    'match_phrase_prefix' => [
-                        'name' => "*{$query}*"
+                    'wildcard' => [
+                        "name" => "*{$query}*",
                     ]
                 ]
             ];

@@ -4,6 +4,7 @@ namespace App\Shop\Order;
 
 use DB;
 use Cart;
+use Shop;
 use PayTypes;
 //use App\Models\Shop\Product\Product;
 use App\Models\Shop\Order\Order;
@@ -17,17 +18,18 @@ use MosseboShopCore\Shop\Cart\Storage\Checkout\CartCheckoutLoader;
 
 class OrderSaver
 {
-    protected $result           = null;
-    protected $data             = null;
-    protected $cart             = null;
-    protected $user             = null;
-    protected $currencyCode     = null;
+    protected $result       = null;
+    protected $data         = null;
+    protected $cart         = null;
+    protected $user         = null;
+    protected $currencyCode = null;
 
     public function __construct($data)
     {
         $this->user         = Auth::user();
         $this->data         = $data;
         $this->currencyCode = 'RUB';
+
         $this->makeCart();
     }
 
@@ -107,6 +109,9 @@ class OrderSaver
     {
         $this->result['products'] = [];
 
+        $priceTypeId = $this->cart->getPriceTypeId();
+        $currencyCode = $this->currencyCode;
+
         foreach ($this->cart->getProducts() as $product) {
             $this->result['products'][] = $product;
 
@@ -114,8 +119,8 @@ class OrderSaver
                 'order_id'      => $order['id'],
                 'product_id'    => $product->getProductId(),
                 'currency_code' => $this->currencyCode,
-                'default_price' => $product->getBasePrice($this->cart->getPriceTypeId(), $this->currencyCode)->getValue(),
-                'final_price'   => $product->getBasePrice($this->cart->getPriceTypeId(), $this->currencyCode)->getValue(),
+                'default_price' => $product->getBasePrice($priceTypeId, $currencyCode)->getValue(),
+                'final_price'   => $product->getFinalPrice($priceTypeId, $currencyCode)->getValue(),
                 'quantity'      => $product->getQuantity(),
                 'params'        => json_encode([
                     'image'  => $product->getImage(),

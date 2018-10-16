@@ -22,7 +22,6 @@
                 class="banner__title"
             >
                 <font-resizer
-                    style="width: 100%"
                     :min-size="titleMinFontSize"
                     :max-size="titleMaxFontSize"
                 >
@@ -38,7 +37,6 @@
                 class="banner__caption"
             >
                 <font-resizer
-                    style="width: 100%"
                     :min-size="captionMinFontSize"
                     :max-size="captionMaxFontSize"
                 >

@@ -1,5 +1,5 @@
 <template>
-    <div class="ht-popup-wrap" v-if="ready && false">
+    <div class="ht-popup-wrap" v-if="ready">
         <a href="javascript:void(0);" class="location js-ht"
         >
             <div class="location-icon">

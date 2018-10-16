@@ -68,9 +68,10 @@ export default {
                 .success(this.formSendSuccess)
         },
 
-        hanleRequest() {
+        handleRequest() {
             return this.request.fail(response => {
                 this.error = true
+
                 if (this.request.status !== 'crashed') {
                     this.setErrors(response.data.errors)
                 }

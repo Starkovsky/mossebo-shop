@@ -1,6 +1,5 @@
-function roundPrice(price) {
-    return Math.ceil(price)
-}
+import Product from './Product'
+import PromoCode from './PromoCode'
 
 export default class Cart {
     constructor() {
@@ -38,8 +37,8 @@ export default class Cart {
 
             let ci = new CartItem(item.key, item.quantity)
 
-            if (item.info){
-                ci.setProductInfo(item.info)
+            if ('data' in item){
+                ci.setProduct(item.data)
             }
 
             return ci
@@ -83,15 +82,16 @@ export default class Cart {
     }
 
     toProduct(item) {
-        if (!item) {
+        if (! (item && item.isLoaded)) {
             return null
         }
 
-        return {
-            ... item.getInfo(),
-            quantity: item.getQuantity(),
-            key: item.getKey()
-        }
+        let product      = _.cloneDeep(item.getProduct())
+
+        product.quantity = item.getQuantity()
+        product.key      = item.getKey()
+
+        return product
     }
 
     getAmount() {
@@ -166,14 +166,13 @@ export class CartItem {
         return 1
     }
 
-
     getQuantity() {
         return this.quantity
     }
 
     getPrice() {
         if (this.isLoaded()) {
-            return this.info.price
+            return this.product.getPrice()
         }
 
         return 0
@@ -182,7 +181,6 @@ export class CartItem {
     getAmount() {
         return this.getQuantity() * this.getPrice()
     }
-
 
     add(quantity) {
         this.setQuantity(this.quantity + quantity)
@@ -200,50 +198,21 @@ export class CartItem {
         return this.loaded
     }
 
-    getInfo() {
-        return this.info
+    getProduct() {
+        return this.product
     }
 
-    setProductInfo(info) {
-        this.info = {
-            ... info
-        }
+    setProduct(data) {
+        this.product = new Product(data)
+
+        // this.info = {
+        //     ... info
+        // }
 
         this.setQuantity(this.quantity)
         this.loaded = true
 
         return this
-    }
-}
-
-export class PromoCode {
-    constructor(data) {
-        this.amount = data.amount
-        this.percent = data.percent
-        this.type = null
-    }
-
-    getType() {
-        if (! this.type) {
-            this.type = this.amount ? 'amount' : 'percent'
-        }
-
-        return this.type
-    }
-
-    getDiscount(price) {
-        let discount = 0
-
-        if (this.getType() === 'amount') {
-            discount = price * this.percent / 100
-
-            discount = Math.min(this.amount, discount)
-        }
-        else {
-            discount = price * this.percent / 100
-        }
-
-        return roundPrice(discount)
     }
 }
 
