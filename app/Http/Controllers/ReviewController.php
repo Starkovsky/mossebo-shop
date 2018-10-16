@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Review;
-use App\Models\Shop\Product;
+use App\Models\Shop\Product\Product;
 use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
 

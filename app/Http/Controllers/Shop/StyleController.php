@@ -71,7 +71,7 @@ class StyleController extends BaseStructureController
 
     public static function all()
     {
-        $styles = static::$repository::getCollection();
+        $styles = static::$repository::getCollection()->sortBy('position');
 
         return static::makeStructureCollection(
             $styles,

@@ -257,7 +257,7 @@
                         <div class="product-tabs js-product-tabs">
                             <div class="product-tabs__tabs">
                                 <tabs-html
-                                    :tabs="{'#characteristics': 'Описание и характеристики', '#delivery': 'Доставка', '#instructions': 'Инструкции'}"
+                                    :tabs="{'#characteristics': 'Описание и характеристики', '#delivery': 'Доставка', '#pay': 'Оплата', '#garant': 'Гарантия возврата'}"
                                     :class-name-modificators="['xl', 'underline', 'large-padding']"
                                 ></tabs-html>
                             </div>
@@ -319,7 +319,7 @@
                                     <div class="product-tabs__pane tab-pane block-ui fade" id="delivery">
                                         <div class="product-tabs-pane">
                                             <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Доставка и возврат
+                                                Доставка
 
                                                 <svg class="product-tabs-pane__chevron">
                                                     <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
@@ -327,19 +327,29 @@
                                             </div>
 
                                             <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__inner ht-inner">
-                                                    <div class="product-tabs-pane__under_constraction">
-                                                        Данный раздел находится в разработке
-                                                    </div>
+                                                <div class="product-tabs-pane__help ht-inner">
+                                                    @foreach ($delivery as $item)
+                                                        <div class="help-block">
+                                                            <h2 class="help-block__title title-h3">
+                                                                {{ $item->title }}
+                                                            </h2>
+
+                                                            <div class="help-block__content">
+                                                                <div class="article">
+                                                                    {!! $item->content !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="instructions">
+                                    <div class="product-tabs__pane tab-pane block-ui fade" id="pay">
                                         <div class="product-tabs-pane">
                                             <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Инструкции
+                                                Оплата
 
                                                 <svg class="product-tabs-pane__chevron">
                                                     <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
@@ -347,10 +357,50 @@
                                             </div>
 
                                             <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__inner ht-inner">
-                                                    <div class="product-tabs-pane__under_constraction">
-                                                        Данный раздел находится в разработке
-                                                    </div>
+                                                <div class="product-tabs-pane__help ht-inner">
+                                                    @foreach ($pay as $item)
+                                                        <div class="help-block">
+                                                            <h2 class="help-block__title title-h3">
+                                                                {{ $item->title }}
+                                                            </h2>
+
+                                                            <div class="help-block__content">
+                                                                <div class="article">
+                                                                    {!! $item->content !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-tabs__pane tab-pane block-ui fade" id="garant">
+                                        <div class="product-tabs-pane">
+                                            <div class="product-tabs-pane__trigger js-ht-product-info">
+                                                Гарантия и возврат
+
+                                                <svg class="product-tabs-pane__chevron">
+                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                                </svg>
+                                            </div>
+
+                                            <div class="product-tabs-pane__content ht-container">
+                                                <div class="product-tabs-pane__help ht-inner">
+                                                    @foreach ($garant as $item)
+                                                        <div class="help-block">
+                                                            <h2 class="help-block__title title-h3">
+                                                                {{ $item->title }}
+                                                            </h2>
+
+                                                            <div class="help-block__content">
+                                                                <div class="article">
+                                                                    {!! $item->content !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>

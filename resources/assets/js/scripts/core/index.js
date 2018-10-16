@@ -2,6 +2,7 @@ import cookie from './cookie'
 import Alerty from '../Alerty'
 import setMeta from '../MetaSetter'
 import timeHandler from './time'
+import metrika from './metrika'
 
 let Core = {
     siteUrl(url = '') {
@@ -39,7 +40,7 @@ let Core = {
     },
 
     cookie,
-
+    metrika,
     setMeta,
 
     getFancyboxConfig() {
@@ -118,7 +119,7 @@ let Core = {
         getToken() {
             return Core.config('user.token')
         }
-    }
+    },
 }
 
 Core.time = new timeHandler(Core.config('base_time'))

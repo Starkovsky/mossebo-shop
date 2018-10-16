@@ -361,3 +361,15 @@ $('.js-form-popup').fancybox(
 import {CookieStorageProxy} from './scripts/storage/CookieStorageProxy'
 
 window.CookieStorageProxy = CookieStorageProxy
+
+
+
+
+
+
+
+
+window.addEventListener('DOMContentLoaded', e => {
+    Core.metrika.reachGoal('test', null, () => {
+    })
+})

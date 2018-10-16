@@ -107,12 +107,23 @@ class ProductController extends Controller
         SeoProxy::setMetaFromModel($product);
         SeoProxy::setImageFromModel($product, 'oneHalf');
 
-        return view('shop.pages.product', [
+        $data = [
             'product' => $product,
             'badges'  => $badges,
             'attributes' => $carry['all'],
             'selectable' => json_encode($carry['selectable'], JSON_UNESCAPED_UNICODE)
-        ]);
+        ];
+
+        $this->connectContent($data);
+
+        return view('shop.pages.product', $data);
+    }
+
+    protected function connectContent(& $data)
+    {
+        foreach (['delivery', 'pay', 'garant'] as $item) {
+            $data[$item] = json_decode(file_get_contents(base_path("resources/views/shop/pages/help/{$item}.json")));
+        }
     }
 
     public function reviews(Product $product)

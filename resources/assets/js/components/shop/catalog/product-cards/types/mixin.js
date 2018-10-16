@@ -35,6 +35,7 @@ export default {
 
         addToCart() {
             this.$store.dispatch('cart/addProduct', [{id: this.product.id}, 1])
+                .then(() => Core.metrika.reachGoal('add-to-cart'))
         }
     },
 

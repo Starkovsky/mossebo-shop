@@ -71,7 +71,7 @@ class RoomController extends BaseStructureController
 
     public static function all()
     {
-        $rooms = static::$repository::getCollection();
+        $rooms = static::$repository::getCollection()->sortBy('position');
 
         return static::makeStructureCollection(
             $rooms,

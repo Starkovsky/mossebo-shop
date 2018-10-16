@@ -41,6 +41,14 @@
             this.fetchItem()
         },
 
+        watch: {
+            saleNotExist(newValue, oldValue) {
+                if (oldValue === true && newValue === false) {
+                    this.fetchItem()
+                }
+            }
+        },
+
         methods: {
             fetchItem() {
                 this.sendRequest('get', Core.apiUrl('sale'))

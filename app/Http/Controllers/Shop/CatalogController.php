@@ -48,7 +48,7 @@ class CatalogController extends BaseStructureController
 
     public static function all($parentId = 0)
     {
-        $categories = static::$repository::where('parent_id', $parentId);
+        $categories = static::$repository::where('parent_id', $parentId)->sortBy('position');;
 
         return static::makeStructureCollection(
             $categories,

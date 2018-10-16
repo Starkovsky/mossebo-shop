@@ -22,16 +22,14 @@
                     <div class="col-lg-8">
                         <div class="content-w-menu__content">
                             @foreach ($items as $item)
-                                <div class="content-w-menu__item">
-                                    <div class="help-item">
-                                        <h2 class="help-item__title title-h3">
-                                            {{ $item->title }}
-                                        </h2>
+                                <div class="help-block">
+                                    <h2 class="help-block__title title-h3">
+                                        {{ $item->title }}
+                                    </h2>
 
-                                        <div class="help-item__content">
-                                            <div class="article">
-                                                {!! $item->content !!}
-                                            </div>
+                                    <div class="help-block__content">
+                                        <div class="article">
+                                            {!! $item->content !!}
                                         </div>
                                     </div>
                                 </div>
