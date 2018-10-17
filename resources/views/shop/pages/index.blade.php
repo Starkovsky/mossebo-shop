@@ -131,8 +131,11 @@
 
     <section class="social-group">
         <div class="container">
-            <div class="title-h2">Узнавай об акциях и находи промокоды в наших соцсетях!</div>
-            <div class="row">
+            <div class="title-h2">
+                Узнавай об акциях и находи промокоды в наших соцсетях!
+            </div>
+
+            <div class="row justify-content-center">
                 <div class="col-md-6 col-xl-4">
                     <div class="social-widget">
                         <div id="vk_groups"></div>
