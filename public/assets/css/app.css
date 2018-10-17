@@ -8189,6 +8189,7 @@ fieldset[disabled] .multiselect {
   height: calc(100% - 56px);
   width: 100%;
   border-top: 1px solid #ecedf3;
+  -webkit-overflow-scrolling: touch;
 }
 
 .side-popup__page {
@@ -9360,7 +9361,6 @@ a.structure-card:hover .structure-card__name {
 .main-menu__item,
 .catalog-nav__item {
   border-bottom: 1px solid #ecedf3;
-  pointer-events: none;
 }
 
 .main-menu__trigger, .main-menu__link,
