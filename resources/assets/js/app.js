@@ -384,7 +384,8 @@ window.CookieStorageProxy = CookieStorageProxy
 
 
 
-window.addEventListener('DOMContentLoaded', e => {
-    Core.metrika.reachGoal('test', null, () => {
-    })
+window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('touchmove', e => {
+        if (e.scale !== 1) e.preventDefault()
+    }, {passive: false})
 })

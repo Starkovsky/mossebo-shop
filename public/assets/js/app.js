@@ -26392,8 +26392,10 @@ $('.js-form-popup').fancybox(__WEBPACK_IMPORTED_MODULE_27__scripts_core__["a" /*
 
 window.CookieStorageProxy = __WEBPACK_IMPORTED_MODULE_36__scripts_storage_CookieStorageProxy__["a" /* CookieStorageProxy */];
 
-window.addEventListener('DOMContentLoaded', function (e) {
-    __WEBPACK_IMPORTED_MODULE_27__scripts_core__["a" /* default */].metrika.reachGoal('test', null, function () {});
+window.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('touchmove', function (e) {
+        if (e.scale !== 1) e.preventDefault();
+    }, { passive: false });
 });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
