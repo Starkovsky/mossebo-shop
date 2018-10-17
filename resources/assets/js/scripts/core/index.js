@@ -60,6 +60,11 @@ let Core = {
 
             i18n: {
                 [this.getLang()]: this.translate('fancybox')
+            },
+
+            mobile : {
+                clickContent : "close",
+                clickSlide : "close"
             }
         }
     },

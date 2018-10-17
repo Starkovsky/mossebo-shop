@@ -35520,7 +35520,12 @@ var Core = {
 
             autoFocus: true,
 
-            i18n: _defineProperty({}, this.getLang(), this.translate('fancybox'))
+            i18n: _defineProperty({}, this.getLang(), this.translate('fancybox')),
+
+            mobile: {
+                clickContent: "close",
+                clickSlide: "close"
+            }
         };
     },
     getParameterByName: function getParameterByName(name, url) {
