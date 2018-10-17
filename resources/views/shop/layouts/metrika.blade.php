@@ -35,43 +35,29 @@
     <div><img src="https://mc.yandex.ru/watch/48404660" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
-<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>
+{{--<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>--}}
 
+@if(Route::currentRouteName() === 'home')
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?159" defer></script>
 
-@if(Route::currentRouteName() == 'home')
-    <!-- social groups scripts -->
+    <script type="text/javascript" defer>
+        window.addEventListener('DOMContentLoaded', function() {
+            VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222"}, 76599685);
 
-
-    <!-- VK Widget -->
-
-
-    <script type="text/javascript" src="https://vk.com/js/api/openapi.js?159"></script>
-
-    <script type="text/javascript">
-        VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222"}, 76599685);
+            !function (d, id, did, st) {
+                var js = d.createElement("script");
+                js.src = "https://connect.ok.ru/connect.js";
+                js.onload = js.onreadystatechange = function () {
+                    if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+                        if (!this.executed) {
+                            this.executed = true;
+                            setTimeout(function () {
+                                OK.CONNECT.insertGroupWidget(id,did,st);
+                            }, 0);
+                        }
+                    }};
+                d.documentElement.appendChild(js);
+            }(document,"ok_group_widget","53291776606394",'{"width":340,"height":222}');
+        })
     </script>
-    {{----}}
-    {{--<script type="text/javascript">--}}
-        {{--VK.Widgets.Group("vk_groups", {mode: 3, no_cover: 1, width: "340", height: "222", color2: '323F4C', color3: 'FCC600'}, 76599685);--}}
-    {{--</script>--}}
-
-    <script>
-        !function (d, id, did, st) {
-            var js = d.createElement("script");
-            js.src = "https://connect.ok.ru/connect.js";
-            js.onload = js.onreadystatechange = function () {
-                if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-                    if (!this.executed) {
-                        this.executed = true;
-                        setTimeout(function () {
-                            OK.CONNECT.insertGroupWidget(id,did,st);
-                        }, 0);
-                    }
-                }};
-            d.documentElement.appendChild(js);
-        }(document,"ok_group_widget","53291776606394",'{"width":340,"height":222}');
-    </script>
-
-
-    <!-- social groups scripts -->
 @endif
