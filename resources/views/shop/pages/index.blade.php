@@ -134,14 +134,21 @@
             <div class="title-h2">Узнавай об акциях и находи промокоды в наших соцсетях!</div>
             <div class="row">
                 <div class="col-md-6 col-xl-4">
-                    <!-- VK Widget -->
-                    <div id="vk_groups"></div>
+                    <div class="social-widget">
+                        <div id="vk_groups"></div>
+                    </div>
                 </div>
+
                 <div class="col-md-6 col-xl-4">
-                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmossebo.official%2F&tabs&width=340&height=222&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="340" height="222" style="border:none;overflow:hidden;max-width:100%" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    <div class="social-widget">
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fmossebo.official%2F&tabs&width=340&height=222&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="340" height="222" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                    </div>
                 </div>
+
                 <div class="col-md-6 col-xl-4">
-                    <div id="ok_group_widget"></div>
+                    <div class="social-widget">
+                        <div id="ok_group_widget"></div>
+                    </div>
                 </div>
             </div>
         </div>

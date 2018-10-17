@@ -1,9 +1,11 @@
 .social-group {
     padding-top: 48px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+
     .title-h2 {
         max-width: 550px;
     }
+
     #vk_groups, iframe {
         margin-left: auto !important;
         margin-right: auto !important;
@@ -13,3 +15,7 @@
     }
 }
 
+.social-widget {
+    max-width: 100%;
+    overflow: hidden;
+}

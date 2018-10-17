@@ -8732,7 +8732,7 @@ a.structure-card:hover .structure-card__name {
 
 .social-group {
   padding-top: 48px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 .social-group .title-h2 {
@@ -8745,6 +8745,11 @@ a.structure-card:hover .structure-card__name {
   width: 100% !important;
   max-width: 340px !important;
   display: block !important;
+}
+
+.social-widget {
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .content-block {
