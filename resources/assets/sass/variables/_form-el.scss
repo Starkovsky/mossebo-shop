@@ -256,6 +256,7 @@
 
     &__input:checked + &__label {
         color: $color-text-primary;
+        background-color: $color-primary;
     }
 }
 

@@ -3849,6 +3849,7 @@ body.compensate-for-scrollbar {
 
 .from-radio-group__input:checked + .from-radio-group__label {
   color: #323f4c;
+  background-color: #fcc600;
 }
 
 .form-input-group {
@@ -8505,6 +8506,32 @@ a.structure-card:hover .structure-card__name {
   }
 }
 
+.text-length-checker-wrap {
+  position: relative;
+}
+
+.text-length-checker-wrap__pos {
+  position: absolute;
+  right: 16px;
+  bottom: -12px;
+  border: 1px solid #ecedf3;
+  border-radius: 4px;
+  background: #fff;
+  padding: 4px 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.text-length-checker {
+  color: #969ca3;
+  font-size: 12px;
+  line-height: 14px;
+}
+
 .instagram-slider {
   height: 600px;
   margin: 0;
@@ -9333,6 +9360,7 @@ a.structure-card:hover .structure-card__name {
 .main-menu__item,
 .catalog-nav__item {
   border-bottom: 1px solid #ecedf3;
+  pointer-events: none;
 }
 
 .main-menu__trigger, .main-menu__link,

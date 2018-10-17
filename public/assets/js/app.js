@@ -6671,6 +6671,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'text-length-checker',
+
+    props: ['text', 'max'],
+
+    data: function data() {
+        return {
+            el: document.createElement('test')
+        };
+    },
+
+
+    computed: {
+        text$: function text$() {
+            this.el.innerHTML = this.text;
+
+            return this.el.innerText;
+        },
+        textLength: function textLength() {
+            return this.text$ && this.text$.length ? this.text$.length : 0;
+        },
+        hasMax: function hasMax() {
+            return !!this.max;
+        },
+        reachedMax: function reachedMax() {
+            return this.symbolsLeft === 0;
+        },
+        symbolsLeft: function symbolsLeft() {
+            return Math.max(this.max - this.textLength, 0);
+        }
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Timer.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8021,13 +8075,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_core__ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__buttons_ButtonLoading__ = __webpack_require__("./resources/assets/js/components/buttons/ButtonLoading.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__buttons_ButtonLoading___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__buttons_ButtonLoading__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_SmoothScroll__ = __webpack_require__("./resources/assets/js/scripts/SmoothScroll.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TextLengthChecker__ = __webpack_require__("./resources/assets/js/components/TextLengthChecker.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TextLengthChecker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TextLengthChecker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_autosize__ = __webpack_require__("./node_modules/autosize/dist/autosize.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_autosize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_autosize__);
 var _this = this;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -8294,7 +8376,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     props: ['url', 'title'],
 
     components: {
-        ButtonLoading: __WEBPACK_IMPORTED_MODULE_2__buttons_ButtonLoading___default.a
+        ButtonLoading: __WEBPACK_IMPORTED_MODULE_2__buttons_ButtonLoading___default.a,
+        TextLengthChecker: __WEBPACK_IMPORTED_MODULE_3__TextLengthChecker___default.a
     },
 
     mounted: function mounted() {
@@ -18485,17 +18568,30 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                _c("textarea", {
-                  staticClass: "form-textarea",
-                  attrs: {
-                    name: "advantages",
-                    id: "review-form-advantages",
-                    placeholder: "Что вам понравилось?",
-                    maxlength: "512"
-                  },
-                  domProps: { value: _vm.data.advantages },
-                  on: { input: _vm.input }
-                })
+                _c("div", { staticClass: "text-length-checker-wrap" }, [
+                  _c("textarea", {
+                    staticClass: "form-textarea",
+                    attrs: {
+                      name: "advantages",
+                      id: "review-form-advantages",
+                      placeholder: "Что вам понравилось?",
+                      maxlength: "512"
+                    },
+                    domProps: { value: _vm.data.advantages },
+                    on: { input: _vm.input }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-length-checker-wrap__pos" },
+                    [
+                      _c("text-length-checker", {
+                        attrs: { text: _vm.data.advantages, max: "512" }
+                      })
+                    ],
+                    1
+                  )
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -18520,17 +18616,30 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c("textarea", {
-                    staticClass: "form-textarea",
-                    attrs: {
-                      name: "disadvantages",
-                      id: "review-form-disadvantages",
-                      placeholder: "Что не так?",
-                      maxlength: "512"
-                    },
-                    domProps: { value: _vm.data.disadvantages },
-                    on: { input: _vm.input }
-                  })
+                  _c("div", { staticClass: "text-length-checker-wrap" }, [
+                    _c("textarea", {
+                      staticClass: "form-textarea",
+                      attrs: {
+                        name: "disadvantages",
+                        id: "review-form-disadvantages",
+                        placeholder: "Что не так?",
+                        maxlength: "512"
+                      },
+                      domProps: { value: _vm.data.disadvantages },
+                      on: { input: _vm.input }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "text-length-checker-wrap__pos" },
+                      [
+                        _c("text-length-checker", {
+                          attrs: { text: _vm.data.disadvantages, max: "512" }
+                        })
+                      ],
+                      1
+                    )
+                  ])
                 ]
               )
             ])
@@ -18546,18 +18655,31 @@ var render = function() {
               [_vm._v("\n                    Комментарий\n                ")]
             ),
             _vm._v(" "),
-            _c("textarea", {
-              staticClass: "form-textarea",
-              attrs: {
-                id: "review-form-comment",
-                name: "comment",
-                placeholder: "Опишите более подробно свой опыт",
-                maxlength: "2048",
-                required: ""
-              },
-              domProps: { value: _vm.data.comment },
-              on: { input: _vm.input }
-            })
+            _c("div", { staticClass: "text-length-checker-wrap" }, [
+              _c("textarea", {
+                staticClass: "form-textarea",
+                attrs: {
+                  id: "review-form-comment",
+                  name: "comment",
+                  placeholder: "Опишите более подробно свой опыт",
+                  maxlength: "2048",
+                  required: ""
+                },
+                domProps: { value: _vm.data.comment },
+                on: { input: _vm.input }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "text-length-checker-wrap__pos" },
+                [
+                  _c("text-length-checker", {
+                    attrs: { text: _vm.data.comment, max: "2048" }
+                  })
+                ],
+                1
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-control mt-48" }, [
@@ -22496,6 +22618,44 @@ if (false) {
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7805f79b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    { staticClass: "text-length-checker" },
+    [
+      _vm.hasMax
+        ? [
+            _vm._v("\n    Осталось символов: "),
+            _c("span", { class: { "text-danger": _vm.reachedMax } }, [
+              _vm._v(_vm._s(_vm.symbolsLeft))
+            ])
+          ]
+        : [
+            _vm._v("\n    Символов в тексте: "),
+            _c("span", [_vm._v(_vm._s(_vm.textLength))])
+          ]
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7805f79b", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-79ba1b7e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/reviews/ReviewsList.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26028,7 +26188,21 @@ var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
             return __WEBPACK_IMPORTED_MODULE_27__scripts_core__["a" /* default */].config.apply(null, arguments);
         },
         initTooltips: function initTooltips() {
-            $('[data-toggle="tooltip"]').tooltip();
+            var $els = $('[data-toggle="tooltip"]');
+
+            $els.tooltip({
+                trigger: 'hover'
+            });
+
+            $els.each(function (index, el) {
+                var $el = $(el);
+
+                $el.on('touchstart', function () {
+                    $el.tooltip('show');
+                }).on('touchend', function () {
+                    $el.tooltip('hide');
+                });
+            });
         },
 
 
@@ -27900,6 +28074,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-41702600", Component.options)
   } else {
     hotAPI.reload("data-v-41702600", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/TextLengthChecker.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/TextLengthChecker.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-7805f79b\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/TextLengthChecker.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/TextLengthChecker.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7805f79b", Component.options)
+  } else {
+    hotAPI.reload("data-v-7805f79b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

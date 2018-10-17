@@ -1,0 +1,20 @@
+.text-length-checker-wrap {
+    position: relative;
+
+    &__pos {
+        position: absolute;
+        right: 16px;
+        bottom: -12px;
+        border: 1px solid #ecedf3;
+        border-radius: 4px;
+        background: #fff;
+        padding: 4px 8px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+.text-length-checker {
+    color: $color-text-secondary;
+    font-size: 12px / 14px;
+}

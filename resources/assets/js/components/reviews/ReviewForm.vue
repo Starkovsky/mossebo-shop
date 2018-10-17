@@ -169,15 +169,24 @@
                                 Достоинства
                             </label>
 
-                            <textarea
-                                name="advantages"
-                                class="form-textarea"
-                                id="review-form-advantages"
-                                placeholder="Что вам понравилось?"
-                                maxlength="512"
-                                :value="data.advantages"
-                                @input="input"
-                            ></textarea>
+                            <div class="text-length-checker-wrap">
+                                <textarea
+                                    name="advantages"
+                                    class="form-textarea"
+                                    id="review-form-advantages"
+                                    placeholder="Что вам понравилось?"
+                                    maxlength="512"
+                                    :value="data.advantages"
+                                    @input="input"
+                                ></textarea>
+
+                                <div class="text-length-checker-wrap__pos">
+                                    <text-length-checker
+                                        :text="data.advantages"
+                                        max="512"
+                                    ></text-length-checker>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -187,15 +196,24 @@
                                 Недостатки
                             </label>
 
-                            <textarea
-                                name="disadvantages"
-                                class="form-textarea"
-                                id="review-form-disadvantages"
-                                placeholder="Что не так?"
-                                maxlength="512"
-                                :value="data.disadvantages"
-                                @input="input"
-                            ></textarea>
+                            <div class="text-length-checker-wrap">
+                                <textarea
+                                    name="disadvantages"
+                                    class="form-textarea"
+                                    id="review-form-disadvantages"
+                                    placeholder="Что не так?"
+                                    maxlength="512"
+                                    :value="data.disadvantages"
+                                    @input="input"
+                                ></textarea>
+
+                                <div class="text-length-checker-wrap__pos">
+                                    <text-length-checker
+                                        :text="data.disadvantages"
+                                        max="512"
+                                    ></text-length-checker>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,16 +223,25 @@
                         Комментарий
                     </label>
 
-                    <textarea
-                        id="review-form-comment"
-                        class="form-textarea"
-                        name="comment"
-                        placeholder="Опишите более подробно свой опыт"
-                        maxlength="2048"
-                        required
-                        :value="data.comment"
-                        @input="input"
-                    ></textarea>
+                    <div class="text-length-checker-wrap">
+                        <textarea
+                            id="review-form-comment"
+                            class="form-textarea"
+                            name="comment"
+                            placeholder="Опишите более подробно свой опыт"
+                            maxlength="2048"
+                            required
+                            :value="data.comment"
+                            @input="input"
+                        ></textarea>
+
+                        <div class="text-length-checker-wrap__pos">
+                            <text-length-checker
+                                :text="data.comment"
+                                max="2048"
+                            ></text-length-checker>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-control mt-48">
@@ -255,7 +282,7 @@
     import { mapState } from 'vuex'
     import Core from '../../scripts/core'
     import ButtonLoading from '../buttons/ButtonLoading'
-    import SmoothScroll from '../../scripts/SmoothScroll'
+    import TextLengthChecker from '../TextLengthChecker'
     import autosize from 'autosize'
 
     export default {
@@ -267,7 +294,8 @@
         ],
 
         components: {
-            ButtonLoading
+            ButtonLoading,
+            TextLengthChecker
         },
 
         mounted() {

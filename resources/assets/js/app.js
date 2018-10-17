@@ -162,7 +162,22 @@ const app = new Vue({
         },
 
         initTooltips() {
-            $('[data-toggle="tooltip"]').tooltip()
+            let $els = $('[data-toggle="tooltip"]')
+
+            $els.tooltip({
+                trigger: 'hover'
+            })
+
+            $els.each((index, el) => {
+                let $el = $(el)
+
+                $el.on('touchstart', () => {
+                    $el.tooltip('show')
+                })
+                    .on('touchend', () => {
+                        $el.tooltip('hide')
+                    })
+            })
         },
 
         setMeta,
