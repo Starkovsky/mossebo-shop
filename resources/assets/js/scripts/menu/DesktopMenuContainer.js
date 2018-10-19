@@ -18,7 +18,6 @@ export default class DesktopMenuContainer extends BaseMenu {
         this.menuSubsEl = this.menuEl.querySelector('.js-catalog-nav--subs')
 
         if (! this.menuSubsEl) return
-        this.menuEl.classList.add('is-active')
 
         this.closePendingLoader = false
         this.linksEls = {}
@@ -103,9 +102,9 @@ export default class DesktopMenuContainer extends BaseMenu {
         if (delay) {
             this.timeoutId = setTimeout(() =>  {
                 this.possiblyActivate(id)
-            }, delay);
+            }, delay)
         } else {
-            this.activateRow(id);
+            this.activateRow(id)
         }
     }
 
@@ -233,5 +232,9 @@ export default class DesktopMenuContainer extends BaseMenu {
         this.subMenus = {}
         Object.keys(this.subMenus).forEach(id => this.subMenus[id].destroy())
         this.menuEl.removeAttribute('style')
+    }
+
+    beforeClose() {
+        this.activeRowId = false
     }
 }

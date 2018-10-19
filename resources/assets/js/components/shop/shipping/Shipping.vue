@@ -13,7 +13,7 @@
 
             <div class="shipping__form">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-first-name" class="form-label">
                                 {{ $root.translate('form.fields.name') }}
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-last-name" class="form-label">
                                 {{ $root.translate('form.fields.surname') }}
@@ -51,29 +51,29 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-phone" class="form-label">
                                 {{ $root.translate('form.fields.phone') }}
                                 <span class="form-required">*</span>
                             </label>
 
-                            <the-mask
-                                mask="+7 (###) ###-####"
-                                placeholder="+7 (___) ___-____"
+                            <masked-input
                                 id="shipping-phone"
-                                type="tel"
                                 name="shipping[phone]"
-                                :value="data.phone.replace('+7', '')"
-                                @input="setValue('phone', '+7' + arguments[0])"
-                                v-validate="'required|size:12|phone_available'"
                                 class="form-input"
-                                :masked="false"
-                            ></the-mask>
+                                :value="data.phone"
+                                @input="setValue('phone', arguments[0])"
+                                type="tel"
+                                :mask='["+", "7", " ", "(", /[1-69]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]'
+                                :guide="true"
+                                placeholder="+7 (___) ___-____"
+                                v-validate="'required|length:17|phone_available'"
+                            ></masked-input>
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-email" class="form-label">
                                 {{ $root.translate('form.fields.email') }}
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-city" class="form-label">
                                 {{ $root.translate('form.fields.city') }}
@@ -111,65 +111,167 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
                             <label for="shipping-post-code" class="form-label">
                                 {{ $root.translate('form.fields.post_code') }}
                                 <span class="form-required">*</span>
                             </label>
 
-                            <the-mask
-                                mask="### ###"
-                                placeholder="000 000"
+                            <masked-input
                                 id="shipping-post-code"
-                                type="text"
                                 name="shipping[post_code]"
+                                class="form-input"
                                 :value="data.post_code"
                                 @input="setValue('post_code', arguments[0])"
-                                v-validate="'required|digits:6'"
-                                class="form-input"
-                                :masked="false"
-                            ></the-mask>
+                                type="text"
+                                :mask='[/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/]'
+                                :guide="true"
+                                placeholder="___ ___"
+                                v-validate="'required|length:7'"
+                            ></masked-input>
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    <div class="col-12 col-md-6">
                         <div class="form-group js-form-group">
-                            <label for="shipping-address" class="form-label">
-                                {{ $root.translate('form.fields.address') }}
+                            <label for="shipping-street" class="form-label">
+                                {{ $root.translate('form.fields.street') }}
                                 <span class="form-required">*</span>
                             </label>
 
-                            <textarea
-                                id="shipping-address"
-                                name="shipping[address]"
-                                :value="data.address"
+                            <input
+                                id="shipping-street"
+                                type="text"
+                                name="shipping[street]"
+                                :value="data.street"
                                 @input="input"
-                                v-validate="'required|max:255'"
-                                class="form-textarea"
-                            ></textarea>
+                                v-validate="'required|min:6|max:255'"
+                                class="form-input"
+                            >
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    <div class="col-6 col-md-3">
+                        <div class="form-group js-form-group">
+                            <label for="shipping-house-number" class="form-label">
+                                {{ $root.translate('form.fields.house_number') }}
+                                <span class="form-required">*</span>
+                            </label>
+
+                            <input
+                                id="shipping-house-number"
+                                type="text"
+                                name="shipping[house_number]"
+                                :value="data.house_number"
+                                @input="input"
+                                v-validate="'required|max:255'"
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <div class="form-group js-form-group">
+                            <label for="shipping-apartment" class="form-label">
+                                {{ $root.translate('form.fields.apartment') }}
+                            </label>
+
+                            <input
+                                id="shipping-apartment"
+                                type="text"
+                                name="shipping[apartment]"
+                                :value="data.apartment"
+                                @input="input"
+                                v-validate="'max:64'"
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group js-form-group">
+                            <label for="shipping-floor" class="form-label">
+                                {{ $root.translate('form.fields.floor') }}
+                            </label>
+
+                            <input
+                                id="shipping-floor"
+                                type="text"
+                                name="shipping[floor]"
+                                :value="data.floor"
+                                @input="input"
+                                v-number
+                                v-validate="'numeric|max:64'"
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group js-form-group">
+                            <label for="shipping-entrance" class="form-label">
+                                {{ $root.translate('form.fields.entrance') }}
+                            </label>
+
+                            <input
+                                id="shipping-entrance"
+                                type="text"
+                                name="shipping[entrance]"
+                                :value="data.entrance"
+                                @input="input"
+                                v-validate="'max:64'"
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group js-form-group">
+                            <label for="shipping-intercom" class="form-label">
+                                {{ $root.translate('form.fields.intercom') }}
+                            </label>
+
+                            <input
+                                id="shipping-intercom"
+                                type="text"
+                                name="shipping[intercom]"
+                                :value="data.intercom"
+                                @input="input"
+                                v-validate="'max:64'"
+                                class="form-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-12">
                         <div class="form-group js-form-group">
                             <label for="shipping-comment" class="form-label">
                                 {{ $root.translate('form.fields.comment') }}
                             </label>
 
-                            <textarea
-                                id="shipping-comment"
-                                name="shipping[comment]"
-                                :value="data.comment"
-                                @input="input"
-                                v-validate="'max:255'"
-                                class="form-textarea"
-                            ></textarea>
+                            <div class="text-length-checker-wrap">
+                                <textarea
+                                    id="shipping-comment"
+                                    name="shipping[comment]"
+                                    :value="data.comment"
+                                    @input="input"
+                                    v-validate="'max:255'"
+                                    class="form-textarea"
+                                ></textarea>
+
+                                <div class="text-length-checker-wrap__pos">
+                                    <text-length-checker
+                                        :text="data.comment"
+                                        max="255"
+                                    ></text-length-checker>
+                                </div>
+                            </div>
                         </div>
 
-                        <span class="form-help">
+                        <div class="form-help">
                             {{ $root.translate('shipping.comment_help') }}
-                        </span>
+                        </div>
                     </div>
                 </div>
 
@@ -184,13 +286,18 @@
 <script>
     import { mapState } from 'vuex'
     // todo: Маску телефона поправить (убрать код?)
-    import { TheMask } from 'vue-the-mask'
     import FormValidationMixin from '../../../mixins/FormValidation'
-
+    import Number from '../../../directives/number'
+    import TextLengthChecker from '../../TextLengthChecker'
     import Tabs from '../../Tabs'
+    import MaskedInput from '../../MaskedInput'
 
     export default {
         name: "Shipping",
+
+        directives: {
+            ... Number
+        },
 
         mixins: [
             FormValidationMixin
@@ -198,7 +305,8 @@
 
         components: {
             Tabs,
-            TheMask
+            MaskedInput,
+            TextLengthChecker
         },
 
         methods: {
@@ -211,8 +319,14 @@
             },
 
             setValue(name, value) {
-                this.$store.dispatch('shipping/setValue', [name, value])
+                if (this.data[name] !== value) {
+                    this.$store.dispatch('shipping/setValue', [name, value])
+                }
             },
+
+            phonePipe(newValue) {
+                return newValue.replace(new RegExp(/[\s-_()]/g), '')
+            }
         },
 
         computed: {

@@ -37,6 +37,10 @@
         margin-left: 8px;
     }
 
+    &--empty {
+        visibility: hidden;
+    }
+
     &--sm &__icon {
         width: 56px;
         height: 14px;

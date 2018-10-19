@@ -30,9 +30,8 @@
 
                     <div class="action-small-timer__timer">
                         <timer
-                            :time="product.sale.remainedTime()"
+                            :time="product.sale.timeLeft"
                             :class-name-modificators="timerSize"
-                            @tick="setTimeLeft"
                         ></timer>
                     </div>
                 </div>
@@ -144,16 +143,12 @@
 </template>
 
 <script>
-    import Core from '../../../../../scripts/core'
-
     import mixin from './mixin'
     import Timer from '../../../../Timer'
     import Badge from '../../../badges/Badge'
     import ProductImagesHat from '../../../../../mixins/ProductImagesHat'
     import BackgroundImageLoader from '../../../../imageLoaders/BackgroundImageLoader'
     import ProductCardSaleMother from './ProductCardSaleMother'
-
-    import { parseTime } from '../../../../../scripts/core/time'
 
     export default {
         name: "promo-card-sale-big",
@@ -172,18 +167,10 @@
 
         data() {
             return {
-                start: null,
-                elapsed: 0,
                 image: false,
                 linkIsHovered: false,
                 isSmall: false,
-                startTime: null,
-                timeLeft: this.product.sale.remainedTime(),
             }
-        },
-
-        created() {
-            this.startTime = performance.now()
         },
 
         mounted() {
@@ -220,10 +207,6 @@
                     }
                 }
             },
-
-            setTimeLeft(time) {
-                this.timeLeft = time
-            },
         },
 
         computed: {
@@ -234,7 +217,7 @@
             },
 
             timerSize() {
-                return this.timeLeft < 86400 ? 'big' : 'medium'
+                return this.product.sale.timeLeft < 86400 ? 'big' : 'medium'
             },
         }
     }

@@ -18,6 +18,11 @@ class ProductResource extends JsonResource
         $data = [
             'id' => $this->id,
             'name' => $this->title,
+            'showed' => $this->showed,
+            'width'  => $this->width,
+            'height' => $this->height,
+            'length' => $this->length,
+            'weight' => $this->weight,
         ];
 
         if ($this->relationNotEmpty('image')) {

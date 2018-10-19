@@ -135,3 +135,17 @@
         padding: 15px 0;
     }
 }
+
+.footer-buttons {
+    margin-top: 32px;
+
+    .row {
+        justify-content: center;
+    }
+
+    @include media-breakpoint-up(md) {
+        .row {
+            justify-content: flex-start;
+        }
+    }
+}

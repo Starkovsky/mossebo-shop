@@ -28,7 +28,7 @@
             <div v-if="product.badges" class="product-card-mobile__badges">
                 <badges
                     class="badges--small"
-                    :badges="product.badges.slice(0, 3)"
+                    :badges="product.badges.slice(0, 2)"
                     :no-tooltips="true"
                 ></badges>
             </div>

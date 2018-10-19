@@ -24,6 +24,7 @@ export default {
             let modifiers = addModifs([], this.classNameModificators)
             modifiers = addModifs(modifiers, _.isArray(modifs) ? modifs : [].slice.call(arguments, 1))
 
+            modifiers = modifiers.filter(modif => !! modif || modif === 0)
 
             if (_.isEmpty(modifiers)) {
                 return baseClass

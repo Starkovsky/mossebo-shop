@@ -45,7 +45,7 @@
 
                 <div v-if="product.badges" class="product-card-long__badges">
                     <badges
-                        :badges="product.badges"
+                        :badges="product.badges.slice(0,2)"
                     ></badges>
                 </div>
             </div>

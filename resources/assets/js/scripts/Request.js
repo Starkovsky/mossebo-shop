@@ -136,6 +136,10 @@ export default class Request {
 
         const data = response.data
 
+        if (typeof data !== 'object' || data === null) {
+            return this._done()
+        }
+
         if (data.redirect && this.currentUrl === window.location.href) {
             let redirect = data.redirect
 

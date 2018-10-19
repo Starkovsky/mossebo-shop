@@ -25,6 +25,7 @@
         props: {
             badges: null,
             noTooltips: null,
+            useTitleAsText: null
         },
 
         data() {
@@ -49,14 +50,9 @@
 
         methods: {
             updateBadges() {
-                if (this.badges instanceof Array && this.badges.length) {
-                    if (this.badges[0] instanceof Object) {
-                        this.badges$ = this.badges
-                    }
-                    else {
-                        DataHandler.get('badge-types')
-                            .then(data => this.initBadges(data['badge-types']))
-                    }
+                if (this.badges) {
+                    DataHandler.get('badge-types')
+                        .then(data => this.initBadges(data['badge-types']))
                 }
                 else {
                     this.badges$ = []
@@ -69,9 +65,17 @@
                 }
 
                 this.badges$ = this.badges.reduce((acc, badgeId) => {
-                    let badge = badgeTypes.find(badge => badge.id === badgeId)
+                    let badge = badgeId instanceof Object ? badgeId : badgeTypes.find(badge => badge.id === badgeId)
 
                     if (badge) {
+                        badge = {
+                            ... badge
+                        }
+
+                        if (! badge.text && this.useTitleAsText) {
+                            badge.text = badge.title
+                        }
+
                         acc.push(badge)
                     }
 
@@ -82,8 +86,6 @@
                     this.$root.initTooltips()
                 })
             },
-
-
         }
     }
 </script>

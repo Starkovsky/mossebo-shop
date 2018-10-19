@@ -41,21 +41,22 @@
             this.fetchItem()
         },
 
-        watch: {
-            saleNotExist(newValue, oldValue) {
-                if (oldValue === true && newValue === false) {
-                    this.fetchItem()
-                }
-            }
-        },
-
         methods: {
             fetchItem() {
                 this.sendRequest('get', Core.apiUrl('sale'))
-                    .success(response => {
-                        this.product = new Product(response.data.product)
-                    })
+                    .success(response => this.setProduct(response.data.product))
                     .silent()
+            },
+
+            setProduct(data) {
+                this.product = new Product(data)
+
+                this.$watch('product.sale.status', value => {
+                    if (value === 'finished') {
+                        this.product = null
+                        this.fetchItem()
+                    }
+                })
             }
         },
 

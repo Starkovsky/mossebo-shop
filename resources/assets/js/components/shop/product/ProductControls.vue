@@ -1,11 +1,149 @@
 <template>
     <div class="product-page__info">
-        <slot></slot>
+        <div class="product-page__actions text-right">
+            <product-actions></product-actions>
+        </div>
 
-        <div v-if="selectable.length" class="product-page__attributes">
+        <div class="product-page__prices">
+            <div class="product-page__price">
+                <formatted-price
+                    :value="productPrice"
+                ></formatted-price>
+            </div>
+
+            <template v-if="maxPrice">
+                <div class="product-page__oldprice">
+                    <formatted-price
+                        :value="maxPrice"
+                    ></formatted-price>
+                </div>
+
+                <div class="product-page__saving">
+                    Вы сэкономите:
+                    <formatted-price
+                        :value="discountValue"
+                    ></formatted-price>
+                </div>
+            </template>
+        </div>
+
+        <div v-if="product$.badges" class="product-page__badges">
+            <badges
+                :badges="product$.badges"
+                :no-tooltips="true"
+                :use-title-as-text="true"
+            ></badges>
+        </div>
+
+        <div class="product-page__stars">
+            <rating
+                class-name-modificators="lg"
+            ></rating>
+        </div>
+
+        <div class="product-page__params">
+            <div class="row row--no-v">
+                <div v-if="false" class="product-page__param">
+                    <div class="product-param">
+                        Артикул:
+                        <span class="product-param__value">
+                            {{ product$.id }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="product-page__param">
+                    <div class="product-param">
+                        Наличие:
+                        <span class="product-param__value">
+                            Под заказ
+                        </span>
+                    </div>
+                </div>
+
+                <div class="product-page__param">
+                    <div class="product-param">
+                        Срок поставки:
+                        <span class="product-param__value">
+                            14 дней
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-page__sizes">
+            <div class="product-page-sizes">
+                <span class="product-page-sizes__name">
+                    Габариты:
+                </span>
+
+                <div class="product-page-sizes__list">
+                    <div class="row row--no-padding">
+                        <div class="col-4">
+                            <div class="product-page-sizes__size">
+                                <div class="product-size">
+                                    <svg class="product-size__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-width"></use>
+                                    </svg>
+
+                                    <span class="product-size__value">
+                                        {{ product$.width / 10 }} см
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="product-page-sizes__size">
+                                <div class="product-size">
+                                    <svg class="product-size__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-height"></use>
+                                    </svg>
+
+                                    <span class="product-size__value">
+                                        {{ product$.height / 10 }} см
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="product-page-sizes__size">
+                                <div class="product-size">
+                                    <svg class="product-size__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-length"></use>
+                                    </svg>
+
+                                    <span class="product-size__value">
+                                        {{ product$.length / 10 }} см
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="false" class="col-6 col-sm-3 col-md-6 col-lg-3">
+                            <div class="product-page__size">
+                                <div class="product-size">
+                                    <svg class="product-size__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-weight"></use>
+                                    </svg>
+
+                                    <span class="product-size__value">
+                                        {{ product$.weight / 1000 }} кг
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="selectable$.length" class="product-page__attributes">
             <div class="product-controls-attributes">
                 <div class="row">
-                    <template v-for="attribute in selectable">
+                    <template v-for="attribute in selectable$">
                         <div class="col-12 col-sm-6 col-lg-6">
                             <multi-select
                                 v-model="attribute.value"
@@ -20,7 +158,6 @@
                                 @remove="select(attribute)"
                                 :class="{'has-error': attribute.error}"
                             >
-
                                 <template slot="option" slot-scope="props">
                                     <div :class="'attribute-option attribute-option--' + props.option.id">
                                         {{ props.option.title }}
@@ -55,7 +192,7 @@
                     <div class="col-sm-12 col-md-7 col-lg-12 col-xl-7">
                         <template v-if="quantity === 0">
                             <button-loading
-                                class="product-page__button button button-icon button-long button-primary"
+                                class="product-page__button button button-icon button-long button-primary js-add-to-cart-btn"
                                 :loading="loading"
                                 @click="addToCart"
                             >
@@ -66,6 +203,8 @@
                                 <span class="button__content">
                                     Добавить в корзину
                                 </span>
+
+                                <div class="tt"></div>
                             </button-loading>
                         </template>
 
@@ -92,40 +231,151 @@
 </template>
 
 <script>
+    // todo: допилить подсветки красиво
+
     import { mapState } from 'vuex'
     import MultiSelect from 'vue-multiselect'
+    import Core from '../../../scripts/core'
+    import ProductActions from './ProductActions'
     import NumControl from '../../NumControl'
     import ButtonLoading from '../../buttons/ButtonLoading'
     import { makeKey } from '../../../scripts/shop/Cart'
+    import ProductSaleExtendedMixin from '../../../mixins/ProductSaleExtended'
+    import FormattedPrice from '../price/FormattedPrice'
+    import Rating from '../../Rating'
+    import Badges from '../badges/Badges'
 
     export default {
         name: "ProductControls",
 
+        mixins: [
+            ProductSaleExtendedMixin
+        ],
+
         components: {
             MultiSelect,
             NumControl,
-            ButtonLoading
+            ButtonLoading,
+            ProductActions,
+            FormattedPrice,
+            Rating,
+            Badges
+        },
+
+        props: {
+            selectable: {
+                type: Array,
+                default() {
+                    return []
+                }
+            }
         },
 
         data() {
             return {
-                id: window.product.id,
-                selectable: window.product.selectable,
                 options: [],
+                canAdd$: false,
+                canShowError: false,
+                selectable$: [
+                    ... this.selectable
+                ]
             }
         },
 
-        created() {
+        mounted() {
+            heightToggle('.js-ht-product-info')
         },
 
-        mounted() {
-            // this.initSocials()
-            heightToggle('.js-ht-product-info')
+        watch: {
+            options: function() {
+                this.canAdd()
+            },
+
+            canAdd$: function(newValue, oldValue) {
+                if (newValue === true && oldValue === false) {
+                    this.touchButton()
+                }
+            }
+        },
+
+        methods: {
+            select(attribute) {
+                attribute.error = false
+
+                this.$nextTick(() => {
+                    this.collectOptions()
+                })
+            },
+
+            collectOptions() {
+                this.options = this.selectable$.reduce((acc, item) => {
+                    if (item.value && item.options.find(option => option.id === item.value.id)) {
+                        acc.push(item.value.id)
+                    }
+
+                    return acc
+                }, [])
+            },
+
+            canAdd() {
+                let canAdd = true
+
+                this.selectable$ = this.selectable$.map(attribute => {
+                    if (this.attributeHasError(attribute)) {
+                        canAdd = false
+
+                        if (this.canShowError) {
+                            attribute.error = true
+                        }
+                    }
+
+                    return attribute
+                })
+
+                return this.canAdd$ = canAdd
+            },
+
+            addToCart() {
+                this.canShowError = true
+
+                if (this.canAdd()) {
+                    this.$store.dispatch('cart/addProduct', [{id: this.product$.id, options: this.options}, 1])
+                        .then(() => Core.metrika.reachGoal('add-to-cart'))
+                }
+            },
+
+            attributeHasError(attribute) {
+                if (! attribute.need_to_select) return false
+
+                return ! (attribute.value && this.options.indexOf(attribute.value.id) !== -1)
+            },
+
+            setQty(qty) {
+                this.$store.dispatch('cart/updateProduct', [{id: this.product$.id, options: this.options}, qty])
+            },
+
+            initSocials() {
+                if (window.uSocial) {
+                    window.uSocial.init()
+                }
+            },
+
+            touchButton() {
+                let btnEl = this.$el.querySelector('.js-add-to-cart-btn')
+
+                if (! btnEl) return
+
+                btnEl.classList.remove('button-accent')
+
+                this.$nextTick(() => {
+                    btnEl.classList.add('button-accent')
+                })
+            }
         },
 
         computed: {
             key() {
-                return makeKey(this.id, this.options)
+                return makeKey(this.product$.id, this.options)
             },
 
             ... mapState({
@@ -143,62 +393,6 @@
                     return state.cart.loading
                 }
             })
-        },
-
-        methods: {
-            select(attribute) {
-                attribute.error = false
-
-                this.$nextTick(() => {
-                    this.collectOptions()
-                })
-            },
-
-            collectOptions() {
-                this.options = this.selectable.reduce((acc, item) => {
-                    if (item.value && item.options.find(option => option.id === item.value.id)) {
-                        acc.push(item.value.id)
-                    }
-
-                    return acc
-                }, [])
-            },
-
-            addToCart() {
-                let canAdd = true
-
-                this.selectable = this.selectable.map(attribute => {
-                    if (this.attributeHasError(attribute)) {
-                        canAdd = false
-                    }
-
-                    return attribute
-                })
-
-                if (canAdd) {
-                    this.$store.dispatch('cart/addProduct', [{id: this.id, options: this.options}, 1])
-                }
-            },
-
-            attributeHasError(attribute) {
-                if (!attribute.need_to_select) return false
-
-                if (attribute.value && this.options.indexOf(attribute.value.id) !== -1) {
-                    return false
-                }
-
-                return attribute.error = true
-            },
-
-            setQty(qty) {
-                this.$store.dispatch('cart/updateProduct', [{id: this.id, options: this.options}, qty])
-            },
-
-            initSocials() {
-                if (window.uSocial) {
-                    window.uSocial.init()
-                }
-            }
         }
     }
 </script>

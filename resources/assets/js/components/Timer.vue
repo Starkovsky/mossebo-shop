@@ -144,7 +144,7 @@
 
         computed: {
             timeLeft() {
-                return Math.max(this.time - this.elapsed, 0)
+                return Math.max(Math.round(this.time - this.elapsed), 0)
             }
         },
     }

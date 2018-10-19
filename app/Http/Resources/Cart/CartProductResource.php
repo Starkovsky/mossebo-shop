@@ -37,7 +37,7 @@ class CartProductResource extends JsonResource
     protected function setPrice(& $data)
     {
         $getPrice = function($typeId) {
-            return $this->resource->getFinalPrice(
+            return $this->resource->getBasePrice(
                 $typeId,
                 Shop::getCurrentCurrencyCode()
             );
@@ -53,7 +53,7 @@ class CartProductResource extends JsonResource
         }
 
         if ($price = $getPrice(Shop::getPriceTypeId('sale'))) {
-            $sale = Shop::sales()->getSale('product', $this->resource->getKey());
+            $sale = Shop::sales()->getSale('product', $this->resource->getProductId());
 
             if ($sale) {
                 $data['sale'] = [

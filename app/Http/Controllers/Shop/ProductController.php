@@ -11,6 +11,7 @@ use BadgeTypes;
 use App\Models\Shop\Product\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
+use App\Http\Resources\ProductResource;
 
 
 class ProductController extends Controller
@@ -88,18 +89,6 @@ class ProductController extends Controller
             return $carry;
         }, $carry);
 
-        $badgeTypes = BadgeTypes::getCollection();
-
-        $badges = $product->badges->reduce(function($acc, $item) use($badgeTypes) {
-            $badge = $badgeTypes->where('id', $item->badge_type_id)->first();
-
-            if ($badge) {
-                $acc->push($badge);
-            }
-
-            return $acc;
-        }, new Collection);
-
         // Проверка доступности товаров поставщика
 
         $product->show();
@@ -108,8 +97,7 @@ class ProductController extends Controller
         SeoProxy::setImageFromModel($product, 'oneHalf');
 
         $data = [
-            'product' => $product,
-            'badges'  => $badges,
+            'product' => new ProductResource($product),
             'attributes' => $carry['all'],
             'selectable' => json_encode($carry['selectable'], JSON_UNESCAPED_UNICODE)
         ];

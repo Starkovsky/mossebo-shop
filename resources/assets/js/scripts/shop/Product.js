@@ -23,7 +23,7 @@ export default class Product {
     }
 
     getMinPrice() {
-        return this.hasSale() && this.sale.isActual() ? this.sale.getPrice() : this.price
+        return (this.hasSale() && this.sale.isActual()) ? this.sale.getPrice() : this.price
     }
 
     getMaxPrice() {

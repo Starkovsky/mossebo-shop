@@ -62,3 +62,20 @@ window.formatDate = function (time) {
 window.roundPrice = function(price) {
     return Math.ceil(price)
 }
+
+
+window.setCaretPosition = function(el, caretPos) {
+    if (! el) return
+
+    if (el.createTextRange) {
+        let range = el.createTextRange()
+        range.move('character', caretPos)
+        range.select()
+    }
+    else {
+        if (el.selectionStart) {
+            el.focus()
+            el.setSelectionRange(caretPos, caretPos)
+        }
+    }
+}

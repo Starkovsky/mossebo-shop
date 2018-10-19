@@ -9,14 +9,20 @@ export default {
         ready: false,
 
         data: {
-            first_name: Core.config('user.first_name') || '',
-            last_name:  Core.config('user.last_name') || '',
-            phone:      Core.config('user.phone') || '',
-            email:      Core.config('user.email') || '',
-            city:       '',
-            address:    Core.config('user.address') || '',
-            post_code:  Core.config('user.post_code') || '',
-            comment:    '',
+            first_name:   Core.config('user.first_name') || '',
+            last_name:    Core.config('user.last_name') || '',
+            phone:        Core.config('user.phone') || '',
+            email:        Core.config('user.email') || '',
+            // address:      Core.config('user.address') || '',
+            city:         '',
+            street:       '',
+            house_number: '',
+            apartment:    '',
+            floor:        '',
+            entrance:     '',
+            intercom:     '',
+            post_code:    Core.config('user.post_code') || '',
+            comment:      '',
         },
 
         // todo: Перенести тип

@@ -1,6 +1,6 @@
 <template>
     <div
-        :class="classNameWithModificators('badge')"
+        :class="classNameWithModificators('badge', iconModif)"
         :style="{backgroundColor: color}"
         :title="title"
         :data-toggle="title && !noTooltip ? 'tooltip' : false"
@@ -30,11 +30,20 @@
             'title',
             'text',
             'no-tooltip',
-            'modif'
         ],
 
         mixins: [
             ClassNameWithModificators
         ],
+
+        computed: {
+            iconModif() {
+                if (this.icon) {
+                    return this.icon.replace('symbol-', '')
+                }
+
+                return undefined
+            }
+        }
     }
 </script>

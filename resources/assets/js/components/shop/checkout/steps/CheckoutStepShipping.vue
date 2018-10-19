@@ -90,11 +90,11 @@
                 this.__validateDebouncer()
             }
 
-            this.unsubscriber = this.$store.subscribe(mutation => {
-                if (mutation.type === 'shipping/SHIPPING_SET_VALUE') {
-                    this.validateDebouncer()
-                }
-            })
+            // this.unsubscriber = this.$store.subscribe(mutation => {
+            //     if (mutation.type === 'shipping/SHIPPING_SET_VALUE') {
+            //         this.validateDebouncer()
+            //     }
+            // })
         },
 
         mounted() {

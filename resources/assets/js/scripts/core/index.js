@@ -55,6 +55,7 @@ let Core = {
             hash: false,
 
             lang: this.getLang(),
+            loop: true,
 
             autoFocus: true,
 

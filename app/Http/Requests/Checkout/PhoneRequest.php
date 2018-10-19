@@ -18,6 +18,15 @@ class PhoneRequest extends FormRequest
         return true;
     }
 
+    protected function validationData()
+    {
+        $data = $this->all();
+
+        $data['phone'] = preg_replace("/[\s-_()]/", '', $data['phone']);
+
+        return $data;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -33,7 +42,7 @@ class PhoneRequest extends FormRequest
         }
 
         return [
-            'phone' => ['size:10', $rule]
+            'phone' => ['size:12', $rule]
         ];
     }
 }

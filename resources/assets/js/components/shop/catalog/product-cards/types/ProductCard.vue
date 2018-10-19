@@ -2,7 +2,7 @@
     <div class="product-card block-ui block-ui--with-hover">
         <div v-if="product.badges" class="product-card__badges">
             <badges
-                :badges="product.badges"
+                :badges="product.badges.slice(0,2)"
             ></badges>
         </div>
 

@@ -48,7 +48,6 @@
     }
 
     &-primary {
-        border: 1px solid $color-primary;
         color: $color-text-primary;
         background: $color-primary;
         transition: box-shadow $transition-primary;
@@ -278,5 +277,19 @@
     &__side.is-hovered &__icon,
     &__side.is-active &__icon {
         fill: $color-text-primary;
+    }
+}
+
+.button-accent {
+    animation: buttonBlink 1.2s ease-in-out;
+}
+
+@keyframes buttonBlink {
+    from, 50%, to {
+        background-color: $color-primary;
+    }
+
+    25%, 75% {
+        background-color: #ffe27b;
     }
 }

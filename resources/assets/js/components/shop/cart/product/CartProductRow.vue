@@ -15,7 +15,7 @@
             <td>
                 <formatted-price
                     class="cart-table__price"
-                    :value="price"
+                    :value="productPrice"
                 ></formatted-price>
             </td>
 
@@ -58,12 +58,14 @@
 
 <script>
     import ProductMixin from './mixin'
+    import ProductSaleMixin from '../../../../mixins/ProductSale'
 
     export default {
         name: "CartProductRow",
 
         mixins: [
-            ProductMixin
+            ProductMixin,
+            ProductSaleMixin
         ],
 
         methods: {

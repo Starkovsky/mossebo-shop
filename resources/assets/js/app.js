@@ -45,6 +45,7 @@ import TabsHtml from './components/TabsHtml'
 import Rating from './components/Rating'
 import ProductActions from './components/shop/product/ProductActions'
 import ProductSale from './components/shop/sale/ProductSale'
+import Badges from './components/shop/badges/Badges'
 
 import CitiesSelect from './components/city-select/CitiesSelect'
 import HeaderBanner from './components/banners/HeaderBanner'
@@ -98,7 +99,8 @@ const app = new Vue({
         BackgroundImageLoader,
         SearchInput,
         BannerSlider,
-        FontResizer
+        FontResizer,
+        Badges
     },
     data: {
         windowWidth: window.innerWidth,
@@ -302,6 +304,13 @@ $('.js-form-popup').fancybox(
     Core.getFancyboxConfig()
 )
 
+$('[data-fancybox="gallery"]').fancybox({
+    loop: true,
+    buttons : [
+        'close'
+    ]
+});
+
 // ;(function () {
 //     let characters = [
 //         {
@@ -386,6 +395,6 @@ window.CookieStorageProxy = CookieStorageProxy
 
 window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', e => {
-        if (e.scale !== 1) e.preventDefault()
+        if ('scale' in e && e.scale !== 1) e.preventDefault()
     }, {passive: false})
 })

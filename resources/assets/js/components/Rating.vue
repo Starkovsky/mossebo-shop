@@ -1,5 +1,5 @@
 <template>
-    <div :class="classNameWithModificators('rating')">
+    <div :class="classNameWithModificators('rating', num ? null : 'empty')">
         <div class="rating__stars">
             <div class="rating__icon">
                 <div class="rating__percent" :style="{width: getRatingPercent() + '%'}"></div>
@@ -25,13 +25,13 @@
         props: {
             rate: {
                 default() {
-                    return getRandomInt(30, 50) / 10
+                    return 0
                 }
             },
 
             num: {
                 default() {
-                    return getRandomInt(10, 50)
+                    return 0
                 }
             },
 
@@ -44,9 +44,13 @@
             },
 
             getScoresNum() {
-                return this.num + ' ' + declOfNum(this.num, ['отзыв', 'отзыва', 'отзывов'])
+                if (this.num > 0) {
+                    return this.num + ' ' + declOfNum(this.num, ['отзыв', 'отзыва', 'отзывов'])
+                }
+
+                return 'Нет отзывов'
             }
-        }
+        },
     }
 </script>
 

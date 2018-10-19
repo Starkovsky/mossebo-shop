@@ -110,13 +110,15 @@
                         {!! __('layouts.footer-company-info') !!}
                     </div>
 
-                    <div class="mt-32">
-                        <div class="row justify-content-center align-items-center">
+                    <div class="footer-buttons">
+                        <div class="row">
+                            @if (false)
                             <div class="col-9 col-md-6">
                                 <a href="#popup-call" class="button button-light button-long js-form-popup">
                                     {{ __('layouts.footer-recall') }}
                                 </a>
                             </div>
+                            @endif
 
                             <div class="col-9 col-md-6">
                                 <a href="#popup-feedback" class="button button-light button-long js-form-popup">

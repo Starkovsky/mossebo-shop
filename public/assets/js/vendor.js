@@ -21233,7 +21233,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.10';
+  var VERSION = '4.17.11';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -21497,7 +21497,7 @@ return jQuery;
   var reHasUnicode = RegExp('[' + rsZWJ + rsAstralRange  + rsComboRange + rsVarRange + ']');
 
   /** Used to detect strings that need a more robust regexp to match words. */
-  var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2,}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
+  var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
 
   /** Used to assign default `context` object properties. */
   var contextProps = [
@@ -22443,20 +22443,6 @@ return jQuery;
       }
     }
     return result;
-  }
-
-  /**
-   * Gets the value at `key`, unless `key` is "__proto__".
-   *
-   * @private
-   * @param {Object} object The object to query.
-   * @param {string} key The key of the property to get.
-   * @returns {*} Returns the property value.
-   */
-  function safeGet(object, key) {
-    return key == '__proto__'
-      ? undefined
-      : object[key];
   }
 
   /**
@@ -24916,7 +24902,7 @@ return jQuery;
           if (isArguments(objValue)) {
             newValue = toPlainObject(objValue);
           }
-          else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
+          else if (!isObject(objValue) || isFunction(objValue)) {
             newValue = initCloneObject(srcValue);
           }
         }
@@ -27837,6 +27823,22 @@ return jQuery;
         array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
       }
       return array;
+    }
+
+    /**
+     * Gets the value at `key`, unless `key` is "__proto__".
+     *
+     * @private
+     * @param {Object} object The object to query.
+     * @param {string} key The key of the property to get.
+     * @returns {*} Returns the property value.
+     */
+    function safeGet(object, key) {
+      if (key == '__proto__') {
+        return;
+      }
+
+      return object[key];
     }
 
     /**
@@ -46281,7 +46283,7 @@ var isEqual = function (lhs, rhs) {
         return isEqual(lhs.source, rhs.source) && isEqual(lhs.flags, rhs.flags);
     }
     if (Array.isArray(lhs) && Array.isArray(rhs)) {
-        if (lhs.length !== rhs.length) 
+        if (lhs.length !== rhs.length)
             { return false; }
         for (var i = 0;i < lhs.length; i++) {
             if (!isEqual(lhs[i], rhs[i])) {
@@ -46306,18 +46308,18 @@ var getScope = function (el) {
     return !isNullOrUndefined(scope) ? scope : null;
 };
 var getForm = function (el) {
-    if (isNullOrUndefined(el)) 
+    if (isNullOrUndefined(el))
         { return null; }
-    if (el.tagName === "FORM") 
+    if (el.tagName === "FORM")
         { return el; }
-    if (!isNullOrUndefined(el.form)) 
+    if (!isNullOrUndefined(el.form))
         { return el.form; }
     return !isNullOrUndefined(el.parentNode) ? getForm(el.parentNode) : null;
 };
 var getPath = function (path, target, def) {
     if ( def === void 0 ) def = undefined;
 
-    if (!path || !target) 
+    if (!path || !target)
         { return def; }
     var value = target;
     path.split('.').every(function (prop) {
@@ -46368,13 +46370,13 @@ var debounce = function (fn, wait, immediate, token) {
 
         var later = function () {
             timeout = null;
-            if (!immediate && !token.cancelled) 
+            if (!immediate && !token.cancelled)
                 { fn.apply(void 0, args); }
         };
         var callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
-        if (callNow) 
+        if (callNow)
             { fn.apply(void 0, args); }
     };
 };
@@ -46443,7 +46445,7 @@ var removeClass = function (el, className) {
     }
 };
 var toggleClass = function (el, className, status) {
-    if (!el || !className) 
+    if (!el || !className)
         { return; }
     if (Array.isArray(className)) {
         className.forEach(function (item) { return toggleClass(el, item, status); });
@@ -46534,9 +46536,9 @@ var makeDelayObject = function (events, delay, delayConfig) {
     }, {});
 };
 var deepParseInt = function (input) {
-    if (typeof input === 'number') 
+    if (typeof input === 'number')
         { return input; }
-    if (typeof input === 'string') 
+    if (typeof input === 'string')
         { return parseInt(input); }
     var map = {};
     for (var element in input) {
@@ -47042,7 +47044,7 @@ Generator.generate = function generate (el, binding, vnode) {
     };
 };
 Generator.getCtorConfig = function getCtorConfig (vnode) {
-    if (!vnode.componentInstance) 
+    if (!vnode.componentInstance)
         { return null; }
     var config = getPath('componentInstance.$options.$_veeValidate', vnode);
     return config;
@@ -47172,7 +47174,7 @@ Generator.resolveGetter = function resolveGetter (el, vnode, model) {
             return function () {
                 var els = document.querySelectorAll(("input[name=\"" + (el.name) + "\"]"));
                 els = toArray(els).filter(function (el) { return el.checked; });
-                if (!els.length) 
+                if (!els.length)
                     { return undefined; }
                 return els.map(function (checkbox) { return checkbox.value; });
             };
@@ -47402,7 +47404,7 @@ Field.prototype.updateDependencies = function updateDependencies () {
         }
         return prev;
     }, []);
-    if (!fields.length || !this.vm || !this.vm.$el) 
+    if (!fields.length || !this.vm || !this.vm.$el)
         { return; }
     fields.forEach(function (ref) {
             var selector = ref.selector;
@@ -47469,7 +47471,7 @@ Field.prototype.unwatch = function unwatch (tag) {
 Field.prototype.updateClasses = function updateClasses () {
         var this$1 = this;
 
-    if (!this.classes || this.isDisabled) 
+    if (!this.classes || this.isDisabled)
         { return; }
     var applyClasses = function (el) {
         toggleClass(el, this$1.classNames.dirty, this$1.flags.dirty);
@@ -47494,7 +47496,7 @@ Field.prototype.addActionListeners = function addActionListeners () {
         var this$1 = this;
 
     this.unwatch(/class/);
-    if (!this.el) 
+    if (!this.el)
         { return; }
     var onBlur = function () {
         this$1.flags.touched = true;
@@ -47532,7 +47534,7 @@ Field.prototype.addActionListeners = function addActionListeners () {
         });
         return;
     }
-    if (!this.el) 
+    if (!this.el)
         { return; }
     addEventListener(this.el, inputEvent, onInput);
     var blurEvent = isCheckboxOrRadioInput(this.el) ? 'change' : 'blur';
@@ -47560,7 +47562,7 @@ Field.prototype.addValueListeners = function addValueListeners () {
         var this$1 = this;
 
     this.unwatch(/^input_.+/);
-    if (!this.listen || !this.el) 
+    if (!this.listen || !this.el)
         { return; }
     var token = {
         cancelled: false
@@ -47614,7 +47616,7 @@ Field.prototype.addValueListeners = function addValueListeners () {
 Field.prototype._addComponentEventListener = function _addComponentEventListener (evt, validate) {
         var this$1 = this;
 
-    if (!this.component) 
+    if (!this.component)
         { return; }
     this.component.$on(evt, validate);
     this.watchers.push({
@@ -47627,7 +47629,7 @@ Field.prototype._addComponentEventListener = function _addComponentEventListener
 Field.prototype._addHTMLEventListener = function _addHTMLEventListener (evt, validate) {
         var this$1 = this;
 
-    if (!this.el || this.component) 
+    if (!this.el || this.component)
         { return; }
     var addListener = function (el) {
         addEventListener(el, evt, validate);
@@ -47653,7 +47655,7 @@ Field.prototype._addHTMLEventListener = function _addHTMLEventListener (evt, val
 Field.prototype.updateAriaAttrs = function updateAriaAttrs () {
         var this$1 = this;
 
-    if (!this.aria || !this.el || !isCallable(this.el.setAttribute)) 
+    if (!this.aria || !this.el || !isCallable(this.el.setAttribute))
         { return; }
     var applyAriaAttrs = function (el) {
         el.setAttribute('aria-required', this$1.isRequired ? 'true' : 'false');
@@ -47667,7 +47669,7 @@ Field.prototype.updateAriaAttrs = function updateAriaAttrs () {
     toArray(els).forEach(applyAriaAttrs);
 };
 Field.prototype.updateCustomValidity = function updateCustomValidity () {
-    if (!this.validity || !this.el || !isCallable(this.el.setCustomValidity) || !this.validator.errors) 
+    if (!this.validity || !this.el || !isCallable(this.el.setCustomValidity) || !this.validator.errors)
         { return; }
     this.el.setCustomValidity(this.flags.valid ? '' : this.validator.errors.firstById(this.id) || '');
 };
@@ -47717,7 +47719,7 @@ FieldBag.prototype.remove = function remove (matcher) {
     } else {
         item = this.find(matcher);
     }
-    if (!item) 
+    if (!item)
         { return null; }
     var index = this.items.indexOf(item);
     this.items.splice(index, 1);
@@ -47813,7 +47815,7 @@ Validator.extend = function extend (name, validator, options) {
 Validator.remove = function remove (name) {
     delete RULES[name];
     var idx = TARGET_RULES.indexOf(name);
-    if (idx === -1) 
+    if (idx === -1)
         { return; }
     TARGET_RULES.splice(idx, 1);
 };
@@ -47881,7 +47883,7 @@ Validator.prototype.flag = function flag (name, flags) {
 };
 Validator.prototype.detach = function detach (name, scope) {
     var field = name instanceof Field ? name : this._resolveField(name, scope);
-    if (!field) 
+    if (!field)
         { return; }
     field.destroy();
     this.errors.remove(field.name, field.scope, field.id);
@@ -47926,7 +47928,7 @@ Validator.prototype.update = function update (id, ref) {
         var scope = ref.scope;
 
     var field = this._resolveField(("#" + id));
-    if (!field) 
+    if (!field)
         { return; }
     this.errors.update(id, {
         scope: scope
@@ -47948,7 +47950,7 @@ Validator.prototype.validate = function validate (name, value, scope, silent) {
     var $args = arguments;
     return new Promise((function ($return, $error) {
         var matched, field, result;
-        if (this.paused) 
+        if (this.paused)
             { return $return(Promise.resolve(true)); }
         if ($args.length === 0) {
             return $return(this.validateScopes());
@@ -47964,7 +47966,7 @@ Validator.prototype.validate = function validate (name, value, scope, silent) {
         if (!field) {
             return $return(this._handleFieldNotFound(name, scope));
         }
-        if (!silent) 
+        if (!silent)
             { field.flags.pending = true; }
         if ($args.length === 1) {
             value = field.value;
@@ -47972,6 +47974,7 @@ Validator.prototype.validate = function validate (name, value, scope, silent) {
         return this._validate(field, value).then((function ($await_3) {
             try {
                 result = $await_3;
+
                 if (!silent) {
                     this._handleValidationResults([result]);
                 }
@@ -47999,7 +48002,7 @@ Validator.prototype.validateAll = function validateAll (values, scope, silent) {
 
         var results;
         var matcher, providedValues;
-        if (this.paused) 
+        if (this.paused)
             { return $return(true); }
         matcher = null;
         providedValues = false;
@@ -48043,7 +48046,7 @@ Validator.prototype.validateScopes = function validateScopes (silent) {
             var this$1 = this;
 
         var results;
-        if (this.paused) 
+        if (this.paused)
             { return $return(true); }
         return Promise.all(this.fields.map(function (field) { return this$1._validate(field, field.value); })).then((function ($await_5) {
             try {
@@ -48064,7 +48067,7 @@ Validator.prototype.destroy = function destroy () {
 Validator.prototype._createFields = function _createFields (validations) {
         var this$1 = this;
 
-    if (!validations) 
+    if (!validations)
         { return; }
     Object.keys(validations).forEach(function (field) {
         var options = assign({}, {
@@ -48228,7 +48231,7 @@ Validator.prototype._resolveField = function _resolveField (name, scope) {
     });
 };
 Validator.prototype._handleFieldNotFound = function _handleFieldNotFound (name, scope) {
-    if (!this.strict) 
+    if (!this.strict)
         { return true; }
     var fullName = isNullOrUndefined(scope) ? name : ("" + (!isNullOrUndefined(scope) ? scope + '.' : '') + name);
     throw createError(("Validating a non-existent field: \"" + fullName + "\". Use \"attach()\" first."));
@@ -48290,6 +48293,7 @@ Validator.prototype._validate = function _validate (field, value) {
                 id: field.id
             });
         }
+
         return Promise.all(promises).then((function ($await_6) {
             try {
                 return $return($await_6.reduce(function (prev, v) {
@@ -48372,7 +48376,7 @@ var mixin = {
         };
     },
     beforeDestroy: function beforeDestroy() {
-        if (isBuiltInComponent(this.$vnode)) 
+        if (isBuiltInComponent(this.$vnode))
             { return; }
         if (this.$validator && this.$validator.ownerId === this._uid) {
             this.$validator.pause();
@@ -48402,7 +48406,7 @@ var directive = {
     inserted: function inserted(el, binding, vnode) {
         var field = findField(el, vnode.context);
         var scope = Generator.resolveScope(el, binding, vnode);
-        if (!field || scope === field.scope) 
+        if (!field || scope === field.scope)
             { return; }
         field.update({
             scope: scope
@@ -48411,7 +48415,7 @@ var directive = {
     },
     update: function update(el, binding, vnode) {
         var field = findField(el, vnode.context);
-        if (!field || field.updated && isEqual(binding.value, binding.oldValue)) 
+        if (!field || field.updated && isEqual(binding.value, binding.oldValue))
             { return; }
         var scope = Generator.resolveScope(el, binding, vnode);
         var rules = Generator.resolveRules(el, binding);
@@ -48424,7 +48428,7 @@ var directive = {
         var context = ref.context;
 
         var field = findField(el, context);
-        if (!field) 
+        if (!field)
             { return; }
         context.$validator.detach(field);
     }
@@ -50413,7 +50417,7 @@ var assertString_1 = createCommonjsModule(function (module, exports) {
             throw new TypeError('This library (validator.js) validates strings only');
         }
     }
-    
+
     module.exports = exports['default'];
 });
 var assertString = unwrapExports(assertString_1)
@@ -50436,7 +50440,7 @@ var isCreditCard_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     var creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
     function isCreditCard(str) {
         (0, _assertString2.default)(str);
@@ -50465,7 +50469,7 @@ var isCreditCard_1 = createCommonjsModule(function (module, exports) {
         }
         return !(!(sum % 10 === 0 ? sanitized : false));
     }
-    
+
     module.exports = exports['default'];
 });
 var isCreditCard = unwrapExports(isCreditCard_1)
@@ -50583,7 +50587,7 @@ var merge_1 = createCommonjsModule(function (module, exports) {
         }
         return obj;
     }
-    
+
     module.exports = exports['default'];
 });
 var merge$1 = unwrapExports(merge_1)
@@ -50609,7 +50613,7 @@ var isByteLength_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     function isByteLength(str, options) {
         (0, _assertString2.default)(str);
         var min = void 0;
@@ -50624,7 +50628,7 @@ var isByteLength_1 = createCommonjsModule(function (module, exports) {
         var len = encodeURI(str).split(/%..|./).length - 1;
         return len >= min && (typeof max === 'undefined' || len <= max);
     }
-    
+
     module.exports = exports['default'];
 });
 var isByteLength = unwrapExports(isByteLength_1)
@@ -50648,7 +50652,7 @@ var isFQDN_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     var default_fqdn_options = {
         require_tld: true,
         allow_underscores: false,
@@ -50687,7 +50691,7 @@ var isFQDN_1 = createCommonjsModule(function (module, exports) {
         }
         return true;
     }
-    
+
     module.exports = exports['default'];
 });
 var isFQDN = unwrapExports(isFQDN_1)
@@ -50715,7 +50719,7 @@ var isEmail_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     var default_email_options = {
         allow_display_name: false,
         require_display_name: false,
@@ -50770,7 +50774,7 @@ var isEmail_1 = createCommonjsModule(function (module, exports) {
         }
         return true;
     }
-    
+
     module.exports = exports['default'];
 });
 var isEmail = unwrapExports(isEmail_1)
@@ -50807,7 +50811,7 @@ var isIP_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     var ipv4Maybe = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
     var ipv6Block = /^[0-9A-F]{1,4}$/i;
     function isIP(str) {
@@ -50860,7 +50864,7 @@ var isIP_1 = createCommonjsModule(function (module, exports) {
         }
         return false;
     }
-    
+
     module.exports = exports['default'];
 });
 var isIP = unwrapExports(isIP_1)
@@ -51033,7 +51037,7 @@ var isURL_1 = createCommonjsModule(function (module, exports) {
             default: obj
         };
     }
-    
+
     var default_url_options = {
         protocols: ['http','https','ftp'],
         require_tld: true,
@@ -51048,7 +51052,7 @@ var isURL_1 = createCommonjsModule(function (module, exports) {
     function isRegExp(obj) {
         return Object.prototype.toString.call(obj) === '[object RegExp]';
     }
-    
+
     function checkHost(host, matches) {
         for (var i = 0;i < matches.length; i++) {
             var match = matches[i];
@@ -51058,7 +51062,7 @@ var isURL_1 = createCommonjsModule(function (module, exports) {
         }
         return false;
     }
-    
+
     function isURL(url, options) {
         (0, _assertString2.default)(url);
         if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
@@ -51133,7 +51137,7 @@ var isURL_1 = createCommonjsModule(function (module, exports) {
         }
         return true;
     }
-    
+
     module.exports = exports['default'];
 });
 var isURL = unwrapExports(isURL_1)
