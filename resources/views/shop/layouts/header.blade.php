@@ -46,6 +46,67 @@
                     </a>
                 </div>
 
+                <div class="header-float__item header-float__item--projects">
+                    <div class="ht-popup-wrap">
+                        <a href="javascript:void(0);" class="mossebo-projects-link js-ht">
+                            <svg class="mossebo-projects-link__icon">
+                                <use xlink:href="/assets/images/icons.svg#symbol-projects"></use>
+                            </svg>
+
+                            <div class="mossebo-projects-link__name">
+                                Наши проекты
+                            </div>
+                        </a>
+
+                        <div class="ht-container ht-container--popup ht-container--projects">
+                            <div class="ht-inner block-ui">
+                                <div class="mossebo-projects">
+                                    <div class="row">
+                                        @foreach (getMosseboProjects() as $project)
+                                            <div class="col-md-4">
+
+                                                @if (isset($project['isActive']) && $project['isActive'])
+                                                    <div class="mossebo-project-link is-active">
+                                                        <div
+                                                            class="mossebo-project-link__image image-preview image-preview--1-1"
+                                                            style="background-image: url({{ $project['image'] }})"
+                                                        ></div>
+
+                                                        <div class="mossebo-project-link__name">
+                                                            <span class="mossebo-project-link__link">
+                                                                {!! $project['name'] !!}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <a
+                                                        class="mossebo-project-link"
+                                                        href="{{ $project['link'] }}"
+                                                        target="{{ $project['target'] }}"
+                                                        rel="nofollow noreferrer noopener"
+                                                    >
+                                                        <div
+                                                            class="mossebo-project-link__image image-preview image-preview--1-1"
+                                                            style="background-image: url({{ $project['image'] }})"
+                                                        ></div>
+
+                                                        <div class="mossebo-project-link__name">
+                                                            <span class="mossebo-project-link__link">
+                                                                {!! $project['name'] !!}
+                                                            </span>
+                                                        </div>
+                                                    </a>
+                                                @endif
+
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="header-float__item header-float__item--city">
                     <cities-select></cities-select>
                 </div>

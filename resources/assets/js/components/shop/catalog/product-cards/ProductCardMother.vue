@@ -57,12 +57,12 @@
 
         created() {
             this.setTypes()
-            this.setType()
         },
 
         methods: {
             setTypes() {
                 this.types$ = this.types instanceof Array ? this.types : [this.types]
+                this.setType()
             },
 
             getType() {

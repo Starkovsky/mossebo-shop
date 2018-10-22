@@ -19,7 +19,12 @@
 
     &__price {
         font-size: 30px / 37px;
-        color: $color-accent;
+        font-weight: 500;
+        color: $color-text-primary;
+
+        &--sale {
+            color: $color-accent;
+        }
     }
 
     &__oldprice {
@@ -205,32 +210,6 @@
         &__border {
             border-left: 1px solid $color-border;
         }
-    }
-}
-
-
-
-.tt {
-    position: absolute 0;
-
-    &::before {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate3d(-50%, -50%, 0);
-        padding-top: 100%;
-        width: 0;
-        border-radius: 30px;
-        opacity: .3;
-        background: #fff;
-        transition: all 0.3s;
-    }
-
-    &.touched::before {
-        width: 100%;
-        height: 100%;
-        opacity: 0;
     }
 }
 

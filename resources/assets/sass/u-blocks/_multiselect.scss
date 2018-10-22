@@ -476,8 +476,20 @@ fieldset[disabled] .multiselect {
 
 
 .multiselect--in-panel .multiselect__tags {
-    min-width: 175px;
-    border: none;
-    padding: 17px 40px 0 8px;
+    position: relative;
+    min-width: 200px;
+    padding: 17px 48px 0 24px;
     min-height: 56px;
+    border: none;
+    z-index: 2;
+}
+
+.multiselect--in-panel .multiselect__content-wrapper {
+    box-shadow: $shadows-primary;
+    left: -1px;
+    width: calc(100% + 2px);
+}
+
+.multiselect--in-panel .multiselect__select {
+    z-index: 3;
 }

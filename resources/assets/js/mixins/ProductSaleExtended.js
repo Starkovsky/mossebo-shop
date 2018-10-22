@@ -105,7 +105,7 @@ export default {
         },
 
         timeLeftShort() {
-            let timeLeft = this.preparedProduct.sale.timeLeft
+            let timeLeft = this.preparedProduct.hasSale() ? this.preparedProduct.sale.timeLeft : 0
 
             if (timeLeft <= 0) {
                 return false

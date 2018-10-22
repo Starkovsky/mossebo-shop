@@ -25,7 +25,7 @@
                     :loading="validationLoading"
                     :disabled="validationLoading"
                 >
-                    Перейти к оплате
+                    Подтвердить заказ
 
                     <svg class="button__icon button__icon--right">
                         <use xlink:href="/assets/images/icons.svg#symbol-arrow-forward"></use>
@@ -76,40 +76,41 @@
         data() {
             return {
                 nextDisabled: true,
-                validationLoading: false
+                validationLoading: false,
+                hasChanged: false,
+                validationDebouncer: null,
+                unsubscriber: null,
             }
         },
 
         created() {
-            this.__validateDebouncer = _.debounce(() => {
-                this.validate()
-            }, 300)
+            this.validationDebouncer = _.debounce((silent, showLoading) => {
+                this.validate(silent, showLoading)
+            }, 128)
 
-            this.validateDebouncer = () => {
-                this.validationLoading = true
-                this.__validateDebouncer()
-            }
-
-            // this.unsubscriber = this.$store.subscribe(mutation => {
-            //     if (mutation.type === 'shipping/SHIPPING_SET_VALUE') {
-            //         this.validateDebouncer()
-            //     }
-            // })
+            this.unsubscriber = this.$store.subscribe(mutation => {
+                if (mutation.type === 'shipping/SHIPPING_SET_VALUE') {
+                    this.hasChanged = true
+                }
+            })
         },
 
         mounted() {
-            this.validate(this.$store.state.checkout.direction !== 'back', false)
+            this.validationDebouncer(this.$store.state.checkout.direction !== 'back', true)
+
+            ;[].forEach.call(this.$el.querySelectorAll('[name]'), el => {
+                el.addEventListener('blur', () => {
+                    if (this.hasChanged) {
+                        this.hasChanged = false
+                        this.validationDebouncer()
+                    }
+                }, {passive: true})
+            })
         },
 
         beforeDestroy() {
-            this.validateDebouncer = null
-            this.__validateDebouncer = null
-
-            if (_.isFunction(this.unsubscriber)) {
-                this.unsubscriber()
-            }
-
-            this.unsubscriber = null
+            this.validationDebouncer = null
+            this.unsubscriber()
         },
 
         methods: {
@@ -121,13 +122,13 @@
                 this.$refs.shippingComponent.$validator.validateAll(undefined, undefined, silent)
                     .then(result => {
                         this.validationLoading = false
-                        this.nextDisabled = !result
+                        this.nextDisabled = ! result
                         this.$store.dispatch('shipping/validation', result)
                     })
             },
 
             showValidationErrors() {
-                this.validate(false, false)
+                this.validationDebouncer(false, false)
             }
         },
     }

@@ -25,18 +25,9 @@ class Checkout extends Mailable
         $this->data = $data;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
+    protected function getProducts()
     {
-        $message = new DefaultMessage();
-
         $products = [];
-
-
 
         foreach ($this->data['products'] as $cartProduct) {
             $productData = [
@@ -68,9 +59,74 @@ class Checkout extends Mailable
             $products[] = $productData;
         }
 
+        return $products;
+    }
+
+    protected function getPersonDataTable()
+    {
+        return [
+            'title' => trans('shop.checkout.mail.personal'),
+            'data' => [
+                [
+                    'label' => trans('shop.checkout.mail.form.name'),
+                    'value' => $this->data['first_name']
+                ],
+                [
+                    'label' => trans('shop.checkout.mail.form.surname'),
+                    'value' => $this->data['last_name']
+                ],
+                [
+                    'label' => trans('shop.checkout.mail.form.email'),
+                    'value' => $this->data['email']
+                ],
+                [
+                    'label' => trans('shop.checkout.mail.form.phone'),
+                    'value' => $this->data['phone']
+                ],
+            ]
+        ];
+    }
+
+    protected function getAddressDataTable()
+    {
+        $data = [
+            [
+                'label' => trans('shop.checkout.mail.form.city'),
+                'value' => $this->data['city']
+            ],
+            [
+                'label' => trans('shop.checkout.mail.form.post_code'),
+                'value' => $this->data['post_code']
+            ]
+        ];
+
+        foreach (['street', 'house_number', 'apartment', 'floor', 'entrance', 'intercom'] as $key) {
+            if (! empty($this->data[$key])) {
+                $data[] = [
+                    'label' => trans('shop.checkout.mail.form.' . $key),
+                    'value' => $this->data[$key]
+                ];
+            }
+        }
+
+        return [
+            'title' => trans('shop.checkout.mail.address'),
+            'data' => $data
+        ];
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        $message = new DefaultMessage();
+
         $checkoutData = [
             'total' => $this->data['finalAmount'],
-            'products' => $products
+            'products' => $this->getProducts()
         ];
 
         if (isset($this->data['promoPrice'])) {
@@ -99,62 +155,26 @@ class Checkout extends Mailable
             ->with(['checkout' => $checkoutData])
 
             ->with([
-                'data_table' => [
-                    'title' => trans('shop.checkout.mail.personal'),
-                    'data' => [
-                        [
-                            'label' => trans('shop.checkout.mail.form.name'),
-                            'value' => $this->data['first_name']
-                        ],
-                        [
-                            'label' => trans('shop.checkout.mail.form.surname'),
-                            'value' => $this->data['last_name']
-                        ],
-                        [
-                            'label' => trans('shop.checkout.mail.form.email'),
-                            'value' => $this->data['email']
-                        ],
-                        [
-                            'label' => trans('shop.checkout.mail.form.phone'),
-                            'value' => $this->data['phone']
-                        ],
-                    ]
-                ]
+                'data_table' => $this->getPersonDataTable()
             ])
 
             ->separator()
 
             ->with([
-                'data_table' => [
-                    'title' => trans('shop.checkout.mail.address'),
-                    'data' => [
-                        [
-                            'label' => trans('shop.checkout.mail.form.city'),
-                            'value' => $this->data['city']
-                        ],
-                        [
-                            'label' => trans('shop.checkout.mail.form.post_code'),
-                            'value' => $this->data['post_code']
-                        ],
-                        [
-                            'label' => trans('shop.checkout.mail.form.address'),
-                            'value' => $this->data['address']
-                        ],
-                    ]
-                ]
-            ])
+                'data_table' => $this->getAddressDataTable()
+            ]);
 
-            ->separator()
-
-            ->with([
-                'title' => [
-                    'title' => trans('shop.checkout.mail.pay_type')
-                ]
-            ])
-
-            ->with(
-                $this->data['pay_type']
-            );
+//            ->separator()
+//
+//            ->with([
+//                'title' => [
+//                    'title' => trans('shop.checkout.mail.pay_type')
+//                ]
+//            ])
+//
+//            ->with(
+//                $this->data['pay_type']
+//            );
 
         if ($this->data['comment']) {
             $message

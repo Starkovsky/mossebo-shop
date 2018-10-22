@@ -1,5 +1,5 @@
 <template>
-    <div :class="classNameWithModificators('rating', num ? null : 'empty')">
+    <div :class="classNameWithModificators('rating')">
         <div class="rating__stars">
             <div class="rating__icon">
                 <div class="rating__percent" :style="{width: getRatingPercent() + '%'}"></div>

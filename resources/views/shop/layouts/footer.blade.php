@@ -215,25 +215,31 @@
                                 <li class="footer-nav__item">
                                     <a href="{{ route('help-article', ['slug' => 'delivery']) }}" class="footer-nav__link link">Доставка</a>
                                 </li>
+
                                 <li class="footer-nav__item">
                                     <a href="{{ route('help-article', ['slug' => 'pay']) }}" class="footer-nav__link link">Оплата</a>
                                 </li>
+
                                 <li class="footer-nav__item">
                                     <a href="{{ route('help-article', ['slug' => 'garant']) }}" class="footer-nav__link link">Гарантии</a>
                                 </li>
+
                                 @if (false)
-                                <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Поддержка</a>
-                                </li>
-                                <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Акции</a>
-                                </li>
-                                <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Отзывы</a>
-                                </li>
-                                <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">FAQ</a>
-                                </li>
+                                    <li class="footer-nav__item">
+                                        <a href="#" class="footer-nav__link link">Поддержка</a>
+                                    </li>
+
+                                    <li class="footer-nav__item">
+                                        <a href="#" class="footer-nav__link link">Акции</a>
+                                    </li>
+
+                                    <li class="footer-nav__item">
+                                        <a href="#" class="footer-nav__link link">Отзывы</a>
+                                    </li>
+
+                                    <li class="footer-nav__item">
+                                        <a href="#" class="footer-nav__link link">FAQ</a>
+                                    </li>
                                 @endif
                             </ul>
                         </nav>
@@ -249,17 +255,21 @@
                                 <li class="footer-nav__item">
                                     <a href="https://mossebo.studio/o-nas/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">О нас</a>
                                 </li>
+
                                 @if (false)
-                                <li class="footer-nav__item">
-                                    <a href="#" class="footer-nav__link link">Проекты</a>
-                                </li>
+                                    <li class="footer-nav__item">
+                                        <a href="#" class="footer-nav__link link">Проекты</a>
+                                    </li>
                                 @endif
+
                                 <li class="footer-nav__item">
                                     <a href="https://mossebo.studio/novosti/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Блог</a>
                                 </li>
+
                                 <li class="footer-nav__item">
                                     <a href="https://mossebo.studio/vacancie/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Вакансии</a>
                                 </li>
+
                                 <li class="footer-nav__item">
                                     <a href="https://mossebo.studio/kontaktyi/" target="_blank" rel="nofollow noreferrer noopener" class="footer-nav__link link">Контакты</a>
                                 </li>

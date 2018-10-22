@@ -27,16 +27,17 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import Core from '../scripts/core'
     import AnimatedSymbolChange from './AnimatedSymbolChange'
     import ClassNameWithModificators from '../mixins/ClassNameWithModificators'
+    import RequestMixin from '../mixins/RequestMixin'
 
     export default {
         name: "Likes",
 
         mixins: [
-            ClassNameWithModificators
+            ClassNameWithModificators,
+            RequestMixin
         ],
 
         components: {
@@ -103,15 +104,13 @@
             },
 
             send(action) {
-                this.cancel()
+                this.abortRequest()
 
-                axios.post(Core.siteUrl(this.url), {
+                this.sendRequest('post', Core.siteUrl(this.url), {
                     action: action,
                     value: this[action + '$']
-                }, {
-                    cancelToken: new axios.CancelToken(c => this.requestCancel = c)
                 })
-                    .then(response => {
+                    .success(response => {
                         for (let key in response.data.likes) {
                             let localKey = key + '$'
 
@@ -121,26 +120,17 @@
                         }
 
                         this.sync()
-
-                        this.requestCancel = false
                     })
-                    .catch(thrown => {
-                        if (axios.isCancel(thrown)) return
+                    .fail(response => {
+                        let data = response.data
 
-                        let data = thrown.response.data
-
-                        if ('message' in data) {
+                        if ('message' in data && 'status' && data) {
                             Core.showMessage(data.message, {
                                 type: data.status
                             })
                         }
                     })
-            },
-
-            cancel() {
-                if (this.requestCancel) {
-                    this.requestCancel()
-                }
+                    .silent()
             },
 
             sync() {
@@ -152,10 +142,6 @@
                     }
                 })
             }
-        },
-
-        beforeDestroy() {
-            this.cancel()
         },
     }
 </script>

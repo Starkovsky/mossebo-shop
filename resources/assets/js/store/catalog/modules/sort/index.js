@@ -8,7 +8,15 @@ const sortMethods = {
      * @returns {Array}
      */
     sortPopular(products) {
-        return _.orderBy(products, ['popular', 'id'], ['desc', 'asc'])
+        return _.orderBy(products, ['popular', 'showed', 'id'], ['desc', 'desc', 'asc'])
+    },
+
+    sortCheaper(products) {
+        return products.sort((a, b) => a.getPrice() - b.getPrice())
+    },
+
+    sortExpensive(products) {
+        return products.sort((a, b) => b.getPrice() - a.getPrice())
     },
 
     /**
@@ -18,7 +26,7 @@ const sortMethods = {
      * @returns {Array}
      */
     sortNew(products) {
-        return _.orderBy(products, ['new', 'id'], ['desc', 'asc'])
+        return _.orderBy(products, ['new', 'id'], ['desc', 'desc'])
     },
 
     /**
@@ -55,10 +63,11 @@ export default {
 
     state: {
         types: {
-            popular: 'Популярное',
-            new: 'Новинки',
-            discount: 'Скидки',
-            name: 'Название'
+            popular:   'Популярное',
+            cheaper:   'Сначала дешевле',
+            expensive: 'Сначала дороже',
+            discount:  'Со скидками',
+            new:       'Новинки',
         },
 
         active: 'popular'

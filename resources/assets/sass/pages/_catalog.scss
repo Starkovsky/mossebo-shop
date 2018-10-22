@@ -30,10 +30,6 @@
 
     @include media-breakpoint-up(lg) {
         margin-bottom: 32px;
-
-        &__sort {
-            border-right: none;
-        }
     }
 }
 

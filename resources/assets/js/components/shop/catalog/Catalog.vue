@@ -38,26 +38,9 @@
                 <div class="col-12" v-else>
                     <div class="catalog-top-panel block-ui">
                         <div class="catalog-top-panel__sort">
-                            <multi-select
+                            <catalog-sort
                                 class="multiselect--in-panel"
-                                :value="multiselectActiveSortType"
-                                :options="multiselectSortOptions"
-                                :max-height="300"
-                                :placeholder="$root.translate('Sort')"
-                                :searchable="false"
-                                :hide-selected="false"
-                                :multiple="false"
-                                :allow-empty="false"
-                                @select="setSortTypeByMultiselect"
-                            >
-                                <template slot="option" slot-scope="props">
-                                    {{ props.option.title }}
-                                </template>
-
-                                <template slot="singleLabel" slot-scope="props">
-                                    {{ props.option.title }}
-                                </template>
-                            </multi-select>
+                            ></catalog-sort>
                         </div>
 
                         <div class="catalog-top-panel__filter-btn">
@@ -85,11 +68,9 @@
                 <div class="col-lg-9">
                     <div class="catalog-top-panel block-ui" v-if="$root.windowMoreThan('lg')">
                         <div class="catalog-top-panel__sort">
-                            <tabs
-                                :tabs="sortTypes"
-                                :active="activeSortType"
-                                @activation="setSortType"
-                            ></tabs>
+                            <catalog-sort
+                                class="multiselect--in-panel"
+                            ></catalog-sort>
                         </div>
 
                         <div class="catalog-top-panel__card-types">

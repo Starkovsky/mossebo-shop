@@ -22,7 +22,7 @@
                 <loading :loading="loading" no-overlay style="height: 100%">
                     <div class="content-w-menu__content">
                         <div v-if="!loading" class="profile-forms">
-                            <div class="content-w-menu__item">
+                            <div class="help-block">
                                 <cabinet-profile-personal
                                     :url="formUrl('cabinet/profile')"
                                     :data="data"
@@ -41,13 +41,13 @@
                             <!--&gt;</payment-choose>-->
                             <!--</div>-->
 
-                            <div class="content-w-menu__item" id="profile-password-item">
+                            <div class="help-block" id="profile-password-item">
                                 <cabinet-profile-password
                                     :url="formUrl('cabinet/profile/password')"
                                 ></cabinet-profile-password>
                             </div>
 
-                            <div class="content-w-menu__item" id="profile-socials-item">
+                            <div class="help-block" id="profile-socials-item">
                                 <h3 class="profile-forms__title title-h3">
                                     Социальные сети
                                 </h3>

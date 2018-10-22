@@ -146,7 +146,7 @@
                                 name="shipping[street]"
                                 :value="data.street"
                                 @input="input"
-                                v-validate="'required|min:6|max:255'"
+                                v-validate="'required|max:255'"
                                 class="form-input"
                             >
                         </div>

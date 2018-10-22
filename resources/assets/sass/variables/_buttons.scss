@@ -280,10 +280,6 @@
     }
 }
 
-.button-accent {
-    animation: buttonBlink 1.2s ease-in-out;
-}
-
 @keyframes buttonBlink {
     from, 50%, to {
         background-color: $color-primary;
@@ -292,4 +288,8 @@
     25%, 75% {
         background-color: #ffe27b;
     }
+}
+
+.button-accent {
+    animation: buttonBlink 1.2s ease-in-out;
 }

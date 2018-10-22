@@ -165,10 +165,15 @@
                     'email',
                     'post_code',
                     'city',
-                    'address',
+                    'street',
+                    'house_number',
+                    'apartment',
+                    'floor',
+                    'entrance',
+                    'intercom',
                     'comment',
                 ].reduce((acc, key) => {
-                    if (key in this.order) {
+                    if (key in this.order && !_.isNil(this.order[key])) {
                         let item = {
                             label: this.$root.translate('form.fields.' + key) + ':',
                             value: this.order[key]

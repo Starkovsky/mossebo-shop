@@ -142,9 +142,15 @@
                 }
             }
 
-            &--city {
-                padding-left: 68px;
+            &--projects {
+                padding-left: 32px;
 
+                @include media-breakpoint-down(md) {
+                    display: none;
+                }
+            }
+
+            &--city {
                 @include media-breakpoint-down(md) {
                     display: none;
                 }
@@ -202,14 +208,14 @@
         }
         &-icon {
             margin-right: 8px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 margin-right: 0;
             }
         }
         &-name {
             font-size: 14px / 17px;
             padding-top: 1px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 display: none;
             }
         }
@@ -221,7 +227,7 @@
         }
         .symbol-keyboard-down {
             margin-left: 8px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 display: none;
             }
         }
@@ -236,13 +242,13 @@
             fill: $color-icons;
         }
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(lg) {
             width: 55px;
         }
 
         &-icon {
             margin-right: 8px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 margin-right: 0;
             }
         }
@@ -250,7 +256,7 @@
         &-name {
             font-size: 14px / 17px;
             padding-top: 1px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 display: none;
             }
         }
@@ -259,7 +265,7 @@
             font-size: 12px / 14px;
             color: $color-text-secondary;
             margin-top: 2px;
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 display: none;
             }
         }
@@ -274,7 +280,7 @@
         .symbol-keyboard-down {
             margin-left: 8px;
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 display: none;
             }
         }
@@ -292,7 +298,7 @@
             text-align: center;
             width: 15px;
 
-            @include media-breakpoint-down(md) {
+            @include media-breakpoint-down(lg) {
                 top: 11px;
             }
         }
@@ -302,8 +308,71 @@
             opacity: 1;
         }
     }
+
+    .mossebo-projects-link {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        white-space: nowrap;
+
+        &__icon {
+            width: 20px;
+            height: 20px;
+            fill: $color-icons;
+        }
+
+        &__name {
+            margin-left: 8px;
+        }
+
+        &:hover {
+            color: $color-text-primary-2;
+        }
+    }
 }
 
 .logout {
     color: $color-danger;
+}
+
+
+.mossebo-projects {
+    padding: 26px;
+    width: 90vw;
+    max-width: 375px;
+}
+
+.mossebo-project-link {
+    display: block;
+    text-align: center;
+    margin: 0 -8px;
+
+    &__image {
+        width: 100%;
+        max-width: 46px;
+        display: inline-block;
+        vertical-align: bottom;
+        background-size: contain;
+    }
+
+    &__name {
+        margin-top: 8px;
+        color: $color-text-primary;
+    }
+
+    &__link {
+        border-bottom: 1px solid transparent;
+        transition: all .3s;
+        color: $color-text-secondary;
+    }
+
+    &:hover &__link {
+        color: $color-text-primary;
+        border-color: $color-text-primary;
+    }
+
+    &.is-active &__link {
+        color: $color-text-primary;
+        border-bottom: 0;
+    }
 }

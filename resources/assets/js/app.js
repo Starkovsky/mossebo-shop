@@ -388,11 +388,6 @@ window.CookieStorageProxy = CookieStorageProxy
 
 
 
-
-
-
-
-
 window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', e => {
         if ('scale' in e && e.scale !== 1) e.preventDefault()

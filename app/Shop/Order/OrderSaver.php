@@ -150,10 +150,16 @@ class OrderSaver
             'delivery_type_id' => $this->data['shipping']['type'],
             'first_name'       => $this->data['shipping']['data']['first_name'],
             'last_name'        => $this->data['shipping']['data']['last_name'],
-            'city'             => $this->data['shipping']['data']['city'],
-            'address'          => $this->data['shipping']['data']['address'],
             'email'            => $this->data['shipping']['data']['email'],
             'phone'            => $this->data['shipping']['data']['phone'],
+
+            'city'             => $this->data['shipping']['data']['city'],
+            'street'           => $this->data['shipping']['data']['street'],
+            'house_number'     => $this->data['shipping']['data']['house_number'],
+            'apartment'        => $this->data['shipping']['data']['apartment'],
+            'floor'            => $this->data['shipping']['data']['floor'],
+            'entrance'         => $this->data['shipping']['data']['entrance'],
+            'intercom'         => $this->data['shipping']['data']['intercom'],
             'post_code'        => $this->data['shipping']['data']['post_code'],
             'comment'          => $this->data['shipping']['data']['comment'],
         ];

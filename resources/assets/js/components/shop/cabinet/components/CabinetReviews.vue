@@ -1,23 +1,25 @@
 <template>
     <div class="cabinet-reviews">
-        <template v-if="noReviews">
-            <div class="cabinet-reviews__empty text-center">
-                {{ $root.translate('No reviews.') }}
+        <loading :loading="loading">
+            <template v-if="noReviews">
+                <div class="cabinet-reviews__empty text-center">
+                    {{ $root.translate('No reviews.') }}
 
-                <div class="cabinet-reviews__empty-btn mt-32">
-                    <a :href="$root.catalogUrl" class="button button-primary">
-                        {{ $root.translate('Shop now') }}
-                    </a>
+                    <div class="cabinet-reviews__empty-btn mt-32">
+                        <a :href="$root.catalogUrl" class="button button-primary">
+                            {{ $root.translate('Shop now') }}
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
 
-        <template v-else>
-            <reviews
-                :url="url"
-                :hide-button="true"
-            ></reviews>
-        </template>
+            <template v-else>
+                <reviews
+                    :url="url"
+                    :hide-button="true"
+                ></reviews>
+            </template>
+        </loading>
     </div>
 </template>
 
@@ -25,12 +27,14 @@
     import { mapState } from 'vuex'
     import Core from '../../../../scripts/core'
     import Reviews from '../../../reviews/Reviews'
+    import Loading from '../../../Loading'
 
     export default {
         name: "CabinetReviews",
 
         components: {
-            Reviews
+            Reviews,
+            Loading
         },
 
         data() {

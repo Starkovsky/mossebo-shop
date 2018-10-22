@@ -129,7 +129,6 @@ export default {
         setSortType({state, dispatch}, type) {
             if (! state.filtering) {
                 dispatch('sort/setType', type)
-                    .then(() => dispatch('updateStorage', 'sort.active'))
                     .then(() => dispatch('process', 'sort'))
             }
         },

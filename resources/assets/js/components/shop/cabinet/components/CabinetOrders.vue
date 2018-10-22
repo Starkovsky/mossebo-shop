@@ -122,8 +122,6 @@
                     })
 
                     product.attributes = product.attributes.join(', ')
-
-
                 })
             },
         },

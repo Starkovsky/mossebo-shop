@@ -124,11 +124,13 @@
 
             collectLabelData(labels = [], data) {
                 return labels.reduce((acc, label) => {
-                    acc.push({
-                        label: this.$root.translate(`form.fields.${label}`),
-                        value: data[label],
-                        // onEmpty: 'hide'
-                    })
+                    if (data[label] !== '') {
+                        acc.push({
+                            label: this.$root.translate(`form.fields.${label}`),
+                            value: data[label],
+                            // onEmpty: 'hide'
+                        })
+                    }
 
                     return acc
                 }, [])
@@ -148,11 +150,26 @@
         computed: {
             ... mapState({
                 recipientData({shipping}) {
-                    return this.collectLabelData(['first_name', 'last_name', 'email', 'phone'], shipping.data)
+                    return this.collectLabelData([
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'phone'
+                    ], shipping.data)
                 },
 
                 shippingData({shipping}) {
-                    return this.collectLabelData(['city', 'address', 'post_code', 'comment'], shipping.data)
+                    return this.collectLabelData([
+                        'city',
+                        'street',
+                        'house_number',
+                        'apartment',
+                        'floor',
+                        'entrance',
+                        'intercom',
+                        'post_code',
+                        'comment',
+                    ], shipping.data)
                 },
 
                 paymentType({payments}) {

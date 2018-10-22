@@ -175,7 +175,7 @@
                                     class="form-textarea"
                                     id="review-form-advantages"
                                     placeholder="Что вам понравилось?"
-                                    maxlength="512"
+                                    maxlength="500"
                                     :value="data.advantages"
                                     @input="input"
                                 ></textarea>
@@ -183,7 +183,7 @@
                                 <div class="text-length-checker-wrap__pos">
                                     <text-length-checker
                                         :text="data.advantages"
-                                        max="512"
+                                        max="500"
                                     ></text-length-checker>
                                 </div>
                             </div>
@@ -202,7 +202,7 @@
                                     class="form-textarea"
                                     id="review-form-disadvantages"
                                     placeholder="Что не так?"
-                                    maxlength="512"
+                                    maxlength="500"
                                     :value="data.disadvantages"
                                     @input="input"
                                 ></textarea>
@@ -210,7 +210,7 @@
                                 <div class="text-length-checker-wrap__pos">
                                     <text-length-checker
                                         :text="data.disadvantages"
-                                        max="512"
+                                        max="500"
                                     ></text-length-checker>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                             class="form-textarea"
                             name="comment"
                             placeholder="Опишите более подробно свой опыт"
-                            maxlength="2048"
+                            maxlength="1000"
                             required
                             :value="data.comment"
                             @input="input"
@@ -238,7 +238,7 @@
                         <div class="text-length-checker-wrap__pos">
                             <text-length-checker
                                 :text="data.comment"
-                                max="2048"
+                                max="1000"
                             ></text-length-checker>
                         </div>
                     </div>

@@ -13,7 +13,7 @@ import BannerSlider from '../../banners/BannersSet/BannerSlider'
 import BannerColumn from '../../banners/BannersSet/BannerColumn'
 import SidePopup from '../../SidePopup'
 import ServerError from '../../ServerError'
-import MultiSelect from 'vue-multiselect'
+import CatalogSort from './CatalogSort'
 
 export default {
     name: "Catalog",
@@ -26,10 +26,10 @@ export default {
         BannerSlider,
         BannerColumn,
         SidePopup,
-        MultiSelect,
         CatalogFilterList,
         CatalogProductList,
-        ServerError
+        ServerError,
+        CatalogSort
     },
 
     mixins: [
@@ -47,7 +47,6 @@ export default {
             loading: state => state.catalog.loading,
             filtering: state => state.catalog.filtering,
             paginating: state => state.catalog.pagination.loading,
-            sortTypes: state => state.catalog.sort.types,
             activeSortType: state => state.catalog.sort.active,
             activeCardType: state => state.catalog.cards.active,
             allProductsQuantity: state => state.catalog.products.length,
@@ -55,21 +54,6 @@ export default {
             filtersExists: state => state.catalog.filters.filters.length > 0,
             filtersIsDirty: state => state.catalog.filters.isDirty,
         }),
-
-        multiselectSortOptions() {
-            return Object.keys(this.sortTypes).reduce((acc, key) => {
-                acc.push({
-                    title: this.sortTypes[key],
-                    value: key
-                })
-
-                return acc
-            }, [])
-        },
-
-        multiselectActiveSortType() {
-            return this.multiselectSortOptions.find(option => option.value === this.activeSortType)
-        },
     },
 
     data() {
@@ -94,14 +78,6 @@ export default {
 
         openPopup() {
             this.$refs.popup.open()
-        },
-
-        setSortType(type) {
-            this.$store.dispatch('catalog/setSortType', type)
-        },
-
-        setSortTypeByMultiselect(type) {
-            this.setSortType(type.value)
         },
 
         clearFilters() {

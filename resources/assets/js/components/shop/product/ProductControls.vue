@@ -5,13 +5,13 @@
         </div>
 
         <div class="product-page__prices">
-            <div class="product-page__price">
+            <div :class="'product-page__price' + (hasDiscount ? ' product-page__price--sale' : '')">
                 <formatted-price
                     :value="productPrice"
                 ></formatted-price>
             </div>
 
-            <template v-if="maxPrice">
+            <template v-if="hasDiscount">
                 <div class="product-page__oldprice">
                     <formatted-price
                         :value="maxPrice"
@@ -292,7 +292,7 @@
             },
 
             canAdd$: function(newValue, oldValue) {
-                if (newValue === true && oldValue === false) {
+                if (newValue === true && oldValue === false && this.selectable$.length) {
                     this.touchButton()
                 }
             }
@@ -376,6 +376,10 @@
         computed: {
             key() {
                 return makeKey(this.product$.id, this.options)
+            },
+
+            hasDiscount() {
+                return this.maxPrice && this.maxPrice !== this.productPrice
             },
 
             ... mapState({
