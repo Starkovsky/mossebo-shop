@@ -26,8 +26,10 @@ class ProductResource extends JsonResource
         ];
 
         if ($this->relationNotEmpty('image')) {
-            if (! empty($this->image->pathes)) {
-                $data['image'] = $this->getImagePathes($this->image, 'small');
+            $image = $this->getImagePathes($this->image, 'small');
+
+            if ($image) {
+                $data['image'] = $image;
             }
         }
 
@@ -48,7 +50,11 @@ class ProductResource extends JsonResource
                 $data['previews'] = [];
 
                 foreach ($this->previews as $key => $image) {
-                    $data['previews'][] = $this->getImagePathes($image, 'small');
+                    $image = $this->getImagePathes($image, 'small');
+
+                    if ($image) {
+                        $data['previews'][] = $image;
+                    }
 
                     if ($key === 2) break;
                 }
@@ -109,7 +115,15 @@ class ProductResource extends JsonResource
 
     protected function getImagePathes($image, $size)
     {
+        if (empty($image->pathes)) {
+            return null;
+        }
+
         $imagePathes = json_decode($image->pathes);
+
+        if (! (isset($image->pathes) && isset($imagePathes->{$size}))) {
+            return null;
+        }
 
         return [
             'id' => $image->id,
