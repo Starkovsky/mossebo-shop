@@ -23,21 +23,21 @@
     19 => 'Illuminate\\Translation\\TranslationServiceProvider',
     20 => 'Illuminate\\Validation\\ValidationServiceProvider',
     21 => 'Illuminate\\View\\ViewServiceProvider',
-    22 => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
-    23 => 'ScoutElastic\\ScoutElasticServiceProvider',
-    24 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    25 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
-    26 => 'Cog\\Laravel\\Love\\Providers\\LoveServiceProvider',
-    27 => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
-    28 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    22 => 'SocialiteProviders\\Manager\\ServiceProvider',
+    23 => 'Laravel\\Scout\\ScoutServiceProvider',
+    24 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    25 => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
+    26 => 'ScoutElastic\\ScoutElasticServiceProvider',
+    27 => 'Cog\\Laravel\\Love\\Providers\\LoveServiceProvider',
+    28 => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
     29 => 'Kalnoy\\Nestedset\\NestedSetServiceProvider',
-    30 => 'Laravel\\Scout\\ScoutServiceProvider',
-    31 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    32 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    33 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
-    34 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    35 => 'SocialiteProviders\\Manager\\ServiceProvider',
-    36 => 'Torann\\GeoIP\\GeoIPServiceProvider',
+    30 => 'Laravel\\Socialite\\SocialiteServiceProvider',
+    31 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    32 => 'Torann\\GeoIP\\GeoIPServiceProvider',
+    33 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    34 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    35 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    36 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
     37 => 'App\\Providers\\AppServiceProvider',
     38 => 'App\\Providers\\AuthServiceProvider',
     39 => 'App\\Providers\\CartServiceProvider',
@@ -59,14 +59,14 @@
     7 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
-    10 => 'ScoutElastic\\ScoutElasticServiceProvider',
-    11 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    12 => 'Cog\\Laravel\\Love\\Providers\\LoveServiceProvider',
-    13 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    10 => 'Laravel\\Scout\\ScoutServiceProvider',
+    11 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    12 => 'ScoutElastic\\ScoutElasticServiceProvider',
+    13 => 'Cog\\Laravel\\Love\\Providers\\LoveServiceProvider',
     14 => 'Kalnoy\\Nestedset\\NestedSetServiceProvider',
-    15 => 'Laravel\\Scout\\ScoutServiceProvider',
-    16 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
-    17 => 'Torann\\GeoIP\\GeoIPServiceProvider',
+    15 => 'Torann\\GeoIP\\GeoIPServiceProvider',
+    16 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    17 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
     18 => 'App\\Providers\\AppServiceProvider',
     19 => 'App\\Providers\\AuthServiceProvider',
     20 => 'App\\Providers\\CartServiceProvider',
@@ -177,6 +177,7 @@
     'translation.loader' => 'Illuminate\\Translation\\TranslationServiceProvider',
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
+    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
     'Artesaos\\SEOTools\\Contracts\\SEOTools' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
     'Artesaos\\SEOTools\\Contracts\\MetaTags' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
     'Artesaos\\SEOTools\\Contracts\\TwitterCards' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
@@ -185,11 +186,10 @@
     'seotools.metatags' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
     'seotools.opengraph' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
     'seotools.twitter' => 'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider',
+    'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsManager' => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
+    'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
     'command.ide-helper.generate' => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     'command.ide-helper.models' => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
-    'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsManager' => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
-    'Laravel\\Socialite\\Contracts\\Factory' => 'SocialiteProviders\\Manager\\ServiceProvider',
-    'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
     'NunoMaduro\\Collision\\Contracts\\Provider' => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
   ),
   'when' => 
@@ -230,10 +230,10 @@
     'Illuminate\\Validation\\ValidationServiceProvider' => 
     array (
     ),
-    'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider' => 
+    'SocialiteProviders\\Manager\\ServiceProvider' => 
     array (
     ),
-    'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' => 
+    'Artesaos\\SEOTools\\Providers\\SEOToolsServiceProvider' => 
     array (
     ),
     'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider' => 
@@ -245,10 +245,10 @@
     'Laravel\\Tinker\\TinkerServiceProvider' => 
     array (
     ),
-    'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => 
+    'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' => 
     array (
     ),
-    'SocialiteProviders\\Manager\\ServiceProvider' => 
+    'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider' => 
     array (
     ),
   ),
