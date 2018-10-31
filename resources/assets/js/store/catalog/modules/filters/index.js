@@ -3,11 +3,21 @@ import makeFilters from "./filterMaker"
 import DataHandler from "../../../../scripts/DataHandler"
 import BaseOptionsFilter from "../../modules/filters/items/BaseOptionsFilter"
 
+
+const types = [
+    'query',
+    'prices',
+    'categories',
+    'styles',
+    'rooms',
+    'attributes'
+]
+
 export default {
     namespaced: true,
 
     state: {
-        types: ['attributes', 'styles', 'rooms', 'categories'],
+        types: [],
         filtering: false,
         filters: [],
         isDirty: false,
@@ -15,6 +25,21 @@ export default {
     },
 
     actions: {
+        init({state}, params = {}) {
+            let types$
+
+            if (params.types && params.types instanceof Array) {
+                types$ = params.types
+            }
+            else {
+                types$ = types
+            }
+
+            state.types = [
+                ... types$
+            ]
+        },
+
         fetchFilters({state}) {
             return DataHandler.get(state.types)
         },

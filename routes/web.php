@@ -80,6 +80,7 @@ Route::group(['middleware' => 'web'], function () {
 
         // Оформление заказа
         Route::post('/checkout', 'Shop\CheckoutController@index');
+        Route::get('/checkout/thanks/{orderId}', 'Shop\CheckoutController@thanks');
 
         // Получение различных данных с сервера
         Route::get('/data', 'Shop\DataController@get');

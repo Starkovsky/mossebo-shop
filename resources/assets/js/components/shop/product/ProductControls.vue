@@ -282,9 +282,9 @@
             }
         },
 
-        mounted() {
-            heightToggle('.js-ht-product-info')
-        },
+        // mounted() {
+        //     heightToggle('.js-ht-product-info')
+        // },
 
         watch: {
             options: function() {

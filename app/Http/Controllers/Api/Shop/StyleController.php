@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Shop;
 
 use App\Http\Controllers\Api\ApiController;
 
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductResource;
 use Styles;
 use Categories;
 use App\Models\Shop\Product\Product;

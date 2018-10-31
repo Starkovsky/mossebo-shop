@@ -1,26 +1,21 @@
 <template>
     <loading :loading="loading">
         <template v-if="error">
-            <div style="text-align: center;" v-show="!loading">
-                <h4 style="margin-bottom: 30px">
-                    {{ $root.translate('Server connection error') }}
-                </h4>
-
-                <div>
-                    <button @click="refreshCatalog" type="button" class="button button-primary">
-                        {{ $root.translate('Try again') }}
-                    </button>
-                </div>
-            </div>
+            <server-error
+                :error="error && !loading"
+                @retry="refreshCatalog"
+            ></server-error>
         </template>
 
         <template v-else-if="ready">
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
                     <template v-if="filtersExists">
-                        <catalog-filter-list></catalog-filter-list>
+                        <catalog-filter-list
+                            class="block-ui"
+                        ></catalog-filter-list>
 
-                        <div class="catalog-filters-controls">
+                        <div v-if="filtersExists" class="catalog-filters-controls">
                             <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
                                 {{ $root.translate('Reset parameters') }}
                             </button>
@@ -45,7 +40,9 @@
                 <div class="col-12" v-else>
                     <div class="catalog-top-panel block-ui">
                         <div class="catalog-top-panel__search">
-                            <search-input class="search-input--spm"></search-input>
+                            <catalog-sort
+                                class="multiselect--in-panel"
+                            ></catalog-sort>
                         </div>
 
                         <div class="catalog-top-panel__filter-btn">
@@ -77,11 +74,9 @@
                 <div class="col-lg-9">
                     <div class="catalog-top-panel block-ui" v-if="$root.windowMoreThan('lg')">
                         <div class="catalog-top-panel__sort">
-                            <tabs
-                                :tabs="sortTypes"
-                                :active="activeSortType"
-                                @activation="setSortType"
-                            ></tabs>
+                            <catalog-sort
+                                class="multiselect--in-panel"
+                            ></catalog-sort>
                         </div>
 
                         <div class="catalog-top-panel__card-types">
@@ -182,7 +177,14 @@
                 default() {
                     return ['query', 'categories', 'styles', 'rooms']
                 }
-            }
+            },
+
+            sortTypes: {
+                type: Array,
+                default() {
+                    return ['relevance', 'popular', 'cheaper', 'expensive', 'discount', 'new']
+                }
+            },
         },
 
         computed: {

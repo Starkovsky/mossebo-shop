@@ -106,6 +106,7 @@ export default class Request {
                 }
 
                 if ('data' in response && typeof response.data === 'object' && response.data !== null && Object.keys(response.data).length !== 0) {
+                    this._setStatus('error')
                     this._handleResponse(response)
                 }
                 else {

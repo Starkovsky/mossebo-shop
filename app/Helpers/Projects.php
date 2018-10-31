@@ -16,12 +16,12 @@ if (! function_exists('getMosseboProjects')) {
                 'link' => 'https://mossebo.studio',
                 'target' => '_self'
             ],
-            [
-                'name' => 'Mossebo.ICO',
-                'image' => '/assets/images/projects/ico.png',
-                'link' => 'https://mossebo.io',
-                'target' => '_self'
-            ],
+//            [
+//                'name' => 'Mossebo.ICO',
+//                'image' => '/assets/images/projects/ico.png',
+//                'link' => 'https://mossebo.io',
+//                'target' => '_self'
+//            ],
             [
                 'name' => 'Хайповый бизнес',
                 'image' => '/assets/images/projects/haip.png',

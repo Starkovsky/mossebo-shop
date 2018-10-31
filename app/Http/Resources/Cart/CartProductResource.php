@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Cart;
 
 use Shop;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartProductResource extends JsonResource

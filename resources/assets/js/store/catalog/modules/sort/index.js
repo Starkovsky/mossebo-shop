@@ -55,25 +55,65 @@ const sortMethods = {
 
             return result
         })
+    },
+
+    /**
+     * Сортировка по соответствию поисковому запросу.
+     *
+     * @param products
+     * @returns {Array}
+     */
+    sortRelevance(products) {
+        return products.sort((a, b) => {
+            let result = a.getSearchRelevance() - b.getSearchRelevance()
+
+            if (result === 0) {
+                return a.id - b.id
+            }
+
+            return result
+        })
     }
+}
+
+const types = {
+    relevance: 'По релевантности',
+    popular:   'Популярное',
+    cheaper:   'Сначала дешевле',
+    expensive: 'Сначала дороже',
+    discount:  'Со скидками',
+    new:       'Новинки',
 }
 
 export default {
     namespaced: true,
 
     state: {
-        types: {
-            popular:   'Популярное',
-            cheaper:   'Сначала дешевле',
-            expensive: 'Сначала дороже',
-            discount:  'Со скидками',
-            new:       'Новинки',
-        },
+        types: {},
 
         active: 'popular'
     },
 
     actions: {
+        init({state}, params = {}) {
+            if (params.active && params.active in types) {
+                state.active = params.active
+            }
+
+            if (params.types && params.types instanceof Array) {
+                state.types = params.types.reduce((acc, item) => {
+                    if (item in types) {
+                        acc[item] = types[item]
+                    }
+
+                    return acc
+                }, {})
+            }
+            else {
+                state.types = types
+            }
+        },
+
         sort({state}, products) {
             if (! state.active) {
                 return products

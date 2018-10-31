@@ -7,7 +7,7 @@ use App\Support\Traits\Cacheable;
 use App\Models\Shop\Product\Product;
 use App\Models\Shop\Sale\Sale;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductResource;
 
 class SaleController extends ApiController
 {

@@ -11,8 +11,8 @@ use BadgeTypes;
 use App\Models\Shop\Product\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
-use App\Http\Resources\ProductResource;
-
+use App\Http\Resources\Product\ProductResource;
+use App\Http\Controllers\ContentController;
 
 class ProductController extends Controller
 {
@@ -90,7 +90,6 @@ class ProductController extends Controller
         }, $carry);
 
         // Проверка доступности товаров поставщика
-
         $product->show();
 
         SeoProxy::setMetaFromModel($product);
@@ -109,8 +108,9 @@ class ProductController extends Controller
 
     protected function connectContent(& $data)
     {
+        // todo: доделать при изменении системы контента
         foreach (['delivery', 'pay', 'garant'] as $item) {
-            $data[$item] = json_decode(file_get_contents(base_path("resources/views/shop/pages/help/{$item}.json")));
+            $data[$item] = ContentController::getHelpContent($item);
         }
     }
 

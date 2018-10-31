@@ -101,159 +101,154 @@
                 </div>
 
                 <div class="col-12">
-                    <div class="product-page__block product-page__info block-ui">
-                        <div class="product-tabs js-product-tabs">
-                            <div class="product-tabs__tabs">
-                                <tabs-html
-                                    :tabs="{'#characteristics': 'Описание и характеристики', '#delivery': 'Доставка', '#pay': 'Оплата', '#garant': 'Гарантия возврата'}"
-                                    :class-name-modificators="['xl', 'underline', 'large-padding']"
-                                ></tabs-html>
-                            </div>
+                    <div class="tabs-content block-ui">
+                        <div class="tabs-content__tabs">
+                            <tabs-html
+                                :tabs="{'#characteristics': 'Описание и характеристики', '#delivery': 'Доставка', '#pay': 'Оплата', '#garant': 'Гарантия возврата'}"
+                                :class-name-modificators="['xl', 'underline', 'large-padding']"
+                            ></tabs-html>
+                        </div>
 
-                            <div class="product-tabs__content">
-                                <div class="tab-content">
-                                    <div class="product-tabs__pane tab-pane block-ui fade show active" id="characteristics">
-                                        <div class="product-tabs-pane">
-                                            <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Характеристики
+                        <div class="tabs-content__content">
+                            <div class="tabs-content__pane tab-pane block-ui fade show active" id="characteristics">
+                                <div class="tab-pane__head js-ht-tab-trigger">
+                                    Характеристики
 
-                                                <svg class="product-tabs-pane__chevron">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
-                                                </svg>
-                                            </div>
+                                    <svg class="tab-pane__chevron">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                    </svg>
+                                </div>
 
-                                            <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__inner ht-inner">
-                                                    <div class="row row--half">
-                                                        <div class="col-lg-6">
-                                                            <div class="product-tabs-pane__attributes">
-                                                                @foreach($attributes as $attribute)
-                                                                    @php
-                                                                        $optionsAsString = $product->attributeOptions->reduce(function ($carry, $option) use($attribute) {
-                                                                            if ($option->attribute_id == $attribute->id) {
-                                                                                $carry[] = $option->value;
-                                                                            }
+                                <div class="tab-pane__container ht-container">
+                                    <div class="tab-pane__inner ht-inner">
+                                        <div class="tab-pane__content">
+                                            <div class="row row--half">
+                                                <div class="col-lg-6">
+                                                    <div class="product-page__pane-attributes">
+                                                        @foreach($attributes as $attribute)
+                                                            @php
+                                                                $optionsAsString = $product->attributeOptions->reduce(function ($carry, $option) use($attribute) {
+                                                                    if ($option->attribute_id == $attribute->id) {
+                                                                        $carry[] = $option->value;
+                                                                    }
 
-                                                                            return $carry;
-                                                                        }, []);
+                                                                    return $carry;
+                                                                }, []);
 
-                                                                        $optionsAsString = join(', ', $optionsAsString);
-                                                                    @endphp
+                                                                $optionsAsString = join(', ', $optionsAsString);
+                                                            @endphp
 
-                                                                    @if ($optionsAsString)
-                                                                        <div class="product-param">
-                                                                            {{ $attribute->title }}:
+                                                            @if ($optionsAsString)
+                                                                <div class="product-param">
+                                                                    {{ $attribute->title }}:
 
-                                                                            <span class="product-param__value">
-                                                                                {{ $optionsAsString }}
-                                                                            </span>
-                                                                        </div>
-                                                                    @endif
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
+                                                                    <span class="product-param__value">
+                                                                    {{ $optionsAsString }}
+                                                                </span>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                </div>
 
-                                                        <div class="col-lg-6">
-                                                            <div class="product-tabs-pane__description">
-                                                                {!! $product->description !!}
-                                                            </div>
-                                                        </div>
+                                                <div class="col-lg-6">
+                                                    <div class="product-page__pane-description">
+                                                        {!! $product->description !!}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="delivery">
-                                        <div class="product-tabs-pane">
-                                            <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Доставка
+                            <div class="tabs-content__pane tab-pane block-ui fade" id="delivery">
+                                <div class="tab-pane__head js-ht-tab-trigger">
+                                    Доставка
 
-                                                <svg class="product-tabs-pane__chevron">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
-                                                </svg>
-                                            </div>
+                                    <svg class="tab-pane__chevron">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                    </svg>
+                                </div>
 
-                                            <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__help ht-inner">
-                                                    @foreach ($delivery as $item)
-                                                        <div class="help-block">
-                                                            <h2 class="help-block__title title-h3">
-                                                                {{ $item->title }}
-                                                            </h2>
+                                <div class="tab-pane__container ht-container">
+                                    <div class="tab-pane__inner ht-inner">
+                                        <div class="product-page__pane-help ht-inner">
+                                            @foreach ($delivery as $item)
+                                                <div class="help-block">
+                                                    <h2 class="help-block__title title-h3">
+                                                        {{ $item->title }}
+                                                    </h2>
 
-                                                            <div class="help-block__content">
-                                                                <div class="article">
-                                                                    {!! $item->content !!}
-                                                                </div>
-                                                            </div>
+                                                    <div class="help-block__content">
+                                                        <div class="article">
+                                                            {!! $item->content !!}
                                                         </div>
-                                                    @endforeach
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="pay">
-                                        <div class="product-tabs-pane">
-                                            <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Оплата
+                            <div class="tabs-content__pane tab-pane block-ui fade" id="pay">
+                                <div class="tab-pane__head js-ht-tab-trigger">
+                                    Оплата
 
-                                                <svg class="product-tabs-pane__chevron">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
-                                                </svg>
-                                            </div>
+                                    <svg class="tab-pane__chevron">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                    </svg>
+                                </div>
 
-                                            <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__help ht-inner">
-                                                    @foreach ($pay as $item)
-                                                        <div class="help-block">
-                                                            <h2 class="help-block__title title-h3">
-                                                                {{ $item->title }}
-                                                            </h2>
+                                <div class="tab-pane__container ht-container">
+                                    <div class="tab-pane__inner ht-inner">
+                                        <div class="product-page__pane-help ht-inner">
+                                            @foreach ($pay as $item)
+                                                <div class="help-block">
+                                                    <h2 class="help-block__title title-h3">
+                                                        {{ $item->title }}
+                                                    </h2>
 
-                                                            <div class="help-block__content">
-                                                                <div class="article">
-                                                                    {!! $item->content !!}
-                                                                </div>
-                                                            </div>
+                                                    <div class="help-block__content">
+                                                        <div class="article">
+                                                            {!! $item->content !!}
                                                         </div>
-                                                    @endforeach
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="product-tabs__pane tab-pane block-ui fade" id="garant">
-                                        <div class="product-tabs-pane">
-                                            <div class="product-tabs-pane__trigger js-ht-product-info">
-                                                Гарантия и возврат
+                            <div class="tabs-content__pane tab-pane block-ui fade" id="garant">
+                                <div class="tab-pane__head js-ht-tab-trigger">
+                                    Гарантия и возврат
 
-                                                <svg class="product-tabs-pane__chevron">
-                                                    <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
-                                                </svg>
-                                            </div>
+                                    <svg class="tab-pane__chevron">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-chevron-down"></use>
+                                    </svg>
+                                </div>
 
-                                            <div class="product-tabs-pane__content ht-container">
-                                                <div class="product-tabs-pane__help ht-inner">
-                                                    @foreach ($garant as $item)
-                                                        <div class="help-block">
-                                                            <h2 class="help-block__title title-h3">
-                                                                {{ $item->title }}
-                                                            </h2>
+                                <div class="tab-pane__container ht-container">
+                                    <div class="tab-pane__inner ht-inner">
+                                        <div class="product-page__pane-help ht-inner">
+                                            @foreach ($garant as $item)
+                                                <div class="help-block">
+                                                    <h2 class="help-block__title title-h3">
+                                                        {{ $item->title }}
+                                                    </h2>
 
-                                                            <div class="help-block__content">
-                                                                <div class="article">
-                                                                    {!! $item->content !!}
-                                                                </div>
-                                                            </div>
+                                                    <div class="help-block__content">
+                                                        <div class="article">
+                                                            {!! $item->content !!}
                                                         </div>
-                                                    @endforeach
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

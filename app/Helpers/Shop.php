@@ -13,7 +13,7 @@ if (!function_exists('productsToResource')) {
     {
         return $products->reduce(function ($carry, $product) {
             if ($product->canBeShowed()) {
-                $carry[] = new \App\Http\Resources\ProductResource($product);
+                $carry[] = new \App\Http\Resources\Product\ProductResource($product);
             }
 
             return $carry;

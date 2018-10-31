@@ -382,6 +382,9 @@ $('[data-fancybox="gallery"]').fancybox({
 // }())
 
 
+heightToggle('.js-ht-tab-trigger')
+
+
 import {CookieStorageProxy} from './scripts/storage/CookieStorageProxy'
 
 window.CookieStorageProxy = CookieStorageProxy

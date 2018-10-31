@@ -39,12 +39,17 @@ class ContentController extends Controller
             if ($article['slug'] === $slug) {
                 return view('shop.pages.help.article', [
                     'article' => (object) $article,
-                    'items' => json_decode(file_get_contents(base_path("resources/views/shop/pages/help/{$slug}.json")))
+                    'items' => self::getHelpContent($slug)
                 ]);
             }
         }
 
         $this->notFound();
+    }
+
+    public static function getHelpContent($item)
+    {
+        return json_decode(file_get_contents(base_path("resources/views/shop/pages/help/{$item}.json")));
     }
 
 

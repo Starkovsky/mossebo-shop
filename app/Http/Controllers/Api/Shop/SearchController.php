@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Shop;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductSearchResource;
 use App\Models\Shop\Product\Product;
 
 class SearchController extends ApiController
@@ -41,12 +41,18 @@ class SearchController extends ApiController
             'categoryRelations',
         ])->whereIn('id', $ids)->get();
 
+        $ids = array_flip($ids);
+
+        $products->each(function($item) use($ids) {
+            $item->setAttribute('relevance', $ids[$item->id] + 1);
+        });
+
         return [
             'status' => 'success',
             'meta' => [
                 'title' => trans('search.title.phrase', ['phrase' => $query])
             ],
-            'products' => ProductResource::collection($products)
+            'products' => ProductSearchResource::collection($products)
         ];
     }
 
@@ -60,13 +66,31 @@ class SearchController extends ApiController
 
         return [
             'status' => 'success',
-            'products' => ProductResource::collection($products)
+            'products' => ProductSearchResource::collection($products)
         ];
     }
 
     protected function search($query)
     {
         return Product::search($query, function($client, $query, $params) {
+            $query = mb_strtolower($query);
+
+            $params['body'] = [
+                'from' => 0,
+                'size' => 10000,
+                'query' => [
+                    'wildcard' => [
+                        'index' => "*{$query}*",
+                    ]
+                ]
+            ];
+
+            $result = $client->search($params);
+
+            if (isset($result['hits']['total']) && $result['hits']['total'] > 0) {
+                return $result;
+            }
+
             $params['body'] = [
                 'from' => 0,
                 'size' => 10000,
@@ -74,9 +98,9 @@ class SearchController extends ApiController
                     'match' => [
                         'index' => [
                             'query' => "*{$query}*",
-//                            'query' => '*',
+                            //                            'query' => '*',
                             'fuzziness' => 'auto',
-                            'operator' => 'and'
+                            'operator' => 'and',
                         ]
                     ]
                 ]

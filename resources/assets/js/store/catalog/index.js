@@ -37,22 +37,21 @@ export default {
     actions: {
         ... storageActionsExtension,
 
-        init({ state, dispatch, commit }, filterTypes) {
+        init({ state, dispatch, commit }, params) {
             if (state.ready) return
-
-            filterTypes = filterTypes || ['query', 'prices', 'categories', 'styles', 'rooms', 'attributes']
-
-            dispatch('initStorageExtension', 'catalog')
-                .then(() => dispatch('pagination/init'))
-                .then(() => dispatch('search/init'))
-                .then(() => dispatch('filters/setTypes', filterTypes))
-                .then(() => dispatch('fetchCatalog'))
 
             state.filteringPendingLoader = makeLoader(
                 () => commit(actionTypes.CATALOG_FILTERING_START),
                 () => commit(actionTypes.CATALOG_FILTERING_END),
                 300
             )
+
+            dispatch('initStorageExtension', 'catalog')
+                .then(() => dispatch('sort/init', params.sort))
+                .then(() => dispatch('pagination/init'))
+                .then(() => dispatch('search/init'))
+                .then(() => dispatch('filters/init', params.filters))
+                .then(() => dispatch('fetchCatalog'))
         },
 
         fetchCatalog({state, commit, dispatch}) {
@@ -81,7 +80,7 @@ export default {
                 })
         },
 
-        fetchProducts({state}) {
+        fetchProducts({state, commit}) {
             if (state.searchRequest) {
                 state.searchRequest.abort()
             }
@@ -92,6 +91,7 @@ export default {
                         state.searchRequest = null
                         resolve(response.data.products.map(product => new Product(product)))
                     })
+                    .fail(() => commit(actionTypes.CATALOG_REQUEST_FAILURE))
                     .start()
             })
         },

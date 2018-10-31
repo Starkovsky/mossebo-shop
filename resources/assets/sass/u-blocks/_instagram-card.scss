@@ -1,0 +1,29 @@
+.instagram-card {
+    display: block;
+    overflow: hidden;
+    position: relative;
+
+    &__image {
+        display: block;
+        width: 100%;
+    }
+
+    &__likes {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 16px;
+        left: 32px;
+        font-size: 22px / 30px;
+        font-weight: 500;
+        color: $color-ui;
+        text-shadow: 0 2px 4px rgba(0,0,0,.5);
+    }
+
+    &__icon {
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+}

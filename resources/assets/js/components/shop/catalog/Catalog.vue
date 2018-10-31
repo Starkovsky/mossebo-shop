@@ -10,15 +10,17 @@
         <template v-else-if="ready">
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
-                    <catalog-filter-list
-                        class="block-ui"
-                    ></catalog-filter-list>
+                    <template v-if="filtersExists">
+                        <catalog-filter-list
+                            class="block-ui"
+                        ></catalog-filter-list>
 
-                    <div v-if="filtersExists" class="catalog-filters-controls">
-                        <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
-                            {{ $root.translate('Reset parameters') }}
-                        </button>
-                    </div>
+                        <div v-if="filtersExists" class="catalog-filters-controls">
+                            <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                                {{ $root.translate('Reset parameters') }}
+                            </button>
+                        </div>
+                    </template>
 
                     <div class="catalog-filters-banner" v-if="! loading">
                         <banner-column
@@ -145,7 +147,14 @@
                 default() {
                     return ['prices', 'attributes']
                 }
-            }
+            },
+
+            sortTypes: {
+                type: Array,
+                default() {
+                    return ['popular', 'cheaper', 'expensive', 'discount', 'new']
+                }
+            },
         },
     }
 </script>

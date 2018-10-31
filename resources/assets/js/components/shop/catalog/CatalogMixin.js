@@ -37,7 +37,8 @@ export default {
     ],
 
     props: [
-        'filterTypes'
+        'filterTypes',
+        'sortTypes'
     ],
 
     computed: {
@@ -63,7 +64,15 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('catalog/init', this.filterTypes)
+        this.$store.dispatch('catalog/init', {
+            filters: {
+                types: this.filterTypes
+            },
+            sort: {
+                types: this.sortTypes,
+                active: this.sortTypes[Object.keys(this.sortTypes)[0]]
+            }
+        })
     },
 
     methods: {

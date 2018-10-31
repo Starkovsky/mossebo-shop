@@ -87,3 +87,115 @@
         }
     }
 }
+
+
+.tab-pane {
+    position: absolute;
+    left: -99999px;
+    top: -99999px;
+    opacity: 0;
+    color: $color-text-primary;
+    transition: .3s;
+
+    &__head {
+        font-size: 20px / 32px;
+        padding: 16px;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+
+        @include media-breakpoint-up(md) {
+            display: none;
+        }
+    }
+
+    &__head.is-active &__chevron {
+        transform-origin: 50% 50%;
+        transform: rotate(180deg);
+    }
+
+    &__chevron {
+        position: absolute;
+        right: 16px;
+        width: 24px;
+        height: 24px;
+        top: 50%;
+        margin-top: -12px;
+        fill: $color-text-secondary;
+        transition: transform .3s;
+    }
+
+    &__container {
+        margin: 0;
+
+        @include media-breakpoint-up(md) {
+            transition: none;
+            opacity: 1;
+            visibility: visible;
+            max-height: none !important;
+        }
+
+        @include media-breakpoint-up(md) {
+            min-height: 400px;
+        }
+    }
+
+    &__content {
+        margin: 0;
+        padding: 8px 16px 32px;
+        background-color: transparent;
+
+        @include media-breakpoint-up(md) {
+            padding-top: 32px;
+        }
+
+        @include media-breakpoint-up(lg) {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+    }
+
+    &.active {
+        position: static;
+    }
+
+    &.show {
+        opacity: 1;
+    }
+
+    @include media-breakpoint-down(md) {
+        position: static;
+        opacity: 1 !important;
+
+        &:not(:first-child) {
+            margin-top: 16px;
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        &.block-ui {
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+}
+
+.tabs-content {
+    &__tabs {
+        display: none;
+
+        @include media-breakpoint-up(md) {
+            display: block;
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        padding: 0;
+        overflow: visible;
+
+        &.block-ui {
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+}

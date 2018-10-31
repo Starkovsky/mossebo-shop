@@ -51,4 +51,8 @@ export default class Product {
     hasSale() {
         return 'sale' in this
     }
+
+    getSearchRelevance() {
+        return this.relevance || 999999
+    }
 }
