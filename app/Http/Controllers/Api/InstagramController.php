@@ -13,9 +13,9 @@ class InstagramController extends ApiController
     {
         $count = (int) $request->input('count');
 
-        $count = min(
+        $count = max(
             4,
-            max(30, $count)
+            min(30, $count)
         );
 
         $profileName = $request->input('profile');
