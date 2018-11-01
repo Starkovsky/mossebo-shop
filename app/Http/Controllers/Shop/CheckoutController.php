@@ -35,7 +35,7 @@ class CheckoutController extends Controller
     {
         $data = [
             'orderId' => $orderId,
-            'images' => Instagram::getLastImages()->splice(0, 8)
+            'images' => Instagram::getLastImages('mossebo.official')->splice(0, 8)
         ];
 
         // todo: доделать при изменении системы контента

@@ -5,14 +5,19 @@ namespace App\Instagram;
 use Cache;
 use Illuminate\Support\Collection;
 use InstagramScraper\Instagram as InstagramDataGetter;
+use App\Support\Traits\Cacheable;
 
 class Instagram
 {
-    public static function getLastImages()
+    use Cacheable;
+
+    protected static $cacheNamespace = 'instagram-photos';
+
+    public static function getLastImages($profileName)
     {
-        $images = Cache::remember('users', 30, function () {
+        $images = Cache::remember(static::makeCacheKey($profileName), 30, function () use($profileName) {
             $instagram = new InstagramDataGetter();
-            $nonPrivateAccountMedias = $instagram->getMedias('mossebo.official', 30);
+            $nonPrivateAccountMedias = $instagram->getMedias($profileName, 30);
 
             $result = new Collection();
 

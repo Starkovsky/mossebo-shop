@@ -38,7 +38,7 @@ Route::prefix('ru')->group(function () {
 });
 
 Route::middleware('CrossDomain')->group(function () {
-    Route::get('/instagram/{count}', 'Api\InstagramController@getImages');
+    Route::get('/instagram', 'Api\InstagramController@widget');
 });
 
 
