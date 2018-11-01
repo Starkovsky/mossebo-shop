@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Instagram\Instagram;
+use Psy\Util\Json;
 
 class InstagramController extends ApiController
 {
@@ -13,6 +14,6 @@ class InstagramController extends ApiController
             max(30, $count)
         );
 
-        return Instagram::getLastImages()->splice(0, $count);
+        return 'showInstagramWidget(' . json_encode(Instagram::getLastImages()->splice(0, $count), JSON_UNESCAPED_UNICODE) . ')';
     }
 }
