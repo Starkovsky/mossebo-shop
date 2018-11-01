@@ -37,7 +37,11 @@ Route::prefix('ru')->group(function () {
     Route::get('/catalog.xml', 'Api\Shop\RetailCRMController@catalog');
 });
 
-Route::get('/instagram/{count}', 'Api\InstagramController@getImages')->middleware('CrossDomain');
+Route::middleware('CrossDomain')->group(function () {
+    Route::get('/instagram/{count}', 'Api\InstagramController@getImages');
+});
+
+
 
 
 
