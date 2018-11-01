@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'ErrorIfNotAuthenticated' => \App\Http\Middleware\ErrorIfNotAuthenticated::class,
         'CheckLanguageCode' => \App\Http\Middleware\CheckLanguageCode::class,
         'OnlyAjax' => \App\Http\Middleware\OnlyAjax::class,
+        'CrossDomain' => \App\Http\Middleware\CrossDomain::class,
     ];
 }

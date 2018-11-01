@@ -1,6 +1,4 @@
-import axios from 'axios'
 import BlankPlugin from './base/BlankPlugin'
-import Core from './core'
 import Alerty from './Alerty'
 import { dispatchEvent } from './functions'
 import Request from './Request'
