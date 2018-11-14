@@ -38,6 +38,7 @@ import FormattedPrice from './components/shop/price/FormattedPrice'
 import Checkout from './components/shop/checkout/Checkout'
 import Cabinet from './components/shop/cabinet/Cabinet'
 import CartBtn from './components/shop/cart/CartBtn'
+import Comparison from './components/shop/comparison/Comparison'
 
 
 import ProductControls from './components/shop/product/ProductControls'
@@ -51,6 +52,7 @@ import CitiesSelect from './components/city-select/CitiesSelect'
 import HeaderBanner from './components/banners/HeaderBanner'
 import BannerSlider from './components/banners/BannersSet/BannerSlider'
 import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoader'
+import Instagram from './components/Instagram'
 
 import Core from './scripts/core'
 import './scripts/HeightToggle'
@@ -100,7 +102,9 @@ const app = new Vue({
         SearchInput,
         BannerSlider,
         FontResizer,
-        Badges
+        Badges,
+        Instagram,
+        Comparison
     },
     data: {
         windowWidth: window.innerWidth,
@@ -118,6 +122,7 @@ const app = new Vue({
         }, 120)
 
         window.addEventListener('resize', this.resizeHandler, { passive: true })
+        this.$store.dispatch('comparison/init')
     },
 
     mounted() {

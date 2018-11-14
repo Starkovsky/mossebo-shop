@@ -53,7 +53,7 @@ class CatalogController extends BaseStructureController
         return static::makeStructureCollection(
             $categories,
             function ($resource) {
-                return siteUrl('catalog/' . $resource->slug);
+                return $resource->link();
             }
         );
     }
@@ -63,17 +63,25 @@ class CatalogController extends BaseStructureController
         return static::makeStructureCollection(
             $categories,
             function ($resource) {
-                return siteUrl('catalog/' . $resource->slug);
+                return $resource->link();
             },
             function($resource) {
                 $row = $resource
                     ->productCounts
                     ->where('room_id', null)
-                    ->where('style_id',null)
+                    ->where('style_id', null)
                     ->first();
 
                 return $row ? $row->count : 0;
             }
         );
+    }
+
+    public function getPopularCategories()
+    {
+        $categories = Categories::where('is_popular', true)
+            ->where('miniature_image', '!=', '');
+
+        return static::makeCategoriesCollection($categories);
     }
 }

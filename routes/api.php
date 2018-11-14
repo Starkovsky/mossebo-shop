@@ -32,13 +32,12 @@ Route::prefix('ru')->group(function () {
     Route::get('/goods/new', 'Api\Shop\ProductController@new');
     Route::get('/goods/{product}/similar', 'Api\Shop\ProductController@similar');
     Route::get('/goods/{product}/related', 'Api\Shop\ProductController@related');
+    Route::post('/goods/views', 'Api\Shop\ProductController@views');
+    Route::post('/goods/comparison', 'Api\Shop\ProductController@comparison');
+
 
     // Каталог для RetailCRM
     Route::get('/catalog.xml', 'Api\Shop\RetailCRMController@catalog');
-});
-
-Route::middleware('CrossDomain')->group(function () {
-    Route::get('/instagram', 'Api\InstagramController@widget');
 });
 
 

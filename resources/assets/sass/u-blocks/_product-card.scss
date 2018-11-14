@@ -1,6 +1,7 @@
 .product-card,
 .product-card-long,
 .product-card-mobile,
+.product-card-views,
 .product-card-sale,
 .product-card-promo {
     padding: 24px 16px;
@@ -176,7 +177,8 @@
     }
 }
 
-.product-card-mobile {
+.product-card-mobile,
+.product-card-views {
     padding: 8px;
     display: flex;
     flex-wrap: wrap;
@@ -238,6 +240,24 @@
         &__center {
             padding-right: 32px;
         }
+    }
+}
+
+.product-card-views {
+    padding: 12px;
+
+    &__image-box {
+        width: 60px;
+    }
+
+    &__center {
+        width: calc(100% - 60px);
+        padding-left: 12px;
+        padding-right: 0;
+    }
+
+    & + & {
+        border-top: 1px solid $color-border;
     }
 }
 

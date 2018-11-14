@@ -5,7 +5,7 @@
                 {{ filter.title }}
             </span>
 
-            <svg class="filter-name__icon symbol-icon symbol-keyboard-down">
+            <svg class="filter-name__icon">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
         </div>

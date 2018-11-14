@@ -7,6 +7,15 @@ import Core from '../../../../scripts/core/index'
 
 let mainFilterTypes = ['categories', 'styles', 'rooms']
 
+
+
+function prepareOptions(options, exstingsIds) {
+    let result =  options.filter(option => exstingsIds.indexOf(option.id) !== -1)
+    result = _.orderBy(result, 'position')
+
+    return result
+}
+
 /*
     Создает фильтр по основным свойствам товара
  */
@@ -14,7 +23,7 @@ function mainFilterMaker(key, exstingsIds = []) {
     return new Promise(resolve => {
         DataHandler.get(key)
             .then(data => {
-                let options = data[key].filter(option => exstingsIds.indexOf(option.id) !== -1)
+                let options = prepareOptions(data[key], exstingsIds)
 
                 if (options.length > 1) {
                     resolve(new MainFilter({
@@ -42,7 +51,7 @@ function attributeFiltersMaker(exstingsIds = []) {
                 }
 
                 let filters = _.orderBy(data.attributes, 'position').reduce((acc, attribute) => {
-                    let options = attribute.options.filter(option => exstingsIds.indexOf(option.id) !== -1)
+                    let options = prepareOptions(attribute.options, exstingsIds)
 
                     if (options.length > 1) {
                         acc.push(new AttributesFilter({
@@ -152,8 +161,6 @@ function getHandler(types) {
                 else if (promises) {
                     acc.push(promises)
                 }
-
-
 
                 return acc
             }, [])

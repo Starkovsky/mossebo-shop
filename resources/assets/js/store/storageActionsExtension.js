@@ -1,7 +1,7 @@
 import {LocalStorageProxy} from "../scripts/storage/LocalStorageProxy"
 
 function isObject(obj) {
-    return _.isObject(obj) && !_.isFunction(obj)
+    return _.isObject(obj) && !_.isFunction(obj) && !_.isArray(obj)
 }
 
 function isEmpty(data) {

@@ -77,7 +77,7 @@
 
         <div class="product-card-promo__right">
             <div class="product-card-promo__actions text-right">
-                <product-actions></product-actions>
+                <product-actions :product-id="product.id"></product-actions>
             </div>
 
             <a class="product-card-promo__link"
@@ -96,7 +96,7 @@
                         :reset="true"
                     ></background-image-loader>
 
-                    <div v-else class="product-card-promo__image"></div>
+                    <div v-else class="product-card-promo__image image-preview image-preview--1-1"></div>
                 </div>
             </a>
 

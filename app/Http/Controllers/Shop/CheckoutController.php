@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Shop;
 
+use Shop;
 use Cart;
 use Mail;
 use PayTypes;
+use MosseboShopCore\Shop\Order\CheckoutOrderBuilder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Checkout\CheckoutRequest;
 use App\Http\Controllers\ContentController;
@@ -17,17 +19,19 @@ class CheckoutController extends Controller
 {
     public function index(CheckoutRequest $request)
     {
-        $result = (new OrderSaver($request->all()))->save();
+        $order = Shop::makeOrder(CheckoutOrderBuilder::class, $request->all());
 
-        Mail::to($result['email'])
+        (new OrderSaver($order))->save();
+
+        Mail::to($order->customer->getAttribute('email'))
             ->bcc(config('mail.to.address'), config('mail.to.name'))
-            ->queue(new CheckoutMail($result));
+            ->queue(new CheckoutMail($order));
 
         Cart::clear()->save();
 
         return response([
             'status'  => 'success',
-            'orderId' => $result['id']
+            'orderId' => $order->getId()
         ], 200);
     }
 

@@ -9,8 +9,7 @@
         </h1>
     </div>
 
-    @include('shop.layouts.structure', [
-        'chunkName' => 'shop.chunks.structure-card',
+    @include('shop.layouts.structure-popular', [
         'items' => $categories
     ])
 

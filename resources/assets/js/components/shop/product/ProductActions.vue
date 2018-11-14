@@ -2,13 +2,14 @@
     <div class="product-actions">
         <div class="product-actions__container">
             <div class="product-actions__item">
-                <a href="javascript:void(0);"
-                   data-toggle="tooltip"
-                   data-placement="top"
-                   title="Данная функция в разработке"
+                <a
+                    @click="addToComparison(productId)"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Сравнение"
                 >
                     <svg class="symbol-icon symbol-wishlist">
-                        <use xlink:href="/assets/images/icons.svg#symbol-wishlist"></use>
+                        <use xlink:href="/assets/images/icons.svg#symbol-comparison"></use>
                     </svg>
                 </a>
             </div>
@@ -32,8 +33,18 @@
     export default {
         name: "ProductActions",
 
-        mounted: function () {
+        props: [
+            'productId'
+        ],
+
+        mounted() {
             this.$root.initTooltips()
         },
+
+        methods: {
+            addToComparison(productId) {
+                this.$store.dispatch('comparison/add', productId)
+            }
+        }
     }
 </script>

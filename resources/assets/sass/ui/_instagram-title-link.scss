@@ -1,0 +1,13 @@
+.instagram-title-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    vertical-align: bottom;
+    color: currentColor;
+
+    & img {
+        margin-right: 16px;
+        position: relative;
+        top: 3px;
+    }
+}

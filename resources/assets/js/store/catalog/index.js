@@ -17,7 +17,7 @@ export default {
         sort:       SortModule,
         cards:      CardsModule,
         pagination: PaginateModule,
-        search:     SearchModule
+        search:     SearchModule,
     },
 
     state: {
@@ -47,10 +47,12 @@ export default {
             )
 
             dispatch('initStorageExtension', 'catalog')
-                .then(() => dispatch('sort/init', params.sort))
-                .then(() => dispatch('pagination/init'))
-                .then(() => dispatch('search/init'))
-                .then(() => dispatch('filters/init', params.filters))
+                .then(() => Promise.all([
+                    dispatch('sort/init', params.sort),
+                    dispatch('pagination/init'),
+                    dispatch('search/init'),
+                    dispatch('filters/init', params.filters),
+                ]))
                 .then(() => dispatch('fetchCatalog'))
         },
 

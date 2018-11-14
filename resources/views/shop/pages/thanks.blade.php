@@ -33,38 +33,28 @@
 
         <div class="mt-60">
             <h2 class="title-h2">
-                @mossebo.official
+                <a href="{{ settings('public-social-instagram') }}" target="_blank" rel="nofollow noreferrer noopener" class="instagram-title-link">
+                    <img
+                        src="/assets/images/icons/socials/instagram.png"
+                        srcset="/assets/images/icons/socials/instagram@2x.png 2x"
+                        alt="@mossebo.official"
+                    >
+
+                    @mossebo.official
+                </a>
             </h2>
 
             <p class="mb-32">
                 Следите за новинками Mossebo.Market в реальных интерьерах в нашем Instagram
             </p>
 
-            <div class="row">
-                @foreach($images as $image)
-                    <div class="col-6 col-md-3">
-                        <a href="{{ $image['link'] }}" class="instagram-card block-ui block-ui--with-hover" target="_blank" rel="nofollow noreferrer noopener">
-                            <img
-                                src="{{ $image['src'] }}"
-                                srcset="{{ $image['srcset'] }} 2x"
-                                alt="@mossebo.official"
-                                class="instagram-card__image"
-                            >
-
-                            <div class="instagram-card__likes">
-                                <svg class="instagram-card__icon">
-                                    <use xlink:href="/assets/images/icons.svg#symbol-heart"></use>
-                                </svg>
-
-                                {{ $image['likes'] }}
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
+            <instagram
+                profile="mossebo.official"
+                :count="8"
+            ></instagram>
 
             <div class="watch-all-btn-wrap mt-32">
-                <a href="{{ settings('public-social-instagram') }}" class="watch-all-btn">
+                <a href="{{ settings('public-social-instagram') }}" class="watch-all-btn" target="_blank" rel="nofollow noreferrer noopener">
                     <span class="watch-all-btn__label">
                         Смотреть все
                     </span>

@@ -6,10 +6,9 @@ use Cart;
 use Cookie;
 use App\Models\PostalCode;
 use App\Models\City;
-use App\Models\Region;
 
-use App\Models\Shop\Category\CategoryProduct;
-use App\Models\Shop\Category\Category;
+use App\Models\Shop\Product\Product;
+use App\Payments\Yandex\YandexPayment;
 
 class LocationController extends Controller
 {
@@ -17,10 +16,29 @@ class LocationController extends Controller
 
     public function test2()
     {
+        $tableName = config('tables.CategoryProducts');
+        $productsTableName = config('tables.Products');
+
+        $products = Product::whereRaw(\DB::raw("NOT EXISTS (
+                SELECT \"product_id\"
+                FROM \"{$tableName}\"
+                WHERE 
+                    \"{$tableName}\".\"product_id\" = \"{$productsTableName}\".\"id\"
+            )"))->get();
+
+        $ids = array_column($products->toArray(),'id');
+
+        sort($ids);
+
+        dd($ids);
     }
 
     public function test()
     {
+        $a = new YandexPayment;
+
+        $a->sendRequest();
+
 //        $a = \DB::select('SELECT * FROM (SELECT count(fias_code) as fias_count, fias_code FROM cities GROUP BY fias_code ORDER BY fias_count DESC) as a WHERE fias_count > 1');
 //
 //        foreach ($a as $item) {

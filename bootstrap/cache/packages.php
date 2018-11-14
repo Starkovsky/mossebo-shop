@@ -1,25 +1,4 @@
 <?php return array (
-  'socialiteproviders/manager' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'SocialiteProviders\\Manager\\ServiceProvider',
-    ),
-  ),
-  'laravel/scout' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Scout\\ScoutServiceProvider',
-    ),
-  ),
-  'fideloper/proxy' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    ),
-  ),
   'artesaos/seotools' => 
   array (
     'providers' => 
@@ -41,6 +20,24 @@
       0 => 'ScoutElastic\\ScoutElasticServiceProvider',
     ),
   ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
+  ),
+  'barryvdh/laravel-ide-helper' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    ),
+  ),
   'cybercog/laravel-love' => 
   array (
     'providers' => 
@@ -59,11 +56,25 @@
       'Breadcrumbs' => 'DaveJamesMiller\\Breadcrumbs\\Facades\\Breadcrumbs',
     ),
   ),
+  'fideloper/proxy' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    ),
+  ),
   'kalnoy/nestedset' => 
   array (
     'providers' => 
     array (
       0 => 'Kalnoy\\Nestedset\\NestedSetServiceProvider',
+    ),
+  ),
+  'laravel/scout' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Scout\\ScoutServiceProvider',
     ),
   ),
   'laravel/socialite' => 
@@ -84,33 +95,11 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-  'torann/geoip' => 
+  'mossebo-cm/mossebo-shop-core' => 
   array (
     'providers' => 
     array (
-      0 => 'Torann\\GeoIP\\GeoIPServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'GeoIP' => 'Torann\\GeoIP\\Facades\\GeoIP',
-    ),
-  ),
-  'barryvdh/laravel-debugbar' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
-    ),
-  ),
-  'barryvdh/laravel-ide-helper' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+      0 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
     ),
   ),
   'nunomaduro/collision' => 
@@ -120,11 +109,22 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-  'mossebo-cm/mossebo-shop-core' => 
+  'socialiteproviders/manager' => 
   array (
     'providers' => 
     array (
-      0 => 'MosseboShopCore\\MosseboShopCoreServiceProvider',
+      0 => 'SocialiteProviders\\Manager\\ServiceProvider',
+    ),
+  ),
+  'torann/geoip' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Torann\\GeoIP\\GeoIPServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'GeoIP' => 'Torann\\GeoIP\\Facades\\GeoIP',
     ),
   ),
 );

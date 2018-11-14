@@ -10,6 +10,7 @@
     position: relative;
     padding: 24px 16px;
     cursor: pointer;
+    user-select: none;
 
     &:hover {
         text-decoration: none;
@@ -24,6 +25,18 @@
         color: $color-text-primary;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-right: 16px;
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        fill: $color-icons;
+        transition: fill .3s;
+    }
+
+    &:hover &__icon {
+        fill: $color-text-primary;
     }
 }
 

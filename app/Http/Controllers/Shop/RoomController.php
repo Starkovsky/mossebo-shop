@@ -76,7 +76,7 @@ class RoomController extends BaseStructureController
         return static::makeStructureCollection(
             $rooms,
             function ($resource) {
-                return siteUrl('rooms/' . $resource->slug);
+                return $resource->link();
             }
         );
     }

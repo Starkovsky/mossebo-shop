@@ -28,10 +28,9 @@
     &.fixed &__fixed {
         position: fixed;
         left: 0;
-        top: 0;
         width: 100%;
         box-shadow: $shadows-primary;
-        transition: transform .3s;
+        transition: all .3s;
 
         &.from-top {
             transform: translate3d(0, -100%, 0);
@@ -158,13 +157,8 @@
         }
     }
 
-    .mobile-catalog-btn {
-        display: block;
-        color: $color-primary;
-
-        .symbol-menu {
-            fill: $color-primary;
-        }
+    .mobile-catalog-btn .symbol-menu {
+        fill: $color-primary;
     }
 
     .location {

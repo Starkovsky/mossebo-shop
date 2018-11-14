@@ -8,8 +8,17 @@ use App\Models\Shop\Promo\PromoCode as PromoCodeModel;
 
 class PromoCode extends BasePromoCode implements PromoCodeInterface
 {
-    public function setResource($codeName = ''): void
+    public function setResource($codeIdOrName = ''): void
     {
-        $this->resource = PromoCodeModel::where('name', $codeName)->first();
+        if (is_int($codeIdOrName)) {
+            $resource = PromoCodeModel::where('id', $codeIdOrName)->first();
+
+            if ($resource) {
+                $this->resource = $resource;
+                return;
+            }
+        }
+
+        $this->resource = PromoCodeModel::where('name', $codeIdOrName)->first();
     }
 }

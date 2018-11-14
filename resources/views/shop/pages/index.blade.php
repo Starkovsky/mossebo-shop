@@ -19,6 +19,10 @@
         </div>
     </section>
 
+    @include('shop.layouts.structure-popular', [
+        'items' => getPopularCategories()
+    ])
+
     <section class="content-block js-product-list-container">
         <div class="container">
             <product-list

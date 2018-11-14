@@ -1,20 +1,22 @@
 <template>
     <div class="product-card-mobile block-ui block-ui--with-hover">
         <div class="product-card-mobile__actions text-right">
-            <product-actions></product-actions>
+            <product-actions :product-id="product.id"></product-actions>
         </div>
 
         <div class="product-card-mobile__image-box">
             <a class="product-card-mobile__link" :href="link">
-                <div v-for="(image, index) in product.previews"
-                     v-show="currentImage == index"
-                >
+                <template v-if="image">
                     <product-card-image
                         class="product-card-mobile__image"
                         :image="image"
                         :no-image-loading="noImageLoading"
                     ></product-card-image>
-                </div>
+                </template>
+
+                <template v-else>
+                    <div class="product-card-mobile__image image-preview image-preview--1-1"></div>
+                </template>
             </a>
         </div>
 
@@ -25,7 +27,7 @@
                 </a>
             </div>
 
-            <div v-if="product.badges" class="product-card-mobile__badges">
+            <div v-if="product.badges && product.badges.length" class="product-card-mobile__badges">
                 <badges
                     class="badges--small"
                     :badges="product.badges.slice(0, 2)"
@@ -65,5 +67,15 @@
         mixins: [
             mixin
         ],
+
+        computed: {
+            image() {
+                if (this.product && 'previews' in this.product && this.product.previews.length) {
+                    return this.product.previews[0]
+                }
+
+                return false
+            }
+        }
     }
 </script>

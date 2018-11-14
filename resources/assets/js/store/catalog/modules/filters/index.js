@@ -151,13 +151,13 @@ export default {
             state.types = types
         },
 
-        [actionTypes.CATALOG_FILTERING_START](state) {
-            state.filters = filters
-        },
-
-        [actionTypes.CATALOG_FILTERING_FINISH](state) {
-            state.filters = filters
-        },
+        // [actionTypes.CATALOG_FILTERING_START](state) {
+        //     state.filters = filters
+        // },
+        //
+        // [actionTypes.CATALOG_FILTERING_FINISH](state) {
+        //     state.filters = filters
+        // },
 
         [actionTypes.CATALOG_FILTERS_DIRTY](state, dirtyStatus) {
             state.isDirty = dirtyStatus

@@ -104,4 +104,9 @@ class ContentController extends Controller
     {
         return view('shop.pages.contacts');
     }
+
+    public function comparison()
+    {
+        return view('shop.pages.comparison');
+    }
 }

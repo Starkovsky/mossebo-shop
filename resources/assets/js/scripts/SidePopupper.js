@@ -158,34 +158,48 @@ export default class SidePopupper extends BlankPlugin {
 
     open() {
         if (this.opened) return
-        this.opened = true
 
-        this.top = window.pageYOffset
+        this.wrap(cb => {
+            this.opened = true
 
-        this.appEl.style.height = window.innerHeight + this.top + 'px'
-        this.appEl.style.top = '-' + this.top + 'px'
-        this.appEl.classList.add('side-popup-opened')
+            this.top = window.pageYOffset
 
-        this.popupEl.classList.add('is-active')
+            this.appEl.style.height = window.innerHeight + this.top + 'px'
+            this.appEl.style.top = '-' + this.top + 'px'
+            this.appEl.classList.add('side-popup-opened')
+
+            this.popupEl.classList.add('is-active')
+
+            cb()
+        })
     }
 
     close() {
         if (!this.opened) return
 
-        this.opened = false
-        this.appEl.classList.remove('side-popup-opened')
-        this.appEl.style.height = 'auto'
-        this.appEl.style.top = 'auto'
+        this.wrap(cb => {
+            this.opened = false
 
-        window.scrollTo(0, this.top)
+            this.appEl.classList.remove('side-popup-opened')
+            this.appEl.style.height = 'auto'
+            this.appEl.style.top = 'auto'
 
-        this.popupEl.addEventListener('transitionend', () => {
-            this.pages.splice(1).forEach(el => {
-                this.contentEl.removeChild(el)
-            })
-        }, {passive: true, once: true})
+            window.scrollTo(0, this.top)
 
-        this.popupEl.classList.remove('is-active')
+            this.popupEl.addEventListener('transitionend', () => {
+                this.pages.splice(1).forEach(el => {
+                    this.contentEl.removeChild(el)
+                })
+            }, {passive: true, once: true})
+
+            this.popupEl.classList.remove('is-active')
+
+            cb()
+        })
+    }
+
+    wrap(cb) {
+        cb(this.bindEvent(window, 'scroll', e => e.stopPropagation(), {capture: true}))
     }
 
     beforeDestroy() {

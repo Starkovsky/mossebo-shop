@@ -1,0 +1,45 @@
+.popular-structure-item {
+    flex: 0 0 50%;
+    max-width: 50%;
+
+    @include media-breakpoint-up(md) {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+
+    @include media-breakpoint-up(xl) {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
+
+.popular-structure-card {
+    display: block;
+    position: relative;
+    background-position: center calc(50% - 16px);
+    background-repeat: no-repeat;
+    background-size: 55%;
+
+    &::before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+    }
+
+    &__name {
+        position: absolute;
+        bottom: 22px;
+        left: 0;
+        width: 100%;
+        padding: 0 16px;
+        text-align: center;
+        font-size: 16px / 22px;
+        overflow: hidden;
+        color: $color-text-primary;
+    }
+}

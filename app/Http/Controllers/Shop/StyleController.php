@@ -76,7 +76,7 @@ class StyleController extends BaseStructureController
         return static::makeStructureCollection(
             $styles,
             function ($resource) {
-                return siteUrl('styles/' . $resource->slug);
+                return $resource->link();
             }
         );
     }

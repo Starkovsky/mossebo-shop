@@ -8,8 +8,21 @@
         </template>
 
         <template v-else-if="ready">
+            <side-popup ref="popup">
+                <div>
+                    <catalog-filter-list></catalog-filter-list>
+
+                    <div v-if="filtersExists" class="catalog-filters-controls">
+                        <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                            Сбросить фильтры
+                        </button>
+                    </div>
+                </div>
+            </side-popup>
+
             <div class="row align-content-stretch">
-                <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
+                <div class="col-md-3" v-if="$root.windowMoreThan('lg')" style="display: flex; flex-direction: column;">
+
                     <template v-if="filtersExists">
                         <catalog-filter-list
                             class="block-ui"
@@ -22,18 +35,44 @@
                         </div>
                     </template>
 
-                    <div class="catalog-filters-banner" v-if="! loading">
-                        <banner-column
-                            v-if="allProductsQuantity > 12"
-                            place="3"
-                            quantity="3"
-                        ></banner-column>
+                    <div class="mt-32">
+                        <products-views></products-views>
+                    </div>
 
-                        <banner-slider
-                            v-else
-                            place="3"
-                            quantity="3"
-                        ></banner-slider>
+                    <div class="mt-32" style="height: 100%">
+                        <fixer
+                            v-if="! loading"
+                            @fix="showFiltersButton"
+                            @unfix="hideFiltersButton"
+                        >
+                            <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
+                                <div class="banner-fixer__button">
+                                    <div class="filter-name block-ui" @click="openPopup">
+                                    <span class="filter-name__name">
+                                        Фильтровать
+                                    </span>
+
+                                        <svg class="filter-name__icon">
+                                            <use xlink:href="/assets/images/icons.svg#symbol-filters-2"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="banner-fixer__banners">
+                                    <banner-column
+                                        v-if="allProductsQuantity > 12 && false"
+                                        place="3"
+                                        quantity="3"
+                                    ></banner-column>
+
+                                    <banner-slider
+                                        v-else
+                                        place="3"
+                                        quantity="3"
+                                    ></banner-slider>
+                                </div>
+                            </div>
+                        </fixer>
                     </div>
                 </div>
 
@@ -53,18 +92,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <side-popup ref="popup">
-                        <div>
-                            <catalog-filter-list></catalog-filter-list>
-
-                            <div v-if="filtersExists" class="catalog-filters-controls">
-                                <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
-                                    Сбросить фильтры
-                                </button>
-                            </div>
-                        </div>
-                    </side-popup>
                 </div>
 
                 <div class="col-lg-9">
@@ -133,6 +160,7 @@
 
 <script>
     import CatalogMixin from './CatalogMixin'
+    import ProductsViews from '../ProductsViews'
 
     export default {
         name: "Catalog",
@@ -140,6 +168,10 @@
         mixins: [
             CatalogMixin
         ],
+
+        components: {
+            ProductsViews
+        },
 
         props: {
             filterTypes: {
@@ -156,5 +188,23 @@
                 }
             },
         },
+
+        data() {
+            return {
+                filtersButtonShowed: false
+            }
+        },
+
+        methods: {
+            showFiltersButton(e) {
+                this.filtersButtonShowed = true
+            },
+
+            hideFiltersButton(e) {
+                if (e) {
+                    this.filtersButtonShowed = false
+                }
+            }
+        }
     }
 </script>

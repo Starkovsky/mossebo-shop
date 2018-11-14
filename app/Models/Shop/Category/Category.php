@@ -38,4 +38,9 @@ class Category extends BaseCategory
     {
         return $this->hasMany(ProductCount::class, $this->relationFieldName);
     }
+
+    public function link()
+    {
+        return siteUrl('catalog/' . $this->slug);
+    }
 }

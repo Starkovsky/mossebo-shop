@@ -3,15 +3,21 @@
 namespace App\Shop;
 
 use Auth;
+use MosseboShopCore\Contracts\Shop\Cart\Cart;
+use MosseboShopCore\Contracts\Shop\Customer;
 use Route;
-use App\Shop\Cart\Promo\PromoCode;
 use MosseboShopCore\Shop\Shop as BaseShop;
+use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode as PromoCodeInterface;
 use App\Models\Shop\Promo\PromoCode as PromoCodeModel;
+use App\Models\Shop\Product\ProductAttributeOption;
+use MosseboShopCore\Contracts\Shop\Cart\Cart as CartInterface;
+use MosseboShopCore\Contracts\Shop\Order\Order as OrderInterface;
+
 
 class Shop extends BaseShop
 {
     protected $route = null;
-    protected $user = null;
+    protected $customer = null;
 
     public function getDefaultPromoCode()
     {
@@ -27,7 +33,9 @@ class Shop extends BaseShop
             return false;
         }
 
-        return new PromoCode($promoCodeResource);
+        return $this->make(PromoCodeInterface::class, [
+            'codeName' => $promoCodeResource
+        ]);
     }
 
     protected function getCurrentRoute()
@@ -56,20 +64,20 @@ class Shop extends BaseShop
         ]);
     }
 
-    public function user()
+    public function getCustomer(): ?Customer
     {
-        if (is_null($this->user)) {
+        if (is_null($this->customer)) {
             $prefix = app('request')->route()->getPrefix();
 
             if (strpos($prefix, 'api/') === 0) {
-                $this->user = Auth::guard('api')->user();
+                $this->customer = Auth::guard('api')->user();
             }
             else {
-                $this->user = Auth::user();
+                $this->customer = Auth::user();
             }
         }
 
-        return $this->user;
+        return $this->customer;
     }
 
     public function isFranchiseeDomain()
@@ -77,11 +85,11 @@ class Shop extends BaseShop
         return strpos(request()->getHost(), 'f.') === 0;
     }
 
-    public function userIsFranchisee()
+    public function customerIsFranchisee()
     {
-        $user = $this->user();
+        $customer = $this->getCustomer();
 
-        return $user && $user->isFranchisee();
+        return $customer && $customer->isFranchisee();
     }
 
     public function isFranchisee()
@@ -107,5 +115,39 @@ class Shop extends BaseShop
         }
 
         return $this->salesHandler;
+    }
+
+    public function getAvailableProductOptionIds($productId): array
+    {
+        $options = ProductAttributeOption::select('option_id')->where('product_id', $productId)->get();
+
+        return array_column($options->toArray(), 'option_id');
+    }
+
+    public function make($className, $data = null)
+    {
+        if (is_array($data)) {
+            return app()->makeWith($className, $data);
+        }
+
+        return app()->make($className);
+    }
+
+    public function makeCart($cartBuilderClassName, $data = null): CartInterface
+    {
+        $builder = $this->make($cartBuilderClassName, [
+            'data' => $data
+        ]);
+
+        return $builder->getCart();
+    }
+
+    public function makeOrder($orderBuilderClassName, $data = null): OrderInterface
+    {
+        $builder = $this->make($orderBuilderClassName, [
+            'data' => $data
+        ]);
+
+        return $builder->getOrder();
     }
 }

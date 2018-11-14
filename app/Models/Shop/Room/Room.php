@@ -37,4 +37,9 @@ class Room extends BaseRoom
     {
         return $this->hasMany(ProductCount::class, $this->relationFieldName);
     }
+
+    public function link()
+    {
+        return siteUrl('rooms/' . $this->slug);
+    }
 }

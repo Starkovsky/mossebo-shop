@@ -8,7 +8,7 @@ use MosseboShopCore\Contracts\Shop\Cart\CartProductData as CartProductDataInterf
 
 class CartProduct extends BaseCartProduct
 {
-    protected static function findCartProductData($id, $options = []): ?CartProductDataInterface
+    protected static function findProductData($id, $options = []): ?CartProductDataInterface
     {
         return Product::getCartItem($id, $options);
     }

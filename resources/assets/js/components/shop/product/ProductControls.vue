@@ -1,7 +1,7 @@
 <template>
     <div class="product-page__info">
         <div class="product-page__actions text-right">
-            <product-actions></product-actions>
+            <product-actions :product-id="product.id"></product-actions>
         </div>
 
         <div class="product-page__prices">
@@ -244,6 +244,7 @@
     import FormattedPrice from '../price/FormattedPrice'
     import Rating from '../../Rating'
     import Badges from '../badges/Badges'
+    import ProductViewsHandler from '../../../scripts/shop/ProductViewsHandler'
 
     export default {
         name: "ProductControls",
@@ -282,9 +283,11 @@
             }
         },
 
-        // mounted() {
-        //     heightToggle('.js-ht-product-info')
-        // },
+        mounted() {
+            if (this.product) {
+                ProductViewsHandler.set(this.product.id)
+            }
+        },
 
         watch: {
             options: function() {

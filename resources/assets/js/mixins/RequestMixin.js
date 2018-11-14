@@ -19,10 +19,14 @@ export default {
 
             this.loading = true
 
-            this.request = new Request(method, url, data)
+            this.request = this.makeRequest(method, url, data)
             this.handleRequest()
 
             return this.request.start()
+        },
+
+        makeRequest(method, url, data) {
+            return new Request(method, url, data)
         },
 
         handleRequest() {

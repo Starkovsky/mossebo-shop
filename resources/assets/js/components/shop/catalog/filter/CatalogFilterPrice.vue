@@ -172,8 +172,11 @@
 <template>
     <div>
         <div :class="{'filter-name js-ht-filter': true, 'is-active': expanded}">
-            Цена
-            <svg class="symbol-icon symbol-keyboard-down">
+            <span class="filter-name__name">
+                Цена
+            </span>
+
+            <svg class="filter-name__icon">
                 <use xlink:href="/assets/images/icons.svg#symbol-keyboard-down"></use>
             </svg>
         </div>

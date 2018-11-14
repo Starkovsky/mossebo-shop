@@ -85,6 +85,34 @@ class ProductController extends ApiController
         ]);
     }
 
+    public function views(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if (is_array($ids)) {
+            $ids = array_slice($ids, 0, 4);
+
+            $products = Product::whereIn('id', $ids);
+
+            return response()->json([
+                'products' => $this->getAdditionalProductsResource($products)
+            ]);
+        }
+    }
+
+    public function comparison(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if (is_array($ids)) {
+            $products = Product::whereIn('id', $ids)->with('categoryRelations');
+
+            return response()->json([
+                'products' => $this->getAdditionalProductsResource($products, 16)
+            ]);
+        }
+    }
+
     protected function getRelatedProductIds(Product $product)
     {
         return array_column($product->relatedRelations->toArray(), 'related_id');

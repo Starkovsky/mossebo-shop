@@ -21,9 +21,11 @@
         "mossebo-cm/mossebo-shop-core": "dev-master",
         "predis/predis": "^1.1",
         "raiym/instagram-php-scraper": "^0.8.24",
+        "retailcrm/api-client-php": "~5.0",
         "socialiteproviders/google": "^3.0",
         "socialiteproviders/vkontakte": "^3.2",
-        "torann/geoip": "^1.0"
+        "torann/geoip": "^1.0",
+        "yandex-money/yandex-checkout-sdk-php": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

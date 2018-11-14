@@ -139,8 +139,8 @@
     }
 
     &__slider {
-        padding: 16px 0;
-        margin: -16px 0;
+        //padding: 16px 0;
+        //margin: -16px 0;
     }
 
     &__slider.overflow {
@@ -164,5 +164,39 @@
         &__slide {
             padding: 16px;
         }
+    }
+}
+
+.banner-fixer {
+    padding: 0 32px 32px;
+    margin: 0 -32px -32px;
+    overflow: hidden;
+
+    &__button {
+        margin-top: -104px;
+        transition: .3s;
+    }
+
+    &__banners {
+        margin-top: 32px;
+    }
+
+    &__button,
+    &__banners {
+        transform: translate3d(0,0,0);
+    }
+
+    &--is-active &__button {
+        margin-top: 0;
+    }
+}
+
+
+.fixer {
+    height: 100%;
+
+    &__content.fixed {
+        position: fixed;
+        top: 88px;
     }
 }

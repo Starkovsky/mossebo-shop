@@ -16,9 +16,7 @@ class FixedMenu {
 
         this.isFixed = false
 
-        setTimeout(() => {
-            this.init()
-        }, 60)
+        setTimeout(() => this.init(), 60)
     }
 
     init() {
@@ -56,7 +54,7 @@ class FixedMenu {
         return window.scrollY > this.scrollOffsetTop - this.fixedOffset
     }
 
-    check(e) {
+    check() {
         if (this.menuEl.clientHeight <= scrollHeight) {
             if (this.menuNeedsToBeFixed()) {
                 this.setFixed()
@@ -68,11 +66,9 @@ class FixedMenu {
             if (this.menuInnerEl.clientHeight !== this.menuEl.clientHeight) {
                 this.menuInnerEl.removeAttribute('style')
             }
-
-            return
         }
         else {
-            let heightDiff = window.scrollY - this.scrollOffsetTop + this.fixedOffset
+            let heightDiff = this.getHeightDiff()
 
             if (this.menuEl.clientHeight >= heightDiff + this.menuInnerEl.clientHeight) {
                 this.unsetFixed()
@@ -85,11 +81,21 @@ class FixedMenu {
                 }
             }
 
-            let height = Math.min(this.menuEl.clientHeight, Math.max(this.menuEl.clientHeight - heightDiff, scrollHeight))
+            this.setHeight(heightDiff)
+        }
+    }
 
-            if (this.menuInnerEl.clientHeight !== height) {
-                this.menuInnerEl.style.height = height + 'px'
-            }
+    getHeightDiff() {
+        return window.scrollY - this.scrollOffsetTop + this.fixedOffset
+    }
+
+    setHeight(heightDiff) {
+        heightDiff = heightDiff || this.getHeightDiff()
+
+        let height = Math.min(this.menuEl.clientHeight, Math.max(this.menuEl.clientHeight - heightDiff, scrollHeight))
+
+        if (this.menuInnerEl.clientHeight !== height) {
+            this.menuInnerEl.style.height = height + 'px'
         }
     }
 
@@ -113,14 +119,30 @@ class FixedMenu {
 
     animateFixed() {
         this.animationInProcess = true
-        this.setFixed()
-        this.menuContainerEl.classList.add('from-top')
 
-        setTimeout(() => {
-            if (this.animationInProcess) {
-                this.menuContainerEl.classList.remove('from-top')
-            }
-        }, 1000)
+        let diff = this.menuEl.scrollHeight + this.menuEl.getBoundingClientRect().y
+        this.setFixed()
+        this.setHeight()
+
+        if (this.menuContainerEl.scrollHeight > diff) {
+            this.menuContainerEl.style.marginTop = diff + 'px'
+
+            setTimeout(() => {
+                if (this.animationInProcess) {
+                    this.menuContainerEl.classList.remove('from-top')
+                    this.menuContainerEl.style.marginTop = 0
+                }
+            }, 64)
+        }
+        else {
+            setTimeout(() => {
+                if (this.animationInProcess) {
+                    this.menuContainerEl.classList.remove('from-top')
+                }
+            }, 1000)
+        }
+
+        this.menuContainerEl.classList.add('from-top')
     }
 
     breakAnimation() {

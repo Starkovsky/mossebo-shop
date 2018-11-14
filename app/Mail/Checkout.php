@@ -8,46 +8,42 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Messages\DefaultMessage;
+use MosseboShopCore\Contracts\Shop\Order\Order;
 
 class Checkout extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $data;
+    protected $order;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct(Order $order)
     {
-        $this->data = $data;
+        $this->order = $order;
     }
 
     protected function getProducts()
     {
         $products = [];
+        $currentLanguage = Shop::getCurrentLanguage();
 
-        foreach ($this->data['products'] as $cartProduct) {
+        foreach ($this->order->getCart()->getProducts() as $cartProduct) {
             $productData = [
                 'url'      => route('good', [
                     'id' => $cartProduct->getProductId()
                 ]),
 
-                'title'    => $cartProduct->getTitle($this->data['language_code']),
+                'title'    => $cartProduct->getTitle($currentLanguage->code),
 
                 'quantity' => $cartProduct->getQuantity(),
 
-                'price'    => $cartProduct->getFinalPrice(
-                    $this->data['price_type_id'],
-                    $this->data['currency_code']
-                )->getFormatted(),
+                'price'    => $cartProduct->getFinalPrice()->getFormatted(),
 
-                'total'    => $cartProduct->getTotalFinalPrice(
-                    $this->data['price_type_id'],
-                    $this->data['currency_code']
-                )->getFormatted(),
+                'total'    => $cartProduct->getTotalFinalPrice()->getFormatted(),
             ];
 
             $image = $cartProduct->getImage();
@@ -64,24 +60,26 @@ class Checkout extends Mailable
 
     protected function getPersonDataTable()
     {
+        $customer = $this->order->getCustomer();
+
         return [
             'title' => trans('shop.checkout.mail.personal'),
             'data' => [
                 [
                     'label' => trans('shop.checkout.mail.form.name'),
-                    'value' => $this->data['first_name']
+                    'value' => $customer->getAttribute('first_name')
                 ],
                 [
                     'label' => trans('shop.checkout.mail.form.surname'),
-                    'value' => $this->data['last_name']
+                    'value' => $customer->getAttribute('last_name')
                 ],
                 [
                     'label' => trans('shop.checkout.mail.form.email'),
-                    'value' => $this->data['email']
+                    'value' => $customer->getAttribute('email')
                 ],
                 [
                     'label' => trans('shop.checkout.mail.form.phone'),
-                    'value' => $this->data['phone']
+                    'value' => $customer->getAttribute('phone')
                 ],
             ]
         ];
@@ -89,22 +87,13 @@ class Checkout extends Mailable
 
     protected function getAddressDataTable()
     {
-        $data = [
-            [
-                'label' => trans('shop.checkout.mail.form.city'),
-                'value' => $this->data['city']
-            ],
-            [
-                'label' => trans('shop.checkout.mail.form.post_code'),
-                'value' => $this->data['post_code']
-            ]
-        ];
+        $shipping = $this->order->getShipping();
 
-        foreach (['street', 'house_number', 'apartment', 'floor', 'entrance', 'intercom'] as $key) {
-            if (! empty($this->data[$key])) {
+        foreach (['city', 'post_code', 'street', 'house_number', 'apartment', 'floor', 'entrance', 'intercom'] as $key) {
+            if ($value = $shipping->getAttribute($key)) {
                 $data[] = [
                     'label' => trans('shop.checkout.mail.form.' . $key),
-                    'value' => $this->data[$key]
+                    'value' => $shipping->getAttribute($key)
                 ];
             }
         }
@@ -124,18 +113,20 @@ class Checkout extends Mailable
     {
         $message = new DefaultMessage();
 
+        $cart = $this->order->getCart();
+
         $checkoutData = [
-            'total' => $this->data['finalAmount'],
+            'total' => $cart->getTotal()->getFormatted(),
             'products' => $this->getProducts()
         ];
 
-        if (isset($this->data['promoPrice'])) {
-            $checkoutData['promo'] = $this->data['promoPrice'];
+        if ($promoPrice = $cart->getPromoDiscountPrice()) {
+            $checkoutData['promo'] = $promoPrice->getFormatted();
         }
 
         $message
             ->title(trans('shop.checkout.mail.title', [
-                'orderId' => $this->data['id'],
+                'orderId' => $this->order->getId(),
                 'site' => config('app.name'),
                 'price' => str_replace(' ', '&nbsp;', $checkoutData['total'])
             ]))
@@ -176,7 +167,7 @@ class Checkout extends Mailable
 //                $this->data['pay_type']
 //            );
 
-        if ($this->data['comment']) {
+        if ($comment = $this->order->getComment()) {
             $message
                 ->separator()
 
@@ -188,14 +179,14 @@ class Checkout extends Mailable
 
                 ->with([
                     'italic' => [
-                        'text' => $this->data['comment']
+                        'text' => $comment
                     ]
                 ]);
         }
 
         $message
             ->footer(trans('shop.checkout.mail.footer', [
-                'orderId' => $this->data['id'],
+                'orderId' => $this->order->getId(),
                 'email'   => Settings::get('notify-help-email'),
                 'phone'   => str_replace(' ', '&nbsp;', Settings::get('notify-help-phone'))
             ]));

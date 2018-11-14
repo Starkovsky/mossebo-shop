@@ -19,6 +19,10 @@ class StructureCardResource extends JsonResource
             $data['image'] = json_decode($this->image->pathes, true);
         }
 
+        if (isset($this->miniature_image)) {
+            $data['miniature'] = $this->miniature_image;
+        }
+
         if (! $data['products_count']) {
             $data['more'] = \Lang::get('content.more.empty');
         }

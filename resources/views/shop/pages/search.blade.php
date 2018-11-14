@@ -1,7 +1,7 @@
 @extends('shop.layouts.html')
 
 @section('content')
-    <div class="container mb-4">
+    <div class="container">
         <h1 class="title-h1">
             {{ trans('search.title.empty') }}
         </h1>

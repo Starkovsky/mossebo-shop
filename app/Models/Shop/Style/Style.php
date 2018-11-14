@@ -37,4 +37,9 @@ class Style extends BaseStyle
     {
         return $this->hasMany(ProductCount::class, $this->relationFieldName);
     }
+
+    public function link()
+    {
+        return siteUrl('styles/' . $this->slug);
+    }
 }

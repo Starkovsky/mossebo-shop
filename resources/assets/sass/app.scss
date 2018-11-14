@@ -56,9 +56,11 @@
 @import "u-blocks/multiselect";
 @import "u-blocks/num-control";
 @import "u-blocks/payment-item-info";
+@import "u-blocks/popular-structure";
 @import "u-blocks/product-card";
 @import "u-blocks/product-image";
 @import "u-blocks/product-list";
+@import "u-blocks/products-views";
 @import "u-blocks/promo";
 @import "u-blocks/rating";
 @import "u-blocks/reviews";
@@ -102,6 +104,8 @@
 @import "pages/product-page";
 @import "pages/shipping";
 @import "pages/help";
+
+@import "ui/instagram-title-link";
 
 
 //Auth

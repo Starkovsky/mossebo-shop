@@ -45,7 +45,7 @@
                                                         </div>
 
                                                         <div
-                                                            class="produt-page-image product-image bg-image"
+                                                            class="product-page-image product-image bg-image"
                                                             style="background-image: url(https://admin.mossebo.market{{ $image->medium->srcset }})"
                                                         ></div>
                                                     </a>
@@ -79,10 +79,14 @@
                                                 </div>
 
                                                 <div
-                                                    class="produt-page-image product-image bg-image"
+                                                    class="product-page-image product-image bg-image"
                                                     style="background-image: url(https://admin.mossebo.market{{ $images[0]->medium->srcset }})"
                                                 ></div>
                                             </a>
+                                        </div>
+                                    @else
+                                        <div>
+                                            <div class="product-page-image product-image bg-image"></div>
                                         </div>
                                     @endif
                                 </div>

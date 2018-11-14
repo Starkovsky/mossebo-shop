@@ -2,7 +2,7 @@
     <a href="{{ $item['url'] }}" class="structure-card block-ui">
         <background-image-loader
             class="structure-card__image"
-        {{ isset($item['image']) ? ':image="https://admin.mossebo.market' . $item['image']['oneHalf']['srcset'] . '"' : '' }}
+        {{ isset($item['image']) ? ':image="' . imagePath($item['image']['oneHalf']['srcset']) . '"' : '' }}
             :screen="true"
         ></background-image-loader>
 
@@ -25,7 +25,7 @@
     <div class="structure-card block-ui">
         <background-image-loader
             class="structure-card__image"
-            {{ isset($item['image']) ? ':image="https://admin.mossebo.market' . $item['image']['oneHalf']['srcset'] . '"' : '' }}
+            {{ isset($item['image']) ? ':image="' . imagePath($item['image']['oneHalf']['srcset']) . '"' : '' }}
             :screen="true"
         ></background-image-loader>
 

@@ -22,6 +22,10 @@
                         </div>
                     </template>
 
+                    <div class="mt-32">
+                        <products-views></products-views>
+                    </div>
+
                     <div class="catalog-filters-banner" v-if="! loading">
                         <banner-column
                             v-if="allProductsQuantity > 12"

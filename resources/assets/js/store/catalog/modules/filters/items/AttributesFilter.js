@@ -1,11 +1,11 @@
 import BaseOptionsFilter from './BaseOptionsFilter'
 
 export default class AttributesFilter extends BaseOptionsFilter {
-    init(filterData, existingOptionIds) {
+    init(filterData) {
         this.id = filterData.id
         this.title = filterData.title
         this.position = filterData.position
-        this.options = _.orderBy(filterData.options.filter(option => existingOptionIds.indexOf(option.id) !== -1), 'position')
+        this.options = filterData.options
     }
 
 

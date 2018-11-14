@@ -14,6 +14,7 @@ import BannerColumn from '../../banners/BannersSet/BannerColumn'
 import SidePopup from '../../SidePopup'
 import ServerError from '../../ServerError'
 import CatalogSort from './CatalogSort'
+import Fixer from '../../Fixer'
 
 export default {
     name: "Catalog",
@@ -29,7 +30,8 @@ export default {
         CatalogFilterList,
         CatalogProductList,
         ServerError,
-        CatalogSort
+        CatalogSort,
+        Fixer
     },
 
     mixins: [

@@ -34,7 +34,7 @@ class ConfigController extends Controller
         $this->__connectTranslates($config);
         $this->__connectLocations($config);
         $this->__connectUserData($config);
-        $this->__connectDefaultPromo($config);
+//        $this->__connectDefaultPromo($config);
         $this->__connectBanners($config);
         $this->__connectFranchisee($config);
         $this->__connectDataTypes($config);
@@ -96,12 +96,12 @@ class ConfigController extends Controller
         }
     }
 
-    protected function __connectDefaultPromo(& $config)
-    {
-        if ($promoCode = Shop::getDefaultPromoCode()) {
-            $config['defaultPromo'] = new PromoCodeResource($promoCode);
-        }
-    }
+//    protected function __connectDefaultPromo(& $config)
+//    {
+//        if ($promoCode = Shop::getDefaultPromoCode()) {
+//            $config['defaultPromo'] = new PromoCodeResource($promoCode);
+//        }
+//    }
 
     protected function __connectBanners(& $config)
     {
