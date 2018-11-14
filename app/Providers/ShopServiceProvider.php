@@ -35,6 +35,9 @@ use MosseboShopCore\Contracts\Shop\Shipping\Shipping as ShippingInterface;
 use MosseboShopCore\Shop\Payment\Payment;
 use MosseboShopCore\Contracts\Shop\Payment\Payment as PaymentInterface;
 
+use MosseboShopCore\Shop\Customer;
+use MosseboShopCore\Contracts\Shop\Customer as CustomerInterface;
+
 
 
 use App\Shop\Shop as BaseShop;
@@ -60,6 +63,7 @@ class ShopServiceProvider extends ServiceProvider
         $this->app->bind(OrderInterface::class, Order::class);
         $this->app->bind(ShippingInterface::class, Shipping::class);
         $this->app->bind(PaymentInterface::class, Payment::class);
+        $this->app->bind(CustomerInterface::class, Customer::class);
 
         $this->app->singleton('cart', function() {
             $cart = Shop::makeCart(SessionCartLoader::class);

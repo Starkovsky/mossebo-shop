@@ -23,11 +23,13 @@ class CheckoutController extends Controller
 
         (new OrderSaver($order))->save();
 
-        Mail::to($order->customer->getAttribute('email'))
+        Mail::to($order->getCustomer()->getAttribute('email'))
             ->bcc(config('mail.to.address'), config('mail.to.name'))
             ->queue(new CheckoutMail($order));
 
-        Cart::clear()->save();
+        if (Cart::hasCustomer()) {
+            Cart::clear()->save();
+        }
 
         return response([
             'status'  => 'success',

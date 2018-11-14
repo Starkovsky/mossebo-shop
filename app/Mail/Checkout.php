@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\Messages\DefaultMessage;
 use MosseboShopCore\Contracts\Shop\Order\Order;
+use Shop;
 
 class Checkout extends Mailable
 {
