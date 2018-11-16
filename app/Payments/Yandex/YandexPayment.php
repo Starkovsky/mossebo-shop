@@ -41,6 +41,11 @@ class YandexPayment
     {
         $client = new Client();
 
+        dd(
+            $this->shopId,
+            $this->secretKey
+        );
+
         $client->setAuth(
             $this->shopId,
             $this->secretKey
