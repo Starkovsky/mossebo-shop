@@ -35,7 +35,7 @@ class CheckoutController extends Controller
             $confirmationLink = $this->handleNewOrder($order);
         }
         catch(\Exception $e) {
-//            dd($e);
+            dd($e);
             return response([
                 'status'   => 'error',
                 'message' => trans('errors.default')
