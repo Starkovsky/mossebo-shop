@@ -43,7 +43,9 @@ class YandexPayment
 
         dd(
             $this->shopId,
-            $this->secretKey
+            env('YANDEX_PAYMENT_SHOP_ID'),
+            $this->secretKey,
+            env('YANDEX_PAYMENT_SECRET_KEY')
         );
 
         $client->setAuth(
