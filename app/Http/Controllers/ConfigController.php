@@ -74,20 +74,26 @@ class ConfigController extends Controller
     {
         if (! $this->user) return;
 
-        $config['user'] = [
-            'id'         => $this->user->id,
-            'first_name' => $this->user->first_name,
-            'last_name'  => $this->user->last_name,
-            'phone'      => $this->user->phone,
-            'email'      => $this->user->email,
-            'city'       => $this->user->city,
-            'address'    => $this->user->address,
-            'post_code'  => $this->user->post_code,
+        $fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'phone',
+            'email',
+
+            'city',
+            'street',
+            'house_number',
+            'apartment',
+            'floor',
+            'entrance',
+            'intercom',
+            'post_code'
         ];
 
-        foreach ($config['user'] as $key => $value) {
-            if (empty($config['user'][$key])) {
-                unset($config['user'][$key]);
+        foreach($fields as $field) {
+            if (! empty($value = $this->user->{$field})) {
+                $config['user'][$field] = $value;
             }
         }
 

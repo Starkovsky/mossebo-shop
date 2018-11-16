@@ -15,6 +15,7 @@ import SidePopup from '../../SidePopup'
 import ServerError from '../../ServerError'
 import CatalogSort from './CatalogSort'
 import Fixer from '../../Fixer'
+import ProductsViews from '../ProductsViews'
 
 export default {
     name: "Catalog",
@@ -31,7 +32,8 @@ export default {
         CatalogProductList,
         ServerError,
         CatalogSort,
-        Fixer
+        Fixer,
+        ProductsViews
     },
 
     mixins: [
@@ -62,6 +64,7 @@ export default {
     data() {
         return {
             errorRefreshIterations: 0,
+            filtersButtonShowed: false
         }
     },
 
@@ -94,5 +97,15 @@ export default {
         clearFilters() {
             this.$store.dispatch('catalog/clearFilters')
         },
+
+        showFiltersButton(e) {
+            this.filtersButtonShowed = true
+        },
+
+        hideFiltersButton(e) {
+            if (e) {
+                this.filtersButtonShowed = false
+            }
+        }
     },
 }

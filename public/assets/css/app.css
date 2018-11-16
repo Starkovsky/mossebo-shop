@@ -11623,6 +11623,10 @@ a.structure-card:hover .structure-card__name {
   margin-top: 48px;
 }
 
+.catalog-filters-fixer:not(:first-child) {
+  margin-top: 32px;
+}
+
 @media (max-width: 1199.98px) {
   .checkout {
     margin-top: -48px;

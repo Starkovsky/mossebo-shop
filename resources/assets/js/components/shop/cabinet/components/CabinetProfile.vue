@@ -72,14 +72,13 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Core from '../../../../scripts/core'
     import SmoothScroll from "../../../../scripts/SmoothScroll"
     import PaymentChoose from '../../payment/PaymentChoose'
     import CabinetProfileSocials from './profile/CabinetProfileSocials'
     import CabinetProfilePersonal from './profile/CabinetProfilePersonal'
     import CabinetProfilePassword from './profile/CabinetProfilePassword'
     import Loading from '../../../Loading'
-    import Core from '../../../../scripts/core'
-    import FormValidationMixin from '../../../../mixins/FormValidation'
     import RequestMixin from '../../../../mixins/RequestMixin'
 
     export default {
@@ -87,7 +86,6 @@
 
         mixins: [
             RequestMixin,
-            FormValidationMixin
         ],
 
         components: {

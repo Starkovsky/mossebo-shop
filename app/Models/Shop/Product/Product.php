@@ -259,7 +259,7 @@ class Product extends BaseProduct implements CartProductData
     public function getImage(): ?array
     {
         if ($this->relationIsEmpty('image')) {
-            return null;
+            return [];
         }
 
         return json_decode($this->image->pathes, true);

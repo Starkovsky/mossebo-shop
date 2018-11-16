@@ -1,5 +1,5 @@
 <template>
-    <div class="products-views block-ui">
+    <div v-if="! loading && this.products.length" class="products-views block-ui">
         <loading :loading="loading" style="min-height: 72px">
             <div v-show="! loading">
                 <div class="filter-name js-ht-filter is-active">

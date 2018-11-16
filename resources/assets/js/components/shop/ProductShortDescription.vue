@@ -7,11 +7,17 @@
             @mouseout="mouseout"
             target="_blank"
         >
-            <background-image-loader
-                class="product-short-description__image product-image"
-                :image="prepareImage(product.image.src)"
-                :retina-image="prepareImage(product.image.srcset)"
-            ></background-image-loader>
+            <template v-if="product.image">
+                <background-image-loader
+                    class="product-short-description__image product-image"
+                    :image="prepareImage(product.image.src)"
+                    :retina-image="prepareImage(product.image.srcset)"
+                ></background-image-loader>
+            </template>
+
+            <template v-else>
+                <div class="product-short-description__image product-image image-preview image-preview--1-1"></div>
+            </template>
         </a>
 
         <div class="product-short-description__info">

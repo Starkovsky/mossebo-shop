@@ -35,46 +35,42 @@
                         </div>
                     </template>
 
-                    <div class="mt-32">
-                        <products-views></products-views>
-                    </div>
+                    <products-views class="mt-32"></products-views>
 
-                    <div class="mt-32" style="height: 100%">
-                        <fixer
-                            v-if="! loading"
-                            @fix="showFiltersButton"
-                            @unfix="hideFiltersButton"
-                            class="mt-32"
-                        >
-                            <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
-                                <div class="banner-fixer__button">
-                                    <div class="filter-name block-ui" @click="openPopup">
-                                    <span class="filter-name__name">
-                                        Фильтровать
-                                    </span>
+                    <fixer
+                        v-if="! loading"
+                        @fix="showFiltersButton"
+                        @unfix="hideFiltersButton"
+                        class="catalog-filters-fixer"
+                    >
+                        <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
+                            <div class="banner-fixer__button">
+                                <div class="filter-name block-ui" @click="openPopup">
+                                <span class="filter-name__name">
+                                    Фильтровать
+                                </span>
 
-                                        <svg class="filter-name__icon">
-                                            <use xlink:href="/assets/images/icons.svg#symbol-filters-2"></use>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="banner-fixer__banners">
-                                    <banner-column
-                                        v-if="allProductsQuantity > 12 && false"
-                                        place="3"
-                                        quantity="3"
-                                    ></banner-column>
-
-                                    <banner-slider
-                                        v-else
-                                        place="3"
-                                        quantity="3"
-                                    ></banner-slider>
+                                    <svg class="filter-name__icon">
+                                        <use xlink:href="/assets/images/icons.svg#symbol-filters-2"></use>
+                                    </svg>
                                 </div>
                             </div>
-                        </fixer>
-                    </div>
+
+                            <div class="banner-fixer__banners">
+                                <banner-column
+                                    v-if="allProductsQuantity > 12 && false"
+                                    place="3"
+                                    quantity="3"
+                                ></banner-column>
+
+                                <banner-slider
+                                    v-else
+                                    place="3"
+                                    quantity="3"
+                                ></banner-slider>
+                            </div>
+                        </div>
+                    </fixer>
                 </div>
 
                 <div class="col-12" v-else>
@@ -161,7 +157,6 @@
 
 <script>
     import CatalogMixin from './CatalogMixin'
-    import ProductsViews from '../ProductsViews'
 
     export default {
         name: "Catalog",
@@ -169,10 +164,6 @@
         mixins: [
             CatalogMixin
         ],
-
-        components: {
-            ProductsViews
-        },
 
         props: {
             filterTypes: {
@@ -189,23 +180,5 @@
                 }
             },
         },
-
-        data() {
-            return {
-                filtersButtonShowed: false
-            }
-        },
-
-        methods: {
-            showFiltersButton(e) {
-                this.filtersButtonShowed = true
-            },
-
-            hideFiltersButton(e) {
-                if (e) {
-                    this.filtersButtonShowed = false
-                }
-            }
-        }
     }
 </script>

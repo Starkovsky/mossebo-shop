@@ -77,7 +77,15 @@ export default class wBlankPlugin {
     bindEvent(el, name, cb, options = {}) {
         cb = cb.bind(this)
 
-        let destroyer = () => el.removeEventListener(name, cb, options)
+        let destroyer = () => {
+            el.removeEventListener(name, cb, options)
+
+            let index = this.eventDestroyers.indexOf(destroyer)
+
+            if (index !== -1) {
+                this.eventDestroyers.splice(index, 1)
+            }
+        }
 
         this.eventDestroyers.push(destroyer)
 

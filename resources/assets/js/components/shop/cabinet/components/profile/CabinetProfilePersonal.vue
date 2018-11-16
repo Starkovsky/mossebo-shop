@@ -1,7 +1,6 @@
 <template>
-    <form @submit="submit">
+    <form>
         <div id="profile-personal-item">
-
             <h3 class="profile-forms__title title-h3">
                 Персональная информация
             </h3>
@@ -45,31 +44,34 @@
 
                 <div class="col-md-6">
                     <div class="form-group js-form-group">
-                        <label for="profile-phone" class="form-label">
+                        <label for="shipping-phone" class="form-label">
                             {{ $root.translate('form.fields.phone') }}
                             <span class="form-required">*</span>
                         </label>
 
-                        <input
-                            id="profile-phone"
-                            type="tel"
+                        <masked-input
+                            id="shipping-phone"
                             name="phone"
-                            v-model="data$.phone"
-                            v-validate="'required|max:255'"
                             class="form-input"
-                        >
+                            v-model="data$.phone"
+                            type="tel"
+                            :mask='["+", "7", " ", "(", /[1-69]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]'
+                            :guide="true"
+                            placeholder="+7 (___) ___-____"
+                            v-validate="'required|length:17|phone_available'"
+                        ></masked-input>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group js-form-group">
-                        <label for="profile-email" class="form-label">
+                        <label for="shipping-email" class="form-label">
                             {{ $root.translate('form.fields.email') }}
                             <span class="form-required">*</span>
                         </label>
 
                         <input
-                            id="profile-email"
+                            id="shipping-email"
                             type="text"
                             name="email"
                             v-model="data$.email"
@@ -87,14 +89,15 @@
             </h3>
 
             <div class="row">
-                <div class="col-md-6">
+
+                <div class="col-12 col-md-6">
                     <div class="form-group js-form-group">
-                        <label for="profile-city" class="form-label">
+                        <label for="shipping-city" class="form-label">
                             {{ $root.translate('form.fields.city') }}
                         </label>
 
                         <input
-                            id="profile-city"
+                            id="shipping-city"
                             type="text"
                             name="city"
                             v-model="data$.city"
@@ -104,39 +107,126 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-12 col-md-6">
                     <div class="form-group js-form-group">
-                        <label for="profile-post-code" class="form-label">
+                        <label for="shipping-post-code" class="form-label">
                             {{ $root.translate('form.fields.post_code') }}
                         </label>
 
-                        <the-mask
-                            mask="### ###"
-                            placeholder="000 000"
-                            id="profile-post-code"
-                            type="text"
+                        <masked-input
+                            id="shipping-post-code"
                             name="post_code"
-                            v-model="data$.post_code"
-                            v-validate="'digits:6'"
                             class="form-input"
-                            :masked="false"
-                        ></the-mask>
+                            v-model="data$.post_code"
+                            type="text"
+                            :mask='[/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/]'
+                            :guide="true"
+                            placeholder="___ ___"
+                            v-validate="'length:7'"
+                        ></masked-input>
                     </div>
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-12 col-md-6">
                     <div class="form-group js-form-group">
-                        <label for="profile-address" class="form-label">
-                            {{ $root.translate('form.fields.address') }}
+                        <label for="shipping-street" class="form-label">
+                            {{ $root.translate('form.fields.street') }}
                         </label>
 
-                        <textarea
-                            id="profile-address"
-                            name="address"
-                            v-model="data$.address"
-                            v-validate="'max:512'"
-                            class="form-textarea"
-                        ></textarea>
+                        <input
+                            id="shipping-street"
+                            type="text"
+                            name="street"
+                            v-model="data$.street"
+                            v-validate="'max:255'"
+                            class="form-input"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="form-group js-form-group">
+                        <label for="shipping-house-number" class="form-label">
+                            {{ $root.translate('form.fields.house_number') }}
+                        </label>
+
+                        <input
+                            id="shipping-house-number"
+                            type="text"
+                            name="house_number"
+                            v-model="data$.house_number"
+                            v-validate="'max:255'"
+                            class="form-input"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="form-group js-form-group">
+                        <label for="shipping-apartment" class="form-label">
+                            {{ $root.translate('form.fields.apartment') }}
+                        </label>
+
+                        <input
+                            id="shipping-apartment"
+                            type="text"
+                            name="apartment"
+                            v-model="data$.apartment"
+                            v-validate="'max:64'"
+                            class="form-input"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group js-form-group">
+                        <label for="shipping-floor" class="form-label">
+                            {{ $root.translate('form.fields.floor') }}
+                        </label>
+
+                        <input
+                            id="shipping-floor"
+                            type="text"
+                            name="floor"
+                            v-model="data$.floor"
+                            v-number
+                            v-validate="'numeric|max:64'"
+                            class="form-input"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group js-form-group">
+                        <label for="shipping-entrance" class="form-label">
+                            {{ $root.translate('form.fields.entrance') }}
+                        </label>
+
+                        <input
+                            id="shipping-entrance"
+                            type="text"
+                            name="entrance"
+                            v-model="data$.entrance"
+                            v-validate="'max:64'"
+                            class="form-input"
+                        >
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group js-form-group">
+                        <label for="shipping-intercom" class="form-label">
+                            {{ $root.translate('form.fields.intercom') }}
+                        </label>
+
+                        <input
+                            id="shipping-intercom"
+                            type="text"
+                            name="intercom"
+                            v-model="data$.intercom"
+                            v-validate="'max:64'"
+                            class="form-input"
+                        >
                     </div>
                 </div>
             </div>
@@ -155,19 +245,24 @@
 </template>
 
 <script>
-    import { TheMask } from 'vue-the-mask'
+    import MaskedInput from '../../../../MaskedInput'
     import FormSenderMixin from '../../../../../mixins/FormSender'
     import ButtonLoading from '../../../../buttons/ButtonLoading'
+    import Number from '../../../../../directives/number'
 
     export default {
         name: "CabinetProfilePersonal",
+
+        directives: {
+            ... Number
+        },
 
         mixins: [
             FormSenderMixin
         ],
 
         components: {
-            TheMask,
+            MaskedInput,
             ButtonLoading
         },
 
@@ -180,9 +275,5 @@
                 data$: this.data
             }
         },
-
-        methods: {
-
-        }
     }
 </script>

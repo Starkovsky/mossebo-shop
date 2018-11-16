@@ -19,6 +19,8 @@
 
         mounted() {
             this.fixer = Fixer(this.$el)
+            this.fixer.containerEl.classList.add(this.$el.className)
+            this.$el.className = ''
 
             this.fixer.on('fix', e => this.$emit('fix', e))
             this.fixer.on('unfix', e => this.$emit('unfix', e))

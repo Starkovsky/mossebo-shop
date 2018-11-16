@@ -170,7 +170,7 @@ export default class SidePopupper extends BlankPlugin {
 
             this.popupEl.classList.add('is-active')
 
-            cb()
+            this.containerEl.addEventListener('transitionend', cb, {passive: true, once: true})
         })
     }
 
@@ -186,20 +186,22 @@ export default class SidePopupper extends BlankPlugin {
 
             window.scrollTo(0, this.top)
 
-            this.popupEl.addEventListener('transitionend', () => {
+            this.containerEl.addEventListener('transitionend', () => {
                 this.pages.splice(1).forEach(el => {
                     this.contentEl.removeChild(el)
                 })
+
+                cb()
             }, {passive: true, once: true})
 
             this.popupEl.classList.remove('is-active')
-
-            cb()
         })
     }
 
     wrap(cb) {
-        cb(this.bindEvent(window, 'scroll', e => e.stopPropagation(), {capture: true}))
+        cb(this.bindEvent(window, 'scroll', e => {
+            e.stopPropagation()
+        }, {capture: true}))
     }
 
     beforeDestroy() {

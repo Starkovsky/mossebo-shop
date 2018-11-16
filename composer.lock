@@ -2317,7 +2317,7 @@
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:mossebo-cm/mossebo-shop-core.git",
-                "reference": "6e70b7452adcb4d6352b49ccefc227a500a96716"
+                "reference": "4184fabd804d2aecb35cd6fc63ed94cda3f3332b"
             },
             "require": {
                 "composer/installers": "^1.0",
@@ -2350,7 +2350,7 @@
                 "Mossebo",
                 "Shop"
             ],
-            "time": "2018-11-15T15:34:27+00:00"
+            "time": "2018-11-16T14:40:12+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -4494,16 +4494,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "5b68f3972083a7eeec0d6f161962fcda71a127c0"
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/5b68f3972083a7eeec0d6f161962fcda71a127c0",
-                "reference": "5b68f3972083a7eeec0d6f161962fcda71a127c0",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/9d5caf43c5f3a3aea2178942f281054805872e7c",
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c",
                 "shasum": ""
             },
             "require": {
@@ -4558,7 +4558,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2018-08-22T11:06:19+00:00"
+            "time": "2018-11-09T08:37:55+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",

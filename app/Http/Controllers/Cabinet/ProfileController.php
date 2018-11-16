@@ -36,8 +36,14 @@ class ProfileController extends Controller
                 'phone',
                 'email',
                 'password',
-                'address',
+
                 'city',
+                'street',
+                'house_number',
+                'apartment',
+                'floor',
+                'entrance',
+                'intercom',
                 'post_code'
             ])
         );

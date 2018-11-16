@@ -157,7 +157,7 @@
 
                                                 <div class="col-lg-6">
                                                     <div class="product-page__pane-description">
-                                                        {!! $product->description !!}
+                                                        {!! str_replace(PHP_EOL, '<br>', $product->description) !!}
                                                     </div>
                                                 </div>
                                             </div>

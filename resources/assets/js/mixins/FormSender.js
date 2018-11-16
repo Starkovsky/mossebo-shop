@@ -33,6 +33,14 @@ export default {
         }
     },
 
+    mounted() {
+        this.$el.addEventListener('submit', this.submit)
+    },
+
+    beforeDestroy() {
+        this.$el.removeEventListener('submit', this.submit)
+    },
+
     methods: {
         submit(e) {
             e.preventDefault()

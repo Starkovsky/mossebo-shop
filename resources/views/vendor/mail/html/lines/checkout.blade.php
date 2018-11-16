@@ -3,7 +3,7 @@
         <tbody>
             @foreach($products as $key => $product)
                 <tr>
-                    @if ($product['image'])
+                    @isset ($product['image'])
                         <td style="width: 112px">
                             <div class="product-image">
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">

@@ -15,15 +15,20 @@ class ProfileResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'         => $this->resource->id,
-            'first_name' => $this->resource->first_name,
-            'last_name'  => $this->resource->last_name,
-            'email'      => $this->resource->email,
-            'phone'      => $this->resource->phone,
-            'address'    => $this->resource->address,
-            'city'       => $this->resource->city,
-            'post_code'  => $this->resource->post_code,
-            'socials'    => array_column($this->resource->socialProviders->toArray(), 'provider')
+            'id'           => $this->resource->id,
+            'first_name'   => $this->resource->first_name,
+            'last_name'    => $this->resource->last_name,
+            'email'        => $this->resource->email,
+            'phone'        => $this->resource->phone,
+            'city'         => $this->resource->city,
+            'street'       => $this->resource->street,
+            'house_number' => $this->resource->house_number,
+            'apartment'    => $this->resource->apartment,
+            'floor'        => $this->resource->floor,
+            'entrance'     => $this->resource->entrance,
+            'intercom'     => $this->resource->intercom,
+            'post_code'    => $this->resource->post_code,
+            'socials'      => array_column($this->resource->socialProviders->toArray(), 'provider')
         ];
     }
 }
