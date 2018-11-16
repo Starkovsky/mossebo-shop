@@ -11,14 +11,12 @@ use MosseboShopCore\Contracts\Shop\Order\Order;
 class YandexPayment
 {
     protected $shopId = null;
-    protected $shopPassword = null;
     protected $secretKey = null;
     protected $order = null;
 
     public function __construct(Order $order = null)
     {
         $this->shopId       = env('YANDEX_PAYMENT_SHOP_ID');
-        $this->shopPassword = env('YANDEX_PAYMENT_SHOP_PASSWORD');
         $this->secretKey    = env('YANDEX_PAYMENT_SECRET_KEY');
 
         $this->setOrder($order);
