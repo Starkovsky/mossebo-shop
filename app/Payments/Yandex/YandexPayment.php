@@ -19,8 +19,6 @@ class YandexPayment
         $this->shopId    = env('YANDEX_PAYMENT_SHOP_ID');
         $this->secretKey = env('YANDEX_PAYMENT_SECRET_KEY');
 
-        dd($this->shopId, $this->secretKey);
-
         $this->setOrder($order);
     }
 
