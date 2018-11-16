@@ -29,7 +29,7 @@ class OrdersController extends Controller
         $deliveryTypes = DeliveryTypes::getCollection();
 
         $orders = $orders->each(function(& $order) use($orderStatuses, $payTypes, $deliveryTypes) {
-            $order->status       = $orderStatuses->where('id', $order->order_status_id)->first();
+            $order->status       = $orderStatuses->where('id', $order->status_id)->first();
             $order->payType      = $payTypes->where('id', $order->pay_type_id)->first();
             $order->deliveryType = $deliveryTypes->where('id', $order->delivery_type_id)->first();
         });

@@ -17,10 +17,22 @@
                 <template v-else>
                     <div class="cabinet-orders__list row">
                         <div v-for="order in orders" class="cabinet-orders__item col-12" :key="order.id">
-                            <cabinet-order
-                                :order="order"
-                                class="block-ui"
-                            ></cabinet-order>
+                            <div class="cabinet-order block-ui block-ui--with-hover">
+                                <div class="cabinet-order__panel js-order-ht">
+                                    <cabinet-order-panel
+                                        :id="order.id"
+                                        :status="order.status"
+                                    ></cabinet-order-panel>
+                                </div>
+
+                                <div class="cabinet-order__hidden ht-container">
+                                    <div class="cabinet-order__inner ht-inner">
+                                        <order-info
+                                            :order="order"
+                                        ></order-info>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -35,14 +47,16 @@
     import Loading from '../../../Loading'
     import RequestMixin from '../../../../mixins/RequestMixin'
     import DataHandler from '../../../../scripts/DataHandler'
-    import CabinetOrder from './orders/CabinetOrder'
+    import CabinetOrderPanel from './orders/CabinetOrderPanel'
+    import OrderInfo from '../../order/OrderInfo'
 
     export default {
         name: "CabinetOrders",
 
         components: {
             Loading,
-            CabinetOrder,
+            CabinetOrderPanel,
+            OrderInfo
         },
 
         mixins: [

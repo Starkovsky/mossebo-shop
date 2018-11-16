@@ -28,8 +28,8 @@
 </template>
 
 <script>
-    import ProductShortDescription from '../../../ProductShortDescription'
-    import FormattedPrice from '../../../price/FormattedPrice'
+    import ProductShortDescription from '../ProductShortDescription'
+    import FormattedPrice from '../price/FormattedPrice'
 
     export default {
         name: "CabinetOrderProductRow",

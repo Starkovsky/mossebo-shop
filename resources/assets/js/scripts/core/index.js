@@ -3,6 +3,7 @@ import Alerty from '../Alerty'
 import setMeta from '../MetaSetter'
 import timeHandler from './time'
 import metrika from './metrika'
+import scrollMagic from './scrollMagic'
 
 let Core = {
     siteUrl(url = '') {
@@ -42,6 +43,7 @@ let Core = {
     cookie,
     metrika,
     setMeta,
+    scrollMagic,
 
     getFancyboxConfig() {
         return {

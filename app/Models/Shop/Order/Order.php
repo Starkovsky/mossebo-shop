@@ -8,6 +8,7 @@ use App\Models\Language;
 use App\Models\Shop\Promo\PromoUse;
 use App\Models\Shop\PayType\PayType;
 use App\Models\Shop\DeliveryType\DeliveryType;
+use App\Models\Shop\Payment\Payment;
 
 class Order extends BaseOrder
 {
@@ -23,17 +24,12 @@ class Order extends BaseOrder
 
     public function status()
     {
-        return $this->hasOne(OrderStatus::class, 'id', 'order_status_id');
+        return $this->hasOne(OrderStatus::class, 'id', 'status_id');
     }
 
-    public function payType()
+    public function shippingType()
     {
-        return $this->hasOne(PayType::class, 'id', 'pay_type_id');
-    }
-
-    public function deliveryType()
-    {
-        return $this->hasOne(DeliveryType::class, 'id', 'delivery_type_id');
+        return $this->hasOne(DeliveryType::class, 'id', 'shipping_type_id');
     }
 
     public function orderProducts()
@@ -44,6 +40,19 @@ class Order extends BaseOrder
     public function promoUse()
     {
         return $this->hasOne(PromoUse::class, $this->relationFieldName, 'id');
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class, $this->relationFieldName, 'id');
+    }
+
+    public function setStatus($statusId)
+    {
+        if ($statusId) {
+            $this->status_id = $statusId;
+            $this->save();
+        }
     }
 }
 

@@ -15,13 +15,14 @@ class MorphServiceProvider extends ServiceProvider
     public function boot()
     {
         Relation::morphMap([
-            'product'  => \App\Models\Shop\Product\Product::class,
-            'category' => \App\Models\Shop\Category\Category::class,
-            'room'     => \App\Models\Shop\Room\Room::class,
-            'style'    => \App\Models\Shop\Style\Style::class,
-            'review'   => \App\Models\Review::class,
-            'city'     => \App\Models\City::class,
-            'region'   => \App\Models\Region::class,
+            'product'        => \App\Models\Shop\Product\Product::class,
+            'category'       => \App\Models\Shop\Category\Category::class,
+            'room'           => \App\Models\Shop\Room\Room::class,
+            'style'          => \App\Models\Shop\Style\Style::class,
+            'review'         => \App\Models\Review::class,
+            'city'           => \App\Models\City::class,
+            'region'         => \App\Models\Region::class,
+            'payment_yandex' => \App\Models\Shop\Payment\YandexPayment::class,
         ]);
     }
 

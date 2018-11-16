@@ -108,8 +108,6 @@ class DataController extends Controller
      */
     public static function get(Request $request)
     {
-        sleep(5);
-
         $keys = $request->input('dataKeys');
 
         if (empty($keys)) {

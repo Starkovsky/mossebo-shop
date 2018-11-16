@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use YandexCheckout\Client;
 use Exception;
 use Currencies;
+use MosseboShopCore\Contracts\Shop\Order\Order;
 
 class YandexPayment
 {
@@ -14,7 +15,7 @@ class YandexPayment
     protected $secretKey = null;
     protected $order = null;
 
-    public function __construct($order = null)
+    public function __construct(Order $order = null)
     {
         $this->shopId       = env('YANDEX_PAYMENT_SHOP_ID');
         $this->shopPassword = env('YANDEX_PAYMENT_SHOP_PASSWORD');
@@ -23,9 +24,19 @@ class YandexPayment
         $this->setOrder($order);
     }
 
-    public function setOrder($order = null)
+    public function setOrder(Order $order = null)
     {
         $this->order = $order;
+    }
+
+    public function getPayment($paymentId)
+    {
+        return $this->getClient()->getPaymentInfo($paymentId);
+    }
+
+    public function getPaymentStatus($paymentId)
+    {
+        return $this->getPayment($paymentId)->getStatus();
     }
 
     protected function getClient()
@@ -42,23 +53,16 @@ class YandexPayment
 
     public function sendRequest()
     {
-        try {
-            $client = $this->getClient();
+        $client = $this->getClient();
 
-            $response = $client->createPayment(
-                [
-                    'amount'       => $this->getAmount(),
-                    'confirmation' => $this->getConfirmation(),
-                    'description'  => $this->getDescription(),
-                ],
-                $this->getIdempotencyKey()
-            );
-        }
-        catch (Exception $e) {
-            dd($e);
-        }
-
-        dd($response);
+        return $client->createPayment(
+            [
+                'amount'       => $this->getAmount(),
+                'confirmation' => $this->getConfirmation(),
+                'description'  => $this->getDescription(),
+            ],
+            $this->getIdempotencyKey()
+        );
     }
 
     protected function getId(): string
@@ -73,12 +77,12 @@ class YandexPayment
 
     protected function getAmount()
     {
-        $currency = Currencies::where('code', $this->order->cart->getCurrencyCode());
-        $total = $this->order->cart->getTotal();
+        $currency = Currencies::where('code', $this->order->getCart()->getCurrencyCode())->first();
+        $total = $this->order->getCart()->getTotal();
 
         return [
-            number_format($total->value, $currency->precision, '.', ''),
-            $currency->code
+            'value' => number_format($total->getValue(), $currency->precision, '.', ''),
+            'currency' => $currency->code
         ];
     }
 
@@ -92,7 +96,7 @@ class YandexPayment
 
     protected function getDescription(): string
     {
-        return trans('Оплата заказа № %%', [
+        return trans('shop.payment.title', [
             'orderId' => $this->order->getId()
         ]);
     }
@@ -101,21 +105,5 @@ class YandexPayment
     {
 
         return uniqid('', true);
-    }
-
-    protected function checkHash(Request $request)
-    {
-        $innerHash = join(';', [
-            $request->input('action'),
-            $request->input('orderSumAmount'),
-            $request->input('orderSumCurrencyPaycash'),
-            $request->input('orderSumBankPaycash'),
-            $this->shopId,
-            $request->input('invoiceId'),
-            $request->input('customerNumber'),
-            $this->shopPassword
-        ]);
-
-        return md5($innerHash) === $incomingHash;
     }
 }

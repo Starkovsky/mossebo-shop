@@ -2,7 +2,6 @@
 
 namespace App\Shop\Order;
 
-use DB;
 use Cart;
 use Shop;
 use PayTypes;
@@ -24,7 +23,7 @@ class OrderSaver
 
     public function save()
     {
-        DB::transaction(function() {
+
             $orderModel = new Order($this->order->toStore());
             $orderModel->save();
 
@@ -32,7 +31,7 @@ class OrderSaver
 
             $this->savePromo($orderModel);
             $this->saveProducts($orderModel);
-        });
+
     }
 
     protected function savePromo($orderModel)

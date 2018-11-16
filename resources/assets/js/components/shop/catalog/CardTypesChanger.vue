@@ -26,8 +26,6 @@
 
         mounted() {
             this.$root.initTooltips()
-
-            console.log(this.types)
         },
 
         methods: {

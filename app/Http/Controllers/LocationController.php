@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Shop;
 use Cart;
 use Cookie;
 use App\Models\PostalCode;
@@ -9,6 +10,8 @@ use App\Models\City;
 
 use App\Models\Shop\Product\Product;
 use App\Payments\Yandex\YandexPayment;
+use MosseboShopCore\Shop\Order\Builders\ModelOrderBuilder;
+use App\Models\Shop\Order\Order;
 
 class LocationController extends Controller
 {
@@ -35,10 +38,6 @@ class LocationController extends Controller
 
     public function test()
     {
-        $a = new YandexPayment;
-
-        $a->sendRequest();
-
 //        $a = \DB::select('SELECT * FROM (SELECT count(fias_code) as fias_count, fias_code FROM cities GROUP BY fias_code ORDER BY fias_count DESC) as a WHERE fias_count > 1');
 //
 //        foreach ($a as $item) {

@@ -44,6 +44,7 @@
                             v-if="! loading"
                             @fix="showFiltersButton"
                             @unfix="hideFiltersButton"
+                            class="mt-32"
                         >
                             <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
                                 <div class="banner-fixer__button">

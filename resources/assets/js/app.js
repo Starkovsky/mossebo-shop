@@ -37,6 +37,7 @@ import ProductCard from './components/shop/catalog/product-cards/types/ProductCa
 import FormattedPrice from './components/shop/price/FormattedPrice'
 import Checkout from './components/shop/checkout/Checkout'
 import Cabinet from './components/shop/cabinet/Cabinet'
+import OrderInfo from './components/shop/order/OrderInfo'
 import CartBtn from './components/shop/cart/CartBtn'
 import Comparison from './components/shop/comparison/Comparison'
 
@@ -91,6 +92,7 @@ const app = new Vue({
         FormattedPrice,
         Checkout,
         Cabinet,
+        OrderInfo,
         CartBtn,
         ProductControls,
         TabsHtml,

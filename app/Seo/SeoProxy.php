@@ -14,14 +14,14 @@ class SeoProxy implements SeoProxyInterface
 {
     public static function setTitle(string $title = null): void
     {
-        if (!is_null($title)) {
+        if (! empty($title)) {
             SEO::setTitle($title);
         }
     }
 
     public static function setDescription(string $description = null): void
     {
-        if (!is_null($description)) {
+        if (! empty($description)) {
             SEO::setDescription($description);
         }
     }
@@ -50,11 +50,11 @@ class SeoProxy implements SeoProxyInterface
     {
         $metaKey = 'meta_' . $key;
 
-        if (isset($modelObj[$metaKey])) {
+        if (! empty($modelObj[$metaKey])) {
             return $modelObj[$metaKey];
         }
 
-        if (isset($modelObj[$key])) {
+        if (! empty($modelObj[$key])) {
             return $modelObj[$key];
         }
 

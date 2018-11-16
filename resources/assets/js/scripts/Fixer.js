@@ -1,3 +1,4 @@
+import Core from './core'
 import BlankPlugin from './base/BlankPlugin'
 
 class FixedEl extends BlankPlugin {
@@ -14,101 +15,69 @@ class FixedEl extends BlankPlugin {
         this.containerEl.appendChild(this.fixedEl)
         this.fixedEl.appendChild(el)
 
+        let style = window.getComputedStyle(el)
+
+        this.marginTop = style.marginTop.replace('px', '')
+
         this.isFixed = false
-        this.top = 0
+        this.height = 0
+        this.documentHeight = document.body.scrollHeight
 
         this.init()
     }
 
     init() {
+        const checkDebouncer = _.debounce(() => this.check(), 60)
 
-        // this.check()
-        // let resizeDebouncer = _.debounce(() => this.check(), 60)
-        //
-        this.bindEvent(window, 'scroll', this.check, { passive: true })
-        // this.bindEvent(window, 'resize', resizeDebouncer, { passive: true })
+        this.bindEvent(window, 'resize', checkDebouncer, { passive: true })
+        this.bindEvent(window, 'scroll', () => {
+            if (this.documentHeight !== document.body.scrollHeight) {
+                this.documentHeight = document.body.scrollHeight
+                this.check()
+                this.scene.update(true)
+            }
+        }, { passive: true })
+
+        this.scene = Core.scrollMagic.makeScene({
+            triggerElement: this.containerEl,
+            offset: -56
+        }).setPin(this.fixedEl)
+
+        this.scene.on('progress', e => {
+            e.state === 'DURING' ? this.setFixed(e.state) : this.unsetFixed(e.state)
+            this.check()
+        })
+
+        checkDebouncer()
     }
 
     check() {
-        let borders = this.getContainerBorders()
+        let height = this.containerEl.clientHeight - this.fixedEl.offsetHeight
 
-        let top = window.scrollY - borders.top + 88
-        let bottom = top + this.fixedEl.clientHeight + 2004
-
-        if (this.top > 0) {
-            top = Math.max(0, top)
-            bottom = Math.min(0, bottom - this.fixedEl.clientHeight)
-
-            this.fixedEl.style.transform = `translate3d(0, ${top}px, 0)`
-        }
-
-        this.top = top
-
-        if (top > 0 && bottom < borders.bottom) {
-            this.setFixed()
-        }
-        else {
-            this.unsetFixed()
+        if (height - this.height > this.marginTop) {
+            this.height = height
+            this.scene.duration(this.height)
         }
     }
 
-    makeCopy() {
-
-    }
-
-    getContainerBorders() {
-        let top = window.scrollY + this.containerEl.getBoundingClientRect().y
-        let bottom = top + this.containerEl.clientHeight
-
-        return {
-            top,
-            bottom
-        }
-    }
-
-    menuNeedsToBeFixed() {
-        let topCrossed = this.el.getBoundingClientRect().y - 88 < 0
-
-        if (! this.fixerContainerEl) {
-            return topCrossed
-        }
-
-        let containerBottomBorder = this.fixerContainerEl.clientHeight + (window.scrollY + this.fixerContainerEl.getBoundingClientRect().y)
-        let elBottomBorder = this.el.clientHeight + window.scrollY + this.el.getBoundingClientRect().y
-
-        return topCrossed && elBottomBorder < containerBottomBorder
-    }
-
-    checka() {
-        if (this.menuNeedsToBeFixed()) {
-            if (! this.isFixed) {
-                this.setFixed()
-            }
-
-            let parentEl = this.el.parentNode
-            let offset = window.scrollY + 88 - (window.scrollY + parentEl.getBoundingClientRect().y)
-            this.el.style.transform = `translate3d(0, ${offset}px, 0)`
-
-        }
-        else {
-            this.unsetFixed()
-        }
-    }
-
-    setFixed() {
+    setFixed(state) {
         if (this.isFixed) return
 
         this.isFixed = true
-        this.trigger('fix', this.top <= 0)
+        this.trigger('fix', state === 'BEFORE')
     }
 
-    unsetFixed() {
+    unsetFixed(state) {
         if (!this.isFixed) return
 
         this.isFixed = false
-        this.trigger('unfix', this.top <= 0)
+        this.trigger('unfix', state === 'BEFORE')
     }
 }
+
+
+
+
 
 
 export default function Fixer(elOrQuery) {
@@ -118,6 +87,5 @@ export default function Fixer(elOrQuery) {
 
     let els = document.querySelectorAll(elOrQuery)
 
-    return [].map.call(els, el => new FixedEl(el))
+    return [].map.call(els, el => Fixer(el))
 }
-
