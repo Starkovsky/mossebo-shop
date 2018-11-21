@@ -84,7 +84,7 @@ class DatabaseCartSaver extends AbstractCartSaver
     {
         if ($promoCode = $this->getCart()->getPromoCode()) {
             $this->model->promoCodeRelation()->save(new CartPromoCode([
-                'promo_code_id' => $promoCode->id
+                'promo_code_id' => $promoCode->getId()
             ]));
         }
     }
