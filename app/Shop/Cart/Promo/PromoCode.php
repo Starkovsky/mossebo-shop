@@ -10,11 +10,6 @@ class PromoCode extends BasePromoCode implements PromoCodeInterface
 {
     public function setResource($codeIdOrName = ''): void
     {
-        if ($codeIdOrName instanceof PromoCodeModel) {
-            $this->resource = $codeIdOrName;
-            return;
-        }
-
         if (is_int($codeIdOrName)) {
             $resource = PromoCodeModel::where('id', $codeIdOrName)->first();
 
