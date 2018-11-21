@@ -120,11 +120,14 @@ export default {
         dirty({ state, commit, dispatch }) {
             commit(actionTypes.CART_DIRTY)
 
-            dispatch('updateStorage', ['items', 'synchronized'])
-
             if (state.loading && _.isFunction(state.abortRequest)) {
                 state.abortRequest()
             }
+
+            return Promise.all([
+                dispatch('updateStorage', ['items', 'synchronized']),
+                dispatch('checkout/clearIndex', null, {root: true}),
+            ])
         },
 
         loadOptionsDescription({ commit }) {

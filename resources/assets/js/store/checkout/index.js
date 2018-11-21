@@ -3,6 +3,7 @@ import Core from '../../scripts/core'
 import SmoothScroll from '../../scripts/SmoothScroll'
 import HistoryProxy from '../../scripts/HistoryProxy'
 import Request from "../../scripts/Request"
+import storageActionsExtension from '../storageActionsExtension'
 
 let hp = new HistoryProxy()
 
@@ -16,6 +17,10 @@ function getStepIndex(state, identif) {
     }
 
     return false
+}
+
+function setStepIndex(state, index) {
+    hp.setHash(index === 0 ? '' : state.steps[index].identif)
 }
 
 function scrollToStart(cb) {
@@ -32,6 +37,7 @@ export default {
                 icon: 'symbol-cart',
                 stepName: 'Шаг первый',
                 title: 'Корзина',
+                goal: 'cart-step-1'
             },
 
             {
@@ -39,6 +45,7 @@ export default {
                 icon: 'symbol-truck',
                 stepName: 'Шаг второй',
                 title: 'Доставка',
+                goal: 'cart-step-2'
             },
 
             // {
@@ -46,6 +53,7 @@ export default {
             //     icon: 'symbol-credit-card',
             //     stepName: 'Шаг третий',
             //     title: 'Оплата',
+            //     goal: 'cart-step-3'
             // },
 
             {
@@ -53,6 +61,7 @@ export default {
                 icon: 'symbol-confirmation',
                 stepName: 'Шаг четвёртый',
                 title: 'Подтверждение',
+                goal: 'cart-step-4'
             },
         ],
 
@@ -62,27 +71,43 @@ export default {
         loading: false,
         request: null,
         error: false,
-        errorCounter: 0
+        errorCounter: 0,
+
+        goals: []
     },
 
     actions: {
+        ... storageActionsExtension,
+
         init({ state, dispatch, commit }) {
-            dispatch('setByIndex', [getStepIndex(state, hp.getHash('hash')) || 0, false])
+            dispatch('initStorageExtension', 'checkout')
+                .then(() => {
+                    let index = getStepIndex(state, hp.getHash('hash'))
 
-            if (! state.ready) {
-                let baseUrl = Core.siteUrl('cart')
-
-                window.addEventListener('popstate', function () {
-                    if (window.location.href.indexOf(baseUrl) === 0) {
-                        dispatch('setByIndex', [getStepIndex(state, hp.getHash('hash')) || 0, false])
+                    if (index !== false) {
+                        state.active = index
                     }
                     else {
-                        window.location.reload()
+                        setStepIndex(state, state.active)
                     }
-                }, { passive: true })
 
-                commit(actionTypes.CHECKOUT_READY)
-            }
+                    dispatch('reachGoal', 'cart-step-' + (state.active + 1))
+
+                    if (! state.ready) {
+                        let baseUrl = Core.siteUrl('cart')
+
+                        window.addEventListener('popstate', function () {
+                            if (window.location.href.indexOf(baseUrl) === 0) {
+                                dispatch('setByIndex', [getStepIndex(state, hp.getHash('hash')) || 0, false])
+                            }
+                            else {
+                                window.location.reload()
+                            }
+                        }, { passive: true })
+
+                        commit(actionTypes.CHECKOUT_READY)
+                    }
+                })
         },
 
         set({ state, dispatch }, stepName) {
@@ -97,18 +122,46 @@ export default {
             dispatch('setByIndex', [state.active - 1])
         },
 
-        setByIndex({ state, commit }, [index, toHistory = true]) {
+        reachGoal({state, dispatch, commit}, goal) {
+            if (state.goals.indexOf(goal) !== -1) {
+                return
+            }
+
+            Core.metrika.reachGoal(goal)
+
+            commit(actionTypes.CHECKOUT_REACH_GOAL, [
+                ... state.goals,
+                goal,
+            ])
+
+            return dispatch('updateStorage', 'goals')
+        },
+
+        clear({dispatch}) {
+            dispatch('clearStorageData')
+        },
+
+        setByIndex({ state, dispatch, commit }, [index, toHistory = true]) {
             if (state.loading) return
 
             if (state.active !== index && index in state.steps) {
                 scrollToStart(() => {
                     commit(actionTypes.CHECKOUT_SET_STEP, index)
+                    dispatch('updateStorage', 'active')
+                    dispatch('reachGoal', 'cart-step-' + (index + 1))
                 })
 
                 if (toHistory) {
-                    hp.setHash(index === 0 ? '' : state.steps[index].identif)
+                    setStepIndex(state, index)
                 }
             }
+        },
+
+        clearIndex({commit, dispatch}) {
+            commit(actionTypes.CHECKOUT_SET_STEP, 0)
+
+            dispatch('initStorageExtension', 'checkout')
+                .then(() => dispatch('updateStorage', 'active'))
         },
 
         submit({state, rootState, commit, dispatch}) {
@@ -135,12 +188,16 @@ export default {
             state.request =
                 new Request('post', Core.siteUrl('checkout'), data)
                     .success(response => {
-                        dispatch('shipping/clearStorageData', null, {root:true})
-                            .then(() => dispatch('cart/clearStorageData', null, {root:true}))
+                        dispatch('shipping/clearStorageData', null, {root: true})
+                            .then(() => dispatch('cart/clearStorageData', null, {root: true}))
                             .then(() => {
-                                window.location.href = Core.siteUrl('checkout/thanks/' + response.data.orderId)
-
-                                commit(actionTypes.CHECKOUT_REQUEST_SUCCESS)
+                                dispatch('reachGoal', 'cart-step-4')
+                                    .then(() => dispatch('clear'))
+                                    .then(() => {
+                                        if ('data' in response && 'status' in response.data) {
+                                            window.location.href = response.data._redirect
+                                        }
+                                    })
                             })
                     })
                     .fail(() => {
@@ -183,6 +240,10 @@ export default {
         [actionTypes.CHECKOUT_REQUEST_FAIL](state) {
             state.loading = false
             state.error = true
+        },
+
+        [actionTypes.CHECKOUT_REACH_GOAL](state, goals) {
+            state.goals = goals
         }
     },
 

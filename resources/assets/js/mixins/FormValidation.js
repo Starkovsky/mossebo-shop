@@ -112,7 +112,7 @@ class MaskCheckExtension {
         value = value.split('').reverse()
 
         for (let i = 0; i < mask.length; i++) {
-            if (mask[i] !== ' ' && mask[i] === value[i]) {
+            if (mask[i] === '_' && mask[i] === value[i]) {
                 return false
             }
         }
@@ -121,24 +121,16 @@ class MaskCheckExtension {
     }
 }
 
-export default {
-    data() {
-        return {
-            formInputs: null
-        }
-    },
+const getMessages = (function () {
+    let messages = null
 
-    watch: {
-        '$validator.errors.items': 'setVeeErrors'
-    },
+    function initMessages() {
+        messages = Core.translate('validation.errors')
 
-    created() {
-        let messages = Core.translate('validation.errors')
+        Object.keys(messages).forEach(function(key) {
+            let message = messages[key]
 
-        Object.keys(messages).forEach(function(index) {
-            let message = messages[index]
-
-            messages[index] = (fieldName, values) => {
+            messages[key] = (fieldName, values) => {
                 if (message.indexOf(':fieldName') !== -1) {
                     message = message.replace(':fieldName', `"${fieldName}"`)
                 }
@@ -152,6 +144,30 @@ export default {
                 return message
             }
         })
+    }
+
+    return function() {
+        if (! messages) {
+            initMessages()
+        }
+
+        return messages
+    }
+}());
+
+export default {
+    data() {
+        return {
+            formInputs: null
+        }
+    },
+
+    watch: {
+        '$validator.errors.items': 'setVeeErrors'
+    },
+
+    created() {
+        let messages = getMessages()
 
         this.$validator.localize({
             [Core.getLang()]: {

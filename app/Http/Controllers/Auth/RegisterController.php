@@ -110,7 +110,7 @@ class RegisterController extends Controller
         if ($request->expectsJson()) {
             return response()->json([
                 'status' => 'success',
-                'redirect' => $this->getRedirectUrl()
+                '_redirect' => $this->getRedirectUrl()
             ]);
         }
     }

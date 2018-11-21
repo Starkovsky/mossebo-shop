@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="auth auth--registration block-ui">
-            <form method="POST" action="{{ route('register') }}" class="js-form-sender">
+            <form method="POST" action="{{ route('register') }}" class="js-registration-form">
                 @csrf
 
                 <div class="auth__top container">
@@ -39,7 +39,7 @@
                         <div class="auth-socials auth-socials--short">
                             <div class="auth-socials__container">
                                 <div class="auth-socials__item">
-                                    <a href="{{ url('login/vkontakte') }}"
+                                    <a href="{{ route('login-social', ['provider' => 'vkontakte']) }}"
                                        class="auth-social-btn auth-social-btn--circle auth-social-btn--vk"
                                     >
                                         <svg class="symbol-icon social-embed-vk">
@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="auth-socials__item">
-                                    <a href="{{ url('login/odnoklassniki') }}"
+                                    <a href="{{ route('login-social', ['provider' => 'odnoklassniki']) }}"
                                        class="auth-social-btn auth-social-btn--circle auth-social-btn--ok"
                                     >
                                         <svg class="symbol-icon social-embed-ok">
@@ -59,7 +59,7 @@
                                 </div>
 
                                 <div class="auth-socials__item">
-                                    <a href="{{ url('login/facebook') }}"
+                                    <a href="{{ route('login-social', ['provider' => 'facebook']) }}"
                                        class="auth-social-btn auth-social-btn--circle auth-social-btn--fb"
                                     >
                                         <svg class="symbol-icon social-embed-fb">
@@ -69,7 +69,7 @@
                                 </div>
 
                                 <div class="auth-socials__item">
-                                    <a href="{{ url('login/google') }}"
+                                    <a href="{{ route('login-social', ['provider' => 'google']) }}"
                                        class="auth-social-btn auth-social-btn--circle auth-social-btn--google"
                                     >
                                         <svg class="symbol-icon social-embed-google">
@@ -203,7 +203,11 @@
                         </div>
 
                         <div class="mt-32 auth__title-label">
-                            Нажимая кнопку «Создать аккаунт», вы соглашаетесь с условиями <a href="#" class="link">пользовательского соглашения</a>
+                            Нажимая кнопку «Создать аккаунт», вы соглашаетесь с условиями
+
+                            <a href="{{ route('use_policy') }}" class="link">
+                                пользовательского соглашения
+                            </a>
                         </div>
                     </div>
                 </div>

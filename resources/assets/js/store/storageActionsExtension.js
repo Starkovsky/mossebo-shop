@@ -112,6 +112,8 @@ function getMethodName(type, namespace, dataType) {
 
 export default {
     initStorageExtension({ state, dispatch }, namespace) {
+        if (state.storageNamespace) return
+
         state.debouncers = {}
         state.storageNamespace = namespace
 

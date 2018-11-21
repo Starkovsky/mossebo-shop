@@ -1,6 +1,7 @@
 import FormattedPrice from '../../price/FormattedPrice'
 import NumControl from '../../../NumControl'
 import ProductShortDescription from '../../ProductShortDescription'
+import Core from '../../../../scripts/core'
 
 export default {
 
@@ -34,7 +35,11 @@ export default {
     methods: {
         remove() {
             this.$store.dispatch('cart/removeProduct', this.product)
-            // this.$emit('remove', this)
+                .then(() => {
+                    if (this.$store.getters['cart/products'].length === 0) {
+                        Core.metrika.reachGoal('delete')
+                    }
+                })
         },
 
         getDescEl(e) {

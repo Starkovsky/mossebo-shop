@@ -15,7 +15,7 @@
                             <div class="auth-socials">
                                 <div class="auth-socials__container">
                                     <div class="auth-socials__item">
-                                        <a href="{{ url('login/vkontakte') }}"
+                                        <a href="{{ route('login-social', ['provider' => 'vkontakte']) }}"
                                            class="auth-social-btn auth-social-btn--vk"
                                         >
                                             <div class="auth-social-btn__label">
@@ -32,7 +32,7 @@
                                     </div>
 
                                     <div class="auth-socials__item">
-                                        <a href="{{ url('login/facebook') }}"
+                                        <a href="{{ route('login-social', ['provider' => 'facebook']) }}"
                                            class="auth-social-btn auth-social-btn--fb"
                                         >
                                             <div class="auth-social-btn__label">
@@ -49,7 +49,7 @@
                                     </div>
 
                                     <div class="auth-socials__item">
-                                        <a href="{{ url('login/odnoklassniki') }}"
+                                        <a href="{{ route('login-social', ['provider' => 'odnoklassniki']) }}"
                                            class="auth-social-btn auth-social-btn--ok"
                                         >
                                             <div class="auth-social-btn__label">
@@ -66,7 +66,7 @@
                                     </div>
 
                                     <div class="auth-socials__item">
-                                        <a href="{{ url('login/google') }}"
+                                        <a href="{{ route('login-social', ['provider' => 'google']) }}"
                                            class="auth-social-btn auth-social-btn--google"
                                         >
                                             <div class="auth-social-btn__label">

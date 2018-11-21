@@ -269,14 +269,21 @@ export default class FormSender extends FormInputs {
         this.startLoading()
 
         new Request('post', this.url, new FormData(this.el))
-            .success(() => this.applyToFields('reset'))
-            .fail(response => {
-                if ('data' in response && 'errors' in response.data) {
-                    this.showErrors(response.data.errors)
-                }
-            })
-            .any(() => {
+            .any(response => {
                 this.endLoading()
+
+                if ('data' in response) {
+                    let data = response.data
+                    this.trigger('done', data)
+
+                    if (data.status === 'error' && 'errors' in data) {
+                        this.showErrors(data.errors)
+                    }
+
+                    if (data.status === 'success') {
+                        this.applyToFields('reset')
+                    }
+                }
             })
             .start()
 

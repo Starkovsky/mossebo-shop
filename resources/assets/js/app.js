@@ -408,3 +408,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 window.MC = Core
+
+
+import './scripts/pages/registration'
