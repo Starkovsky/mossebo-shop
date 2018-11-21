@@ -118,7 +118,7 @@ class ShopServiceProvider extends ServiceProvider
 
     protected function makeDataBaseCart($customer)
     {
-        dd($customer->getCart());
+        dd(Shop::makeCart(DatabaseCartLoader::class, $customer->getCart()));
         return Shop::makeCart(DatabaseCartLoader::class, $customer->getCart());
     }
 //
