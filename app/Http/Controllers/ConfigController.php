@@ -38,8 +38,19 @@ class ConfigController extends Controller
         $this->__connectBanners($config);
         $this->__connectFranchisee($config);
         $this->__connectDataTypes($config);
+        $this->__connectMetrika($config);
 
         return json_encode($config, JSON_UNESCAPED_UNICODE);
+    }
+
+
+    protected function __connectMetrika(& $config)
+    {
+        $config['metrika'] = [
+            'yandex' => [
+                'id' => env('METRIKA_YANDEX_ID')
+            ]
+        ];
     }
 
     protected function __connectFranchisee(& $config)

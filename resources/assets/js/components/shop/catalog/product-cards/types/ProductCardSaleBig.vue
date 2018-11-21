@@ -67,7 +67,7 @@
                 </div>
 
                 <div v-if="discount" class="product-card-promo__saving">
-                    Вы экономите:
+                    Вы сэкономите:
                     <formatted-price
                         :value="discount"
                     ></formatted-price>

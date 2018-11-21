@@ -25,9 +25,11 @@ use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode as PromoCodeInterface;
 use MosseboShopCore\Shop\Cart\Builders\SessionCartLoader;
 use MosseboShopCore\Shop\Cart\Savers\SessionCartSaver;
 
+use MosseboShopCore\Shop\Cart\Builders\DatabaseCartLoader;
+use App\Shop\Cart\Savers\DatabaseCartSaver;
+
 use MosseboShopCore\Shop\Order\Order;
 use MosseboShopCore\Contracts\Shop\Order\Order as OrderInterface;
-
 
 use MosseboShopCore\Shop\Shipping\Shipping;
 use MosseboShopCore\Contracts\Shop\Shipping\Shipping as ShippingInterface;
@@ -38,9 +40,8 @@ use MosseboShopCore\Contracts\Shop\Payment\Payment as PaymentInterface;
 use MosseboShopCore\Shop\Customer;
 use MosseboShopCore\Contracts\Shop\Customer as CustomerInterface;
 
-
-
 use App\Shop\Shop as BaseShop;
+use Session;
 use Shop;
 
 class ShopServiceProvider extends ServiceProvider
@@ -66,12 +67,36 @@ class ShopServiceProvider extends ServiceProvider
         $this->app->bind(CustomerInterface::class, Customer::class);
 
         $this->app->singleton('cart', function() {
-            $cart = Shop::makeCart(SessionCartLoader::class);
+            $customer = Shop::getCustomer();
 
-            return new CartProxy(
-                $cart,
-                app()->make(SessionCartSaver::class)
-            );
+            if ($customer) {
+                $dbCart = $this->makeDataBaseCart($customer);
+                $proxy = new CartProxy($dbCart, $saver = app()->make(DatabaseCartSaver::class, [
+                    'cart' => $dbCart
+                ]));
+
+                if ($dbCart->isEmpty()) {
+                    $sessionCart = $this->makeSessionCart();
+
+                    if (! $sessionCart->isEmpty()) {
+                        $this->mergeCarts($dbCart, $sessionCart);
+                        $proxy->save();
+                    }
+                }
+
+                return $proxy;
+            }
+
+
+            $sessionCart = isset($sessionCart) ? $sessionCart : $this->makeSessionCart();
+
+            $saver = app()->make(SessionCartSaver::class, [
+                'cart' => $sessionCart
+            ]);
+
+            $saver->setStoreKey($this->getSessionCartKey());
+
+            return new CartProxy($sessionCart, $saver);
         });
 
         $this->registerFacade();
@@ -81,5 +106,37 @@ class ShopServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
         $loader->alias('Cart', '\App\Support\Facades\Cart');
+    }
+
+    protected function getSessionCartKey()
+    {
+        return implode('::', [
+            'mossebo-shop',
+            'cart',
+        ]);
+    }
+
+    protected function makeDataBaseCart($customer)
+    {
+        return Shop::makeCart(DatabaseCartLoader::class, $customer->getCart());
+    }
+//
+    protected function makeSessionCart()
+    {
+        return Shop::makeCart(SessionCartLoader::class, Session::get(
+            $this->getSessionCartKey()
+        ));
+    }
+
+    protected function mergeCarts($mainCart, $cart)
+    {
+        $mainCart->init(function($mainCart) use($cart) {
+            $mainCart->setProducts($cart->getProducts());
+            $mainCart->setCurrencyCode($cart->getCurrencyCode());
+
+            if ($promoCode = $cart->getPromoCode()) {
+                $mainCart->setPromoCode($promoCode);
+            }
+        });
     }
 }

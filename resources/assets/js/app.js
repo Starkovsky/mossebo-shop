@@ -1,6 +1,8 @@
 /**
  * GLOBAL
  */
+import Core from './scripts/core'
+
 import svg4everybody from './core/svg4everybody.legacy.min'
 import './common'
 
@@ -20,7 +22,8 @@ import VeeValidate from 'vee-validate'
 
 Vue.use(VeeValidate, {
     fieldsBagName: 'formFields',
-    errorBagName: 'formErrors'
+    errorBagName: 'formErrors',
+    locale: Core.getLang()
 })
 
 
@@ -55,7 +58,7 @@ import BannerSlider from './components/banners/BannersSet/BannerSlider'
 import BackgroundImageLoader from './components/imageLoaders/BackgroundImageLoader'
 import Instagram from './components/Instagram'
 
-import Core from './scripts/core'
+
 import './scripts/HeightToggle'
 import './bootstrap/tooltip'
 import '@fancyapps/fancybox'
@@ -397,9 +400,11 @@ import {CookieStorageProxy} from './scripts/storage/CookieStorageProxy'
 window.CookieStorageProxy = CookieStorageProxy
 
 
-
 window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchmove', e => {
         if ('scale' in e && e.scale !== 1) e.preventDefault()
     }, {passive: false})
 })
+
+
+window.MC = Core

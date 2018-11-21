@@ -40,6 +40,7 @@
     @include('shop.layouts.franchisee')
 @endif
 
+@include('shop.layouts.cookies')
 
 </body>
 </html>

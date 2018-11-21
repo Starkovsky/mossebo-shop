@@ -12,7 +12,7 @@
             }
 
             & .form-error {
-                max-height: 34px;
+                max-height: 75px;
                 margin-top: 8px;
             }
         }
@@ -133,7 +133,7 @@
     //}
 
     &-error {
-        font-size: 14px / 17px;
+        font-size: 12px / 15px;
         color: $color-danger;
         display: block;
         max-height: 0;

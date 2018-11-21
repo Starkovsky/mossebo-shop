@@ -100,7 +100,24 @@ class FieldAvailableExtension extends ValidationExtension {
     }
 
     getMessageByFieldName() {
-        return Core.translate('form.errors.' + this.fieldName + '_available')
+        return Core.translate('validation.errors.' + this.fieldName + '_available')
+    }
+}
+
+class MaskCheckExtension {
+    validate(value, args) {
+        let mask = args[0]
+
+        mask = mask.split('').reverse()
+        value = value.split('').reverse()
+
+        for (let i = 0; i < mask.length; i++) {
+            if (mask[i] !== ' ' && mask[i] === value[i]) {
+                return false
+            }
+        }
+
+        return true
     }
 }
 
@@ -116,10 +133,37 @@ export default {
     },
 
     created() {
-        Validator.localize(Core.getLang())
+        let messages = Core.translate('validation.errors')
+
+        Object.keys(messages).forEach(function(index) {
+            let message = messages[index]
+
+            messages[index] = (fieldName, values) => {
+                if (message.indexOf(':fieldName') !== -1) {
+                    message = message.replace(':fieldName', `"${fieldName}"`)
+                }
+
+                for (let i = 0; i < values.length; i++) {
+                    if (message.indexOf(':value-' + i) !== -1) {
+                        message = message.replace(':value-' + i, values[i])
+                    }
+                }
+
+                return message
+            }
+        })
+
+        this.$validator.localize({
+            [Core.getLang()]: {
+                messages,
+                attributes: Core.translate('form.fields'),
+            }
+        })
+
         this.extendFieldAvailable('email')
         // todo: Добавить форматирование (добавление в начало номера кода страны)
         this.extendFieldAvailable('phone')
+        this.extendMaskChecker()
     },
 
     mounted() {
@@ -165,5 +209,9 @@ export default {
                 immediate: true
             })
         },
+
+        extendMaskChecker() {
+            Validator.extend('mask_check', new MaskCheckExtension)
+        }
     }
 }

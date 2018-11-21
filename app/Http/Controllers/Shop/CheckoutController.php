@@ -73,7 +73,7 @@ class CheckoutController extends Controller
     protected function sendEmail($order)
     {
         Mail::to($order->getCustomer()->getAttribute('email'))
-            ->bcc(config('mail.to.address'), config('mail.to.name'))
+            ->bcc(config('mail.default_to.address'), config('mail.default_to.name'))
             ->queue(new CheckoutMail($order));
     }
 

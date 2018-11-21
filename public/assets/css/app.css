@@ -3612,7 +3612,7 @@ body.compensate-for-scrollbar {
 }
 
 .form-group.has-error .form-error {
-  max-height: 34px;
+  max-height: 75px;
   margin-top: 8px;
 }
 
@@ -3717,8 +3717,8 @@ body.compensate-for-scrollbar {
 }
 
 .form-error {
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 12px;
+  line-height: 15px;
   color: #de141c;
   display: block;
   max-height: 0;
@@ -5078,6 +5078,39 @@ img {
   .content-w-menu__content {
     border-left: 1px solid #ecedf3;
   }
+}
+
+.cookies-popup__popup {
+  position: fixed;
+  bottom: 24px;
+  width: 375px;
+  max-width: calc(100vw - 32px);
+  z-index: 20;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.cookies-popup:not(.showed) .cookies-popup__popup {
+  -webkit-transform: translate3d(0, 100%, 0);
+          transform: translate3d(0, 100%, 0);
+  opacity: 0;
+}
+
+.cookies-info {
+  padding: 16px 20px 24px;
+  -webkit-box-shadow: 0 3px 18px rgba(0, 0, 0, 0.14);
+          box-shadow: 0 3px 18px rgba(0, 0, 0, 0.14);
+}
+
+.cookies-info__description {
+  font-size: 12px;
+  line-height: 15px;
+  color: #323f4c;
+}
+
+.cookies-info__button {
+  margin-top: 17px;
+  text-align: center;
 }
 
 .dropdown-menu {

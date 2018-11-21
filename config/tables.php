@@ -134,4 +134,9 @@ return [
 
     'Payments'        => 'shop_payments',
     'YandexPayments'  => 'shop_payments_yandex',
+
+    'Carts'                       => 'shop_carts',
+    'CartProducts'                => 'shop_cart_products',
+    'CartProductAttributeOptions' => 'shop_cart_product_attribute_options',
+    'CartPromoCodes'              => 'shop_cart_promos',
 ];

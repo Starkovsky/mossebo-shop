@@ -19,7 +19,7 @@ class FormController extends Controller
 
     public function callback(CallbackRequest $request)
     {
-        Mail::to(config('mail.to.address'), config('mail.to.name'))
+        Mail::to(config('mail.default_to.address'), config('mail.default_to.name'))
             ->queue(new Callback($request->all()));
 
         return response()->json([
@@ -30,7 +30,7 @@ class FormController extends Controller
 
     public function feedback(FeedbackRequest $request)
     {
-        Mail::to(config('mail.to.address'), config('mail.to.name'))
+        Mail::to(config('mail.default_to.address'), config('mail.default_to.name'))
             ->queue(new Feedback($request->all()));
 
         return response()->json([
@@ -41,7 +41,7 @@ class FormController extends Controller
 
     public function oneClick(OneClickRequest $request)
     {
-        Mail::to(config('mail.to.address'), config('mail.to.name'))
+        Mail::to(config('mail.default_to.address'), config('mail.default_to.name'))
             ->queue(new OneClick($request->all()));
 
         return response()->json([

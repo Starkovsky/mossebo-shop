@@ -19,12 +19,8 @@ class Attribute extends BaseAttribute
     public function products()
     {
         return $this->hasManyThrough(
-            Product::class,
-            ProductAttribute::class,
-            $this->relationFieldName,
-            'id',
-            'id',
-            'product_id'
+            Product::class, ProductAttribute::class,
+            $this->relationFieldName, 'id', 'id', 'product_id'
         );
     }
 

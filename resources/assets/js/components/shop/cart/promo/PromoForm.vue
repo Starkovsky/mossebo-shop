@@ -1,5 +1,5 @@
 <template>
-    <form class="promo-form" @submit="submit">
+    <form class="promo-form">
         <div class="promo-form__label">
             Есть промокод? Введите его тут:
         </div>

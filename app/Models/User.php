@@ -11,6 +11,7 @@ use Cog\Laravel\Love\Liker\Models\Traits\Liker;
 
 use App\Models\Shop\Order\Order;
 use App\Models\Shop\Promo\PromoUse;
+use App\Models\Shop\Cart\Cart;
 
 
 class User extends BaseUser implements LikerContract
@@ -35,5 +36,29 @@ class User extends BaseUser implements LikerContract
     public function promoCodeUses()
     {
         return $this->hasMany(PromoUse::class, $this->relationFieldName, 'id');
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, $this->relationFieldName, 'id');
+    }
+
+    public function getCart()
+    {
+        $cart = $this->cart()
+            ->with([
+                'cartProducts' => function($query) {
+                    $query->with('options');
+                },
+                'promoCode'
+            ])
+            ->first();
+
+        if ($cart) {
+            $cart->products = $cart->cartProducts;
+            $cart->promoCode = $cart->promoCode->first();
+        }
+
+        return $cart;
     }
 }

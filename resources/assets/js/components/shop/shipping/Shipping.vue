@@ -23,7 +23,7 @@
                             <input
                                 id="shipping-first-name"
                                 type="text"
-                                name="shipping[first_name]"
+                                name="first_name"
                                 :value="data.first_name"
                                 @input="input"
                                 v-validate="'required|max:255'"
@@ -42,7 +42,7 @@
                             <input
                                 id="shipping-last-name"
                                 type="text"
-                                name="shipping[last_name]"
+                                name="last_name"
                                 :value="data.last_name"
                                 @input="input"
                                 v-validate="'required|max:255'"
@@ -60,7 +60,7 @@
 
                             <masked-input
                                 id="shipping-phone"
-                                name="shipping[phone]"
+                                name="phone"
                                 class="form-input"
                                 :value="data.phone"
                                 @input="setValue('phone', arguments[0])"
@@ -68,7 +68,7 @@
                                 :mask='["+", "7", " ", "(", /[1-69]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]'
                                 :guide="true"
                                 placeholder="+7 (___) ___-____"
-                                v-validate="'required|length:17|phone_available'"
+                                v-validate="'required|length:17|mask_check:+_ (___) ___-____|phone_available'"
                             ></masked-input>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             <input
                                 id="shipping-email"
                                 type="text"
-                                name="shipping[email]"
+                                name="email"
                                 :value="data.email"
                                 @input="input"
                                 v-validate="'required|email|min:6|max:255|email_available'"
@@ -102,7 +102,7 @@
                             <input
                                 id="shipping-city"
                                 type="text"
-                                name="shipping[city]"
+                                name="city"
                                 :value="data.city"
                                 @input="input"
                                 v-validate="'required|max:255'"
@@ -120,7 +120,7 @@
 
                             <masked-input
                                 id="shipping-post-code"
-                                name="shipping[post_code]"
+                                name="post_code"
                                 class="form-input"
                                 :value="data.post_code"
                                 @input="setValue('post_code', arguments[0])"
@@ -128,7 +128,7 @@
                                 :mask='[/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/]'
                                 :guide="true"
                                 placeholder="___ ___"
-                                v-validate="'required|length:7'"
+                                v-validate="'required|length:7|mask_check:___ ___'"
                             ></masked-input>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                             <input
                                 id="shipping-street"
                                 type="text"
-                                name="shipping[street]"
+                                name="street"
                                 :value="data.street"
                                 @input="input"
                                 v-validate="'required|max:255'"
@@ -162,7 +162,7 @@
                             <input
                                 id="shipping-house-number"
                                 type="text"
-                                name="shipping[house_number]"
+                                name="house_number"
                                 :value="data.house_number"
                                 @input="input"
                                 v-validate="'required|max:255'"
@@ -180,7 +180,7 @@
                             <input
                                 id="shipping-apartment"
                                 type="text"
-                                name="shipping[apartment]"
+                                name="apartment"
                                 :value="data.apartment"
                                 @input="input"
                                 v-validate="'max:64'"
@@ -198,7 +198,7 @@
                             <input
                                 id="shipping-floor"
                                 type="text"
-                                name="shipping[floor]"
+                                name="floor"
                                 :value="data.floor"
                                 @input="input"
                                 v-number
@@ -217,7 +217,7 @@
                             <input
                                 id="shipping-entrance"
                                 type="text"
-                                name="shipping[entrance]"
+                                name="entrance"
                                 :value="data.entrance"
                                 @input="input"
                                 v-validate="'max:64'"
@@ -235,7 +235,7 @@
                             <input
                                 id="shipping-intercom"
                                 type="text"
-                                name="shipping[intercom]"
+                                name="intercom"
                                 :value="data.intercom"
                                 @input="input"
                                 v-validate="'max:64'"
@@ -253,7 +253,7 @@
                             <div class="text-length-checker-wrap">
                                 <textarea
                                     id="shipping-comment"
-                                    name="shipping[comment]"
+                                    name="comment"
                                     :value="data.comment"
                                     @input="input"
                                     v-validate="'max:255'"

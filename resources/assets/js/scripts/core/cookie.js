@@ -6,7 +6,7 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
-function setCookie(name, value, options) {
+export function setCookie(name, value, options) {
     options = options || {}
 
     let expires = options.expires
@@ -36,12 +36,11 @@ function setCookie(name, value, options) {
     document.cookie = updatedCookie
 }
 
-function deleteCookie(name) {
+export function deleteCookie(name) {
     setCookie(name, "", {
         expires: -1
     })
 }
-
 
 export default {
     get(name) {
@@ -63,3 +62,5 @@ export default {
         deleteCookie(name)
     }
 }
+
+

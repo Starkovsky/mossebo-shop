@@ -1,5 +1,5 @@
 @php
-    $categories = Categories::where('products_count', '>', 0)->toTree();
+    $categories = Categories::where('products_count', '>', 0)->sortBy('position')->toTree();
 @endphp
 
 <div class="main-nav-wrap">
