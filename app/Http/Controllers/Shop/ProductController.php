@@ -42,7 +42,8 @@ class ProductController extends Controller
                 'salePrice',
                 'oldPrice',
                 'attributeRelations',
-                'attributeOptions'
+                'attributeOptions',
+                'reviews'
             )
             ->findOrFail($id);
 

@@ -31,12 +31,33 @@
         }
     })(document, window, "yandex_metrika_callbacks2");
 </script>
+
+<script>
+    !function(f,b,e,v,n,t,s) {
+
+
+        t=b.createElement(e);
+        t.async=!0;
+        t.src=v;
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '154209688288946');
+    fbq('track', 'PageView');
+</script>
 @endif
 
 <noscript>
     <div><img src="https://mc.yandex.ru/watch/48404660" style="position:absolute; left:-9999px;" alt=""/></div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
+
+<!-- Facebook Pixel Code -->
+<noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=154209688288946&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
 
 {{--<script async src="https://usocial.pro/usocial/usocial.js?v=6.1.4" data-script="usocial" charset="utf-8"></script>--}}
 

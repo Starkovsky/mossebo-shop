@@ -38,6 +38,8 @@
         <div class="product-page__stars">
             <rating
                 class-name-modificators="lg"
+                :num="product$.rating ? product$.rating.num : undefined"
+                :rate="product$.rating ? product$.rating.rate : undefined"
             ></rating>
         </div>
 

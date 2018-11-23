@@ -25,14 +25,22 @@
                     </span>
                 </li>
 
+                @if ($kidsCategory = Categories::where('id', 411)->first())
+                    <li class="main-menu__item">
+                        <a href="{{ route('catalog-category', ['categorySlug' => $kidsCategory->slug]) }}" class="main-menu__link">
+                            {{ $kidsCategory->title }}
+                        </a>
+                    </li>
+                @endif
+
                 <li class="main-menu__item">
-                    <a href="{{ siteUrl('styles') }}" class="main-menu__link">
+                    <a href="{{ route('styles') }}" class="main-menu__link">
                         Стили
                     </a>
                 </li>
 
                 <li class="main-menu__item">
-                    <a href="{{ siteUrl('rooms') }}" class="main-menu__link">
+                    <a href="{{ route('rooms') }}" class="main-menu__link">
                         Комнаты
                     </a>
                 </li>
@@ -63,7 +71,7 @@
                     <ul class="catalog-nav__sub js-catalog-nav--sub" data-id="0">
                         @foreach ($categories as $category)
                             <li class="catalog-nav__item">
-                                @if (is_null($category->children))
+                                @if ($category->children->count() === 0)
                                     <a href="{{ siteUrl('catalog/' . $category->slug) }}" class="catalog-nav__link js-catalog-nav--link">
                                         {{ $category->title }}
                                     </a>

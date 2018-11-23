@@ -25,6 +25,13 @@ class ProductResource extends JsonResource
             'weight' => $this->weight,
         ];
 
+        if ($this->relationNotEmpty('reviews')) {
+            $data['rating'] = [
+                'num' => $this->reviews->count(),
+                'rate' => $this->reviews->avg('rate')
+            ];
+        }
+
         if ($this->relationNotEmpty('image')) {
             $image = $this->getImagePathes($this->image, 'small');
 

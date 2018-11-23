@@ -38,6 +38,8 @@
             <div class="product-card-mobile__rating">
                 <rating
                     class-name-modificators="sm"
+                    :num="product.rating ? product.rating.num : undefined"
+                    :rate="product.rating ? product.rating.rate : undefined"
                 ></rating>
             </div>
 

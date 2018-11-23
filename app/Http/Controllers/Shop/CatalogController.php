@@ -80,7 +80,8 @@ class CatalogController extends BaseStructureController
     public function getPopularCategories()
     {
         $categories = Categories::where('is_popular', true)
-            ->where('miniature_image', '!=', '');
+            ->where('miniature_image', '!=', '')
+            ->sortBy('position');
 
         return static::makeCategoriesCollection($categories);
     }

@@ -50,7 +50,10 @@
 
         <div class="product-card__info">
             <div class="product-card__reviews">
-                <rating></rating>
+                <rating
+                    :num="product.rating ? product.rating.num : undefined"
+                    :rate="product.rating ? product.rating.rate : undefined"
+                ></rating>
             </div>
 
             <div class="product-card__price">

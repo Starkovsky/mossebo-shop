@@ -187,11 +187,11 @@ export default {
         },
 
         setVeeErrors() {
-            // this.setErrors(this.formErrors.items.reduce((acc, item) => {
-            //     acc[item.field] = item.msg
-            //
-            //     return acc
-            // }, {}))
+            this.setErrors(this.formErrors.items.reduce((acc, item) => {
+                acc[item.field] = item.msg
+
+                return acc
+            }, {}))
         },
 
         initFormInputs() {

@@ -49,7 +49,10 @@
                 </a>
 
                 <div class="product-card-promo__reviews">
-                    <rating></rating>
+                    <rating
+                        :num="product.rating ? product.rating.num : undefined"
+                        :rate="product.rating ? product.rating.rate : undefined"
+                    ></rating>
                 </div>
             </div>
 

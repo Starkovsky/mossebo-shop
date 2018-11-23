@@ -10,8 +10,6 @@ use MosseboShopCore\Shop\Shop as BaseShop;
 use MosseboShopCore\Contracts\Shop\Cart\Promo\PromoCode as PromoCodeInterface;
 use App\Models\Shop\Promo\PromoCode as PromoCodeModel;
 use App\Models\Shop\Product\ProductAttributeOption;
-use MosseboShopCore\Contracts\Shop\Cart\Cart as CartInterface;
-use MosseboShopCore\Contracts\Shop\Order\Order as OrderInterface;
 
 
 class Shop extends BaseShop
@@ -122,32 +120,5 @@ class Shop extends BaseShop
         $options = ProductAttributeOption::select('option_id')->where('product_id', $productId)->get();
 
         return array_column($options->toArray(), 'option_id');
-    }
-
-    public function make($className, $data = null)
-    {
-        if (is_array($data)) {
-            return app()->makeWith($className, $data);
-        }
-
-        return app()->make($className);
-    }
-
-    public function makeCart($cartBuilderClassName, $data = null): CartInterface
-    {
-        $builder = $this->make($cartBuilderClassName, [
-            'data' => $data
-        ]);
-
-        return $builder->getCart();
-    }
-
-    public function makeOrder($orderBuilderClassName, $data = null): OrderInterface
-    {
-        $builder = $this->make($orderBuilderClassName, [
-            'data' => $data
-        ]);
-
-        return $builder->getOrder();
     }
 }

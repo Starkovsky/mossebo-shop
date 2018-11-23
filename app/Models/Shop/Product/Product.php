@@ -219,7 +219,8 @@ class Product extends BaseProduct implements CartProductData
             if (!$this->supplier_enabled) {
                 return false;
             }
-        } else {
+        }
+        else {
             if (!$this->supplier->enabled) {
                 return false;
             }

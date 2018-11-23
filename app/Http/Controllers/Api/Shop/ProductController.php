@@ -20,7 +20,8 @@ class ProductController extends ApiController
                     'salePrice',
                     'oldPrice',
                     'badges',
-                    'previews'
+                    'previews',
+                    'reviews'
                 )
                 ->orderBy('updated_at', 'desc')
                 ->take(8)
@@ -43,7 +44,8 @@ class ProductController extends ApiController
                     'salePrice',
                     'oldPrice',
                     'badges',
-                    'previews'
+                    'previews',
+                    'reviews'
                 )
                 ->orderBy('updated_at', 'desc')
                 ->take(8)
@@ -125,7 +127,8 @@ class ProductController extends ApiController
             'salePrice',
             'oldPrice',
             'attributeOptionRelations',
-            'previews'
+            'previews',
+            'reviews'
         )
             ->inRandomOrder()
             ->take($limit)

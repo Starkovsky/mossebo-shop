@@ -13807,6 +13807,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -13824,6 +13827,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__("./resources/assets/js/components/shop/catalog/product-cards/types/mixin.js");
+//
+//
+//
 //
 //
 //
@@ -14025,6 +14031,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -14061,6 +14069,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__imageLoaders_BackgroundImageLoader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__imageLoaders_BackgroundImageLoader__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ProductCardSaleMother__ = __webpack_require__("./resources/assets/js/components/shop/catalog/product-cards/types/ProductCardSaleMother.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ProductCardSaleMother___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__ProductCardSaleMother__);
+//
+//
+//
 //
 //
 //
@@ -14392,6 +14403,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixin__ = __webpack_require__("./resources/assets/js/components/shop/catalog/product-cards/types/mixin.js");
+//
+//
 //
 //
 //
@@ -16272,6 +16285,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+//
+//
 //
 //
 //
@@ -21190,7 +21205,19 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "product-card__info" }, [
-        _c("div", { staticClass: "product-card__reviews" }, [_c("rating")], 1),
+        _c(
+          "div",
+          { staticClass: "product-card__reviews" },
+          [
+            _c("rating", {
+              attrs: {
+                num: _vm.product.rating ? _vm.product.rating.num : undefined,
+                rate: _vm.product.rating ? _vm.product.rating.rate : undefined
+              }
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "div",
@@ -21419,7 +21446,15 @@ var render = function() {
       _c(
         "div",
         { staticClass: "product-card-views__rating" },
-        [_c("rating", { attrs: { "class-name-modificators": "sm" } })],
+        [
+          _c("rating", {
+            attrs: {
+              "class-name-modificators": "sm",
+              num: _vm.product.rating ? _vm.product.rating.num : undefined,
+              rate: _vm.product.rating ? _vm.product.rating.rate : undefined
+            }
+          })
+        ],
         1
       ),
       _vm._v(" "),
@@ -23793,7 +23828,18 @@ var render = function() {
             _c(
               "div",
               { staticClass: "product-card-promo__reviews" },
-              [_c("rating")],
+              [
+                _c("rating", {
+                  attrs: {
+                    num: _vm.product.rating
+                      ? _vm.product.rating.num
+                      : undefined,
+                    rate: _vm.product.rating
+                      ? _vm.product.rating.rate
+                      : undefined
+                  }
+                })
+              ],
               1
             )
           ]),
@@ -24510,7 +24556,15 @@ var render = function() {
         _c(
           "div",
           { staticClass: "product-card-mobile__rating" },
-          [_c("rating", { attrs: { "class-name-modificators": "sm" } })],
+          [
+            _c("rating", {
+              attrs: {
+                "class-name-modificators": "sm",
+                num: _vm.product.rating ? _vm.product.rating.num : undefined,
+                rate: _vm.product.rating ? _vm.product.rating.rate : undefined
+              }
+            })
+          ],
           1
         ),
         _vm._v(" "),
@@ -28860,7 +28914,14 @@ var render = function() {
           _c(
             "div",
             { staticClass: "product-card-long__rating" },
-            [_c("rating")],
+            [
+              _c("rating", {
+                attrs: {
+                  num: _vm.product.rating ? _vm.product.rating.num : undefined,
+                  rate: _vm.product.rating ? _vm.product.rating.rate : undefined
+                }
+              })
+            ],
             1
           )
         ]),
@@ -29955,7 +30016,15 @@ var render = function() {
     _c(
       "div",
       { staticClass: "product-page__stars" },
-      [_c("rating", { attrs: { "class-name-modificators": "lg" } })],
+      [
+        _c("rating", {
+          attrs: {
+            "class-name-modificators": "lg",
+            num: _vm.product$.rating ? _vm.product$.rating.num : undefined,
+            rate: _vm.product$.rating ? _vm.product$.rating.rate : undefined
+          }
+        })
+      ],
       1
     ),
     _vm._v(" "),
@@ -39121,11 +39190,11 @@ var getMessages = function () {
             }
         },
         setVeeErrors: function setVeeErrors() {
-            // this.setErrors(this.formErrors.items.reduce((acc, item) => {
-            //     acc[item.field] = item.msg
-            //
-            //     return acc
-            // }, {}))
+            this.setErrors(this.formErrors.items.reduce(function (acc, item) {
+                acc[item.field] = item.msg;
+
+                return acc;
+            }, {}));
         },
         initFormInputs: function initFormInputs() {
             this.formInputs = new __WEBPACK_IMPORTED_MODULE_1__scripts_FormSender__["b" /* default */](this.$el.querySelector('.js-form-inputs'));
@@ -42306,6 +42375,8 @@ Core.time = new __WEBPACK_IMPORTED_MODULE_3__time__["a" /* default */](Core.conf
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_BlankPlugin__ = __webpack_require__("./resources/assets/js/scripts/base/BlankPlugin.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1____ = __webpack_require__("./resources/assets/js/scripts/core/index.js");
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42317,6 +42388,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+function loadScript(src, cb) {
+    var scriptEl = document.createElement('script');
+    scriptEl.src = src;
+    scriptEl.onload = function () {
+        cb();
+        document.body.removeChild(scriptEl);
+    };
+
+    document.body.appendChild(scriptEl);
+}
+
 function reachYandexGoal(yandexCounter) {
     return function (target) {
         var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -42327,24 +42409,59 @@ function reachYandexGoal(yandexCounter) {
     };
 }
 
-function initYandexMetrika(cb) {
-    var scriptEl = document.createElement('script');
-    scriptEl.src = 'https://mc.yandex.ru/metrika/tag.js';
-    scriptEl.onload = function () {
-        var ym = new window.Ya.Metrika2({
-            id: __WEBPACK_IMPORTED_MODULE_1____["a" /* default */].config('metrika.yandex.id'),
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true
+function initYandexMetrika() {
+    return new Promise(function (resolve) {
+        loadScript('https://mc.yandex.ru/metrika/tag.js', function () {
+            var ym = new window.Ya.Metrika2({
+                id: __WEBPACK_IMPORTED_MODULE_1____["a" /* default */].config('metrika.yandex.id'),
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true
+            });
+
+            resolve(ym);
         });
+    });
+}
 
-        cb(ym);
+function reachFacebookGoal(fb) {
+    return function (target) {
+        var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-        document.body.removeChild(scriptEl);
+        return new Promise(function (resolve) {
+            // Нет callback-а
+            fb('track', target, params);
+
+            resolve();
+        });
     };
+}
 
-    document.body.appendChild(scriptEl);
+function initFacebookMetrika(n) {
+    return new Promise(function (resolve) {
+        if (window.fbq) return;
+
+        n = window.fbq = function () {
+            n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+
+        if (!window._fbq) {
+            window._fbq = n;
+        }
+
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+
+        loadScript('https://connect.facebook.net/en_US/fbevents.js', function () {
+            fbq('init', '154209688288946');
+            fbq('track', 'PageView');
+
+            resolve(fbq);
+        });
+    });
 }
 
 var Metrika = function (_BlankPlugin) {
@@ -42365,8 +42482,15 @@ var Metrika = function (_BlankPlugin) {
         value: function init() {
             var _this2 = this;
 
-            initYandexMetrika(function (ym) {
+            initYandexMetrika(function (ym) {});
+
+            Promise.all([initYandexMetrika(), initFacebookMetrika()]).then(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 2),
+                    ym = _ref2[0],
+                    fbq = _ref2[1];
+
                 _this2.reachYandexGoal = reachYandexGoal(ym);
+                _this2.reachFacebookGoal = reachFacebookGoal(fbq);
                 _this2.ready = true;
                 _this2.trigger('ready');
             });
@@ -42389,7 +42513,7 @@ var Metrika = function (_BlankPlugin) {
     }, {
         key: '_reachGoal',
         value: function _reachGoal(target, params, callback) {
-            Promise.all([this.reachYandexGoal(target, params)]).then(callback);
+            Promise.all([this.reachYandexGoal(target, params), this.reachFacebookGoal(target, params)]).then(callback);
         }
     }]);
 
