@@ -72,10 +72,15 @@ class DatabaseCartSaver extends AbstractCartSaver
 
             $this->model->cartProducts()->save($dbCartProduct);
 
-            foreach ($cartProduct->getOptions() as $optionId) {
-                $dbCartProduct->save(new CartProductAttributeOption([
-                    'option_id' => $optionId
-                ]));
+            try {
+                foreach ($cartProduct->getOptions() as $optionId) {
+                    $dbCartProduct->save(new CartProductAttributeOption([
+                        'option_id' => $optionId
+                    ]));
+                }
+            }
+            catch (\Exception $e) {
+                dd($e, $optionId);
             }
         }
     }

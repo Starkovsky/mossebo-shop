@@ -37,7 +37,7 @@ function initYandexMetrika() {
 function reachFacebookGoal(fb) {
     return (target, params = null) => {
         return new Promise(resolve => {
-            // Нет callback-а
+            // Faсebook не поддерживает callback
             fb('track', target, params)
 
             resolve()

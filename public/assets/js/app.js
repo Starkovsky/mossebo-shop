@@ -42430,7 +42430,7 @@ function reachFacebookGoal(fb) {
         var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
         return new Promise(function (resolve) {
-            // Нет callback-а
+            // Faсebook не поддерживает callback
             fb('track', target, params);
 
             resolve();
