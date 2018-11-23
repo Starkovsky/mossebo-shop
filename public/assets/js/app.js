@@ -42456,7 +42456,7 @@ function initFacebookMetrika(n) {
         n.queue = [];
 
         loadScript('https://connect.facebook.net/en_US/fbevents.js', function () {
-            fbq('init', '154209688288946');
+            fbq('init', __WEBPACK_IMPORTED_MODULE_1____["a" /* default */].config('metrika.facebook.id'));
             fbq('track', 'PageView');
 
             resolve(fbq);

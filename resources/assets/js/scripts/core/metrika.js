@@ -63,14 +63,13 @@ function initFacebookMetrika(n) {
         n.queue=[]
 
         loadScript('https://connect.facebook.net/en_US/fbevents.js', () => {
-            fbq('init', '154209688288946')
+            fbq('init', Core.config('metrika.facebook.id'))
             fbq('track', 'PageView')
 
             resolve(fbq)
         })
     })
 }
-
 
 
 class Metrika extends BlankPlugin {

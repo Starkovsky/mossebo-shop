@@ -49,6 +49,9 @@ class ConfigController extends Controller
         $config['metrika'] = [
             'yandex' => [
                 'id' => env('METRIKA_YANDEX_ID')
+            ],
+            'facebook' => [
+                'id' => env('METRIKA_FACEBOOK_ID')
             ]
         ];
     }
