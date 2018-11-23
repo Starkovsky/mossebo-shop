@@ -1,4 +1,4 @@
-@if(! Cookie::get('policy'))
+@if(! Cookie::get('policy') && false)
     <div class="cookies-popup showed js-policy-popup">
         <div class="container">
             <div class="cookies-popup__popup">
