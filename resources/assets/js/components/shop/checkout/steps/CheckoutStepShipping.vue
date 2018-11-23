@@ -119,7 +119,11 @@
                     this.validationLoading = true
                 }
 
-                this.$refs.shippingComponent.$validator.validateAll(undefined, undefined, silent)
+                let shippingComponent = this.$refs.shippingComponent
+
+                if (! shippingComponent) return
+
+                shippingComponent.$validator.validateAll(undefined, undefined, silent)
                     .then(result => {
                         this.validationLoading = false
                         this.nextDisabled = ! result

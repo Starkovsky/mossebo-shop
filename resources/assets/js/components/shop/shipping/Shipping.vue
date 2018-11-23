@@ -311,7 +311,7 @@
 
         methods: {
             input(e) {
-                this.setValue(e.target.name.replace('shipping[', '').replace(']', ''), e.target.value)
+                this.setValue(e.target.name, e.target.value)
             },
 
             setType(type) {

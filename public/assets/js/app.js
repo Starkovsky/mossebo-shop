@@ -15280,7 +15280,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.validationLoading = true;
             }
 
-            this.$refs.shippingComponent.$validator.validateAll(undefined, undefined, silent).then(function (result) {
+            var shippingComponent = this.$refs.shippingComponent;
+
+            if (!shippingComponent) return;
+
+            shippingComponent.$validator.validateAll(undefined, undefined, silent).then(function (result) {
                 _this3.validationLoading = false;
                 _this3.nextDisabled = !result;
                 _this3.$store.dispatch('shipping/validation', result);
@@ -17076,7 +17080,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
     methods: {
         input: function input(e) {
-            this.setValue(e.target.name.replace('shipping[', '').replace(']', ''), e.target.value);
+            this.setValue(e.target.name, e.target.value);
         },
         setType: function setType(type) {
             this.$store.dispatch('shipping/setType', type);
@@ -38894,12 +38898,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 var ValidationExtension = function () {
-    function ValidationExtension(fieldName, cb) {
+    function ValidationExtension(fieldName) {
         var _this = this;
 
         _classCallCheck(this, ValidationExtension);
 
-        this.cb = cb;
         this.fieldName = fieldName;
         this.request = null;
         this.message = null;
@@ -38930,19 +38933,8 @@ var ValidationExtension = function () {
             this.cancelRequest();
 
             return new Promise(function (resolve) {
-                _this2.requestDebouncer(function (result) {
-                    resolve(result);
-
-                    _this2.runCallback();
-                }, value);
+                _this2.requestDebouncer(resolve, value);
             });
-        }
-    }, {
-        key: 'runCallback',
-        value: function runCallback() {
-            if (typeof this.cb === 'function') {
-                this.cb();
-            }
         }
     }, {
         key: 'sendRequest',
@@ -39129,11 +39121,11 @@ var getMessages = function () {
             }
         },
         setVeeErrors: function setVeeErrors() {
-            this.setErrors(this.formErrors.items.reduce(function (acc, item) {
-                acc[item.field] = item.msg;
-
-                return acc;
-            }, {}));
+            // this.setErrors(this.formErrors.items.reduce((acc, item) => {
+            //     acc[item.field] = item.msg
+            //
+            //     return acc
+            // }, {}))
         },
         initFormInputs: function initFormInputs() {
             this.formInputs = new __WEBPACK_IMPORTED_MODULE_1__scripts_FormSender__["b" /* default */](this.$el.querySelector('.js-form-inputs'));
@@ -39146,10 +39138,7 @@ var getMessages = function () {
             this.formInputs = null;
         },
         extendFieldAvailable: function extendFieldAvailable(fieldName) {
-            __WEBPACK_IMPORTED_MODULE_0_vee_validate__["Validator"].extend(fieldName + '_available', new FieldAvailableExtension(fieldName, function () {
-                // this.setVeeErrors()
-                // this.$validator.errors.add('shipping[phone]', 'azaza', fieldName + '_available')
-            }), {
+            __WEBPACK_IMPORTED_MODULE_0_vee_validate__["Validator"].extend(fieldName + '_available', new FieldAvailableExtension(fieldName), {
                 immediate: true
             });
         },

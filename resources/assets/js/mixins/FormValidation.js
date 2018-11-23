@@ -5,8 +5,7 @@ import Core from '../scripts/core'
 
 
 class ValidationExtension {
-    constructor(fieldName, cb) {
-        this.cb = cb
+    constructor(fieldName) {
         this.fieldName = fieldName
         this.request = null
         this.message = null
@@ -26,18 +25,8 @@ class ValidationExtension {
         this.cancelRequest()
 
         return new Promise(resolve => {
-            this.requestDebouncer(result => {
-                resolve(result)
-
-                this.runCallback()
-            }, value)
+            this.requestDebouncer(resolve, value)
         })
-    }
-
-    runCallback() {
-        if (typeof this.cb === 'function') {
-            this.cb()
-        }
     }
 
     sendRequest(resolve, value) {
@@ -198,11 +187,11 @@ export default {
         },
 
         setVeeErrors() {
-            this.setErrors(this.formErrors.items.reduce((acc, item) => {
-                acc[item.field] = item.msg
-
-                return acc
-            }, {}))
+            // this.setErrors(this.formErrors.items.reduce((acc, item) => {
+            //     acc[item.field] = item.msg
+            //
+            //     return acc
+            // }, {}))
         },
 
         initFormInputs() {
@@ -218,10 +207,7 @@ export default {
         },
 
         extendFieldAvailable(fieldName) {
-            Validator.extend(fieldName + '_available', new FieldAvailableExtension(fieldName, () => {
-                // this.setVeeErrors()
-                // this.$validator.errors.add('shipping[phone]', 'azaza', fieldName + '_available')
-            }), {
+            Validator.extend(fieldName + '_available', new FieldAvailableExtension(fieldName), {
                 immediate: true
             })
         },
