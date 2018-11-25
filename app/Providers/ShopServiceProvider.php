@@ -71,32 +71,25 @@ class ShopServiceProvider extends ServiceProvider
 
             if ($customer) {
                 $dbCart = $this->makeDataBaseCart($customer);
-                $proxy = new CartProxy($dbCart, $saver = app()->make(DatabaseCartSaver::class, [
-                    'cart' => $dbCart
-                ]));
 
                 if ($dbCart->isEmpty()) {
                     $sessionCart = $this->makeSessionCart();
 
                     if (! $sessionCart->isEmpty()) {
-                        $this->mergeCarts($dbCart, $sessionCart);
-                        $proxy->save();
+                        $this->mergeCarts($dbCart->getResource(), $sessionCart->getResource());
+                        $dbCart->save();
+
+                        $sessionCart->clear();
                     }
                 }
 
-                return $proxy;
+                return $dbCart;
             }
 
 
             $sessionCart = isset($sessionCart) ? $sessionCart : $this->makeSessionCart();
 
-            $saver = app()->make(SessionCartSaver::class, [
-                'cart' => $sessionCart
-            ]);
-
-            $saver->setStoreKey($this->getSessionCartKey());
-
-            return new CartProxy($sessionCart, $saver);
+            return $sessionCart;
         });
 
         $this->registerFacade();
@@ -118,14 +111,26 @@ class ShopServiceProvider extends ServiceProvider
 
     protected function makeDataBaseCart($customer)
     {
-        return Shop::makeCart(DatabaseCartLoader::class, $customer->getCart());
+        $cart = Shop::makeCart(DatabaseCartLoader::class, $customer->getCart());
+
+        return new CartProxy($cart, $saver = app()->make(DatabaseCartSaver::class, [
+            'cart' => $cart
+        ]));
     }
 //
     protected function makeSessionCart()
     {
-        return Shop::makeCart(SessionCartLoader::class, Session::get(
-            $this->getSessionCartKey()
-        ));
+        $key = $this->getSessionCartKey();
+
+        $cart = Shop::makeCart(SessionCartLoader::class, Session::get($key));
+
+        $saver = app()->make(SessionCartSaver::class, [
+            'cart' => $cart
+        ]);
+
+        $saver->setStoreKey($key);
+
+        return new CartProxy($cart, $saver);
     }
 
     protected function mergeCarts($mainCart, $cart)
