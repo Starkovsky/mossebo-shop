@@ -13,10 +13,21 @@ class LocationController extends ApiController
 
         $result = $this->search($query);
 
-        $cities = [];
-
         if (isset($result['hits']['hits'])) {
-            foreach($result['hits']['hits'] as $hit) {
+            $cities = $result['hits']['hits'];
+
+            usort($cities, function($a, $b) {
+                if ($a['_score'] !== $b['_score']) {
+                    return $a['_score'] < $b['_score'];
+                }
+
+                $okatoA = empty($a['_source']['okato_code']) ? 0 : $a['_source']['okato_code'];
+                $okatoB = empty($b['_source']['okato_code']) ? 0 : $b['_source']['okato_code'];
+
+                return $okatoA > $okatoB;
+            });
+
+            foreach($cities as $key => $hit) {
                 $city = [
                     'id' => $hit['_source']['id'],
                     'name' => $hit['_source']['name'],
@@ -26,7 +37,7 @@ class LocationController extends ApiController
                     $city['region'] = $hit['_source']['region'];
                 }
 
-                $cities[] = $city;
+                $cities[$key] = $city;
             }
         }
 

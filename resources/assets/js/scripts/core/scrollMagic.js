@@ -21,6 +21,10 @@ class ScrollMagicHandler {
 
         return scene
     }
+
+    destroyScene(scene) {
+        scene.destroy(true)
+    }
 }
 
 const scrollMagicHandler = new ScrollMagicHandler()

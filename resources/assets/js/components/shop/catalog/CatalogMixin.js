@@ -98,7 +98,7 @@ export default {
             this.$store.dispatch('catalog/clearFilters')
         },
 
-        showFiltersButton(e) {
+        showFiltersButton() {
             this.filtersButtonShowed = true
         },
 

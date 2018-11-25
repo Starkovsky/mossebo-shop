@@ -113,13 +113,22 @@
     }
 }
 
-
-
 .catalog-filters-banner:not(:first-child) {
     margin-top: 48px;
 }
 
+.catalog-filters-fixer {
+    position: relative;
+    height: 100%;
 
-.catalog-filters-fixer:not(:first-child) {
-    margin-top: 32px;
+    &__content {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    &:not(:first-child) &__content {
+        margin-top: 32px;
+        height: calc(100% - 32px);
+    }
 }

@@ -24,40 +24,42 @@
 
                     <products-views class="mt-32"></products-views>
 
-                    <fixer
-                        v-if="! loading"
-                        @fix="showFiltersButton"
-                        @unfix="hideFiltersButton"
-                        class="catalog-filters-fixer"
-                    >
-                        <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
-                            <div class="banner-fixer__button">
-                                <div class="filter-name block-ui" @click="openPopup">
-                                <span class="filter-name__name">
-                                    Фильтровать
-                                </span>
+                    <div class="catalog-filters-fixer">
+                        <fixer
+                            v-if="! loading"
+                            @fix="showFiltersButton"
+                            @unfix="hideFiltersButton"
+                            class="catalog-filters-fixer__content"
+                        >
+                            <div :class="{'banner-fixer': true, 'banner-fixer--is-active': filtersButtonShowed}">
+                                <div class="banner-fixer__button">
+                                    <div class="filter-name block-ui" @click="openPopup">
+                                        <span class="filter-name__name">
+                                            Фильтровать
+                                        </span>
 
-                                    <svg class="filter-name__icon">
-                                        <use xlink:href="/assets/images/icons.svg#symbol-filters-2"></use>
-                                    </svg>
+                                        <svg class="filter-name__icon">
+                                            <use xlink:href="/assets/images/icons.svg#symbol-filters-2"></use>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="banner-fixer__banners">
+                                    <banner-column
+                                        v-if="allProductsQuantity > 12 && false"
+                                        place="3"
+                                        quantity="3"
+                                    ></banner-column>
+
+                                    <banner-slider
+                                        v-else
+                                        place="3"
+                                        quantity="3"
+                                    ></banner-slider>
                                 </div>
                             </div>
-
-                            <div class="banner-fixer__banners">
-                                <banner-column
-                                    v-if="allProductsQuantity > 12 && false"
-                                    place="3"
-                                    quantity="3"
-                                ></banner-column>
-
-                                <banner-slider
-                                    v-else
-                                    place="3"
-                                    quantity="3"
-                                ></banner-slider>
-                            </div>
-                        </div>
-                    </fixer>
+                        </fixer>
+                    </div>
                 </div>
 
                 <div class="col-12" v-else>

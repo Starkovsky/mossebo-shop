@@ -19,37 +19,56 @@ class FixedEl extends BlankPlugin {
         this.containerEl.appendChild(this.fixedEl)
         this.fixedEl.appendChild(el)
 
-        this.isFixed = false
-        this.height = 0
-        this.documentHeight = document.body.scrollHeight
+        this.inited = false
 
         setTimeout(() => {
-            if (this.containerEl.clientHeight < this.fixedEl.clientHeight * 1.5) {
-                let destroyEvent = this.bindEvent(window, 'scroll', () => {
-                    if (this.containerEl.clientHeight > this.fixedEl.clientHeight) {
-                        destroyEvent()
-                        this.init()
-                    }
-                }, {passive: true})
+            if (this.heightIsEnough()) {
+                this.init()
             }
             else {
-                this.init()
+                this.setInitChecker()
             }
         }, 60)
     }
 
+    heightIsEnough() {
+        return this.containerEl.clientHeight > this.fixedEl.clientHeight * 1.5
+    }
+
+    setInitChecker() {
+        let destroyEvent = this.bindEvent(window, 'scroll', _.debounce(() => {
+            if (this.heightIsEnough()) {
+                destroyEvent()
+                this.init()
+            }
+        }, 10), {passive: true})
+    }
+
     init() {
+        if (this.inited) return
+
+        this.inited = true
+        this.height = 0
+        this.isFixed = false
+        this.documentHeight = document.body.scrollHeight
+
         const checkDebouncer = _.debounce(() => this.check(), 60)
 
         this.bindEvent(window, 'resize', checkDebouncer, { passive: true })
 
-        this.bindEvent(window, 'scroll', () => {
+        this.bindEvent(window, 'scroll', _.debounce(() => {
+            if (!this.heightIsEnough()) {
+                this.unInit()
+                this.setInitChecker()
+                return
+            }
+
             if (this.documentHeight !== document.body.scrollHeight) {
                 this.documentHeight = document.body.scrollHeight
                 this.check()
                 this.scene.update(true)
             }
-        }, { passive: true })
+        }, 10), { passive: true })
 
         this.scene = Core.scrollMagic.makeScene({
             triggerElement: this.containerEl,
@@ -64,12 +83,25 @@ class FixedEl extends BlankPlugin {
         checkDebouncer()
     }
 
+    unInit() {
+        if (!this.inited) return
+
+        this.inited = false
+
+        this.unbindEvents()
+
+        Core.scrollMagic.destroyScene(this.scene)
+
+        this.isFixed = true
+        this.unsetFixed('BEFORE')
+    }
+
     check() {
         let height = this.containerEl.clientHeight - this.fixedEl.offsetHeight + this.marginTop
 
-        if (height - this.height > this.fixedEl.offsetHeight / 2) {
-            this.height = height
-            this.scene.duration(this.height)
+        if (Math.abs(height - this.height) > this.marginTop) {
+            this.height = height - this.marginTop
+            this.scene.duration(Math.max(0, this.height))
         }
     }
 
@@ -81,7 +113,7 @@ class FixedEl extends BlankPlugin {
     }
 
     unsetFixed(state) {
-        if (!this.isFixed) return
+        if (! this.isFixed) return
 
         this.isFixed = false
         this.trigger('unfix', state === 'BEFORE')
