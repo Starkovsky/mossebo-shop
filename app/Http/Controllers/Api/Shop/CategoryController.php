@@ -65,6 +65,7 @@ class CategoryController extends ApiController
                 'attributeOptionRelations',
                 'supplier',
                 'badges',
+                'reviews'
             ])
             ->get();
 

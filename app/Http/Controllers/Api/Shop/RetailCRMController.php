@@ -21,7 +21,7 @@ class RetailCRMController extends Controller
             'categoryRelations',
             'attributes',
             'attributeOptions',
-            'image'
+            'image',
         ])
             ->get();
 

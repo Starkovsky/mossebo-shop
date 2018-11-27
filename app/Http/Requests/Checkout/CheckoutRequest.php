@@ -21,6 +21,8 @@ class CheckoutRequest extends FormRequest
      *
      * @return array
      */
+
+    // todo: ДОПИЛИТЬ!
     public function rules()
     {
         return [

@@ -67,7 +67,7 @@
                     <div class="product-param">
                         Срок поставки:
                         <span class="product-param__value">
-                            14 дней
+                            25 дней
                         </span>
                     </div>
                 </div>

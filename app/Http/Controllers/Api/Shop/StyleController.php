@@ -77,6 +77,7 @@ class StyleController extends ApiController
                 'attributeOptionRelations',
                 'supplier',
                 'badges',
+                'reviews'
             ]);
 
         return productsToResource($query->get());

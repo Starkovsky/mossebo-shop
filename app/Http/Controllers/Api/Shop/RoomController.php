@@ -77,6 +77,7 @@ class RoomController extends ApiController
                 'attributeOptionRelations',
                 'supplier',
                 'badges',
+                'reviews'
             ]);
 
         return productsToResource($query->get());

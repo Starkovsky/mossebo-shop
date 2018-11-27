@@ -31,6 +31,7 @@ class SaleController extends ApiController
                 'salePrice',
                 'oldPrice',
                 'salePrice',
+                'reviews'
             ])
             ->whereIn('shop_products.id', array_column($productsToSale->toArray(), 'item_id'))
             ->inRandomOrder()

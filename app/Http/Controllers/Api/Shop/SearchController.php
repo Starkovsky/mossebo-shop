@@ -39,6 +39,7 @@ class SearchController extends ApiController
             'styleRelations',
             'roomRelations',
             'categoryRelations',
+            'reviews'
         ])->whereIn('id', $ids)->get();
 
         $ids = array_flip($ids);
