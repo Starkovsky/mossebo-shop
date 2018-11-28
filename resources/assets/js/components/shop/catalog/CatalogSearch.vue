@@ -8,6 +8,18 @@
         </template>
 
         <template v-else-if="ready">
+            <side-popup ref="popup">
+                <div>
+                    <catalog-filter-list></catalog-filter-list>
+
+                    <div v-if="filtersExists" class="catalog-filters-controls">
+                        <button @click="clearFilters" type="button" class="button button-light" :disabled="!filtersIsDirty">
+                            Сбросить фильтры
+                        </button>
+                    </div>
+                </div>
+            </side-popup>
+
             <div class="row align-content-stretch">
                 <div class="col-md-3" v-if="$root.windowMoreThan('lg')">
                     <template v-if="filtersExists">

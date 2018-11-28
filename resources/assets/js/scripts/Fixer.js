@@ -28,10 +28,11 @@ class FixedEl extends BlankPlugin {
             else {
                 this.setInitChecker()
             }
-        }, 60)
+        }, 120)
     }
 
     heightIsEnough() {
+        console.log(this.containerEl.clientHeight, this.fixedEl.clientHeight)
         return this.containerEl.clientHeight > this.fixedEl.clientHeight * 1.5
     }
 

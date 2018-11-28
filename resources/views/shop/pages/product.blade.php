@@ -30,7 +30,7 @@
                                             @foreach ($images as $image)
                                                 <div class="slider__slide slider-product__slide">
                                                     <a
-                                                        href="https://admin.mossebo.market{{ $image->original }}"
+                                                        href="{{ imagePath($image->original) }}"
                                                         data-fancybox="gallery"
                                                         class="image-preview-link"
                                                     >
@@ -57,14 +57,14 @@
                                             @foreach ($images as $image)
                                                 <div
                                                     class="slider__slide slider-nav__box product-image bg-image"
-                                                    style="background-image: url(https://admin.mossebo.market{{ $image->thumb->srcset }})"
+                                                    style="background-image: url({{ imagePath($image->thumb->srcset) }})"
                                                 ></div>
                                             @endforeach
                                         </div>
                                     @elseif ($imagesCount === 1)
                                         <div>
                                             <a
-                                                href="https://admin.mossebo.market{{ $images[0]->original }}"
+                                                href="{{ imagePath($images[0]->original) }}"
                                                 class="image-preview-link"
                                                 data-fancybox
                                             >
