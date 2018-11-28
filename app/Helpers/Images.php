@@ -3,6 +3,6 @@
 if (!function_exists('imagePath')) {
     function imagePath($path): string
     {
-        return 'https://admin.mossebo.market' . $path;
+        return 'http://admin.mossebo.market' . $path;
     }
 }
