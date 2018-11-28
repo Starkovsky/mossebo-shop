@@ -46,7 +46,7 @@
 
                                                         <div
                                                             class="product-page-image product-image bg-image"
-                                                            style="background-image: url(https://admin.mossebo.market{{ $image->medium->srcset }})"
+                                                            style="background-image: url({{ imagePath($images[0]->medium->srcset) }})"
                                                         ></div>
                                                     </a>
                                                 </div>
@@ -80,7 +80,7 @@
 
                                                 <div
                                                     class="product-page-image product-image bg-image"
-                                                    style="background-image: url(https://admin.mossebo.market{{ $images[0]->medium->srcset }})"
+                                                    style="background-image: url({{ imagePath($images[0]->medium->srcset) }})"
                                                 ></div>
                                             </a>
                                         </div>
@@ -307,8 +307,8 @@
                     @if($imagesCount > 0)
                         <div class="popup__image text-center">
                             <img
-                                src="https://admin.mossebo.market{{ $images[0]->small->src }}"
-                                srcset="https://admin.mossebo.market{{ $images[0]->small->srcset }} 2x"
+                                src="{{ imagePath($images[0]->small->src) }}"
+                                srcset="{{ imagePath($images[0]->small->srcset) }} 2x"
                                 alt="{{ $product->title }}">
                         </div>
                     @endif
