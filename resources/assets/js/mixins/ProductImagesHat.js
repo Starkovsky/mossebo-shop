@@ -1,7 +1,9 @@
+import Core from '../scripts/core'
+
 export default {
     methods: {
-        prepareImage(image) {
-            return 'https://admin.mossebo.market' + image
+        prepareImage(imageUrl) {
+            return Core.adminUrl(imageUrl)
         }
     }
 }

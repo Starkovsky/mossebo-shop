@@ -22,6 +22,14 @@ let Core = {
         return window.location.origin + '/api/' + this.getLang() + '/' + _.trim(url, '/')
     },
 
+    adminUrl(url = '') {
+        if (url.indexOf('http') === 0) {
+            return url
+        }
+
+        return '//admin.mossebo.market/' + _.trim(url, '/')
+    },
+
     translate(identif, data = {}) {
         return _.get(window.mossebo.translates, identif)
     },

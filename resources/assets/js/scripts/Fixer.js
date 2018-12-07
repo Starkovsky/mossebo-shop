@@ -32,7 +32,7 @@ class FixedEl extends BlankPlugin {
     }
 
     heightIsEnough() {
-        console.log(this.containerEl.clientHeight, this.fixedEl.clientHeight)
+        // console.log(this.containerEl.clientHeight, this.fixedEl.clientHeight)
         return this.containerEl.clientHeight > this.fixedEl.clientHeight * 1.5
     }
 
