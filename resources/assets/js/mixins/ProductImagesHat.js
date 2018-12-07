@@ -1,7 +1,7 @@
 export default {
     methods: {
         prepareImage(image) {
-            return '' + image
+            return 'https://admin.mossebo.market' + image
         }
     }
 }
